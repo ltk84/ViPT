@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "485336068481",
+    "project_id": "vipt-506b2",
+    "storage_bucket": "vipt-506b2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:485336068481:android:33446eb513a97276753880",
+        "android_client_info": {
+          "package_name": "itzoo.tl.vipt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "485336068481-scsjgr4g2ju264h6po9ldgsirict06rm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "itzoo.tl.vipt",
+            "certificate_hash": "0d1fa46b10166b0ded318fa4195dad22e1e3631d"
+          }
+        },
+        {
+          "client_id": "485336068481-29gb2775mgb0qk6sp23dgpml18lb0sj4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD40Y7kPUORGfByT--HDMeuAgJecT1bF60"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "485336068481-29gb2775mgb0qk6sp23dgpml18lb0sj4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

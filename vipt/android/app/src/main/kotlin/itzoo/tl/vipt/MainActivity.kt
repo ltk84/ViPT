@@ -1,4 +1,4 @@
-package com.example.vipt
+package itzoo.tl.vipt
 
 import io.flutter.embedding.android.FlutterActivity
 
