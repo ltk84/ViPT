@@ -11,6 +11,13 @@ class AppColor {
   static const Color darkModeTextColor = Colors.white;
   static const double disabledTextOpacity = 0.35;
   static const double disabledIconOpacity = 0.25;
+  static const Color buttonForegroundColor = Colors.white;
+
+  // Extra Color field (static)
+  static const Color googleButtonBackgroundColor = Colors.white;
+  static const Color googleButtonForegroundColor = Color(0xFF1B1B1B);
+  static const Color facebookButtonBackgroundColor = Color(0xff1877F2);
+  static const Color facebookButtonForegroundColor = Colors.white;
 
   // static Color get backgroundColor => (Get.isDarkMode) ? darkBackgroundColor : lightBackgroundColor;
   //
