@@ -4,9 +4,10 @@ import 'package:get/get.dart';
 
 import 'package:vipt/app/core/theme/app_theme.dart';
 
+import 'app/routes/pages.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -26,14 +27,14 @@ class MyApp extends StatelessWidget {
       // title: AppStrings.appName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      home: HomePage(),
+
       // themeMode: ThemeService.theme,
-      // initialRoute: Routes.splash,
+      initialRoute: Routes.splash,
       // locale: LocalizationService.locale,
       // fallbackLocale: LocalizationService.fallbackLocale,
       // translations: LocalizationService(),
       // debugShowCheckedModeBanner: false,
-      // getPages: AppPages.pages,
+      getPages: AppPages.pages,
       defaultTransition: Transition.cupertino,
     );
   }
@@ -45,8 +46,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-      ),
+      appBar: AppBar(),
     );
   }
 }
