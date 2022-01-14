@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:vipt/app/core/theme/app_theme.dart';
+import 'package:vipt/app/modules/auth/screens/authentication_screen.dart';
 
 import 'app/routes/pages.dart';
 

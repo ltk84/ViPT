@@ -8,7 +8,7 @@ class AppTheme {
       ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       primary: AppColor.primaryColor,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
     ),
   );
 
@@ -52,73 +52,73 @@ class AppTheme {
     ),
   );
 
-  static TextTheme _textTheme(Color textColor) => GoogleFonts.beVietnamProTextTheme();
+  // static TextTheme _textTheme(Color textColor) =>
+  //     GoogleFonts.beVietnamProTextTheme();
 
-  // static TextTheme _textTheme(Color textColor) => TextTheme(
-  //       headline1: GoogleFonts.beVietnamPro(
-  //         color: textColor,
-  //         fontSize: 26,
-  //         fontWeight: FontWeight.w400,
-  //       ),
-  //       headline2: GoogleFonts.beVietnamPro(
-  //         color: textColor,
-  //         fontSize: 25,
-  //         fontWeight: FontWeight.w400,
-  //       ),
-  //       headline3: GoogleFonts.beVietnamPro(
-  //         color: textColor,
-  //         fontSize: 22,
-  //         fontWeight: FontWeight.w500,
-  //       ),
-  //       headline4: GoogleFonts.beVietnamPro(
-  //         color: textColor,
-  //         fontSize: 15,
-  //         fontWeight: FontWeight.w500,
-  //       ),
-  //       headline5: GoogleFonts.beVietnamPro(
-  //         color: textColor,
-  //         fontSize: 16,
-  //         fontWeight: FontWeight.normal,
-  //       ),
-  //       headline6: GoogleFonts.beVietnamPro(
-  //         color: textColor,
-  //         fontSize: 14,
-  //         fontWeight: FontWeight.w400,
-  //       ),
-  //       subtitle1: GoogleFonts.beVietnamPro(
-  //         color: textColor,
-  //         fontSize: 10.5,
-  //         fontWeight: FontWeight.normal,
-  //       ),
-  //       subtitle2: GoogleFonts.beVietnamPro(
-  //         color: textColor.withOpacity(0.5),
-  //         fontSize: 10.5,
-  //         fontWeight: FontWeight.w500,
-  //       ),
-  //       bodyText1: GoogleFonts.beVietnamPro(
-  //         color: textColor,
-  //         fontSize: 12,
-  //         fontWeight: FontWeight.normal,
-  //       ),
-  //       bodyText2: GoogleFonts.beVietnamPro(
-  //         color: textColor,
-  //         fontSize: 12,
-  //         fontWeight: FontWeight.w500,
-  //       ),
-  //       button: GoogleFonts.beVietnamPro(
-  //         color: textColor,
-  //         fontSize: 13,
-  //         fontWeight: FontWeight.w600,
-  //         wordSpacing: 1.5,
-  //       ),
-  //       caption: GoogleFonts.beVietnamPro(
-  //         color: textColor,
-  //         fontSize: 14,
-  //       ),
-  //       overline: GoogleFonts.beVietnamPro(
-  //         color: textColor,
-  //       ),
-  //     );
+  static TextTheme _textTheme(Color textColor) => TextTheme(
+        headline1: GoogleFonts.beVietnamPro(
+          color: textColor,
+          fontSize: 28,
+          fontWeight: FontWeight.w800,
+        ),
+        headline2: GoogleFonts.beVietnamPro(
+          color: textColor,
+          fontSize: 25,
+          fontWeight: FontWeight.w400,
+        ),
+        headline3: GoogleFonts.beVietnamPro(
+          color: textColor,
+          fontSize: 22,
+          fontWeight: FontWeight.w500,
+        ),
+        headline4: GoogleFonts.beVietnamPro(
+          color: textColor,
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
+        ),
+        headline5: GoogleFonts.beVietnamPro(
+          color: textColor,
+          fontSize: 16,
+          fontWeight: FontWeight.normal,
+        ),
+        headline6: GoogleFonts.beVietnamPro(
+          color: textColor,
+          fontSize: 18,
+          fontWeight: FontWeight.w400,
+        ),
+        subtitle1: GoogleFonts.beVietnamPro(
+          color: textColor,
+          fontSize: 10.5,
+          fontWeight: FontWeight.normal,
+        ),
+        subtitle2: GoogleFonts.beVietnamPro(
+          color: textColor.withOpacity(0.5),
+          fontSize: 10.5,
+          fontWeight: FontWeight.w500,
+        ),
+        bodyText1: GoogleFonts.beVietnamPro(
+          color: textColor,
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+        ),
+        bodyText2: GoogleFonts.beVietnamPro(
+          color: textColor,
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+        ),
+        button: GoogleFonts.beVietnamPro(
+          color: AppColor.buttonForegroundColor,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+        ),
+        caption: GoogleFonts.beVietnamPro(
+          color: textColor,
+          fontSize: 14,
+        ),
+        overline: GoogleFonts.beVietnamPro(
+          color: textColor,
+        ),
+      );
 
   static final ThemeData lightTheme = ThemeData.light().copyWith(
     colorScheme: const ColorScheme.light().copyWith(
@@ -133,7 +133,7 @@ class AppTheme {
         fontSize: 18,
         fontWeight: FontWeight.w600,
       ),
-      elevation: 1.5,
+      elevation: 0,
     ),
     elevatedButtonTheme: _elevatedButtonThemeData,
     textButtonTheme: _secondaryButtonLightThemeData,
@@ -195,7 +195,7 @@ class AppTheme {
         fontSize: 18,
         fontWeight: FontWeight.w600,
       ),
-      elevation: 1.5,
+      elevation: 0,
     ),
     elevatedButtonTheme: _elevatedButtonThemeData,
     textButtonTheme: _secondaryButtonDarkThemeData,
@@ -214,7 +214,8 @@ class AppTheme {
       selectedIconTheme:
           const IconThemeData(color: AppColor.darkModeTextColor, opacity: 1),
       unselectedIconTheme: const IconThemeData(
-          color: AppColor.darkModeTextColor, opacity: AppColor.disabledIconOpacity),
+          color: AppColor.darkModeTextColor,
+          opacity: AppColor.disabledIconOpacity),
       selectedLabelStyle: GoogleFonts.beVietnamPro(
         fontSize: 10,
         fontWeight: FontWeight.normal,
