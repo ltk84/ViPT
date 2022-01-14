@@ -317,7 +317,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
-<<<<<<< HEAD
   pedantic:
     dependency: transitive
     description:
@@ -325,7 +324,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.1"
-=======
   petitparser:
     dependency: transitive
     description:
@@ -333,7 +331,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.4.0"
->>>>>>> feature/authentication-ui
   platform:
     dependency: transitive
     description:

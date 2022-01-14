@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/modules/auth/authentication_controller.dart';
 
-class AuthenticationScreen extends StatefulWidget {
-  const AuthenticationScreen({Key? key}) : super(key: key);
-
-  @override
-  State<AuthenticationScreen> createState() => _AuthenticationScreenState();
-}
-
-class _AuthenticationScreenState extends State<AuthenticationScreen> {
+class AuthenticationScreen extends StatelessWidget {
   final _pageController = PageController();
   final _currentPageNotifier = ValueNotifier<int>(0);
+  final _controller = Get.find<AuthenticationController>();
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +64,9 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
     );
   }
 
-  void _authWithGoogle() {}
+  void _authWithGoogle() async {
+    await _controller.signInWithGoogle();
+  }
 
   void _authWithFacebook() {}
 }
