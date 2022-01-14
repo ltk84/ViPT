@@ -16,13 +16,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return MaterialApp(
-    //   title: 'ViPT',
-    //   theme: ThemeData(
-    //     primarySwatch: Colors.blue,
-    //   ),
-    // );
-
     return GetMaterialApp(
       // title: AppStrings.appName,
       theme: AppTheme.lightTheme,
@@ -36,17 +29,6 @@ class MyApp extends StatelessWidget {
       // debugShowCheckedModeBanner: false,
       getPages: AppPages.pages,
       defaultTransition: Transition.cupertino,
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
     );
   }
 }

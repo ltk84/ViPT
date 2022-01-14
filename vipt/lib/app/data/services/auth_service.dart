@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:vipt/app/data/providers/auth_provider.dart';
 
 class AuthService {
   AuthService._privateConstructor();
@@ -6,4 +7,12 @@ class AuthService {
 
   User? get currentUser => FirebaseAuth.instance.currentUser;
   bool get isLogin => currentUser == null ? false : true;
+
+  Future<UserCredential?> signInWithGoogle() async {
+    return await AuthProvider().signInWithGoogle();
+  }
+
+  Future<void> signOut() async {
+    return await AuthProvider().signOut();
+  }
 }
