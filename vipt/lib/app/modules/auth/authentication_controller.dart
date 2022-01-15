@@ -12,17 +12,17 @@ class AuthenticationController extends GetxController {
 
   void handleSignIn(SignInType type) async {
     try {
-      UserCredential? result;
+      final result;
       if (type == SignInType.withGoogle) {
         result = await signInWithGoogle();
       } else {
         result = await signInWithFacebook();
       }
 
-      if (result != null) {
-        _handleSignInSucess();
+      if (result is String) {
+        _handleSignInFail(result);
       } else {
-        _handleSignInFail();
+        _handleSignInSucess();
       }
     } finally {}
   }
@@ -31,15 +31,17 @@ class AuthenticationController extends GetxController {
     Get.offAllNamed(Routes.home);
   }
 
-  void _handleSignInFail() {
-    Get.offAllNamed(Routes.error);
+  void _handleSignInFail(String message) {
+    // thong bao loi
+    // Get.offAllNamed(Routes.error);
+    Get.snackbar('Loi vcl', message);
   }
 
-  Future<UserCredential?> signInWithGoogle() async {
+  Future<dynamic> signInWithGoogle() async {
     return await AuthService.instance.signInWithGoogle();
   }
 
-  Future<UserCredential?> signInWithFacebook() async {
-    return null;
+  Future<dynamic> signInWithFacebook() async {
+    return await AuthService.instance.signInWithFacebook();
   }
 }

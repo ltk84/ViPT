@@ -5,6 +5,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/enums/app_enums.dart';
 import 'package:vipt/app/modules/auth/authentication_controller.dart';
 
 class AuthenticationScreen extends StatelessWidget {
@@ -64,11 +65,13 @@ class AuthenticationScreen extends StatelessWidget {
     );
   }
 
-  void _authWithGoogle() async {
-    await _controller.signInWithGoogle();
+  void _authWithGoogle() {
+    _controller.handleSignIn(SignInType.withGoogle);
   }
 
-  void _authWithFacebook() {}
+  void _authWithFacebook() {
+    _controller.handleSignIn(SignInType.withFacebook);
+  }
 }
 
 // ********************** PHẦN BUILD CÁC THÀNH PHẦN **********************

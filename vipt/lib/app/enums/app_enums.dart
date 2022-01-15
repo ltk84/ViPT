@@ -1,1 +1,1 @@
-enum SignInType { withGoogle, withFacebook }
+enum SignInType { withGoogle, withFacebook, none }
