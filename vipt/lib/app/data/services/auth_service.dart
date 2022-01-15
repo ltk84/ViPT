@@ -12,6 +12,8 @@ class AuthService {
     return await AuthProvider().signInWithGoogle();
   }
 
+  Future<UserCredential?> signInWithFacebook() async {}
+
   Future<void> signOut() async {
     return await AuthProvider().signOut();
   }
