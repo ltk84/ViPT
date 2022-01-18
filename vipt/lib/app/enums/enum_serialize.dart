@@ -20,31 +20,70 @@ extension HeightUnitFormat on HeightUnit {
       HeightUnit.values.firstWhere((hu) => hu.toStr() == string);
 }
 
-extension HobbyToString on Hobby {
+extension HobbyFormat on Hobby {
   String toStr() => toString().split('.').last;
   static Hobby fromStr(String string) =>
       Hobby.values.firstWhere((e) => e.toStr() == string);
 }
 
-extension BodyTypeToString on BodyType {
+extension BodyTypeFormat on BodyType {
   String toStr() => toString().split('.').last;
   static BodyType fromStr(String string) =>
       BodyType.values.firstWhere((e) => e.toStr() == string);
 }
 
-extension TypicalDayToString on TypicalDay {
+extension TypicalDayFormat on TypicalDay {
   String toStr() => toString().split('.').last;
   static TypicalDay fromStr(String string) =>
       TypicalDay.values.firstWhere((e) => e.toStr() == string);
 }
 
-const Map<int, String> _freqValueMap = {
-  0: "Không nhiều",
-  1: "1-2 ngày/tuần",
-  2: "3-5 ngày/tuần",
-  3: "5-7 ngày/tuần",
+const Map<String, int> _trainingFreqMap = {
+  "Không nhiều": 0,
+  "1-2 ngày/tuần": 1,
+  "3-5 ngày/tuần": 2,
+  "5-7 ngày/tuần": 3,
 };
 
-extension FrequencyFormat on int {
-  String toFreqStringValue() => _freqValueMap[this] as String;
+extension TrainFrequencyFormat on String {
+  int toFreqValue() => _trainingFreqMap[this] as int;
+  static String fromValueToString(int value) => _trainingFreqMap.keys
+      .firstWhere((element) => _trainingFreqMap[element] == value);
+}
+
+const Map<String, int> _dailyWaterMap = {
+  'không uống nước': 0,
+  '2 ly/ngày': 1,
+  '2 - 6 ly/ngày': 2,
+  'trên 6 ly/ngày': 3,
+};
+
+extension DailyWaterFormat on String {
+  int toFreqValue() => _dailyWaterMap[this] as int;
+  static String fromValueToString(int value) => _dailyWaterMap.keys
+      .firstWhere((element) => _dailyWaterMap[element] == value);
+}
+
+extension PhyscialLimitationFormat on PhyscialLimitaion {
+  String toStr() => toString().split('.').last;
+  static PhyscialLimitaion fromStr(String string) =>
+      PhyscialLimitaion.values.firstWhere((e) => e.toStr() == string);
+}
+
+extension DietFormat on Diet {
+  String toStr() => toString().split('.').last;
+  static Diet fromStr(String string) =>
+      Diet.values.firstWhere((e) => e.toStr() == string);
+}
+
+extension BadHabitFormat on BadHabit {
+  String toStr() => toString().split('.').last;
+  static BadHabit fromStr(String string) =>
+      BadHabit.values.firstWhere((e) => e.toStr() == string);
+}
+
+extension ProteinSourceFormat on ProteinSource {
+  String toStr() => toString().split('.').last;
+  static ProteinSource fromStr(String string) =>
+      ProteinSource.values.firstWhere((e) => e.toStr() == string);
 }
