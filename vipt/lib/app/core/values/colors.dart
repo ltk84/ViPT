@@ -13,6 +13,12 @@ class AppColor {
   static const double disabledTextOpacity = 0.35;
   static const double disabledIconOpacity = 0.25;
   static const Color buttonForegroundColor = Colors.white;
+  static const Color lightModeProgressIndicatorColor = Color(0xffe4e4e4);
+  static const Color darkModeProgressIndicatorColor =
+      Color(0xffe4e4e4); // Chưa implement
+  static const Color lightModeTextFieldFill = Color(0xffe4e4e4);
+  static const Color darkModeTextFieldFill =
+      Color(0xffe4e4e4); // Chưa implement
 
   // Extra Color field (static)
   static const Color googleButtonBackgroundColor = Colors.white;
@@ -24,6 +30,11 @@ class AppColor {
   //
   static Color get textColor =>
       (Get.isDarkMode) ? darkModeTextColor : lightModeTextColor;
+  static Color get progressIndicatorColor => (Get.isDarkMode)
+      ? darkModeProgressIndicatorColor
+      : lightModeProgressIndicatorColor;
+  static Color get textFieldFill =>
+      (Get.isDarkMode) ? lightModeTextFieldFill : darkModeTextFieldFill;
   //
   // static Color get disabledTextColor => (Get.isDarkMode) ? darkTextColor.withOpacity(disabledTextOpacity) : lightTextColor.withOpacity(disabledTextOpacity);
   //
