@@ -26,10 +26,6 @@ class AuthenticationController extends GetxController {
     return await AuthService.instance.checkIfUserExist(uid);
   }
 
-  _createUser() {
-    return null;
-  }
-
   void _handleSignInSucess(UserCredential result) async {
     bool isExist = await _checkUserExistence(result.user!.uid);
     if (isExist) {

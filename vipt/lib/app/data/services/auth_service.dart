@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:vipt/app/core/values/app_strings.dart';
+import 'package:vipt/app/data/models/vipt_user.dart';
 import 'package:vipt/app/data/providers/auth_provider.dart';
 import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/enums/app_enums.dart';
@@ -100,5 +101,9 @@ class AuthService {
 
   Future<bool> checkIfUserExist(String uid) {
     return _userProvider.checkIfUserExist(uid);
+  }
+
+  Future<ViPTUser> createViPTUser(ViPTUser user) async {
+    return await _userProvider.add(user);
   }
 }

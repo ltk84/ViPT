@@ -7,6 +7,7 @@ class UserProvider implements Firestoration<String, ViPTUser> {
   final _firestore = FirebaseFirestore.instance;
   @override
   Future<ViPTUser> add(ViPTUser obj) async {
+    await _firestore.collection(collectionPath).doc(obj.id).set(obj.toMap());
     return obj;
   }
 
