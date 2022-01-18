@@ -28,7 +28,7 @@ class AuthenticationController extends GetxController {
   }
 
   void _handleSignInSucess() {
-    Get.offAllNamed(Routes.home);
+    Get.offAllNamed(Routes.setupInfo);
   }
 
   void _handleSignInFail(String message) {

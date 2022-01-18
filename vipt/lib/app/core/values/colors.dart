@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AppColor {
   AppColor._();
@@ -8,6 +9,7 @@ class AppColor {
   static const Color lightModeTextColor = Color(0xFF1B1B1B);
   static const Color darkModeBackgroundColor = Color(0xFF1B1B1B);
   static const Color darkModeTextColor = Colors.white;
+  static const double subTextOpacity = 0.5;
   static const double disabledTextOpacity = 0.35;
   static const double disabledIconOpacity = 0.25;
   static const Color buttonForegroundColor = Colors.white;
@@ -20,7 +22,8 @@ class AppColor {
 
   // static Color get backgroundColor => (Get.isDarkMode) ? darkBackgroundColor : lightBackgroundColor;
   //
-  // static Color get textColor => (Get.isDarkMode) ? darkTextColor : lightTextColor;
+  static Color get textColor =>
+      (Get.isDarkMode) ? darkModeTextColor : lightModeTextColor;
   //
   // static Color get disabledTextColor => (Get.isDarkMode) ? darkTextColor.withOpacity(disabledTextOpacity) : lightTextColor.withOpacity(disabledTextOpacity);
   //
