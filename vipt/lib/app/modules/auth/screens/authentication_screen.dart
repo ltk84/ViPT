@@ -5,6 +5,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/enums/app_enums.dart';
 import 'package:vipt/app/modules/auth/authentication_controller.dart';
 
@@ -79,7 +80,7 @@ class AuthenticationScreen extends StatelessWidget {
 // Hàm build phần giới thiệu
 Widget _buildIntroduction(context, {required Function() actionOnPressed}) {
   return Container(
-    padding: const EdgeInsets.fromLTRB(24, 24, 24, 42),
+    padding: AppDecoration.screenPadding,
     color: Theme.of(context).backgroundColor,
     child: Column(
       children: [
@@ -136,6 +137,9 @@ Widget _buildIntroduction(context, {required Function() actionOnPressed}) {
                 Text('Bắt đầu'.tr, style: Theme.of(context).textTheme.button),
           ),
         ),
+        const SizedBox(
+          height: 18,
+        ),
       ],
     ),
   );
@@ -146,7 +150,7 @@ Widget _buildAuthentication(context,
     {required Function() authWithGoogleFunc,
     required Function() authWithFacebookFunc}) {
   return Container(
-    padding: const EdgeInsets.fromLTRB(24, 24, 24, 42),
+    padding: AppDecoration.screenPadding,
     color: Theme.of(context).backgroundColor,
     child: Column(
       children: [
@@ -190,6 +194,9 @@ Widget _buildAuthentication(context,
         _buildSignInWithFacebookButton(
           context,
           onPressed: authWithFacebookFunc,
+        ),
+        const SizedBox(
+          height: 18,
         ),
       ],
     ),

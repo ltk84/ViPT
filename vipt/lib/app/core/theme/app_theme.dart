@@ -17,7 +17,7 @@ class AppTheme {
     style: TextButton.styleFrom(
       primary: Colors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(5),
       ),
     ),
   );
@@ -26,7 +26,7 @@ class AppTheme {
     style: TextButton.styleFrom(
       primary: AppColor.primaryColor,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(5),
       ),
     ),
   );
