@@ -19,3 +19,7 @@ class AppQuiz {
     'Question L',
   ];
 }
+
+class AppValue {
+  static const userCollectionPath = 'user';
+}

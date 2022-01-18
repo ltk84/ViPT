@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:vipt/app/core/values/app_strings.dart';
 import 'package:vipt/app/data/providers/auth_provider.dart';
+import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/enums/app_enums.dart';
 
 class AuthService {
@@ -11,6 +12,8 @@ class AuthService {
   User? get currentUser => FirebaseAuth.instance.currentUser;
   bool get isLogin => currentUser == null ? false : true;
   SignInType get loginType => _loginType;
+
+  UserProvider _userProvider = UserProvider();
 
   Future<dynamic> signInWithGoogle() async {
     _loginType = SignInType.withGoogle;
@@ -93,5 +96,9 @@ class AuthService {
       await AuthProvider().signOutFacebook();
     }
     return await AuthProvider().signOutFirebase();
+  }
+
+  Future<bool> checkIfUserExist(String uid) {
+    return _userProvider.checkIfUserExist(uid);
   }
 }
