@@ -5,11 +5,6 @@ import 'package:vipt/app/enums/app_enums.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class AuthenticationController extends GetxController {
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   void handleSignIn(SignInType type) async {
     try {
       final result;
@@ -22,13 +17,24 @@ class AuthenticationController extends GetxController {
       if (result is String) {
         _handleSignInFail(result);
       } else {
-        _handleSignInSucess();
+        _handleSignInSucess(result);
       }
     } finally {}
   }
 
-  void _handleSignInSucess() {
-    Get.offAllNamed(Routes.home);
+  Future<bool> _checkUserExistence(String uid) async {
+    return await AuthService.instance.checkIfUserExist(uid);
+  }
+
+  _createUser() {
+    return null;
+  }
+
+  void _handleSignInSucess(UserCredential result) async {
+    bool isExist = await _checkUserExistence(result.user!.uid);
+    if (isExist) {
+      Get.offAllNamed(Routes.home);
+    } else {}
   }
 
   void _handleSignInFail(String message) {

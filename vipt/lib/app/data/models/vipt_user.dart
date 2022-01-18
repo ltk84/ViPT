@@ -19,8 +19,8 @@ class ViPTUser extends BaseModel {
   ProteinSource proteinSource;
   String dailyWater;
 
-  ViPTUser(
-    String id, {
+  ViPTUser({
+    required String id,
     required this.name,
     required this.gender,
     required this.dateOfBirth,
@@ -61,7 +61,7 @@ class ViPTUser extends BaseModel {
 
   factory ViPTUser.fromMap(Map<String, dynamic> data) {
     return ViPTUser(
-      data['id'],
+      id: data['id'],
       name: data['name'],
       gender: GenderFormat.fromStr(data['gender']),
       dateOfBirth: data['dateOfBirth'],
