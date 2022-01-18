@@ -6,103 +6,107 @@ import 'package:vipt/app/core/values/colors.dart';
 class CustomProgressIndicator extends StatelessWidget {
   final int moduleCount;
   final List<double> progress;
-  CustomProgressIndicator(
-      {Key? key, required this.moduleCount, required this.progress})
-      : super(key: key);
+  final double lineWidth;
+  final double lineThickness;
+  final double circleSize;
+  final double circleIconSize;
+  final double circleThickness;
+
+  CustomProgressIndicator({
+    Key? key,
+    required this.moduleCount,
+    required this.progress,
+    this.lineWidth = 40,
+    this.lineThickness = 6,
+    this.circleSize = 16,
+    this.circleIconSize = 12,
+    this.circleThickness = 5,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: _buildProgressIndicator(),
-    );
-  }
-
-  Widget _buildProgressIndicator() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: _createModuleIndicatorWidget(40),
+      children: _createModuleIndicatorWidget(moduleCount),
     );
   }
 
-  List<Widget> _createModuleIndicatorWidget(double width) {
-    return List<Widget>.generate(moduleCount, (int index) {
+  // Hàm tạo các Indicator dựa trên số lượng module.
+  List<Widget> _createModuleIndicatorWidget(int count) {
+    return List<Widget>.generate(count, (int index) {
       if (index != 0) {
         return Row(
           children: [
-            Stack(
-              children: [
-                Container(
-                  width: width,
-                  height: 6,
-                  decoration: BoxDecoration(
-                    color: AppColor.progressIndicatorColor,
-                    shape: BoxShape.rectangle,
-                  ),
-                ),
-                Container(
-                  width: width * progress[index - 1],
-                  height: 6,
-                  decoration: const BoxDecoration(
-                    color: AppColor.primaryColor,
-                    shape: BoxShape.rectangle,
-                  ),
-                ),
-              ],
-            ),
-            Stack(
-              children: [
-                Container(
-                  width: 14,
-                  height: 14,
-                  decoration: BoxDecoration(
-                    color: AppColor.progressIndicatorColor,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                progress[index] == 1
-                    ? Container(
-                        width: 14,
-                        height: 14,
-                        decoration: const BoxDecoration(
-                          color: AppColor.primaryColor,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(Icons.check,
-                            size: 8, color: AppColor.darkModeTextColor),
-                      )
-                    : Container(),
-              ],
-            ),
+            _buildReactangleIndicator(
+                lineWidth, lineThickness, progress[index - 1]),
+            _buildCircleIndicator(
+                circleSize, circleIconSize, circleThickness, progress[index]),
           ],
         );
       }
-      return Stack(
-        children: [
-          Container(
-            width: 14,
-            height: 14,
-            decoration: BoxDecoration(
+      return _buildCircleIndicator(
+          circleSize, circleIconSize, circleThickness, progress[index]);
+    });
+  }
+
+  // Hàm build Line Indicator.
+  Widget _buildReactangleIndicator(
+      double width, double thickness, double progress) {
+    return Stack(
+      children: [
+        Container(
+          width: width,
+          height: thickness,
+          decoration: BoxDecoration(
+            color: AppColor.progressIndicatorColor,
+            shape: BoxShape.rectangle,
+          ),
+        ),
+        Container(
+          width: width * progress,
+          height: thickness,
+          decoration: const BoxDecoration(
+            color: AppColor.primaryColor,
+            shape: BoxShape.rectangle,
+          ),
+        ),
+      ],
+    );
+  }
+
+  // Hàm build Circle Indicator.
+  Widget _buildCircleIndicator(
+      double size, double iconSize, double thickness, double progress) {
+    return Stack(
+      children: [
+        Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            shape: BoxShape.circle,
+            border: Border.all(
               color: AppColor.progressIndicatorColor,
-              shape: BoxShape.circle,
+              width: thickness,
             ),
           ),
-          progress[index] == 1
-              ? Container(
-                  width: 14,
-                  height: 14,
-                  decoration: BoxDecoration(
-                    color: AppColor.primaryColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.check,
-                    size: 8,
-                    color: AppColor.darkModeTextColor,
-                  ),
-                )
-              : Container(),
-        ],
-      );
-    });
+        ),
+        progress > 0
+            ? Container(
+                width: size,
+                height: size,
+                decoration: const BoxDecoration(
+                  color: AppColor.primaryColor,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.check,
+                  size: iconSize,
+                  color: AppColor.buttonForegroundColor,
+                ),
+              )
+            : Container(),
+      ],
+    );
   }
 }

@@ -109,7 +109,7 @@ Widget _buildQuestion(context) {
                 ),
                 CustomProgressIndicator(
                   moduleCount: 4,
-                  progress: const [1, 1, 1, 1],
+                  progress: const [0.0625, 0.2, 0, 0],
                 ),
               ],
             ),
