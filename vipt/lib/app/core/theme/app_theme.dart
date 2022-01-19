@@ -93,7 +93,7 @@ class AppTheme {
         ),
         subtitle2: GoogleFonts.beVietnamPro(
           color: textColor.withOpacity(0.5),
-          fontSize: 10.5,
+          fontSize: 16,
           fontWeight: FontWeight.w500,
         ),
         bodyText1: GoogleFonts.beVietnamPro(
@@ -103,7 +103,7 @@ class AppTheme {
         ),
         bodyText2: GoogleFonts.beVietnamPro(
           color: textColor,
-          fontSize: 12,
+          fontSize: 16,
           fontWeight: FontWeight.w500,
         ),
         button: GoogleFonts.beVietnamPro(
