@@ -5,11 +5,14 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/modules/setup_info/setup_info_controller.dart';
 import 'package:vipt/app/modules/setup_info/widgets/custom_progress_indicator.dart';
 import 'package:vipt/app/modules/setup_info/widgets/text_field_layout.dart';
 
 class SetupInfoScreen extends StatelessWidget {
-  const SetupInfoScreen({Key? key}) : super(key: key);
+  SetupInfoScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.find<SetupInfoController>();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +22,7 @@ class SetupInfoScreen extends StatelessWidget {
         appBar: null,
         body: Container(
           padding: AppDecoration.screenPadding,
-          child: _buildQuestion(context),
+          child: _buildQuestion(context, _controller),
         ),
       ),
     );
@@ -28,7 +31,7 @@ class SetupInfoScreen extends StatelessWidget {
 
 // Hàm build phần giới thiệu cho phần thiết lập thông tin cơ bản
 
-Widget _buildIntro(context) {
+Widget _buildIntro(context, SetupInfoController controller) {
   return Column(
     children: [
       Row(
@@ -65,7 +68,10 @@ Widget _buildIntro(context) {
         width: double.maxFinite,
         height: 46,
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            // test
+            controller.finishSetupBasicInformation();
+          },
           child: Text('Bắt đầu'.tr, style: Theme.of(context).textTheme.button),
         ),
       ),
@@ -91,7 +97,7 @@ Widget _buildIntro(context) {
 
 //
 
-Widget _buildQuestion(context) {
+Widget _buildQuestion(context, controller) {
   return Column(
     children: [
       Row(
