@@ -6,6 +6,7 @@ import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/modules/setup_info/widgets/custom_progress_indicator.dart';
+import 'package:vipt/app/modules/setup_info/widgets/picker_layout.dart';
 import 'package:vipt/app/modules/setup_info/widgets/text_field_layout.dart';
 
 class SetupInfoScreen extends StatelessWidget {
@@ -107,7 +108,7 @@ Widget _buildQuestion(context) {
       Expanded(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: TextFieldLayout(),
+          child: PickerLayout(),
         ),
       ),
       const SizedBox(

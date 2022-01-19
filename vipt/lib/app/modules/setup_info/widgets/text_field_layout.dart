@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 
 class TextFieldLayout extends StatelessWidget {
