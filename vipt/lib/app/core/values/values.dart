@@ -1,8 +1,31 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:vipt/app/data/models/answer.dart';
+
+import 'colors.dart';
 
 class AppDecoration {
   static const EdgeInsets screenPadding = EdgeInsets.fromLTRB(24, 24, 24, 24);
+  static InputDecoration noHighlightInputDecoration = InputDecoration(
+    border: UnderlineInputBorder(
+        borderSide: BorderSide(color: AppColor.textFieldUnderlineColor)),
+    enabledBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: AppColor.textFieldUnderlineColor)),
+    focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: AppColor.textFieldUnderlineColor)),
+  );
+  static InputDecoration fillInputDecoration = InputDecoration(
+    filled: true,
+    fillColor: AppColor.progressIndicatorColor.withOpacity(0.5),
+    border: const OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(28),
+          bottomLeft: Radius.circular(28),
+          bottomRight: Radius.circular(28),
+        )),
+  );
 }
 
 class AppQuiz {

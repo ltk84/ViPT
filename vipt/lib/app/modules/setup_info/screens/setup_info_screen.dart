@@ -94,70 +94,99 @@ Widget _buildIntro(context) {
 Widget _buildQuestion(context) {
   return Column(
     children: [
-      Row(
-        children: [
-          Expanded(
-            child: Stack(
-              children: [
-                IconButton(
-                  iconSize: 24,
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.arrow_back_ios,
-                    color: AppColor.textColor,
-                  ),
-                ),
-                CustomProgressIndicator(
-                  moduleCount: 4,
-                  progress: const [0.0625, 0.2, 0, 0],
-                ),
-              ],
-            ),
-          ),
-        ],
+      _buildTopPanel(
+        context,
+        moduleCount: 4,
+        progress: const [1, 1, 0.5, 0],
       ),
+      const SizedBox(
+        height: 20,
+      ),
+      _buildQuestionTitle(context,
+          title: 'Question A', description: 'Description A'),
+      Expanded(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 40),
+          child: TextFieldLayout(),
+        ),
+      ),
+      const SizedBox(
+        height: 20,
+      ),
+      _buildNextQuestionButton(context),
+      _buildSkipButton(context),
+    ],
+  );
+}
+
+Widget _buildTopPanel(context,
+    {required int moduleCount, required List<double> progress}) {
+  return Stack(
+    alignment: Alignment.centerLeft,
+    children: [
+      IconButton(
+        iconSize: 24,
+        onPressed: () {},
+        icon: Icon(
+          Icons.arrow_back_ios,
+          color: AppColor.textColor,
+        ),
+      ),
+      Expanded(
+        child: CustomProgressIndicator(
+          moduleCount: moduleCount,
+          progress: progress,
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _buildQuestionTitle(context,
+    {required String title, required String description}) {
+  return Column(
+    children: [
       Text(
-        'Câu hỏi'.tr,
+        title.tr,
         style: Theme.of(context).textTheme.headline1,
       ),
       const SizedBox(
         height: 8,
       ),
       Text(
-        'Gợi ý'.tr,
+        description.tr,
         style: Theme.of(context).textTheme.bodyText1,
       ),
-      Expanded(
-        child: TextFieldLayout(),
-      ),
-      const SizedBox(
-        height: 20,
-      ),
-      Container(
-        color: Colors.transparent,
-        width: double.maxFinite,
-        height: 46,
-        child: ElevatedButton(
-          onPressed: () {},
-          child: Text('Bắt đầu'.tr, style: Theme.of(context).textTheme.button),
-        ),
-      ),
-      Container(
-        color: Colors.transparent,
-        height: 46,
-        width: double.maxFinite,
-        child: TextButton(
-          onPressed: () {},
-          child: Text(
-            'Bỏ qua'.tr,
-            style: Theme.of(context).textTheme.button!.copyWith(
-                  fontSize: 16,
-                  color:
-                      AppColor.textColor.withOpacity(AppColor.subTextOpacity),
-                ),
-          ),
-        ),
-      ),
     ],
+  );
+}
+
+Widget _buildNextQuestionButton(context) {
+  return Container(
+    color: Colors.transparent,
+    width: double.maxFinite,
+    height: 46,
+    child: ElevatedButton(
+      onPressed: () {},
+      child: Text('Tiếp theo'.tr, style: Theme.of(context).textTheme.button),
+    ),
+  );
+}
+
+Widget _buildSkipButton(context) {
+  return Container(
+    color: Colors.transparent,
+    height: 46,
+    width: double.maxFinite,
+    child: TextButton(
+      onPressed: () {},
+      child: Text(
+        'Bỏ qua'.tr,
+        style: Theme.of(context).textTheme.button!.copyWith(
+              fontSize: 16,
+              color: AppColor.textColor.withOpacity(AppColor.subTextOpacity),
+            ),
+      ),
+    ),
   );
 }
