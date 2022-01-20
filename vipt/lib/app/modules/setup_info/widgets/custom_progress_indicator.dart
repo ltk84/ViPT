@@ -33,19 +33,24 @@ class CustomProgressIndicator extends StatelessWidget {
 
   // Hàm tạo các Indicator dựa trên số lượng module.
   List<Widget> _createModuleIndicatorWidget(int count) {
-    return List<Widget>.generate(count, (int index) {
-      if (index != 0) {
+    return List<Widget>.generate(count + 1, (int index) {
+      if (index < count) {
         return Row(
           children: [
-            _buildReactangleIndicator(
-                lineWidth, lineThickness, progress[index - 1]),
             _buildCircleIndicator(
                 circleSize, circleIconSize, circleThickness, progress[index]),
+            _buildReactangleIndicator(
+                lineWidth, lineThickness, progress[index]),
           ],
         );
       }
-      return _buildCircleIndicator(
-          circleSize, circleIconSize, circleThickness, progress[index]);
+      if (progress[count - 1] == 1) {
+        return _buildCircleIndicator(
+            circleSize, circleIconSize, circleThickness, 1);
+      } else {
+        return _buildCircleIndicator(
+            circleSize, circleIconSize, circleThickness, 0);
+      }
     });
   }
 
