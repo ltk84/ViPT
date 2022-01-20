@@ -50,3 +50,10 @@ enum ProteinSource {
   nuts,
   peanutButter
 }
+
+enum QuestionLayoutType {
+  datePicker,
+  measurementPicker,
+  textField,
+  multipleChoice,
+}

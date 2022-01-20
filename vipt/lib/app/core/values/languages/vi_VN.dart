@@ -14,4 +14,6 @@ const Map<String, String> viLanguagePackage = {
   'Cập nhật thông tin và trả lời các câu hỏi này để tôi có thể đề xuất lộ trình luyện tập và dinh dưỡng cụ thể dành riêng cho bạn.':
       'Cập nhật thông tin và trả lời các câu hỏi này để tôi có thể đề xuất lộ trình luyện tập và dinh dưỡng cụ thể dành riêng cho bạn.',
   'Để sau': 'Để sau',
+  'Bỏ qua': 'Bỏ qua',
+  'Tiếp theo': 'Tiếp theo',
 };

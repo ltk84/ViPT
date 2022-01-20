@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 class AppColor {
   AppColor._();
   static const Color primaryColor = Colors.red;
+  static const Color secondaryColor = Color(0xff36f468);
   static const Color lightModeBackgroundColor = Colors.white;
   static const Color lightModeTextColor = Color(0xFF1B1B1B);
   static const Color darkModeBackgroundColor = Color(0xFF1B1B1B);
@@ -13,11 +14,16 @@ class AppColor {
   static const double disabledTextOpacity = 0.35;
   static const double disabledIconOpacity = 0.25;
   static const Color buttonForegroundColor = Colors.white;
+
+  // Component color
   static const Color lightModeProgressIndicatorColor = Color(0xffe4e4e4);
   static const Color darkModeProgressIndicatorColor =
       Color(0xffe4e4e4); // Chưa implement
   static const Color lightModeTextFieldFill = Color(0xffe4e4e4);
   static const Color darkModeTextFieldFill =
+      Color(0xffe4e4e4); // Chưa implement
+  static const Color lightModeTextFieldUnderlineColor = Color(0xffe4e4e4);
+  static const Color darkModeTextFieldUnderlineColor =
       Color(0xffe4e4e4); // Chưa implement
 
   // Extra Color field (static)
@@ -34,7 +40,10 @@ class AppColor {
       ? darkModeProgressIndicatorColor
       : lightModeProgressIndicatorColor;
   static Color get textFieldFill =>
-      (Get.isDarkMode) ? lightModeTextFieldFill : darkModeTextFieldFill;
+      (Get.isDarkMode) ? darkModeTextFieldFill : lightModeTextFieldFill;
+  static Color get textFieldUnderlineColor => (Get.isDarkMode)
+      ? darkModeTextFieldUnderlineColor
+      : lightModeTextFieldUnderlineColor;
   //
   // static Color get disabledTextColor => (Get.isDarkMode) ? darkTextColor.withOpacity(disabledTextOpacity) : lightTextColor.withOpacity(disabledTextOpacity);
   //

@@ -33,7 +33,7 @@ class AuthenticationController extends GetxController {
     // } else {
     //   Get.offAllNamed(Routes.home);
     // }
-    Get.offAllNamed(Routes.setupInfo);
+    Get.offAllNamed(Routes.setupInfoIntro);
   }
 
   void _handleSignInFail(String message) {
