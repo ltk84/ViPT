@@ -8,15 +8,16 @@ class ViPTUser extends BaseModel {
   DateTime dateOfBirth;
   num currentWeight;
   num currentHeight;
+  num? goalWeight;
   WeightUnit weightUnit;
   HeightUnit heightUnit;
-  Hobby hobby;
+  Hobby? hobby;
   String trainFrequency;
   PhyscialLimitaion limit;
   int sleepTime;
-  Diet diet;
-  BadHabit badHabit;
-  ProteinSource proteinSource;
+  Diet? diet;
+  BadHabit? badHabit;
+  ProteinSource? proteinSource;
   String dailyWater;
 
   ViPTUser({
@@ -26,15 +27,16 @@ class ViPTUser extends BaseModel {
     required this.dateOfBirth,
     required this.currentWeight,
     required this.currentHeight,
+    this.goalWeight,
     required this.weightUnit,
     required this.heightUnit,
-    required this.hobby,
+    this.hobby,
     required this.trainFrequency,
     required this.limit,
     required this.sleepTime,
-    required this.diet,
-    required this.badHabit,
-    required this.proteinSource,
+    this.diet,
+    this.badHabit,
+    this.proteinSource,
     required this.dailyWater,
   }) : super(id);
 
@@ -48,13 +50,13 @@ class ViPTUser extends BaseModel {
       'currentHeight': currentHeight,
       'weightUnit': weightUnit.toStr(),
       'heightUnit': heightUnit.toStr(),
-      'hobby': hobby.toStr(),
+      'hobby': hobby!.toStr(),
       'trainFrequency': trainFrequency,
       'limit': limit.toStr(),
       'sleepTime': sleepTime,
-      'diet': diet.toStr(),
-      'badHabit': badHabit.toStr(),
-      'proteinSource': proteinSource.toStr(),
+      'diet': diet!.toStr(),
+      'badHabit': badHabit!.toStr(),
+      'proteinSource': proteinSource!.toStr(),
       'dailyWater': dailyWater,
     };
   }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/answer.dart';
@@ -7,10 +8,12 @@ import 'package:vipt/app/data/models/question.dart';
 class SetupInfoController extends GetxController {
   late Map<Question, List<Answer>> _data;
   late Map<int, int> _moduleMap;
-
   late List<double> progressList;
   late int index;
 
+  late User newUser;
+
+  @override
   void onInit() {
     super.onInit();
     _data = AppQuiz.questions;
@@ -20,13 +23,14 @@ class SetupInfoController extends GetxController {
     _updateProgressList();
   }
 
-  _updateProgressList({String action = 'next'}) {
+  void _updateProgressList({String action = 'next'}) {
     int currentModule = getCurrentQuestion().moduleParent;
     int currentIndexOfModule = getCurrentQuestion().moduleIndex;
 
     double progress = currentIndexOfModule / (_moduleMap[currentModule] as num);
 
     progressList[currentModule] = progress;
+
     if (action == 'back') {
       if (currentModule + 1 < progressList.length) {
         progressList[currentModule + 1] = 0;
