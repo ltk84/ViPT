@@ -45,13 +45,8 @@ Widget _buildQuestion(context) {
         _buildQuestionTitle(context,
             title: controller.getCurrentQuestion().title,
             description: controller.getCurrentQuestion().description),
-        Expanded(
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: _buildQuestionLayout(
-                context, controller.getCurrentQuestion().layoutType),
-          ),
-        ),
+        _buildQuestionLayout(
+            context, controller.getCurrentQuestion().layoutType),
         const SizedBox(
           height: 20,
         ),
@@ -63,6 +58,15 @@ Widget _buildQuestion(context) {
 }
 
 Widget _buildQuestionLayout(context, QuestionLayoutType layoutType) {
+  return Expanded(
+    child: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 40),
+      child: _handleLayoutSelection(context, layoutType),
+    ),
+  );
+}
+
+Widget _handleLayoutSelection(context, QuestionLayoutType layoutType) {
   switch (layoutType) {
     case QuestionLayoutType.datePicker:
       return DatePickerLayout();
