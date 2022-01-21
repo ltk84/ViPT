@@ -50,6 +50,32 @@ class SetupInfoController extends GetxController {
     dateTimeForDateTimeLayout = DateTime.now();
   }
 
+  void _passValueForMeasurementLayout(int? toggleValue, String textValue) {
+    textFieldControllerForMeasureLayout.text = textValue;
+    toggleValueForMeasureLayout = toggleValue;
+  }
+
+  void _passValueForDatePickerLayout(DateTime dateTime) {
+    dateTimeForDateTimeLayout = dateTime;
+  }
+
+  void _passValueForTextFieldLayout(String text) {
+    textFieldControllerForTextFieldLayout.text = text;
+  }
+
+  void _clearValueForMeasurementLayout() {
+    textFieldControllerForMeasureLayout.clear();
+    toggleValueForMeasureLayout = 0;
+  }
+
+  void _clearValueForDatePickerLayout() {
+    dateTimeForDateTimeLayout = DateTime.now();
+  }
+
+  void _clearValueForTextFieldLayout() {
+    textFieldControllerForTextFieldLayout.clear();
+  }
+
   void _onConfirm() {
     if (index == 0) {
       if (toggleValueForMeasureLayout == 0) {
@@ -57,18 +83,16 @@ class SetupInfoController extends GetxController {
       } else {
         weightUnit = WeightUnit.lbs;
       }
-
       currentWeight = num.parse(textFieldControllerForMeasureLayout.text);
-    }
 
-    textFieldControllerForMeasureLayout.clear();
-    toggleValueForMeasureLayout = 0;
+      _clearValueForMeasurementLayout();
+    }
   }
 
-  _beforBack() {
+  void _beforBack() {
     if (index == 0) {
-      textFieldControllerForMeasureLayout.text = currentWeight.toString();
-      weightUnit == WeightUnit.kg ? 0 : 1;
+      _passValueForMeasurementLayout(
+          weightUnit == WeightUnit.kg ? 0 : 1, currentWeight.toString());
     }
   }
 
@@ -104,7 +128,7 @@ class SetupInfoController extends GetxController {
       index++;
       _updateProgressList();
     } else {
-      finishSetupBasicInformation();
+      _finishSetupBasicInformation();
     }
     _onConfirm();
     update();
@@ -119,7 +143,7 @@ class SetupInfoController extends GetxController {
     update();
   }
 
-  Future<void> finishSetupBasicInformation() async {
+  Future<void> _finishSetupBasicInformation() async {
     // create user voi thong tin cung cap tu quiz
     ViPTUser newUser = ViPTUser(
         id: AuthService.instance.currentUser!.uid,

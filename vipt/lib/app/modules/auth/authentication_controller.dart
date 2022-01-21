@@ -7,11 +7,11 @@ import 'package:vipt/app/routes/pages.dart';
 class AuthenticationController extends GetxController {
   void handleSignIn(SignInType type) async {
     try {
-      final result;
+      final dynamic result;
       if (type == SignInType.withGoogle) {
-        result = await signInWithGoogle();
+        result = await _signInWithGoogle();
       } else {
-        result = await signInWithFacebook();
+        result = await _signInWithFacebook();
       }
 
       if (result != null) {
@@ -44,11 +44,11 @@ class AuthenticationController extends GetxController {
     Get.snackbar('Loi vcl', message);
   }
 
-  Future<dynamic> signInWithGoogle() async {
+  Future<dynamic> _signInWithGoogle() async {
     return await AuthService.instance.signInWithGoogle();
   }
 
-  Future<dynamic> signInWithFacebook() async {
+  Future<dynamic> _signInWithFacebook() async {
     return await AuthService.instance.signInWithFacebook();
   }
 }
