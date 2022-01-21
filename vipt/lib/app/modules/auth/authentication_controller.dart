@@ -14,10 +14,12 @@ class AuthenticationController extends GetxController {
         result = await signInWithFacebook();
       }
 
-      if (result is String) {
-        _handleSignInFail(result);
-      } else {
-        _handleSignInSucess(result);
+      if (result != null) {
+        if (result is! String) {
+          _handleSignInSucess(result);
+        } else {
+          _handleSignInFail(result);
+        }
       }
     } finally {}
   }

@@ -10,63 +10,44 @@ import 'package:vipt/app/routes/pages.dart';
 import 'package:vipt/app/data/models/question.dart';
 
 class SetupInfoController extends GetxController {
-  late Map<Question, List<Answer>> _data;
-  late Map<int, int> _moduleMap;
+  final Map<Question, List<Answer>> _data = AppQuiz.questions;
+  final Map<int, int> _moduleMap = AppQuiz.moduleMap;
   late List<double> progressList;
-  late int index;
+  int index = 0;
 
-  late TextEditingController textFieldControllerForMeasureLayout;
-  late TextEditingController textFieldControllerForTextFieldLayout;
-  late int? toggleValueForMeasureLayout;
-  late DateTime? dateTimeForDateTimeLayout;
+  TextEditingController textFieldControllerForMeasureLayout =
+      TextEditingController();
+  TextEditingController textFieldControllerForTextFieldLayout =
+      TextEditingController();
+  int? toggleValueForMeasureLayout;
+  DateTime? dateTimeForDateTimeLayout;
 
-  late String name;
-  late Gender gender;
-  late DateTime dateOfBirth;
-  late num currentHeight;
-  late num currentWeight;
+  String name = '';
+  Gender gender = Gender.male;
+  DateTime dateOfBirth = DateTime.now();
+  num currentHeight = 0;
+  num currentWeight = 0;
   num? goalWeight;
-  late WeightUnit weightUnit;
-  late HeightUnit heightUnit;
+  WeightUnit weightUnit = WeightUnit.kg;
+  HeightUnit heightUnit = HeightUnit.cm;
   Hobby? hobby;
-  late String trainFrequency;
-  late PhyscialLimitaion limit;
-  late int sleepTime;
+  String trainFrequency = '';
+  PhyscialLimitaion limit = PhyscialLimitaion.none;
+  int sleepTime = 0;
   Diet? diet;
   BadHabit? badHabit;
   ProteinSource? proteinSource;
-  late String dailyWater;
+  String dailyWater = '';
 
   @override
   void onInit() {
     super.onInit();
-    _data = AppQuiz.questions;
-    _moduleMap = AppQuiz.moduleMap;
-    index = 0;
+
     progressList = List.generate(_moduleMap.length, (index) => 0);
     _updateProgressList();
 
-    textFieldControllerForMeasureLayout = TextEditingController();
-    textFieldControllerForTextFieldLayout = TextEditingController();
     toggleValueForMeasureLayout = 0;
     dateTimeForDateTimeLayout = DateTime.now();
-
-    name = '';
-    gender = Gender.male;
-    dateOfBirth = DateTime.now();
-    currentHeight = 0;
-    currentWeight = 0;
-    weightUnit = WeightUnit.kg;
-    heightUnit = HeightUnit.cm;
-    trainFrequency = '';
-    limit = PhyscialLimitaion.none;
-    sleepTime = 0;
-    dailyWater = '';
-    goalWeight = 0;
-    hobby = Hobby.fighting;
-    diet = Diet.holiday;
-    badHabit = BadHabit.drinkMuchBeer;
-    proteinSource = ProteinSource.chickenBreast;
   }
 
   void _onConfirm() {
@@ -78,8 +59,6 @@ class SetupInfoController extends GetxController {
       }
 
       currentWeight = num.parse(textFieldControllerForMeasureLayout.text);
-    } else if (index == _data.length - 1) {
-      finishSetupBasicInformation();
     }
 
     textFieldControllerForMeasureLayout.clear();
@@ -123,8 +102,10 @@ class SetupInfoController extends GetxController {
   void goToNextQuestion() {
     if (index < _data.length - 1) {
       index++;
+      _updateProgressList();
+    } else {
+      finishSetupBasicInformation();
     }
-    _updateProgressList();
     _onConfirm();
     update();
   }

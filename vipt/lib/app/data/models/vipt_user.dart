@@ -52,13 +52,13 @@ class ViPTUser extends BaseModel {
       'goalWeight': goalWeight,
       'weightUnit': weightUnit.toStr(),
       'heightUnit': heightUnit.toStr(),
-      'hobby': hobby!.toStr(),
+      'hobby': hobby?.toStr(),
       'trainFrequency': trainFrequency,
       'limit': limit.toStr(),
       'sleepTime': sleepTime,
-      'diet': diet!.toStr(),
-      'badHabit': badHabit!.toStr(),
-      'proteinSource': proteinSource!.toStr(),
+      'diet': diet?.toStr(),
+      'badHabit': badHabit?.toStr(),
+      'proteinSource': proteinSource?.toStr(),
       'dailyWater': dailyWater,
     };
   }
