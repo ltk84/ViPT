@@ -1,11 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/modules/setup_info/setup_info_controller.dart';
 
-class MeasurementPickerLayout extends StatelessWidget {
-  const MeasurementPickerLayout({Key? key}) : super(key: key);
+class MeasurementPickerLayout extends StatefulWidget {
+  const MeasurementPickerLayout({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<MeasurementPickerLayout> createState() =>
+      _MeasurementPickerLayoutState();
+}
+
+class _MeasurementPickerLayoutState extends State<MeasurementPickerLayout> {
+  final _controller = Get.find<SetupInfoController>();
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +26,14 @@ class MeasurementPickerLayout extends StatelessWidget {
       child: _buildMeasurementField(
         context,
         primaryUnit: 'kg',
+        initalValue: _controller.toggleValueForMeasureLayout,
         secondaryUnit: 'lbs',
-        onTextFieldChanged: (value) {},
-        onUnitChanged: (value) {},
+        textFieldController: _controller.textFieldControllerForMeasureLayout,
+        onUnitChanged: (value) {
+          setState(() {
+            _controller.toggleValueForMeasureLayout = value;
+          });
+        },
       ),
     );
   }
@@ -26,13 +43,14 @@ class MeasurementPickerLayout extends StatelessWidget {
 Widget _buildMeasurementField(context,
     {required String primaryUnit,
     required String secondaryUnit,
-    required Function(String?) onTextFieldChanged,
+    required int? initalValue,
+    required TextEditingController textFieldController,
     required Function(int?) onUnitChanged}) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       CupertinoSlidingSegmentedControl(
-        groupValue: 0,
+        groupValue: initalValue,
         onValueChanged: onUnitChanged,
         children: {
           0: Container(
@@ -53,8 +71,8 @@ Widget _buildMeasurementField(context,
       Container(
         alignment: Alignment.center,
         child: TextField(
-          onChanged: onTextFieldChanged,
           style: Theme.of(context).textTheme.bodyText2,
+          controller: textFieldController,
           textAlign: TextAlign.center,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(

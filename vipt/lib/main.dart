@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/theme/app_theme.dart';
+import 'package:vipt/app/data/services/app_start_service.dart';
 import 'app/routes/pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  AppStartService.instance.initFirebase();
   runApp(const MyApp());
 }
 

@@ -27,13 +27,13 @@ class AuthenticationController extends GetxController {
   }
 
   void _handleSignInSucess(UserCredential result) async {
-    // bool isExist = await _checkUserExistence(result.user!.uid);
-    // if (!isExist) {
-    //   Get.offAllNamed(Routes.setupInfo);
-    // } else {
-    //   Get.offAllNamed(Routes.home);
-    // }
-    Get.offAllNamed(Routes.setupInfoIntro);
+    bool isExist = await _checkUserExistence(result.user!.uid);
+    if (!isExist) {
+      Get.offAllNamed(Routes.setupInfoIntro);
+    } else {
+      Get.offAllNamed(Routes.home);
+    }
+    // Get.offAllNamed(Routes.setupInfoIntro);
   }
 
   void _handleSignInFail(String message) {

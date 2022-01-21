@@ -76,7 +76,7 @@ class AppQuiz {
         description: '',
         moduleParent: 1,
         moduleIndex: 1,
-        layoutType: QuestionLayoutType.textField): [
+        layoutType: QuestionLayoutType.measurementPicker): [
       Answer(title: 'vcl', description: '', asset: null)
     ],
     Question(

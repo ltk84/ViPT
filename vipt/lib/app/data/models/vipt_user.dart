@@ -27,27 +27,29 @@ class ViPTUser extends BaseModel {
     required this.dateOfBirth,
     required this.currentWeight,
     required this.currentHeight,
-    this.goalWeight,
+    required this.goalWeight,
     required this.weightUnit,
     required this.heightUnit,
-    this.hobby,
+    required this.hobby,
     required this.trainFrequency,
     required this.limit,
     required this.sleepTime,
-    this.diet,
-    this.badHabit,
-    this.proteinSource,
+    required this.diet,
+    required this.badHabit,
+    required this.proteinSource,
     required this.dailyWater,
   }) : super(id);
 
   @override
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'gender': gender.toStr(),
       'dateOfBirth': dateOfBirth,
       'currentWeight': currentWeight,
       'currentHeight': currentHeight,
+      'goalWeight': goalWeight,
       'weightUnit': weightUnit.toStr(),
       'heightUnit': heightUnit.toStr(),
       'hobby': hobby!.toStr(),
@@ -77,6 +79,7 @@ class ViPTUser extends BaseModel {
       sleepTime: data['sleepTime'],
       diet: DietFormat.fromStr(data['diet']),
       badHabit: BadHabitFormat.fromStr(data['badHabit']),
+      goalWeight: data['goalWeight'],
       proteinSource: ProteinSourceFormat.fromStr(data['proteinSource']),
       dailyWater: data['dailyWater)'],
     );
