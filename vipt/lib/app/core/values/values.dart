@@ -60,7 +60,7 @@ class AppQuiz {
         description: '',
         moduleParent: 0,
         moduleIndex: 1,
-        layoutType: QuestionLayoutType.measurementPicker): [
+        layoutType: QuestionLayoutType.multipleChoiceOneColumn): [
       Answer(title: 'vcl', description: '', asset: null)
     ],
     Question(
@@ -68,7 +68,7 @@ class AppQuiz {
         description: '',
         moduleParent: 0,
         moduleIndex: 2,
-        layoutType: QuestionLayoutType.datePicker): [
+        layoutType: QuestionLayoutType.multipleChoiceTwoColumns): [
       Answer(title: 'vcl', description: '', asset: null)
     ],
     Question(

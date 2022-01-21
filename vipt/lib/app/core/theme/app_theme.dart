@@ -73,8 +73,8 @@ class AppTheme {
         ),
         headline4: GoogleFonts.beVietnamPro(
           color: textColor,
-          fontSize: 15,
-          fontWeight: FontWeight.w500,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
         ),
         headline5: GoogleFonts.beVietnamPro(
           color: textColor,
@@ -87,8 +87,8 @@ class AppTheme {
           fontWeight: FontWeight.w400,
         ),
         subtitle1: GoogleFonts.beVietnamPro(
-          color: textColor,
-          fontSize: 10.5,
+          color: textColor.withOpacity(0.5),
+          fontSize: 14,
           fontWeight: FontWeight.normal,
         ),
         subtitle2: GoogleFonts.beVietnamPro(

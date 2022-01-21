@@ -7,6 +7,7 @@ class TextFieldLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 40),
       alignment: Alignment.center,
       child: TextField(
         style: Theme.of(context).textTheme.headline2,

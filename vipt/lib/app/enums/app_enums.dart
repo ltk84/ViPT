@@ -55,5 +55,6 @@ enum QuestionLayoutType {
   datePicker,
   measurementPicker,
   textField,
-  multipleChoice,
+  multipleChoiceOneColumn,
+  multipleChoiceTwoColumns,
 }

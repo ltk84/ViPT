@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/data/models/answer.dart';
 import 'package:vipt/app/enums/app_enums.dart';
 import 'package:vipt/app/modules/error/screens/error_screen.dart';
 import 'package:vipt/app/modules/setup_info/setup_info_controller.dart';
 import 'package:vipt/app/modules/setup_info/widgets/custom_progress_indicator.dart';
 import 'package:vipt/app/modules/setup_info/widgets/date_picker_layout.dart';
 import 'package:vipt/app/modules/setup_info/widgets/measurement_picker_layout.dart';
+import 'package:vipt/app/modules/setup_info/widgets/multiple_choice_one_column_layout.dart';
+import 'package:vipt/app/modules/setup_info/widgets/multiple_choice_two_columns_layout.dart';
 import 'package:vipt/app/modules/setup_info/widgets/text_field_layout.dart';
 
 class SetupInfoQuestionScreen extends StatelessWidget {
@@ -60,7 +64,7 @@ Widget _buildQuestion(context) {
 Widget _buildQuestionLayout(context, QuestionLayoutType layoutType) {
   return Expanded(
     child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 40),
+      //padding: const EdgeInsets.symmetric(horizontal: 40),
       child: _handleLayoutSelection(context, layoutType),
     ),
   );
@@ -69,11 +73,44 @@ Widget _buildQuestionLayout(context, QuestionLayoutType layoutType) {
 Widget _handleLayoutSelection(context, QuestionLayoutType layoutType) {
   switch (layoutType) {
     case QuestionLayoutType.datePicker:
-      return DatePickerLayout();
+      return const DatePickerLayout();
     case QuestionLayoutType.measurementPicker:
-      return MeasurementPickerLayout();
+      return const MeasurementPickerLayout();
     case QuestionLayoutType.textField:
-      return TextFieldLayout();
+      return const TextFieldLayout();
+    case QuestionLayoutType.multipleChoiceOneColumn:
+      return const MultipleChoiceOneColumnLayout(
+        listAnswers: [
+          Answer(
+            title: 'Answer A',
+          ),
+          Answer(
+            title: 'Answer B',
+            description: 'Description B',
+          ),
+          Answer(
+            title: 'Answer C',
+            asset: PNGAssetString.logo,
+          ),
+        ],
+      );
+    case QuestionLayoutType.multipleChoiceTwoColumns:
+      return const MultipleChoiceTwoColumnsLayout(
+        listAnswers: [
+          Answer(
+            title: 'Answer A',
+            description: 'Description A',
+          ),
+          Answer(
+            title: 'Answer B',
+          ),
+          Answer(
+            title: 'Answer C',
+            description: 'Description C',
+            asset: PNGAssetString.logo,
+          ),
+        ],
+      );
     default:
       return ErrorScreen();
   }

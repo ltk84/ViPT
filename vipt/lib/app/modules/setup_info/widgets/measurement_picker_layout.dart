@@ -10,6 +10,7 @@ class MeasurementPickerLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 40),
       alignment: Alignment.center,
       child: _buildMeasurementField(
         context,
