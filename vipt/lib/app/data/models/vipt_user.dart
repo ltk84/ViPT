@@ -8,15 +8,16 @@ class ViPTUser extends BaseModel {
   DateTime dateOfBirth;
   num currentWeight;
   num currentHeight;
+  num? goalWeight;
   WeightUnit weightUnit;
   HeightUnit heightUnit;
-  Hobby hobby;
+  Hobby? hobby;
   String trainFrequency;
   PhyscialLimitaion limit;
   int sleepTime;
-  Diet diet;
-  BadHabit badHabit;
-  ProteinSource proteinSource;
+  Diet? diet;
+  BadHabit? badHabit;
+  ProteinSource? proteinSource;
   String dailyWater;
 
   ViPTUser({
@@ -26,6 +27,7 @@ class ViPTUser extends BaseModel {
     required this.dateOfBirth,
     required this.currentWeight,
     required this.currentHeight,
+    required this.goalWeight,
     required this.weightUnit,
     required this.heightUnit,
     required this.hobby,
@@ -41,20 +43,22 @@ class ViPTUser extends BaseModel {
   @override
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'gender': gender.toStr(),
       'dateOfBirth': dateOfBirth,
       'currentWeight': currentWeight,
       'currentHeight': currentHeight,
+      'goalWeight': goalWeight,
       'weightUnit': weightUnit.toStr(),
       'heightUnit': heightUnit.toStr(),
-      'hobby': hobby.toStr(),
+      'hobby': hobby?.toStr(),
       'trainFrequency': trainFrequency,
       'limit': limit.toStr(),
       'sleepTime': sleepTime,
-      'diet': diet.toStr(),
-      'badHabit': badHabit.toStr(),
-      'proteinSource': proteinSource.toStr(),
+      'diet': diet?.toStr(),
+      'badHabit': badHabit?.toStr(),
+      'proteinSource': proteinSource?.toStr(),
       'dailyWater': dailyWater,
     };
   }
@@ -75,6 +79,7 @@ class ViPTUser extends BaseModel {
       sleepTime: data['sleepTime'],
       diet: DietFormat.fromStr(data['diet']),
       badHabit: BadHabitFormat.fromStr(data['badHabit']),
+      goalWeight: data['goalWeight'],
       proteinSource: ProteinSourceFormat.fromStr(data['proteinSource']),
       dailyWater: data['dailyWater)'],
     );

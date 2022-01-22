@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/theme/app_theme.dart';
+import 'package:vipt/app/data/services/app_start_service.dart';
 import 'app/routes/pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  AppStartService.instance.initFirebase();
   runApp(const MyApp());
 }
 
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
 
       // themeMode: ThemeService.theme,
-      initialRoute: Routes.setupInfoIntro,
+      initialRoute: Routes.auth,
       // locale: LocalizationService.locale,
       // fallbackLocale: LocalizationService.fallbackLocale,
       // translations: LocalizationService(),

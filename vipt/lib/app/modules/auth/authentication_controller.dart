@@ -7,17 +7,19 @@ import 'package:vipt/app/routes/pages.dart';
 class AuthenticationController extends GetxController {
   void handleSignIn(SignInType type) async {
     try {
-      final result;
+      final dynamic result;
       if (type == SignInType.withGoogle) {
-        result = await signInWithGoogle();
+        result = await _signInWithGoogle();
       } else {
-        result = await signInWithFacebook();
+        result = await _signInWithFacebook();
       }
 
-      if (result is String) {
-        _handleSignInFail(result);
-      } else {
-        _handleSignInSucess(result);
+      if (result != null) {
+        if (result is! String) {
+          _handleSignInSucess(result);
+        } else {
+          _handleSignInFail(result);
+        }
       }
     } finally {}
   }
@@ -26,18 +28,14 @@ class AuthenticationController extends GetxController {
     return await AuthService.instance.checkIfUserExist(uid);
   }
 
-  _createUser() {
-    return null;
-  }
-
   void _handleSignInSucess(UserCredential result) async {
-    // bool isExist = await _checkUserExistence(result.user!.uid);
-    // if (!isExist) {
-    //   Get.offAllNamed(Routes.setupInfo);
-    // } else {
-    //   Get.offAllNamed(Routes.home);
-    // }
-    Get.offAllNamed(Routes.setupInfoIntro);
+    bool isExist = await _checkUserExistence(result.user!.uid);
+    if (!isExist) {
+      Get.offAllNamed(Routes.setupInfoIntro);
+    } else {
+      Get.offAllNamed(Routes.home);
+    }
+    // Get.offAllNamed(Routes.setupInfoIntro);
   }
 
   void _handleSignInFail(String message) {
@@ -46,11 +44,11 @@ class AuthenticationController extends GetxController {
     Get.snackbar('Loi vcl', message);
   }
 
-  Future<dynamic> signInWithGoogle() async {
+  Future<dynamic> _signInWithGoogle() async {
     return await AuthService.instance.signInWithGoogle();
   }
 
-  Future<dynamic> signInWithFacebook() async {
+  Future<dynamic> _signInWithFacebook() async {
     return await AuthService.instance.signInWithFacebook();
   }
 }

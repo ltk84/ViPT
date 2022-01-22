@@ -73,6 +73,7 @@ Widget _buildQuestionLayout(context, QuestionLayoutType layoutType) {
 }
 
 Widget _handleLayoutSelection(context, QuestionLayoutType layoutType) {
+  final _controller = Get.find<SetupInfoController>();
   switch (layoutType) {
     case QuestionLayoutType.datePicker:
       return const DatePickerLayout();

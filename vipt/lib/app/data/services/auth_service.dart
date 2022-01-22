@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:vipt/app/core/values/app_strings.dart';
+import 'package:vipt/app/data/models/vipt_user.dart';
 import 'package:vipt/app/data/providers/auth_provider.dart';
 import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/enums/app_enums.dart';
@@ -7,19 +8,20 @@ import 'package:vipt/app/enums/app_enums.dart';
 class AuthService {
   AuthService._privateConstructor();
   static final AuthService instance = AuthService._privateConstructor();
-  SignInType _loginType = SignInType.none;
 
+  final AuthProvider _authProvider = AuthProvider();
+  final UserProvider _userProvider = UserProvider();
+
+  SignInType _loginType = SignInType.none;
   User? get currentUser => FirebaseAuth.instance.currentUser;
   bool get isLogin => currentUser == null ? false : true;
   SignInType get loginType => _loginType;
-
-  UserProvider _userProvider = UserProvider();
 
   Future<dynamic> signInWithGoogle() async {
     _loginType = SignInType.withGoogle;
 
     try {
-      return await AuthProvider().signInWithGoogle();
+      return await _authProvider.signInWithGoogle();
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case FirebaseExceptionString.operationNotAllow:
@@ -56,7 +58,7 @@ class AuthService {
     _loginType = SignInType.withFacebook;
 
     try {
-      return await AuthProvider().signInWithFacebook();
+      return await _authProvider.signInWithFacebook();
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case FirebaseExceptionString.operationNotAllow:
@@ -100,5 +102,9 @@ class AuthService {
 
   Future<bool> checkIfUserExist(String uid) {
     return _userProvider.checkIfUserExist(uid);
+  }
+
+  Future<ViPTUser> createViPTUser(ViPTUser user) async {
+    return await _userProvider.add(user);
   }
 }
