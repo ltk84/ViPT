@@ -54,24 +54,28 @@ class AppQuiz {
     3: 2,
   };
 
-  static const Map<Question, List<Answer>> questions = {
-    Question(
+  static Map<Question, List<Answer>> questions = {
+    const Question(
         title: 'Question A',
         description: '',
         moduleParent: 0,
         moduleIndex: 1,
         layoutType: QuestionLayoutType.multipleChoiceOneColumn): [
-      Answer(title: 'vcl', description: '', asset: null)
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl1', description: '', asset: null),
+      Answer(title: 'vcl2', description: '', asset: null)
     ],
-    Question(
+    const Question(
         title: 'Question B',
         description: '',
         moduleParent: 0,
         moduleIndex: 2,
         layoutType: QuestionLayoutType.multipleChoiceTwoColumns): [
-      Answer(title: 'vcl', description: '', asset: null)
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl1', description: '', asset: null),
+      Answer(title: 'vcl2', description: '', asset: null)
     ],
-    Question(
+    const Question(
         title: 'Question C',
         description: '',
         moduleParent: 1,
@@ -79,7 +83,7 @@ class AppQuiz {
         layoutType: QuestionLayoutType.textField): [
       Answer(title: 'vcl', description: '', asset: null)
     ],
-    Question(
+    const Question(
         title: 'Question D',
         description: '',
         moduleParent: 1,
@@ -87,7 +91,7 @@ class AppQuiz {
         layoutType: QuestionLayoutType.datePicker): [
       Answer(title: 'vcl', description: '', asset: null)
     ],
-    Question(
+    const Question(
         title: 'Question E',
         description: '',
         moduleParent: 2,
@@ -95,7 +99,7 @@ class AppQuiz {
         layoutType: QuestionLayoutType.datePicker): [
       Answer(title: 'vcl', description: '', asset: null)
     ],
-    Question(
+    const Question(
         title: 'Question F',
         description: '',
         moduleParent: 2,
@@ -103,7 +107,7 @@ class AppQuiz {
         layoutType: QuestionLayoutType.datePicker): [
       Answer(title: 'vcl', description: '', asset: null)
     ],
-    Question(
+    const Question(
         title: 'Question G',
         description: '',
         moduleParent: 2,
@@ -111,7 +115,7 @@ class AppQuiz {
         layoutType: QuestionLayoutType.datePicker): [
       Answer(title: 'vcl', description: '', asset: null)
     ],
-    Question(
+    const Question(
         title: 'Question H',
         description: '',
         moduleParent: 3,
@@ -119,7 +123,7 @@ class AppQuiz {
         layoutType: QuestionLayoutType.datePicker): [
       Answer(title: 'vcl', description: '', asset: null)
     ],
-    Question(
+    const Question(
         title: 'Question I',
         description: '',
         moduleParent: 3,

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:vipt/app/data/models/answer.dart';
-import 'package:vipt/app/modules/setup_info/widgets/choice_card.dart';
+import 'package:vipt/app/modules/setup_info/widgets/multiple_choice_card.dart';
+
+import '../setup_info_controller.dart';
 
 class MultipleChoiceOneColumnLayout extends StatelessWidget {
   final bool isMultipleSelectionMode;
   final List<Answer> listAnswers;
+
   const MultipleChoiceOneColumnLayout(
       {Key? key,
       this.isMultipleSelectionMode = true,
@@ -25,11 +29,11 @@ class MultipleChoiceOneColumnLayout extends StatelessWidget {
             children: listAnswers
                 .map((answer) => ResponsiveGridCol(
                       xs: 12,
-                      child: ChoiceCard(
+                      child: MultipleChoiceCard(
                         title: answer.title,
-                        isMultipleSelectionMode: isMultipleSelectionMode,
                         subtitle: answer.description,
                         asset: answer.asset,
+                        isSelected: answer.isSelected,
                       ),
                     ))
                 .toList(),

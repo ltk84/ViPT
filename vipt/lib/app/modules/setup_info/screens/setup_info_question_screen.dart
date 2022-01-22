@@ -12,7 +12,7 @@ import 'package:vipt/app/modules/setup_info/widgets/custom_progress_indicator.da
 import 'package:vipt/app/modules/setup_info/widgets/date_picker_layout.dart';
 import 'package:vipt/app/modules/setup_info/widgets/measurement_picker_layout.dart';
 import 'package:vipt/app/modules/setup_info/widgets/multiple_choice_one_column_layout.dart';
-import 'package:vipt/app/modules/setup_info/widgets/multiple_choice_two_columns_layout.dart';
+import 'package:vipt/app/modules/setup_info/widgets/single_choice_two_columns_layout.dart';
 import 'package:vipt/app/modules/setup_info/widgets/text_field_layout.dart';
 
 class SetupInfoQuestionScreen extends StatelessWidget {
@@ -79,37 +79,18 @@ Widget _handleLayoutSelection(context, QuestionLayoutType layoutType) {
     case QuestionLayoutType.textField:
       return const TextFieldLayout();
     case QuestionLayoutType.multipleChoiceOneColumn:
-      return const MultipleChoiceOneColumnLayout(
-        listAnswers: [
-          Answer(
-            title: 'Answer A',
-          ),
-          Answer(
-            title: 'Answer B',
-            description: 'Description B',
-          ),
-          Answer(
-            title: 'Answer C',
-            asset: PNGAssetString.logo,
-          ),
-        ],
+      return GetBuilder<SetupInfoController>(
+        builder: (controller) => MultipleChoiceOneColumnLayout(
+          listAnswers: controller.getCurrentAnswer(),
+        ),
       );
     case QuestionLayoutType.multipleChoiceTwoColumns:
-      return const MultipleChoiceTwoColumnsLayout(
-        listAnswers: [
-          Answer(
-            title: 'Answer A',
-            description: 'Description A',
-          ),
-          Answer(
-            title: 'Answer B',
-          ),
-          Answer(
-            title: 'Answer C',
-            description: 'Description C',
-            asset: PNGAssetString.logo,
-          ),
-        ],
+      return GetBuilder<SetupInfoController>(
+        builder: (controller) => SingleChoiceTwoColumnsLayout(
+          isMultipleSelectionMode: false,
+          groupValue: controller.groupValue,
+          listAnswers: controller.getCurrentAnswer(),
+        ),
       );
     default:
       return ErrorScreen();

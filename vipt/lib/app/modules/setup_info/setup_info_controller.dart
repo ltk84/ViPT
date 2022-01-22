@@ -10,6 +10,8 @@ class SetupInfoController extends GetxController {
   late List<double> progressList;
   late int index;
 
+  String? groupValue;
+
   void onInit() {
     super.onInit();
     _data = AppQuiz.questions;
@@ -17,6 +19,28 @@ class SetupInfoController extends GetxController {
     index = 0;
     progressList = List.generate(_moduleMap.length, (index) => 0);
     _updateProgressList();
+  }
+
+  handleMultipleSelectAnswer(String title) {
+    var selectedAnswer = _data.values
+        .elementAt(index)
+        .firstWhere((element) => element.title == title);
+
+    selectedAnswer.isSelected = !selectedAnswer.isSelected;
+    update();
+  }
+
+  handleSingleSelectAnswer(String value) {
+    var selectedAnswer = _data.values
+        .elementAt(index)
+        .firstWhere((element) => element.title == value);
+    if (groupValue == value) {
+      groupValue = '';
+    } else {
+      groupValue = value;
+    }
+    selectedAnswer.isSelected = !selectedAnswer.isSelected;
+    update();
   }
 
   _updateProgressList({String action = 'next'}) {

@@ -2,6 +2,11 @@ class Answer {
   final String title;
   final String? description;
   final dynamic asset;
+  bool isSelected;
 
-  const Answer({required this.title, this.description = '', this.asset});
+  Answer(
+      {required this.title,
+      this.description = '',
+      this.asset,
+      this.isSelected = false});
 }
