@@ -98,6 +98,11 @@ class SetupInfoController extends GetxController {
     update();
   }
 
+  void handleSelectDateTime(DateTime inputDateTime) {
+    textFieldControllerForTextFieldLayout.text = inputDateTime.toString();
+    update();
+  }
+
   void handleOnUnitChange(int? value) {
     toggleValueForMeasureLayout = value;
     update();
@@ -107,7 +112,9 @@ class SetupInfoController extends GetxController {
     if (index == 0) {
       weightUnit =
           toggleValueForMeasureLayout == 0 ? WeightUnit.kg : WeightUnit.lbs;
-      currentWeight = num.parse(textFieldControllerForMeasureLayout.text);
+      if (textFieldControllerForMeasureLayout.text.isNotEmpty) {
+        currentWeight = num.parse(textFieldControllerForMeasureLayout.text);
+      }
     } else if (index == 1) {
       name = textFieldControllerForTextFieldLayout.text;
     } else if (index == 2) {
