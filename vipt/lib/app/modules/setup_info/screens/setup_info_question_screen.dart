@@ -78,7 +78,16 @@ Widget _handleLayoutSelection(context, QuestionLayoutType layoutType) {
     case QuestionLayoutType.datePicker:
       return const DatePickerLayout();
     case QuestionLayoutType.measurementPicker:
-      return const MeasurementPickerLayout();
+      return GetBuilder<SetupInfoController>(
+          builder: (controller) => MeasurementPickerLayout(
+                onUnitChanged: (int? value) {
+                  controller.handleOnUnitChange(value);
+                },
+                textFieldControllerForMeasureLayout:
+                    controller.textFieldControllerForMeasureLayout,
+                toggleValueForMeasureLayout:
+                    controller.toggleValueForMeasureLayout,
+              ));
     case QuestionLayoutType.textField:
       return const TextFieldLayout();
     case QuestionLayoutType.multipleChoiceOneColumn:

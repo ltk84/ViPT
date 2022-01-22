@@ -6,18 +6,17 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/setup_info/setup_info_controller.dart';
 
-class MeasurementPickerLayout extends StatefulWidget {
+class MeasurementPickerLayout extends StatelessWidget {
   const MeasurementPickerLayout({
     Key? key,
+    required this.toggleValueForMeasureLayout,
+    required this.textFieldControllerForMeasureLayout,
+    required this.onUnitChanged,
   }) : super(key: key);
 
-  @override
-  State<MeasurementPickerLayout> createState() =>
-      _MeasurementPickerLayoutState();
-}
-
-class _MeasurementPickerLayoutState extends State<MeasurementPickerLayout> {
-  final _controller = Get.find<SetupInfoController>();
+  final int? toggleValueForMeasureLayout;
+  final TextEditingController textFieldControllerForMeasureLayout;
+  final Function(int?) onUnitChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +26,10 @@ class _MeasurementPickerLayoutState extends State<MeasurementPickerLayout> {
       child: _buildMeasurementField(
         context,
         primaryUnit: 'kg',
-        initalValue: _controller.toggleValueForMeasureLayout,
+        initalValue: toggleValueForMeasureLayout,
         secondaryUnit: 'lbs',
-        textFieldController: _controller.textFieldControllerForMeasureLayout,
-        onUnitChanged: (value) {
-          setState(() {
-            _controller.toggleValueForMeasureLayout = value;
-          });
-        },
+        textFieldController: textFieldControllerForMeasureLayout,
+        onUnitChanged: onUnitChanged,
       ),
     );
   }

@@ -96,6 +96,11 @@ class SetupInfoController extends GetxController {
     update();
   }
 
+  handleOnUnitChange(int? value) {
+    toggleValueForMeasureLayout = value;
+    update();
+  }
+
   void _clearValueForTextFieldLayout() {
     textFieldControllerForTextFieldLayout.clear();
   }
