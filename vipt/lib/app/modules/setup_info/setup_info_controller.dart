@@ -163,6 +163,7 @@ class SetupInfoController extends GetxController {
         hobby: hobby,
         proteinSource: proteinSource,
         dailyWater: dailyWater);
+
     await DataService.instance.createUser(newUser);
 
     Get.offAllNamed(Routes.home);
