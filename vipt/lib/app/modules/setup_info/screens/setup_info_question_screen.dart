@@ -67,57 +67,49 @@ Widget _buildQuestionLayout(context, QuestionLayoutType layoutType) {
   return Expanded(
     child: Container(
       //padding: const EdgeInsets.symmetric(horizontal: 40),
-      child: _handleLayoutSelection(context, layoutType),
+      child: GetBuilder<SetupInfoController>(
+          builder: (controller) =>
+              _handleLayoutSelection(context, layoutType, controller)),
     ),
   );
 }
 
-Widget _handleLayoutSelection(context, QuestionLayoutType layoutType) {
-  final _controller = Get.find<SetupInfoController>();
+Widget _handleLayoutSelection(
+    context, QuestionLayoutType layoutType, SetupInfoController controller) {
   switch (layoutType) {
     case QuestionLayoutType.datePicker:
       return const DatePickerLayout();
     case QuestionLayoutType.measurementPicker:
-      return GetBuilder<SetupInfoController>(
-          builder: (controller) => MeasurementPickerLayout(
-                onUnitChanged: (int? value) {
-                  controller.handleOnUnitChange(value);
-                },
-                textFieldControllerForMeasureLayout:
-                    controller.textFieldControllerForMeasureLayout,
-                toggleValueForMeasureLayout:
-                    controller.toggleValueForMeasureLayout,
-              ));
+      return MeasurementPickerLayout(
+        onUnitChanged: (int? value) {
+          controller.handleOnUnitChange(value);
+        },
+        textFieldControllerForMeasureLayout:
+            controller.textFieldControllerForMeasureLayout,
+        toggleValueForMeasureLayout: controller.toggleValueForMeasureLayout,
+      );
     case QuestionLayoutType.textField:
       return const TextFieldLayout();
     case QuestionLayoutType.multipleChoiceOneColumn:
-      return GetBuilder<SetupInfoController>(
-        builder: (controller) => MultipleChoiceOneColumnLayout(
-          listAnswers: controller.getCurrentAnswer(),
-        ),
+      return MultipleChoiceOneColumnLayout(
+        listAnswers: controller.getCurrentAnswer(),
       );
     case QuestionLayoutType.multipleChoiceTwoColumns:
-      return GetBuilder<SetupInfoController>(
-        builder: (controller) => MultipleChoiceTwoColumnsLayout(
-          listAnswers: controller.getCurrentAnswer(),
-        ),
+      return MultipleChoiceTwoColumnsLayout(
+        listAnswers: controller.getCurrentAnswer(),
       );
     case QuestionLayoutType.singleChoiceOneColumn:
-      return GetBuilder<SetupInfoController>(
-        builder: (controller) => SingleChoiceOneColumnLayout(
-          groupValue: controller.groupValue,
-          listAnswers: controller.getCurrentAnswer(),
-        ),
+      return SingleChoiceOneColumnLayout(
+        groupValue: controller.groupValue,
+        listAnswers: controller.getCurrentAnswer(),
       );
     case QuestionLayoutType.singleChoiceTwoColumns:
-      return GetBuilder<SetupInfoController>(
-        builder: (controller) => SingleChoiceTwoColumnsLayout(
-          groupValue: controller.groupValue,
-          listAnswers: controller.getCurrentAnswer(),
-        ),
+      return SingleChoiceTwoColumnsLayout(
+        groupValue: controller.groupValue,
+        listAnswers: controller.getCurrentAnswer(),
       );
     default:
-      return ErrorScreen();
+      return const ErrorScreen();
   }
 }
 
