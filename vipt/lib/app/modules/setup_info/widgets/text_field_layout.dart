@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:vipt/app/core/values/values.dart';
 
 class TextFieldLayout extends StatelessWidget {
-  const TextFieldLayout({Key? key}) : super(key: key);
+  final TextEditingController textEditingController;
+  const TextFieldLayout({required this.textEditingController, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -10,6 +12,7 @@ class TextFieldLayout extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 40),
       alignment: Alignment.center,
       child: TextField(
+        controller: textEditingController,
         style: Theme.of(context).textTheme.headline2,
         textAlign: TextAlign.center,
         autofocus: true,

@@ -89,7 +89,9 @@ Widget _handleLayoutSelection(
         toggleValueForMeasureLayout: controller.toggleValueForMeasureLayout,
       );
     case QuestionLayoutType.textField:
-      return const TextFieldLayout();
+      return TextFieldLayout(
+        textEditingController: controller.textFieldControllerForTextFieldLayout,
+      );
     case QuestionLayoutType.multipleChoiceOneColumn:
       return MultipleChoiceOneColumnLayout(
         listAnswers: controller.getCurrentAnswer(),

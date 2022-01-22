@@ -56,32 +56,32 @@ class AppQuiz {
 
   static Map<Question, List<Answer>> questions = {
     const Question(
-        title: 'Question A',
+        title: 'Cho xin chieu cao de',
         description: '',
         moduleParent: 0,
         moduleIndex: 1,
-        layoutType: QuestionLayoutType.multipleChoiceOneColumn): [
+        layoutType: QuestionLayoutType.measurementPicker): [
       Answer(title: 'vcl', description: '', asset: null),
       Answer(title: 'vcl1', description: '', asset: null),
       Answer(title: 'vcl2', description: '', asset: null)
     ],
     const Question(
-        title: 'Question B',
+        title: 'Cho xin ten de',
         description: '',
         moduleParent: 0,
         moduleIndex: 2,
-        layoutType: QuestionLayoutType.multipleChoiceTwoColumns): [
+        layoutType: QuestionLayoutType.textField): [
       Answer(title: 'vcl', description: '', asset: null),
       Answer(title: 'vcl1', description: '', asset: null),
       Answer(title: 'vcl2', description: '', asset: null),
       Answer(title: 'vcl3', description: '', asset: null),
     ],
     const Question(
-        title: 'Question C',
+        title: 'Cho xin nam sinh de',
         description: '',
         moduleParent: 1,
         moduleIndex: 1,
-        layoutType: QuestionLayoutType.singleChoiceOneColumn): [
+        layoutType: QuestionLayoutType.datePicker): [
       Answer(title: 'vcl', description: '', asset: null),
       Answer(title: 'vcl1', description: '', asset: null),
       Answer(title: 'vcl2', description: '', asset: null),
@@ -92,7 +92,7 @@ class AppQuiz {
         description: '',
         moduleParent: 1,
         moduleIndex: 2,
-        layoutType: QuestionLayoutType.singleChoiceTwoColumns): [
+        layoutType: QuestionLayoutType.textField): [
       Answer(title: 'vcl', description: '', asset: null),
       Answer(title: 'vcl1', description: '', asset: null),
       Answer(title: 'vcl2', description: '', asset: null),

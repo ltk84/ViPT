@@ -15,12 +15,13 @@ class SetupInfoController extends GetxController {
   late List<double> progressList;
   int index = 0;
 
+  // fixed control of different type of layout
   TextEditingController textFieldControllerForMeasureLayout =
       TextEditingController();
   TextEditingController textFieldControllerForTextFieldLayout =
       TextEditingController();
-  int? toggleValueForMeasureLayout;
-  DateTime? dateTimeForDateTimeLayout;
+  int? toggleValueForMeasureLayout = 0;
+  DateTime? dateTimeForDateTimeLayout = DateTime.now();
 
   String? groupValue;
 
@@ -47,9 +48,6 @@ class SetupInfoController extends GetxController {
 
     progressList = List.generate(_moduleMap.length, (index) => 0);
     _updateProgressList();
-
-    toggleValueForMeasureLayout = 0;
-    dateTimeForDateTimeLayout = DateTime.now();
   }
 
   void _passValueForMeasurementLayout(int? toggleValue, String textValue) {
@@ -74,7 +72,11 @@ class SetupInfoController extends GetxController {
     dateTimeForDateTimeLayout = DateTime.now();
   }
 
-  handleMultipleSelectAnswer(String title) {
+  void _clearValueForTextFieldLayout() {
+    textFieldControllerForTextFieldLayout.clear();
+  }
+
+  void handleMultipleSelectAnswer(String title) {
     var selectedAnswer = _data.values
         .elementAt(index)
         .firstWhere((element) => element.title == title);
@@ -83,7 +85,7 @@ class SetupInfoController extends GetxController {
     update();
   }
 
-  handleSingleSelectAnswer(String value) {
+  void handleSingleSelectAnswer(String value) {
     var selectedAnswer = _data.values
         .elementAt(index)
         .firstWhere((element) => element.title == value);
@@ -96,32 +98,81 @@ class SetupInfoController extends GetxController {
     update();
   }
 
-  handleOnUnitChange(int? value) {
+  void handleOnUnitChange(int? value) {
     toggleValueForMeasureLayout = value;
     update();
   }
 
-  void _clearValueForTextFieldLayout() {
-    textFieldControllerForTextFieldLayout.clear();
-  }
-
   void _onConfirm() {
     if (index == 0) {
-      if (toggleValueForMeasureLayout == 0) {
-        weightUnit = WeightUnit.kg;
-      } else {
-        weightUnit = WeightUnit.lbs;
-      }
+      weightUnit =
+          toggleValueForMeasureLayout == 0 ? WeightUnit.kg : WeightUnit.lbs;
       currentWeight = num.parse(textFieldControllerForMeasureLayout.text);
+    } else if (index == 1) {
+      name = textFieldControllerForTextFieldLayout.text;
+    } else if (index == 2) {
+      dateOfBirth = dateTimeForDateTimeLayout as DateTime;
+    }
 
-      _clearValueForMeasurementLayout();
+    _clearValueOfFixedControlBaseOnLayoutType(getCurrentQuestion().layoutType);
+  }
+
+  void _beforeBack() {
+    var currentLayout = getCurrentQuestion().layoutType;
+    if (index == 0) {
+      _passValueForFixedControlBaseOnLayoutType(currentLayout,
+          [weightUnit == WeightUnit.kg ? 0 : 1, currentWeight.toString()]);
+    } else if (index == 1) {
+      _passValueForFixedControlBaseOnLayoutType(currentLayout, [name]);
+    } else if (index == 2) {
+      _passValueForFixedControlBaseOnLayoutType(currentLayout, [dateOfBirth]);
     }
   }
 
-  void _beforBack() {
-    if (index == 0) {
-      _passValueForMeasurementLayout(
-          weightUnit == WeightUnit.kg ? 0 : 1, currentWeight.toString());
+  void _passValueForFixedControlBaseOnLayoutType(
+      QuestionLayoutType type, List<dynamic> data) {
+    switch (type) {
+      case QuestionLayoutType.datePicker:
+        _passValueForDatePickerLayout(data[0] as DateTime);
+        break;
+      case QuestionLayoutType.measurementPicker:
+        _passValueForMeasurementLayout(data[0] as int?, data[1] as String);
+        break;
+      case QuestionLayoutType.multipleChoiceOneColumn:
+        break;
+      case QuestionLayoutType.multipleChoiceTwoColumns:
+        break;
+      case QuestionLayoutType.singleChoiceOneColumn:
+        break;
+      case QuestionLayoutType.singleChoiceTwoColumns:
+        break;
+      case QuestionLayoutType.textField:
+        _passValueForTextFieldLayout(data[0] as String);
+        break;
+      default:
+    }
+  }
+
+  void _clearValueOfFixedControlBaseOnLayoutType(QuestionLayoutType type) {
+    switch (type) {
+      case QuestionLayoutType.datePicker:
+        _clearValueForDatePickerLayout();
+        break;
+      case QuestionLayoutType.measurementPicker:
+        _clearValueForMeasurementLayout();
+        break;
+      case QuestionLayoutType.multipleChoiceOneColumn:
+        break;
+      case QuestionLayoutType.multipleChoiceTwoColumns:
+        break;
+      case QuestionLayoutType.singleChoiceOneColumn:
+        break;
+      case QuestionLayoutType.singleChoiceTwoColumns:
+        break;
+      case QuestionLayoutType.textField:
+        _clearValueForTextFieldLayout();
+        break;
+      default:
     }
   }
 
@@ -153,13 +204,13 @@ class SetupInfoController extends GetxController {
   }
 
   void goToNextQuestion() {
+    _onConfirm();
     if (index < _data.length - 1) {
       index++;
       _updateProgressList();
     } else {
       _finishSetupBasicInformation();
     }
-    _onConfirm();
     update();
   }
 
@@ -167,8 +218,8 @@ class SetupInfoController extends GetxController {
     if (index > 0) {
       index--;
     }
+    _beforeBack();
     _updateProgressList(action: 'back');
-    _beforBack();
     update();
   }
 
