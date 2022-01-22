@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:vipt/app/core/values/values.dart';
 
 class DatePickerLayout extends StatelessWidget {
@@ -22,7 +21,11 @@ class DatePickerLayout extends StatelessWidget {
 Widget _buildDatePickerField(context) {
   return TextField(
     onTap: () {
-      _showDatePicker(context);
+      showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(2015, 8),
+          lastDate: DateTime(2101));
     },
     onChanged: (value) {},
     focusNode: AlwaysDisabledFocusNode(),
@@ -36,23 +39,4 @@ Widget _buildDatePickerField(context) {
 class AlwaysDisabledFocusNode extends FocusNode {
   @override
   bool get hasFocus => false;
-}
-
-void _showDatePicker(ctx) {
-  showCupertinoModalPopup(
-    context: ctx,
-    builder: (_) => Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        CupertinoDatePicker(
-            mode: CupertinoDatePickerMode.date,
-            initialDateTime: DateTime.now(),
-            onDateTimeChanged: (val) {}),
-        CupertinoButton(
-          child: const Text('OK'),
-          onPressed: () => Navigator.of(ctx).pop(),
-        )
-      ],
-    ),
-  );
 }
