@@ -3,10 +3,12 @@ class Answer {
   final String? description;
   final dynamic asset;
   bool isSelected;
+  final dynamic enumValue;
 
   Answer(
       {required this.title,
       this.description = '',
       this.asset,
-      this.isSelected = false});
+      this.isSelected = false,
+      this.enumValue});
 }
