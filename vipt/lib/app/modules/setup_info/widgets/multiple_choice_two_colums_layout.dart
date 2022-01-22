@@ -3,10 +3,10 @@ import 'package:responsive_grid/responsive_grid.dart';
 import 'package:vipt/app/data/models/answer.dart';
 import 'package:vipt/app/modules/setup_info/widgets/multiple_choice_card.dart';
 
-class MultipleChoiceOneColumnLayout extends StatelessWidget {
+class MultipleChoiceTwoColumnsLayout extends StatelessWidget {
   final List<Answer> listAnswers;
 
-  const MultipleChoiceOneColumnLayout({Key? key, required this.listAnswers})
+  const MultipleChoiceTwoColumnsLayout({Key? key, required this.listAnswers})
       : super(key: key);
 
   @override
@@ -21,7 +21,7 @@ class MultipleChoiceOneColumnLayout extends StatelessWidget {
           ResponsiveGridRow(
             children: listAnswers
                 .map((answer) => ResponsiveGridCol(
-                      xs: 12,
+                      xs: 6,
                       child: MultipleChoiceCard(
                         title: answer.title,
                         subtitle: answer.description,

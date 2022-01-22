@@ -57,4 +57,6 @@ enum QuestionLayoutType {
   textField,
   multipleChoiceOneColumn,
   multipleChoiceTwoColumns,
+  singleChoiceOneColumn,
+  singleChoiceTwoColumns,
 }

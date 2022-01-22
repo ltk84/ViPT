@@ -73,30 +73,37 @@ class AppQuiz {
         layoutType: QuestionLayoutType.multipleChoiceTwoColumns): [
       Answer(title: 'vcl', description: '', asset: null),
       Answer(title: 'vcl1', description: '', asset: null),
-      Answer(title: 'vcl2', description: '', asset: null)
+      Answer(title: 'vcl2', description: '', asset: null),
+      Answer(title: 'vcl3', description: '', asset: null),
     ],
     const Question(
         title: 'Question C',
         description: '',
         moduleParent: 1,
         moduleIndex: 1,
-        layoutType: QuestionLayoutType.textField): [
-      Answer(title: 'vcl', description: '', asset: null)
+        layoutType: QuestionLayoutType.singleChoiceOneColumn): [
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl1', description: '', asset: null),
+      Answer(title: 'vcl2', description: '', asset: null),
+      Answer(title: 'vcl3', description: '', asset: null),
     ],
     const Question(
         title: 'Question D',
         description: '',
         moduleParent: 1,
         moduleIndex: 2,
-        layoutType: QuestionLayoutType.datePicker): [
-      Answer(title: 'vcl', description: '', asset: null)
+        layoutType: QuestionLayoutType.singleChoiceTwoColumns): [
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl1', description: '', asset: null),
+      Answer(title: 'vcl2', description: '', asset: null),
+      Answer(title: 'vcl3', description: '', asset: null),
     ],
     const Question(
         title: 'Question E',
         description: '',
         moduleParent: 2,
         moduleIndex: 1,
-        layoutType: QuestionLayoutType.datePicker): [
+        layoutType: QuestionLayoutType.textField): [
       Answer(title: 'vcl', description: '', asset: null)
     ],
     const Question(
@@ -104,7 +111,7 @@ class AppQuiz {
         description: '',
         moduleParent: 2,
         moduleIndex: 2,
-        layoutType: QuestionLayoutType.datePicker): [
+        layoutType: QuestionLayoutType.measurementPicker): [
       Answer(title: 'vcl', description: '', asset: null)
     ],
     const Question(

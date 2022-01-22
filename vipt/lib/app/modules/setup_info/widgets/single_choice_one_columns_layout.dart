@@ -3,10 +3,10 @@ import 'package:responsive_grid/responsive_grid.dart';
 import 'package:vipt/app/data/models/answer.dart';
 import 'package:vipt/app/modules/setup_info/widgets/single_choice_card.dart';
 
-class SingleChoiceTwoColumnsLayout extends StatelessWidget {
+class SingleChoiceOneColumnLayout extends StatelessWidget {
   final List<Answer> listAnswers;
   final String? groupValue;
-  const SingleChoiceTwoColumnsLayout(
+  const SingleChoiceOneColumnLayout(
       {Key? key, required this.groupValue, required this.listAnswers})
       : super(key: key);
 
@@ -23,7 +23,7 @@ class SingleChoiceTwoColumnsLayout extends StatelessWidget {
             children: listAnswers
                 .map(
                   (answer) => ResponsiveGridCol(
-                    xs: 6,
+                    xs: 12,
                     child: SingleChoiceCard(
                       title: answer.title,
                       value: answer.title,

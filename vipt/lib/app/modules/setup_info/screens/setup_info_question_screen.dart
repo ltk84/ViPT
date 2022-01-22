@@ -12,6 +12,8 @@ import 'package:vipt/app/modules/setup_info/widgets/custom_progress_indicator.da
 import 'package:vipt/app/modules/setup_info/widgets/date_picker_layout.dart';
 import 'package:vipt/app/modules/setup_info/widgets/measurement_picker_layout.dart';
 import 'package:vipt/app/modules/setup_info/widgets/multiple_choice_one_column_layout.dart';
+import 'package:vipt/app/modules/setup_info/widgets/multiple_choice_two_colums_layout.dart';
+import 'package:vipt/app/modules/setup_info/widgets/single_choice_one_columns_layout.dart';
 import 'package:vipt/app/modules/setup_info/widgets/single_choice_two_columns_layout.dart';
 import 'package:vipt/app/modules/setup_info/widgets/text_field_layout.dart';
 
@@ -86,8 +88,20 @@ Widget _handleLayoutSelection(context, QuestionLayoutType layoutType) {
       );
     case QuestionLayoutType.multipleChoiceTwoColumns:
       return GetBuilder<SetupInfoController>(
+        builder: (controller) => MultipleChoiceTwoColumnsLayout(
+          listAnswers: controller.getCurrentAnswer(),
+        ),
+      );
+    case QuestionLayoutType.singleChoiceOneColumn:
+      return GetBuilder<SetupInfoController>(
+        builder: (controller) => SingleChoiceOneColumnLayout(
+          groupValue: controller.groupValue,
+          listAnswers: controller.getCurrentAnswer(),
+        ),
+      );
+    case QuestionLayoutType.singleChoiceTwoColumns:
+      return GetBuilder<SetupInfoController>(
         builder: (controller) => SingleChoiceTwoColumnsLayout(
-          isMultipleSelectionMode: false,
           groupValue: controller.groupValue,
           listAnswers: controller.getCurrentAnswer(),
         ),
