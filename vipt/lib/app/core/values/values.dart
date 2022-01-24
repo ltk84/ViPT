@@ -48,138 +48,201 @@ class AppDecoration {
 
 class AppQuiz {
   static const Map<int, int> moduleMap = {
-    0: 2,
-    1: 2,
-    2: 3,
-    3: 2,
+    0: 11,
+    1: 4,
+    2: 4,
   };
 
   static Map<Question, List<Answer>> questions = {
+    // Module 1
     const Question(
-        title: 'Question A',
+        canBeSkipped: true,
+        title: 'Tên của bạn là gì?',
         description: '',
         moduleParent: 0,
         moduleIndex: 1,
-        layoutType: QuestionLayoutType.multipleChoiceOneColumn): [
-      Answer(title: 'vcl', description: '', asset: null),
-      Answer(title: 'vcl1', description: '', asset: null),
-      Answer(title: 'vcl2', description: '', asset: null)
-    ],
+        layoutType: QuestionLayoutType.textField): [],
     const Question(
-        title: 'Question B',
-        description: '',
+        title: 'Mục tiêu về cân nặng',
+        description: 'Bạn muốn mình có thể đạt được mức cân nặng bao nhiêu?',
         moduleParent: 0,
         moduleIndex: 2,
-        layoutType: QuestionLayoutType.multipleChoiceTwoColumns): [
-      Answer(title: 'vcl', description: '', asset: null),
-      Answer(title: 'vcl1', description: '', asset: null),
-      Answer(title: 'vcl2', description: '', asset: null),
-      Answer(title: 'vcl3', description: '', asset: null),
+        layoutType: QuestionLayoutType.measurementPicker): [],
+    const Question(
+        title: 'Giới tính',
+        description:
+            'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.',
+        moduleParent: 0,
+        moduleIndex: 3,
+        layoutType: QuestionLayoutType.singleChoiceOneColumn): [
+      Answer(title: 'Nam', description: '', asset: null),
+      Answer(title: 'Nữ', description: '', asset: null),
+      Answer(title: 'Khác', description: '', asset: null),
     ],
     const Question(
-        title: 'Question C',
+        title: 'Ngày sinh',
+        description:
+            'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.',
+        moduleParent: 0,
+        moduleIndex: 4,
+        layoutType: QuestionLayoutType.datePicker): [],
+    const Question(
+        title: 'Cân nặng hiện tại',
+        description:
+            'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.',
+        moduleParent: 0,
+        moduleIndex: 5,
+        layoutType: QuestionLayoutType.measurementPicker): [],
+    const Question(
+        title: 'Chiều cao hiện tại',
+        description:
+            'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.',
+        moduleParent: 0,
+        moduleIndex: 6,
+        layoutType: QuestionLayoutType.measurementPicker): [],
+    const Question(
+        title: 'Mục tiêu chính',
+        description:
+            'Bạn hãy chọn một lựa chọn phù hợp nhất trong những lựa chọn bên dưới.',
+        moduleParent: 0,
+        moduleIndex: 7,
+        layoutType: QuestionLayoutType.singleChoiceOneColumn): [
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+    ],
+    const Question(
+        title: 'Các vấn đề đặc biệt',
         description: '',
+        moduleParent: 0,
+        moduleIndex: 8,
+        layoutType: QuestionLayoutType.multipleChoiceOneColumn): [
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+    ],
+    const Question(
+        title: 'Kiểu cơ thể',
+        description: 'Hình ảnh nào dưới đây gần giống với bạn nhất?',
+        moduleParent: 0,
+        moduleIndex: 9,
+        layoutType: QuestionLayoutType.singleChoiceOneColumn): [
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+    ],
+    const Question(
+        title: 'Sở thích',
+        description: '',
+        moduleParent: 0,
+        moduleIndex: 10,
+        layoutType: QuestionLayoutType.multipleChoiceOneColumn): [
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+    ],
+    const Question(
+        title: 'Kinh nghiệm',
+        description: '',
+        moduleParent: 0,
+        moduleIndex: 11,
+        layoutType: QuestionLayoutType.singleChoiceTwoColumns): [
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+    ],
+
+    // Module 2
+    const Question(
+        title: 'Kiểu ngày bình thường của bạn?',
+        description:
+            'Để có thể đạt được mục tiêu về vóc dáng cơ thể thì mỗi cá nhân đều có một hướng tiếp cận riêng dựa trên thói quen của chính mình.',
         moduleParent: 1,
         moduleIndex: 1,
         layoutType: QuestionLayoutType.singleChoiceOneColumn): [
       Answer(title: 'vcl', description: '', asset: null),
-      Answer(title: 'vcl1', description: '', asset: null),
-      Answer(title: 'vcl2', description: '', asset: null),
-      Answer(title: 'vcl3', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
     ],
     const Question(
-        title: 'Question D',
+        title: 'Bạn thường vận động như thế nào?',
         description: '',
         moduleParent: 1,
         moduleIndex: 2,
-        layoutType: QuestionLayoutType.singleChoiceTwoColumns): [
+        layoutType: QuestionLayoutType.singleChoiceOneColumn): [
       Answer(title: 'vcl', description: '', asset: null),
-      Answer(title: 'vcl1', description: '', asset: null),
-      Answer(title: 'vcl2', description: '', asset: null),
-      Answer(title: 'vcl3', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
     ],
     const Question(
-        title: 'Question E',
+        title: 'Mỗi đêm bạn dành ra bao nhiêu thời gian để ngủ?',
+        description:
+            'Việc ngủ đủ giấc là rất cần thiết trong việc hình thành nên vóc dáng cơ thể đẹp.',
+        moduleParent: 1,
+        moduleIndex: 3,
+        layoutType: QuestionLayoutType.singleChoiceOneColumn): [
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+    ],
+    const Question(
+        title: 'Thói quen xấu',
         description: '',
+        moduleParent: 1,
+        moduleIndex: 4,
+        layoutType: QuestionLayoutType.singleChoiceOneColumn): [
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+    ],
+
+    // Module 3
+    const Question(
+        title: 'Chế độ ăn kiêng của bạn',
+        description: 'Hãy chọn theo thói quen hằng ngày hoặc sở thích của bạn.',
         moduleParent: 2,
         moduleIndex: 1,
-        layoutType: QuestionLayoutType.textField): [
-      Answer(title: 'vcl', description: '', asset: null)
+        layoutType: QuestionLayoutType.singleChoiceOneColumn): [
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
     ],
     const Question(
-        title: 'Question F',
-        description: '',
+        title: 'Nguồn chất đạm',
+        description: 'Hãy chọn theo thói quen hằng ngày hoặc sở thích của bạn.',
         moduleParent: 2,
         moduleIndex: 2,
-        layoutType: QuestionLayoutType.measurementPicker): [
-      Answer(title: 'vcl', description: '', asset: null)
+        layoutType: QuestionLayoutType.singleChoiceOneColumn): [
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
     ],
     const Question(
-        title: 'Question G',
+        title: 'Một ngày bạn uống bao nhiêu nước?',
         description: '',
         moduleParent: 2,
         moduleIndex: 3,
-        layoutType: QuestionLayoutType.datePicker): [
-      Answer(title: 'vcl', description: '', asset: null)
+        layoutType: QuestionLayoutType.singleChoiceOneColumn): [
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'vcl', description: '', asset: null),
     ],
-    const Question(
-        title: 'Question H',
-        description: '',
-        moduleParent: 3,
-        moduleIndex: 1,
-        layoutType: QuestionLayoutType.datePicker): [
-      Answer(title: 'vcl', description: '', asset: null)
-    ],
-    const Question(
-        title: 'Question I',
-        description: '',
-        moduleParent: 3,
-        moduleIndex: 2,
-        layoutType: QuestionLayoutType.datePicker): [
-      Answer(title: 'vcl', description: '', asset: null)
-    ],
-    // Question(
-    //     title: 'Question K',
-    //     description: '',
-    //     layoutType: QuestionLayoutType.datePicker): [
-    //   Answer(title: 'vcl', description: '', asset: null)
-    // ],
-    // Question(
-    //     title: 'Question L',
-    //     description: '',
-    //     layoutType: QuestionLayoutType.datePicker): [
-    //   Answer(title: 'vcl', description: '', asset: null)
-    // ],
-    // Question(
-    //     title: 'Question M',
-    //     description: '',
-    //     layoutType: QuestionLayoutType.datePicker): [
-    //   Answer(title: 'vcl', description: '', asset: null)
-    // ],
-    // Question(
-    //     title: 'Question N',
-    //     description: '',
-    //     layoutType: QuestionLayoutType.datePicker): [
-    //   Answer(title: 'vcl', description: '', asset: null)
-    // ],
-    // Question(
-    //     title: 'Question O',
-    //     description: '',
-    //     layoutType: QuestionLayoutType.datePicker): [
-    //   Answer(title: 'vcl', description: '', asset: null)
-    // ],
-    // Question(
-    //     title: 'Question P',
-    //     description: '',
-    //     layoutType: QuestionLayoutType.datePicker): [
-    //   Answer(title: 'vcl', description: '', asset: null)
-    // ],
-    // Question(
-    //     title: 'Question Q',
-    //     description: '',
-    //     layoutType: QuestionLayoutType.datePicker): [
-    //   Answer(title: 'vcl', description: '', asset: null)
-    // ],
   };
 }
 

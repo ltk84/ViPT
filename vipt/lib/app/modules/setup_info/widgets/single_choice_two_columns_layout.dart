@@ -15,7 +15,6 @@ class SingleChoiceTwoColumnsLayout extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       child: ListView(
-        reverse: true,
         physics: const BouncingScrollPhysics(
             parent: AlwaysScrollableScrollPhysics()),
         children: [
