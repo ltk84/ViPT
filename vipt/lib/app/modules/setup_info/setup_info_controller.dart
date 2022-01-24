@@ -306,8 +306,9 @@ class SetupInfoController extends GetxController {
 
       case PropertyLink.userGoalWeight:
         if (goalWeight != null) {
+          int? toggle = weightUnit == WeightUnit.kg ? 0 : 1;
           _passValueForFixedControlBaseOnLayoutType(
-              type, [goalWeight.toString()]);
+              type, [toggle, goalWeight.toString()]);
         }
         break;
 
