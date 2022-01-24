@@ -20,27 +20,30 @@ class SetupInfoController extends GetxController {
       TextEditingController();
   TextEditingController textFieldControllerForTextFieldLayout =
       TextEditingController();
+  TextEditingController textFieldControllerForDatePickerLayout =
+      TextEditingController();
   int? toggleValueForMeasureLayout = 0;
-  DateTime? dateTimeForDateTimeLayout = DateTime.now();
 
   String? groupValue;
 
-  String name = '';
-  Gender gender = Gender.male;
-  DateTime dateOfBirth = DateTime.now();
-  num currentHeight = 0;
-  num currentWeight = 0;
+  String? name;
+  Gender? gender;
+  DateTime? dateOfBirth;
+  num? currentHeight;
+  num? currentWeight;
   num? goalWeight;
-  WeightUnit weightUnit = WeightUnit.kg;
-  HeightUnit heightUnit = HeightUnit.cm;
+  WeightUnit? weightUnit;
+  HeightUnit? heightUnit;
   Hobby? hobby;
-  String trainFrequency = '';
-  PhyscialLimitaion limit = PhyscialLimitaion.none;
-  int sleepTime = 0;
+  String? trainFrequency;
+  PhyscialLimitaion? limit;
+  int? sleepTime;
   Diet? diet;
   BadHabit? badHabit;
   ProteinSource? proteinSource;
-  String dailyWater = '';
+  String? dailyWater;
+
+  DateTime? testDate;
 
   @override
   void onInit() {
@@ -55,8 +58,8 @@ class SetupInfoController extends GetxController {
     toggleValueForMeasureLayout = toggleValue;
   }
 
-  void _passValueForDatePickerLayout(DateTime dateTime) {
-    dateTimeForDateTimeLayout = dateTime;
+  void _passValueForDatePickerLayout(String dateTime) {
+    textFieldControllerForDatePickerLayout.text = dateTime;
   }
 
   void _passValueForTextFieldLayout(String text) {
@@ -69,7 +72,7 @@ class SetupInfoController extends GetxController {
   }
 
   void _clearValueForDatePickerLayout() {
-    dateTimeForDateTimeLayout = DateTime.now();
+    textFieldControllerForDatePickerLayout.clear();
   }
 
   void _clearValueForTextFieldLayout() {
@@ -99,7 +102,7 @@ class SetupInfoController extends GetxController {
   }
 
   void handleSelectDateTime(DateTime inputDateTime) {
-    textFieldControllerForTextFieldLayout.text = inputDateTime.toString();
+    textFieldControllerForDatePickerLayout.text = inputDateTime.toString();
     update();
   }
 
@@ -108,31 +111,42 @@ class SetupInfoController extends GetxController {
     update();
   }
 
-  void _onConfirm() {
+  void _setValueForUserProperty() {
+    // if (index == 0) {
+    //   weightUnit =
+    //       toggleValueForMeasureLayout == 0 ? WeightUnit.kg : WeightUnit.lbs;
+    //   if (textFieldControllerForMeasureLayout.text.isNotEmpty) {
+    //     currentWeight = num.parse(textFieldControllerForMeasureLayout.text);
+    //   }
+    // } else if (index == 1) {
+    //   name = textFieldControllerForTextFieldLayout.text;
+    // } else if (index == 2) {
+    //   dateOfBirth = dateTimeForDateTimeLayout as DateTime;
+    // }
+
     if (index == 0) {
-      weightUnit =
-          toggleValueForMeasureLayout == 0 ? WeightUnit.kg : WeightUnit.lbs;
-      if (textFieldControllerForMeasureLayout.text.isNotEmpty) {
-        currentWeight = num.parse(textFieldControllerForMeasureLayout.text);
-      }
+      dateOfBirth = DateTime.parse(textFieldControllerForDatePickerLayout.text);
     } else if (index == 1) {
-      name = textFieldControllerForTextFieldLayout.text;
-    } else if (index == 2) {
-      dateOfBirth = dateTimeForDateTimeLayout as DateTime;
+      testDate = DateTime.parse(textFieldControllerForDatePickerLayout.text);
     }
 
     _clearValueOfFixedControlBaseOnLayoutType(getCurrentQuestion().layoutType);
   }
 
-  void _beforeBack() {
+  void _setValueForFixedControl() {
     var currentLayout = getCurrentQuestion().layoutType;
+    // if (index == 0) {
+    //   _passValueForFixedControlBaseOnLayoutType(currentLayout,
+    //       [weightUnit == WeightUnit.kg ? 0 : 1, currentWeight.toString()]);
+    // } else if (index == 1) {
+    //   _passValueForFixedControlBaseOnLayoutType(currentLayout, [name]);
+    // } else if (index == 2) {
+    //   _passValueForFixedControlBaseOnLayoutType(currentLayout, [dateOfBirth]);
+    // }
     if (index == 0) {
-      _passValueForFixedControlBaseOnLayoutType(currentLayout,
-          [weightUnit == WeightUnit.kg ? 0 : 1, currentWeight.toString()]);
-    } else if (index == 1) {
-      _passValueForFixedControlBaseOnLayoutType(currentLayout, [name]);
-    } else if (index == 2) {
       _passValueForFixedControlBaseOnLayoutType(currentLayout, [dateOfBirth]);
+    } else if (index == 1) {
+      _passValueForFixedControlBaseOnLayoutType(currentLayout, [testDate]);
     }
   }
 
@@ -140,7 +154,7 @@ class SetupInfoController extends GetxController {
       QuestionLayoutType type, List<dynamic> data) {
     switch (type) {
       case QuestionLayoutType.datePicker:
-        _passValueForDatePickerLayout(data[0] as DateTime);
+        _passValueForDatePickerLayout(data[0].toString());
         break;
       case QuestionLayoutType.measurementPicker:
         _passValueForMeasurementLayout(data[0] as int?, data[1] as String);
@@ -183,6 +197,13 @@ class SetupInfoController extends GetxController {
     }
   }
 
+  void _setupForFixedControlBeforeGoToNextQuestion() {
+    QuestionLayoutType type = getCurrentQuestion().layoutType;
+    if (index == 1 && testDate != null) {
+      _passValueForFixedControlBaseOnLayoutType(type, [testDate]);
+    }
+  }
+
   void _updateProgressList({String action = 'next'}) {
     int currentModule = getCurrentQuestion().moduleParent;
     int currentIndexOfModule = getCurrentQuestion().moduleIndex;
@@ -211,10 +232,11 @@ class SetupInfoController extends GetxController {
   }
 
   void goToNextQuestion() {
-    _onConfirm();
+    _setValueForUserProperty();
     if (index < _data.length - 1) {
       index++;
       _updateProgressList();
+      _setupForFixedControlBeforeGoToNextQuestion();
     } else {
       _finishSetupBasicInformation();
     }
@@ -225,7 +247,7 @@ class SetupInfoController extends GetxController {
     if (index > 0) {
       index--;
     }
-    _beforeBack();
+    _setValueForFixedControl();
     _updateProgressList(action: 'back');
     update();
   }
@@ -234,22 +256,22 @@ class SetupInfoController extends GetxController {
     // create user voi thong tin cung cap tu quiz
     ViPTUser newUser = ViPTUser(
         id: AuthService.instance.currentUser!.uid,
-        name: name,
-        gender: gender,
-        dateOfBirth: dateOfBirth,
-        currentWeight: currentWeight,
-        currentHeight: currentHeight,
-        weightUnit: weightUnit,
-        heightUnit: heightUnit,
-        trainFrequency: trainFrequency,
-        limit: limit,
-        sleepTime: sleepTime,
+        name: name as String,
+        gender: gender as Gender,
+        dateOfBirth: dateOfBirth as DateTime,
+        currentWeight: currentWeight as num,
+        currentHeight: currentHeight as num,
+        weightUnit: weightUnit as WeightUnit,
+        heightUnit: heightUnit as HeightUnit,
+        trainFrequency: trainFrequency as String,
+        limit: limit as PhyscialLimitaion,
+        sleepTime: sleepTime as int,
         badHabit: badHabit,
         diet: diet,
         goalWeight: goalWeight,
         hobby: hobby,
         proteinSource: proteinSource,
-        dailyWater: dailyWater);
+        dailyWater: dailyWater as String);
 
     await DataService.instance.createUser(newUser);
 

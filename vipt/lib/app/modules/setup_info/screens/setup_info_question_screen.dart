@@ -79,7 +79,7 @@ Widget _handleLayoutSelection(
   switch (layoutType) {
     case QuestionLayoutType.datePicker:
       return DatePickerLayout(
-        textFieldController: controller.textFieldControllerForTextFieldLayout,
+        textFieldController: controller.textFieldControllerForDatePickerLayout,
         handleChangeDateTime: controller.handleSelectDateTime,
       );
     case QuestionLayoutType.measurementPicker:
