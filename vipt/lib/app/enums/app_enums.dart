@@ -6,6 +6,8 @@ enum HeightUnit { cm, ft }
 
 enum WeightUnit { kg, lbs }
 
+enum MainGoal { loseWeight, buildMuscle, getFit, gainStrength }
+
 enum Hobby { homeWorkOut, walking, running, yoga, dancing, gym, fighting }
 
 enum BodyType { endomorph, mesomorph, ectomorph }

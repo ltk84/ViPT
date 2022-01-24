@@ -37,7 +37,6 @@ class SingleChoiceCard extends StatelessWidget {
           Get.find<SetupInfoController>().handleSingleSelectAnswer(value);
         },
         child: ListTile(
-          minLeadingWidth: 80,
           leading: asset == null
               ? null
               : p.extension(asset as String) == '.svg'
