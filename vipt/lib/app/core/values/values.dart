@@ -58,7 +58,6 @@ class AppQuiz {
   static Map<Question, List<Answer>> questions = {
     // Module 1
     Question(
-        canBeSkipped: true,
         title: 'Tên của bạn là gì?'.tr,
         description: '',
         moduleParent: 0,
@@ -79,17 +78,17 @@ class AppQuiz {
         moduleIndex: 3,
         layoutType: QuestionLayoutType.singleChoiceOneColumn): [
       Answer(
-          title: 'Nam',
+          title: 'Nam'.tr,
           description: '',
           asset: SVGAssetString.male,
           enumValue: Gender.male),
       Answer(
-          title: 'Nữ',
+          title: 'Nữ'.tr,
           description: '',
           asset: SVGAssetString.female,
           enumValue: Gender.female),
       Answer(
-          title: 'Khác',
+          title: 'Khác'.tr,
           description: '',
           asset: SVGAssetString.otherGender,
           enumValue: Gender.other),
@@ -103,31 +102,49 @@ class AppQuiz {
         moduleIndex: 4,
         layoutType: QuestionLayoutType.datePicker): [],
     Question(
-        title: 'Cân nặng hiện tại',
+        title: 'Cân nặng hiện tại'.tr,
         description:
-            'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.',
+            'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.'
+                .tr,
         moduleParent: 0,
         moduleIndex: 5,
         layoutType: QuestionLayoutType.measurementPicker): [],
     Question(
-        title: 'Chiều cao hiện tại',
+        title: 'Chiều cao hiện tại'.tr,
         description:
-            'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.',
+            'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.'
+                .tr,
         moduleParent: 0,
         moduleIndex: 6,
         layoutType: QuestionLayoutType.measurementPicker): [],
     Question(
-        title: 'Mục tiêu chính',
+        title: 'Mục tiêu chính'.tr,
         description:
-            'Bạn hãy chọn một lựa chọn phù hợp nhất trong những lựa chọn bên dưới.',
+            'Bạn hãy chọn một lựa chọn phù hợp nhất trong những lựa chọn bên dưới.'
+                .tr,
         moduleParent: 0,
         moduleIndex: 7,
         layoutType: QuestionLayoutType.singleChoiceOneColumn): [
-      Answer(title: 'vcl', description: '', asset: null),
-      Answer(title: 'vcl', description: '', asset: null),
-      Answer(title: 'vcl', description: '', asset: null),
-      Answer(title: 'vcl', description: '', asset: null),
-      Answer(title: 'vcl', description: '', asset: null),
+      Answer(
+          title: 'Giảm cân, giảm mỡ'.tr,
+          description: '',
+          asset: null,
+          enumValue: MainGoal.loseWeight),
+      Answer(
+          title: 'Tăng cơ bắp'.tr,
+          description: '',
+          asset: null,
+          enumValue: MainGoal.buildMuscle),
+      Answer(
+          title: 'Có vóc dáng đẹp, vừa vặn'.tr,
+          description: '',
+          asset: null,
+          enumValue: MainGoal.getFit),
+      Answer(
+          title: 'Tăng sức mạnh'.tr,
+          description: '',
+          asset: null,
+          enumValue: MainGoal.gainStrength),
     ],
     Question(
         title: 'Các vấn đề đặc biệt',
@@ -152,14 +169,19 @@ class AppQuiz {
       Answer(title: 'vcl', description: '', asset: null),
     ],
     Question(
-        title: 'Sở thích',
+        canBeSkipped: true,
+        title: 'Sở thích'.tr,
         description: '',
         moduleParent: 0,
         moduleIndex: 10,
         layoutType: QuestionLayoutType.multipleChoiceOneColumn): [
-      Answer(title: 'vcl', description: '', asset: null),
-      Answer(title: 'vcl', description: '', asset: null),
-      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'Tập luyện tại nhà', description: '', asset: null),
+      Answer(title: 'Đi bộ', description: '', asset: null),
+      Answer(title: 'Chạy bộ', description: '', asset: null),
+      Answer(title: 'Yoga', description: '', asset: null),
+      Answer(title: 'Nhảy', description: '', asset: null),
+      Answer(title: 'Gym', description: '', asset: null),
+      Answer(title: 'Fighting', description: '', asset: null),
     ],
     Question(
         title: 'Kinh nghiệm',

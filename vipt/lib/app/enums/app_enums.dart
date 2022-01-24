@@ -6,7 +6,7 @@ enum HeightUnit { cm, ft }
 
 enum WeightUnit { kg, lbs }
 
-enum Hobby { homeWorkOut, walking, running, yoga, jumping, fighting }
+enum Hobby { homeWorkOut, walking, running, yoga, dancing, gym, fighting }
 
 enum BodyType { endomorph, mesomorph, ectomorph }
 
