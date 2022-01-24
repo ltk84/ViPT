@@ -24,8 +24,10 @@ class SetupInfoController extends GetxController {
   TextEditingController textFieldControllerForDatePickerLayout =
       TextEditingController();
   int? toggleValueForMeasureLayout = 0;
-
-  String? groupValue;
+  dynamic selectedValueForSingleChoiceLayout;
+  List<dynamic> listSelectedValueForMultipleChoiceLayout = [];
+  Rx<String>? groupValue;
+  bool isAbleToGoToNextQuestion = false;
 
   String? name;
   Gender? gender;
@@ -35,14 +37,19 @@ class SetupInfoController extends GetxController {
   num? goalWeight;
   WeightUnit? weightUnit;
   HeightUnit? heightUnit;
-  Hobby? hobby;
+  List<Hobby>? hobby;
   String? trainFrequency;
-  PhyscialLimitaion? limit;
-  int? sleepTime;
+  List<PhyscialLimitaion>? limit;
+  SleepTime? sleepTime;
   Diet? diet;
   BadHabit? badHabit;
   ProteinSource? proteinSource;
-  String? dailyWater;
+  DailyWater? dailyWater;
+  MainGoal? mainGoal;
+  BodyType? bodyType;
+  Experience? experience;
+  TypicalDay? typicalDay;
+  ActiveFrequency? activeFrequency;
 
   @override
   void onInit() {
@@ -50,6 +57,41 @@ class SetupInfoController extends GetxController {
 
     progressList = List.generate(_moduleMap.length, (index) => 0);
     _updateProgressList();
+
+    textFieldControllerForTextFieldLayout.addListener(() {
+      if (textFieldControllerForTextFieldLayout.text.isEmpty) {
+        isAbleToGoToNextQuestion = false;
+      } else {
+        isAbleToGoToNextQuestion = true;
+      }
+      update();
+    });
+
+    textFieldControllerForDatePickerLayout.addListener(() {
+      if (textFieldControllerForDatePickerLayout.text.isEmpty) {
+        isAbleToGoToNextQuestion = false;
+      } else {
+        isAbleToGoToNextQuestion = true;
+      }
+      update();
+    });
+
+    textFieldControllerForMeasureLayout.addListener(() {
+      if (textFieldControllerForMeasureLayout.text.isEmpty) {
+        isAbleToGoToNextQuestion = false;
+      } else {
+        isAbleToGoToNextQuestion = true;
+      }
+      update();
+    });
+
+    ever(groupValue!, (value) {
+      if (groupValue!.value == "") {
+        isAbleToGoToNextQuestion = false;
+      } else {
+        isAbleToGoToNextQuestion = true;
+      }
+    });
   }
 
   void _passValueForMeasurementLayout(int? toggleValue, String textValue) {
@@ -78,12 +120,41 @@ class SetupInfoController extends GetxController {
     textFieldControllerForTextFieldLayout.clear();
   }
 
+  void _passValueForSingleChoiceLayout(dynamic value) {
+    if (value == null) return;
+    selectedValueForSingleChoiceLayout = value;
+    groupValue!.value = getCurrentAnswer()
+        .firstWhere((element) => element.enumValue == value)
+        .title;
+  }
+
+  void _clearValueForSingleChoiceLayout() {
+    selectedValueForSingleChoiceLayout = null;
+    groupValue!.value = '';
+  }
+
+  void _passValueForMultipleChoiceLayout(List<dynamic> listValue) {
+    if (listValue.isEmpty) return;
+
+    listSelectedValueForMultipleChoiceLayout = listValue;
+  }
+
+  void _clearValueForMultipleChoiceLayout() {
+    listSelectedValueForMultipleChoiceLayout = <dynamic>[];
+  }
+
   void handleMultipleSelectAnswer(String title) {
     var selectedAnswer = _data.values
         .elementAt(index)
         .firstWhere((element) => element.title == title);
 
     selectedAnswer.isSelected = !selectedAnswer.isSelected;
+
+    if (!listSelectedValueForMultipleChoiceLayout
+        .contains(selectedAnswer.enumValue)) {
+      listSelectedValueForMultipleChoiceLayout.add(selectedAnswer.enumValue);
+    }
+
     update();
   }
 
@@ -91,12 +162,13 @@ class SetupInfoController extends GetxController {
     var selectedAnswer = _data.values
         .elementAt(index)
         .firstWhere((element) => element.title == value);
-    if (groupValue == value) {
-      groupValue = '';
+    if (groupValue!.value == value) {
+      groupValue!.value = '';
     } else {
-      groupValue = value;
+      groupValue!.value = value;
     }
     selectedAnswer.isSelected = !selectedAnswer.isSelected;
+    selectedValueForSingleChoiceLayout = selectedAnswer.enumValue;
     update();
   }
 
@@ -142,6 +214,10 @@ class SetupInfoController extends GetxController {
   //   }
   // }
 
+  bool isAbleToGoNextQuestion() {
+    return isAbleToGoToNextQuestion;
+  }
+
   void _setValueForUserProperty() {
     String propertyToGet = getCurrentQuestion().propertyLink;
 
@@ -157,9 +233,11 @@ class SetupInfoController extends GetxController {
         break;
 
       case PropertyLink.userBadHabit:
+        badHabit = selectedValueForSingleChoiceLayout as BadHabit;
         break;
 
       case PropertyLink.userDailyWater:
+        dailyWater = selectedValueForSingleChoiceLayout as DailyWater;
         break;
 
       case PropertyLink.userDateOfBirth:
@@ -168,9 +246,11 @@ class SetupInfoController extends GetxController {
         break;
 
       case PropertyLink.userDiet:
+        diet = selectedValueForSingleChoiceLayout as Diet;
         break;
 
       case PropertyLink.userGender:
+        gender = selectedValueForSingleChoiceLayout as Gender;
         break;
 
       case PropertyLink.userGoalWeight:
@@ -184,20 +264,48 @@ class SetupInfoController extends GetxController {
         break;
 
       case PropertyLink.userHobby:
+        List<Hobby> list = [];
+        for (var item in listSelectedValueForMultipleChoiceLayout) {
+          list.add(item as Hobby);
+        }
+        hobby = list;
         break;
 
       case PropertyLink.userLimit:
+        List<PhyscialLimitaion> list = [];
+        for (var item in listSelectedValueForMultipleChoiceLayout) {
+          list.add(item as PhyscialLimitaion);
+        }
+        limit = list;
         break;
 
       case PropertyLink.userProteinSource:
+        proteinSource = selectedValueForSingleChoiceLayout as ProteinSource;
         break;
 
       case PropertyLink.userSleepTime:
+        sleepTime = selectedValueForSingleChoiceLayout as SleepTime;
         break;
 
-      case PropertyLink.userTrainFreq:
+      case PropertyLink.userMainGoal:
+        mainGoal = selectedValueForSingleChoiceLayout as MainGoal;
         break;
 
+      case PropertyLink.userBodyType:
+        bodyType = selectedValueForSingleChoiceLayout as BodyType;
+        break;
+
+      case PropertyLink.userExp:
+        experience = selectedValueForSingleChoiceLayout as Experience;
+        break;
+
+      case PropertyLink.userTypicalDay:
+        typicalDay = selectedValueForSingleChoiceLayout as TypicalDay;
+        break;
+
+      case PropertyLink.userActiveFrequency:
+        activeFrequency = selectedValueForSingleChoiceLayout as ActiveFrequency;
+        break;
       default:
     }
 
@@ -231,12 +339,19 @@ class SetupInfoController extends GetxController {
         _passValueForMeasurementLayout(data[0] as int?, data[1] as String);
         break;
       case QuestionLayoutType.multipleChoiceOneColumn:
+        _passValueForMultipleChoiceLayout(data);
         break;
       case QuestionLayoutType.multipleChoiceTwoColumns:
+        _passValueForMultipleChoiceLayout(data);
+
         break;
       case QuestionLayoutType.singleChoiceOneColumn:
+        _passValueForSingleChoiceLayout(data[0]);
+
         break;
       case QuestionLayoutType.singleChoiceTwoColumns:
+        _passValueForSingleChoiceLayout(data[0]);
+
         break;
       case QuestionLayoutType.textField:
         _passValueForTextFieldLayout(data[0] as String);
@@ -254,12 +369,17 @@ class SetupInfoController extends GetxController {
         _clearValueForMeasurementLayout();
         break;
       case QuestionLayoutType.multipleChoiceOneColumn:
+        _clearValueForMultipleChoiceLayout();
         break;
       case QuestionLayoutType.multipleChoiceTwoColumns:
+        _clearValueForMultipleChoiceLayout();
+
         break;
       case QuestionLayoutType.singleChoiceOneColumn:
+        _clearValueForSingleChoiceLayout();
         break;
       case QuestionLayoutType.singleChoiceTwoColumns:
+        _clearValueForSingleChoiceLayout();
         break;
       case QuestionLayoutType.textField:
         _clearValueForTextFieldLayout();
@@ -286,9 +406,11 @@ class SetupInfoController extends GetxController {
         break;
 
       case PropertyLink.userBadHabit:
+        _passValueForFixedControlBaseOnLayoutType(type, [badHabit]);
         break;
 
       case PropertyLink.userDailyWater:
+        _passValueForFixedControlBaseOnLayoutType(type, [dailyWater]);
         break;
 
       case PropertyLink.userDateOfBirth:
@@ -299,9 +421,12 @@ class SetupInfoController extends GetxController {
         break;
 
       case PropertyLink.userDiet:
+        _passValueForFixedControlBaseOnLayoutType(type, [diet]);
+
         break;
 
       case PropertyLink.userGender:
+        _passValueForFixedControlBaseOnLayoutType(type, [gender]);
         break;
 
       case PropertyLink.userGoalWeight:
@@ -321,20 +446,40 @@ class SetupInfoController extends GetxController {
         break;
 
       case PropertyLink.userHobby:
+        _passValueForFixedControlBaseOnLayoutType(type, hobby ?? []);
         break;
 
       case PropertyLink.userLimit:
+        _passValueForFixedControlBaseOnLayoutType(type, limit ?? []);
         break;
 
       case PropertyLink.userProteinSource:
+        _passValueForFixedControlBaseOnLayoutType(type, [proteinSource]);
         break;
 
       case PropertyLink.userSleepTime:
+        _passValueForFixedControlBaseOnLayoutType(type, [sleepTime]);
         break;
 
-      case PropertyLink.userTrainFreq:
+      case PropertyLink.userMainGoal:
+        _passValueForFixedControlBaseOnLayoutType(type, [mainGoal]);
         break;
 
+      case PropertyLink.userBodyType:
+        _passValueForFixedControlBaseOnLayoutType(type, [bodyType]);
+        break;
+
+      case PropertyLink.userExp:
+        _passValueForFixedControlBaseOnLayoutType(type, [experience]);
+        break;
+
+      case PropertyLink.userTypicalDay:
+        _passValueForFixedControlBaseOnLayoutType(type, [typicalDay]);
+        break;
+
+      case PropertyLink.userActiveFrequency:
+        _passValueForFixedControlBaseOnLayoutType(type, [activeFrequency]);
+        break;
       default:
     }
   }
@@ -389,26 +534,26 @@ class SetupInfoController extends GetxController {
 
   Future<void> _finishSetupBasicInformation() async {
     // create user voi thong tin cung cap tu quiz
-    ViPTUser newUser = ViPTUser(
-        id: AuthService.instance.currentUser!.uid,
-        name: name as String,
-        gender: gender as Gender,
-        dateOfBirth: dateOfBirth as DateTime,
-        currentWeight: currentWeight as num,
-        currentHeight: currentHeight as num,
-        weightUnit: weightUnit as WeightUnit,
-        heightUnit: heightUnit as HeightUnit,
-        trainFrequency: trainFrequency as String,
-        limit: limit as PhyscialLimitaion,
-        sleepTime: sleepTime as int,
-        badHabit: badHabit,
-        diet: diet,
-        goalWeight: goalWeight,
-        hobby: hobby,
-        proteinSource: proteinSource,
-        dailyWater: dailyWater as String);
+    // ViPTUser newUser = ViPTUser(
+    //     id: AuthService.instance.currentUser!.uid,
+    //     name: name as String,
+    //     gender: gender as Gender,
+    //     dateOfBirth: dateOfBirth as DateTime,
+    //     currentWeight: currentWeight as num,
+    //     currentHeight: currentHeight as num,
+    //     weightUnit: weightUnit as WeightUnit,
+    //     heightUnit: heightUnit as HeightUnit,
+    //     trainFrequency: trainFrequency as String,
+    //     limit: limit as PhyscialLimitaion,
+    //     sleepTime: sleepTime as int,
+    //     badHabit: badHabit,
+    //     diet: diet,
+    //     goalWeight: goalWeight,
+    //     hobby: hobby,
+    //     proteinSource: proteinSource,
+    //     dailyWater: dailyWater as String);
 
-    await DataService.instance.createUser(newUser);
+    // await DataService.instance.createUser(newUser);
 
     Get.offAllNamed(Routes.home);
   }

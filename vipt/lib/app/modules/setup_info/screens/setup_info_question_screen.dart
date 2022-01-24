@@ -59,7 +59,7 @@ Widget _buildQuestion(context) {
         const SizedBox(
           height: 20,
         ),
-        _buildNextQuestionButton(context),
+        _buildNextQuestionButton(context, controller),
         controller.getCurrentQuestion().canBeSkipped == true
             ? _buildSkipButton(context)
             : Container(
@@ -114,12 +114,12 @@ Widget _handleLayoutSelection(
       );
     case QuestionLayoutType.singleChoiceOneColumn:
       return SingleChoiceOneColumnLayout(
-        groupValue: controller.groupValue,
+        groupValue: controller.groupValue!.value,
         listAnswers: controller.getCurrentAnswer(),
       );
     case QuestionLayoutType.singleChoiceTwoColumns:
       return SingleChoiceTwoColumnsLayout(
-        groupValue: controller.groupValue,
+        groupValue: controller.groupValue!.value,
         listAnswers: controller.getCurrentAnswer(),
       );
     default:
@@ -176,15 +176,18 @@ Widget _buildQuestionTitle(context,
 
 Widget _buildNextQuestionButton(
   context,
+  SetupInfoController controller,
 ) {
   return Container(
     color: Colors.transparent,
     width: double.maxFinite,
     height: 46,
     child: ElevatedButton(
-      onPressed: () {
-        Get.find<SetupInfoController>().goToNextQuestion();
-      },
+      onPressed: !controller.isAbleToGoNextQuestion()
+          ? null
+          : () {
+              controller.goToNextQuestion();
+            },
       child: Text('Tiếp theo'.tr, style: Theme.of(context).textTheme.button),
     ),
   );

@@ -126,6 +126,7 @@ class AppQuiz {
         layoutType: QuestionLayoutType.measurementPicker): [],
     Question(
         title: 'Mục tiêu chính'.tr,
+        propertyLink: PropertyLink.userMainGoal,
         description:
             'Bạn hãy chọn một lựa chọn phù hợp nhất trong những lựa chọn bên dưới.'
                 .tr,
@@ -158,6 +159,7 @@ class AppQuiz {
     Question(
         canBeSkipped: true,
         title: 'Các vấn đề đặc biệt'.tr,
+        propertyLink: PropertyLink.userLimit,
         description: '',
         moduleParent: 0,
         moduleIndex: 8,
@@ -180,6 +182,7 @@ class AppQuiz {
     ],
     Question(
         title: 'Kiểu cơ thể'.tr,
+        propertyLink: PropertyLink.userBodyType,
         description: 'Hình ảnh nào dưới đây gần giống với bạn nhất?'.tr,
         moduleParent: 0,
         moduleIndex: 9,
@@ -203,6 +206,7 @@ class AppQuiz {
     Question(
         canBeSkipped: true,
         title: 'Sở thích'.tr,
+        propertyLink: PropertyLink.userHobby,
         description: '',
         moduleParent: 0,
         moduleIndex: 10,
@@ -242,6 +246,7 @@ class AppQuiz {
     ],
     Question(
         title: 'Kinh nghiệm'.tr,
+        propertyLink: PropertyLink.userExp,
         description: '',
         moduleParent: 0,
         moduleIndex: 11,
@@ -266,6 +271,7 @@ class AppQuiz {
     // Module 2
     Question(
         title: 'Kiểu ngày bình thường của bạn?'.tr,
+        propertyLink: PropertyLink.userTypicalDay,
         description:
             'Để có thể đạt được mục tiêu về vóc dáng cơ thể thì mỗi cá nhân đều có một hướng tiếp cận riêng dựa trên thói quen của chính mình.'
                 .tr,
@@ -298,6 +304,7 @@ class AppQuiz {
         description:
             'Bạn dành ra bao nhiêu buổi vào mỗi tuần cho việc tập luyện?'.tr,
         moduleParent: 1,
+        propertyLink: PropertyLink.userActiveFrequency,
         moduleIndex: 2,
         layoutType: QuestionLayoutType.singleChoiceOneColumn): [
       Answer(
@@ -327,6 +334,7 @@ class AppQuiz {
             'Việc ngủ đủ giấc là rất cần thiết trong việc hình thành nên vóc dáng cơ thể đẹp.'
                 .tr,
         moduleParent: 1,
+        propertyLink: PropertyLink.userSleepTime,
         moduleIndex: 3,
         layoutType: QuestionLayoutType.singleChoiceOneColumn): [
       Answer(
@@ -353,6 +361,7 @@ class AppQuiz {
     Question(
         canBeSkipped: true,
         title: 'Thói quen xấu'.tr,
+        propertyLink: PropertyLink.userBadHabit,
         description: '',
         moduleParent: 1,
         moduleIndex: 4,
@@ -395,6 +404,7 @@ class AppQuiz {
         description:
             'Hãy chọn theo thói quen hằng ngày hoặc sở thích của bạn.'.tr,
         moduleParent: 2,
+        propertyLink: PropertyLink.userDiet,
         moduleIndex: 1,
         layoutType: QuestionLayoutType.singleChoiceOneColumn): [
       Answer(
@@ -462,6 +472,7 @@ class AppQuiz {
     ],
     Question(
         title: 'Nguồn chất đạm'.tr,
+        propertyLink: PropertyLink.userProteinSource,
         description:
             'Hãy chọn theo thói quen hằng ngày hoặc sở thích của bạn.'.tr,
         moduleParent: 2,
@@ -510,6 +521,7 @@ class AppQuiz {
     ],
     Question(
         title: 'Mỗi ngày bạn uống khoảng bao nhiêu nước?'.tr,
+        propertyLink: PropertyLink.userDailyWater,
         description: '',
         moduleParent: 2,
         moduleIndex: 3,
