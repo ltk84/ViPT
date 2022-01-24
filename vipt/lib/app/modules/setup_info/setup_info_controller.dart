@@ -111,44 +111,108 @@ class SetupInfoController extends GetxController {
     update();
   }
 
-  void _setValueForUserProperty() {
-    // if (index == 0) {
-    //   weightUnit =
-    //       toggleValueForMeasureLayout == 0 ? WeightUnit.kg : WeightUnit.lbs;
-    //   if (textFieldControllerForMeasureLayout.text.isNotEmpty) {
-    //     currentWeight = num.parse(textFieldControllerForMeasureLayout.text);
-    //   }
-    // } else if (index == 1) {
-    //   name = textFieldControllerForTextFieldLayout.text;
-    // } else if (index == 2) {
-    //   dateOfBirth = dateTimeForDateTimeLayout as DateTime;
-    // }
+  // num _convertKgToLbs(num value) => value * 2.2;
+  // num _convertLbsToKg(num value) => value / 2.2;
+  // num _convertCmToFt(num value) => value / 30.48;
+  // num _convertFtToCm(num value) => value * 30.48;
 
-    if (index == 0) {
-      dateOfBirth = DateTime.parse(textFieldControllerForDatePickerLayout.text);
-    } else if (index == 1) {
-      testDate = DateTime.parse(textFieldControllerForDatePickerLayout.text);
+  // void weightUnitSetter(int? toggleValue) {
+  //   WeightUnit result = toggleValue == 0 ? WeightUnit.kg : WeightUnit.lbs;
+  //   if (weightUnit != null && weightUnit != result) {
+  //     if (currentWeight != null) {
+  //       currentWeight = result == WeightUnit.kg
+  //           ? _convertLbsToKg(currentWeight as num)
+  //           : _convertKgToLbs(currentWeight as num);
+  //     }
+  //     if (goalWeight != null) {
+  //       goalWeight = result == WeightUnit.kg
+  //           ? _convertLbsToKg(goalWeight as num)
+  //           : _convertKgToLbs(goalWeight as num);
+  //     }
+  //   }
+  // }
+
+  // void heightUnitSetter(int? toggleValue) {
+  //   HeightUnit result = toggleValue == 0 ? HeightUnit.cm : HeightUnit.ft;
+  //   if (heightUnit != null && heightUnit != result) {
+  //     if (currentHeight != null) {
+  //       currentHeight = result == HeightUnit.cm
+  //           ? _convertCmToFt(currentHeight as num)
+  //           : _convertFtToCm(currentHeight as num);
+  //     }
+  //   }
+  // }
+
+  void _setValueForUserProperty() {
+    switch (index) {
+      case 0:
+        name = textFieldControllerForTextFieldLayout.text;
+        break;
+      case 1:
+        weightUnit =
+            toggleValueForMeasureLayout == 0 ? WeightUnit.kg : WeightUnit.lbs;
+        currentWeight = num.parse(textFieldControllerForMeasureLayout.text);
+        break;
+      case 2:
+        break;
+      case 3:
+        dateOfBirth =
+            DateTime.parse(textFieldControllerForDatePickerLayout.text);
+        break;
+      case 4:
+        goalWeight = num.parse(textFieldControllerForMeasureLayout.text);
+        break;
+      case 5:
+        heightUnit =
+            toggleValueForMeasureLayout == 0 ? HeightUnit.cm : HeightUnit.ft;
+        currentHeight = num.parse(textFieldControllerForMeasureLayout.text);
+        break;
+      case 6:
+        break;
+      case 7:
+        break;
+      case 8:
+        break;
+      case 9:
+        break;
+      case 10:
+        break;
+      case 11:
+        break;
+      case 12:
+        break;
+      case 13:
+        break;
+      case 14:
+        break;
+      case 15:
+        break;
+      case 16:
+        break;
+      case 17:
+        break;
+      default:
     }
 
     _clearValueOfFixedControlBaseOnLayoutType(getCurrentQuestion().layoutType);
   }
 
-  void _setValueForFixedControl() {
-    var currentLayout = getCurrentQuestion().layoutType;
-    // if (index == 0) {
-    //   _passValueForFixedControlBaseOnLayoutType(currentLayout,
-    //       [weightUnit == WeightUnit.kg ? 0 : 1, currentWeight.toString()]);
-    // } else if (index == 1) {
-    //   _passValueForFixedControlBaseOnLayoutType(currentLayout, [name]);
-    // } else if (index == 2) {
-    //   _passValueForFixedControlBaseOnLayoutType(currentLayout, [dateOfBirth]);
-    // }
-    if (index == 0) {
-      _passValueForFixedControlBaseOnLayoutType(currentLayout, [dateOfBirth]);
-    } else if (index == 1) {
-      _passValueForFixedControlBaseOnLayoutType(currentLayout, [testDate]);
-    }
-  }
+  // void _setValueForFixedControl() {
+  //   var currentLayout = getCurrentQuestion().layoutType;
+  //   // if (index == 0) {
+  //   //   _passValueForFixedControlBaseOnLayoutType(currentLayout,
+  //   //       [weightUnit == WeightUnit.kg ? 0 : 1, currentWeight.toString()]);
+  //   // } else if (index == 1) {
+  //   //   _passValueForFixedControlBaseOnLayoutType(currentLayout, [name]);
+  //   // } else if (index == 2) {
+  //   //   _passValueForFixedControlBaseOnLayoutType(currentLayout, [dateOfBirth]);
+  //   // }
+  //   if (index == 0) {
+  //     _passValueForFixedControlBaseOnLayoutType(currentLayout, [dateOfBirth]);
+  //   } else if (index == 1) {
+  //     _passValueForFixedControlBaseOnLayoutType(currentLayout, [testDate]);
+  //   }
+  // }
 
   void _passValueForFixedControlBaseOnLayoutType(
       QuestionLayoutType type, List<dynamic> data) {
@@ -197,10 +261,68 @@ class SetupInfoController extends GetxController {
     }
   }
 
-  void _setupForFixedControlBeforeGoToNextQuestion() {
+  void _setupValueForFixedControl() {
     QuestionLayoutType type = getCurrentQuestion().layoutType;
-    if (index == 1 && testDate != null) {
-      _passValueForFixedControlBaseOnLayoutType(type, [testDate]);
+
+    switch (index) {
+      case 0:
+        _passValueForFixedControlBaseOnLayoutType(type, [name]);
+        break;
+      case 1:
+        if (weightUnit != null && currentWeight != null) {
+          int? toggle = weightUnit == WeightUnit.kg ? 0 : 1;
+          String text = currentWeight.toString();
+          _passValueForFixedControlBaseOnLayoutType(type, [toggle, text]);
+        }
+        break;
+      case 2:
+        break;
+      case 3:
+        if (dateOfBirth != null) {
+          _passValueForFixedControlBaseOnLayoutType(
+              type, [dateOfBirth.toString()]);
+        }
+        break;
+      case 4:
+        if (goalWeight != null) {
+          _passValueForFixedControlBaseOnLayoutType(
+              type, [goalWeight.toString()]);
+        }
+
+        break;
+      case 5:
+        if (heightUnit != null && currentHeight != null) {
+          int? toggle = heightUnit == HeightUnit.cm ? 0 : 1;
+          String text = currentHeight.toString();
+          _passValueForFixedControlBaseOnLayoutType(type, [toggle, text]);
+        }
+
+        break;
+      case 6:
+        break;
+      case 7:
+        break;
+      case 8:
+        break;
+      case 9:
+        break;
+      case 10:
+        break;
+      case 11:
+        break;
+      case 12:
+        break;
+      case 13:
+        break;
+      case 14:
+        break;
+      case 15:
+        break;
+      case 16:
+        break;
+      case 17:
+        break;
+      default:
     }
   }
 
@@ -233,10 +355,10 @@ class SetupInfoController extends GetxController {
 
   void goToNextQuestion() {
     _setValueForUserProperty();
+    _setupValueForFixedControl();
     if (index < _data.length - 1) {
       index++;
       _updateProgressList();
-      _setupForFixedControlBeforeGoToNextQuestion();
     } else {
       _finishSetupBasicInformation();
     }
@@ -247,7 +369,7 @@ class SetupInfoController extends GetxController {
     if (index > 0) {
       index--;
     }
-    _setValueForFixedControl();
+    _setupValueForFixedControl();
     _updateProgressList(action: 'back');
     update();
   }
