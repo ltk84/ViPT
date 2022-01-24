@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vipt/app/core/values/app_strings.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/data/models/answer.dart';
 import 'package:vipt/app/data/models/question.dart';
@@ -62,15 +63,18 @@ class AppQuiz {
         description: '',
         moduleParent: 0,
         moduleIndex: 1,
+        propertyLink: PropertyLink.userName,
         layoutType: QuestionLayoutType.textField): [],
     Question(
         title: 'Mục tiêu về cân nặng'.tr,
         description: 'Bạn muốn mình có thể đạt được mức cân nặng bao nhiêu?'.tr,
         moduleParent: 0,
         moduleIndex: 2,
+        propertyLink: PropertyLink.userGoalWeight,
         layoutType: QuestionLayoutType.measurementPicker): [],
     Question(
         title: 'Giới tính'.tr,
+        propertyLink: PropertyLink.userGender,
         description:
             'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.'
                 .tr,
@@ -94,6 +98,7 @@ class AppQuiz {
           enumValue: Gender.other),
     ],
     Question(
+        propertyLink: PropertyLink.userDateOfBirth,
         title: 'Ngày sinh'.tr,
         description:
             'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.'
@@ -102,6 +107,7 @@ class AppQuiz {
         moduleIndex: 4,
         layoutType: QuestionLayoutType.datePicker): [],
     Question(
+        propertyLink: PropertyLink.userWeight,
         title: 'Cân nặng hiện tại'.tr,
         description:
             'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.'
@@ -110,6 +116,7 @@ class AppQuiz {
         moduleIndex: 5,
         layoutType: QuestionLayoutType.measurementPicker): [],
     Question(
+        propertyLink: PropertyLink.userHeight,
         title: 'Chiều cao hiện tại'.tr,
         description:
             'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.'

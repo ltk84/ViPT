@@ -1,3 +1,4 @@
+import 'package:vipt/app/core/values/app_strings.dart';
 import 'package:vipt/app/enums/app_enums.dart';
 
 class Question {
@@ -7,6 +8,7 @@ class Question {
   final int moduleParent;
   final int moduleIndex;
   final bool canBeSkipped;
+  final String propertyLink;
 
   const Question({
     required this.title,
@@ -14,6 +16,7 @@ class Question {
     required this.layoutType,
     required this.moduleParent,
     required this.moduleIndex,
+    this.propertyLink = PropertyLink.none,
     this.canBeSkipped = false,
   });
 }

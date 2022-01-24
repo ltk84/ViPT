@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:vipt/app/core/values/app_strings.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/answer.dart';
 import 'package:vipt/app/data/models/vipt_user.dart';
@@ -42,8 +43,6 @@ class SetupInfoController extends GetxController {
   BadHabit? badHabit;
   ProteinSource? proteinSource;
   String? dailyWater;
-
-  DateTime? testDate;
 
   @override
   void onInit() {
@@ -144,53 +143,61 @@ class SetupInfoController extends GetxController {
   // }
 
   void _setValueForUserProperty() {
-    switch (index) {
-      case 0:
+    String propertyToGet = getCurrentQuestion().propertyLink;
+
+    switch (propertyToGet) {
+      case PropertyLink.userName:
         name = textFieldControllerForTextFieldLayout.text;
         break;
-      case 1:
+
+      case PropertyLink.userWeight:
         weightUnit =
             toggleValueForMeasureLayout == 0 ? WeightUnit.kg : WeightUnit.lbs;
         currentWeight = num.parse(textFieldControllerForMeasureLayout.text);
         break;
-      case 2:
+
+      case PropertyLink.userBadHabit:
         break;
-      case 3:
+
+      case PropertyLink.userDailyWater:
+        break;
+
+      case PropertyLink.userDateOfBirth:
         dateOfBirth =
             DateTime.parse(textFieldControllerForDatePickerLayout.text);
         break;
-      case 4:
+
+      case PropertyLink.userDiet:
+        break;
+
+      case PropertyLink.userGender:
+        break;
+
+      case PropertyLink.userGoalWeight:
         goalWeight = num.parse(textFieldControllerForMeasureLayout.text);
         break;
-      case 5:
+
+      case PropertyLink.userHeight:
         heightUnit =
             toggleValueForMeasureLayout == 0 ? HeightUnit.cm : HeightUnit.ft;
         currentHeight = num.parse(textFieldControllerForMeasureLayout.text);
         break;
-      case 6:
+
+      case PropertyLink.userHobby:
         break;
-      case 7:
+
+      case PropertyLink.userLimit:
         break;
-      case 8:
+
+      case PropertyLink.userProteinSource:
         break;
-      case 9:
+
+      case PropertyLink.userSleepTime:
         break;
-      case 10:
+
+      case PropertyLink.userTrainFreq:
         break;
-      case 11:
-        break;
-      case 12:
-        break;
-      case 13:
-        break;
-      case 14:
-        break;
-      case 15:
-        break;
-      case 16:
-        break;
-      case 17:
-        break;
+
       default:
     }
 
@@ -261,67 +268,72 @@ class SetupInfoController extends GetxController {
     }
   }
 
-  void _setupValueForFixedControl() {
+  void _setupValueForNextFixedControl() {
     QuestionLayoutType type = getCurrentQuestion().layoutType;
+    String propertyToGet = getCurrentQuestion().propertyLink;
 
-    switch (index) {
-      case 0:
+    switch (propertyToGet) {
+      case PropertyLink.userName:
         _passValueForFixedControlBaseOnLayoutType(type, [name]);
         break;
-      case 1:
+
+      case PropertyLink.userWeight:
         if (weightUnit != null && currentWeight != null) {
           int? toggle = weightUnit == WeightUnit.kg ? 0 : 1;
           String text = currentWeight.toString();
           _passValueForFixedControlBaseOnLayoutType(type, [toggle, text]);
         }
         break;
-      case 2:
+
+      case PropertyLink.userBadHabit:
         break;
-      case 3:
+
+      case PropertyLink.userDailyWater:
+        break;
+
+      case PropertyLink.userDateOfBirth:
         if (dateOfBirth != null) {
           _passValueForFixedControlBaseOnLayoutType(
               type, [dateOfBirth.toString()]);
         }
         break;
-      case 4:
+
+      case PropertyLink.userDiet:
+        break;
+
+      case PropertyLink.userGender:
+        break;
+
+      case PropertyLink.userGoalWeight:
         if (goalWeight != null) {
           _passValueForFixedControlBaseOnLayoutType(
               type, [goalWeight.toString()]);
         }
-
         break;
-      case 5:
+
+      case PropertyLink.userHeight:
         if (heightUnit != null && currentHeight != null) {
           int? toggle = heightUnit == HeightUnit.cm ? 0 : 1;
           String text = currentHeight.toString();
           _passValueForFixedControlBaseOnLayoutType(type, [toggle, text]);
         }
+        break;
 
+      case PropertyLink.userHobby:
         break;
-      case 6:
+
+      case PropertyLink.userLimit:
         break;
-      case 7:
+
+      case PropertyLink.userProteinSource:
         break;
-      case 8:
+
+      case PropertyLink.userSleepTime:
         break;
-      case 9:
+
+      case PropertyLink.userTrainFreq:
         break;
-      case 10:
-        break;
-      case 11:
-        break;
-      case 12:
-        break;
-      case 13:
-        break;
-      case 14:
-        break;
-      case 15:
-        break;
-      case 16:
-        break;
-      case 17:
-        break;
+
       default:
     }
   }
@@ -355,9 +367,9 @@ class SetupInfoController extends GetxController {
 
   void goToNextQuestion() {
     _setValueForUserProperty();
-    _setupValueForFixedControl();
     if (index < _data.length - 1) {
       index++;
+      _setupValueForNextFixedControl();
       _updateProgressList();
     } else {
       _finishSetupBasicInformation();
@@ -368,8 +380,8 @@ class SetupInfoController extends GetxController {
   void goToPreviousQuestion() {
     if (index > 0) {
       index--;
+      _setupValueForNextFixedControl();
     }
-    _setupValueForFixedControl();
     _updateProgressList(action: 'back');
     update();
   }
