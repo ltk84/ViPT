@@ -36,6 +36,7 @@ class MultipleChoiceCard extends StatelessWidget {
           Get.find<SetupInfoController>().handleMultipleSelectAnswer(title);
         },
         child: ListTile(
+          contentPadding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
           leading: asset == null
               ? null
               : p.extension(asset as String) == '.svg'

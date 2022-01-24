@@ -79,17 +79,17 @@ class AppQuiz {
         layoutType: QuestionLayoutType.singleChoiceOneColumn): [
       Answer(
           title: 'Nam'.tr,
-          description: '',
+          description: 'Về mặt sinh học có giới tính nam'.tr,
           asset: SVGAssetString.male,
           enumValue: Gender.male),
       Answer(
           title: 'Nữ'.tr,
-          description: '',
+          description: 'Về mặt sinh học có giới tính nữ'.tr,
           asset: SVGAssetString.female,
           enumValue: Gender.female),
       Answer(
           title: 'Khác'.tr,
-          description: '',
+          description: 'Song tính, á tính, đồng tính,...'.tr,
           asset: SVGAssetString.otherGender,
           enumValue: Gender.other),
     ],
@@ -127,25 +127,23 @@ class AppQuiz {
         layoutType: QuestionLayoutType.singleChoiceOneColumn): [
       Answer(
           title: 'Giảm cân, giảm mỡ'.tr,
-          description:
-              'Đốt mỡ một cách hợp lý để không làm mất kích cỡ và sức mạnh của cơ bắp'
-                  .tr,
-          asset: null,
+          description: 'Đốt mỡ nhưng không làm mất đi sức mạnh'.tr,
+          asset: SVGAssetString.burnFire,
           enumValue: MainGoal.loseWeight),
       Answer(
           title: 'Tăng cơ bắp'.tr,
           description: 'Xây dựng cơ bắp to khỏe, săn chắc, chất lượng'.tr,
-          asset: null,
+          asset: SVGAssetString.muscle,
           enumValue: MainGoal.buildMuscle),
       Answer(
-          title: 'Có vóc dáng đẹp, vừa vặn'.tr,
+          title: 'Có vóc dáng đẹp'.tr,
           description: 'Giữ vóc dáng vừa vặn, tăng cường sức bền của cơ thể'.tr,
-          asset: null,
+          asset: SVGAssetString.fitBody,
           enumValue: MainGoal.getFit),
       Answer(
           title: 'Tăng sức mạnh'.tr,
           description: 'Trở nên mạnh mẽ hơn về thể chất, sức mạnh'.tr,
-          asset: null,
+          asset: SVGAssetString.strongMan,
           enumValue: MainGoal.gainStrength),
     ],
     Question(
@@ -156,19 +154,19 @@ class AppQuiz {
         moduleIndex: 8,
         layoutType: QuestionLayoutType.multipleChoiceOneColumn): [
       Answer(
-          title: 'Có vấn đề về khớp gối'.tr,
+          title: 'Có các vấn đề về khớp gối'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.knee,
           enumValue: PhyscialLimitaion.kneePain),
       Answer(
-          title: 'Có vấn đề về lưng'.tr,
+          title: 'Có các vấn đề về lưng'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.backPain,
           enumValue: PhyscialLimitaion.backPain),
       Answer(
           title: 'Khả năng di chuyển hạn chế'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.wheelChair,
           enumValue: PhyscialLimitaion.limitedMobility),
     ],
     Question(

@@ -18,4 +18,11 @@ class SVGAssetString {
   static const String female = '$_path/female.svg';
   static const String male = '$_path/male.svg';
   static const String otherGender = '$_path/other_gender.svg';
+  static const String burnFire = '$_path/burn_fire.svg';
+  static const String strongMan = '$_path/strong_man.svg';
+  static const String muscle = '$_path/muscle.svg';
+  static const String fitBody = '$_path/fit_body.svg';
+  static const String knee = '$_path/knee.svg';
+  static const String backPain = '$_path/back_pain.svg';
+  static const String wheelChair = '$_path/wheel_chair.svg';
 }
