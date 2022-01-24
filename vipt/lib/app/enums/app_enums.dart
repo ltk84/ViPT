@@ -14,7 +14,15 @@ enum BodyType { endomorph, mesomorph, ectomorph }
 
 enum TypicalDay { office, walkingDaily, mostlyAtHome, workPhysically }
 
-enum PhyscialLimitaion { none, backPain, kneePain, limitedMobility, other }
+enum PhyscialLimitaion { backPain, kneePain, limitedMobility }
+
+enum Experience { beginner, intermediate, advanced }
+
+enum ActiveFrequency { notMuch, few, average, much }
+
+enum DailyWater { notMuch, few, average, much }
+
+enum SleepTime { notMuch, few, average, much }
 
 enum Diet {
   traditional,
@@ -33,7 +41,6 @@ enum Diet {
 }
 
 enum BadHabit {
-  none,
   notRestMuch,
   eatManySweets,
   drinkSoftDrink,
@@ -44,7 +51,7 @@ enum BadHabit {
 
 enum ProteinSource {
   chickenBreast,
-  eeg,
+  egg,
   yogurt,
   cottageCheese,
   tofu,

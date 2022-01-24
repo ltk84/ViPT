@@ -40,7 +40,6 @@ class SingleChoiceCard extends StatelessWidget {
           onSelected();
         },
         child: ListTile(
-          minLeadingWidth: 80,
           leading: asset == null
               ? null
               : p.extension(asset as String) == '.svg'
