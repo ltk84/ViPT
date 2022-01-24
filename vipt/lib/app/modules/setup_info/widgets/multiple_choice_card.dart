@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/modules/setup_info/setup_info_controller.dart';
+import 'package:path/path.dart' as p;
 
 class MultipleChoiceCard extends StatelessWidget {
   final String title;
@@ -34,11 +36,14 @@ class MultipleChoiceCard extends StatelessWidget {
           Get.find<SetupInfoController>().handleMultipleSelectAnswer(title);
         },
         child: ListTile(
+          minLeadingWidth: 80,
           leading: asset == null
               ? null
-              : Image.asset(
-                  asset as String,
-                ),
+              : p.extension(asset as String) == '.svg'
+                  ? SvgPicture.asset(asset as String)
+                  : Image.asset(
+                      asset as String,
+                    ),
           title: Text(title, style: Theme.of(context).textTheme.headline4),
           subtitle: subtitle == null
               ? null

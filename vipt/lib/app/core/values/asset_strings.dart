@@ -15,4 +15,7 @@ class SVGAssetString {
   static const String _path = 'assets/svgs';
   static const String google = '$_path/google.svg';
   static const String facebook = '$_path/facebook.svg';
+  static const String female = '$_path/female.svg';
+  static const String male = '$_path/male.svg';
+  static const String otherGender = '$_path/other_gender.svg';
 }
