@@ -34,7 +34,7 @@ class SetupInfoController extends GetxController {
   HeightUnit heightUnit = HeightUnit.cm;
   Hobby? hobby;
   String trainFrequency = '';
-  PhyscialLimitaion limit = PhyscialLimitaion.none;
+  PhyscialLimitaion limit = PhyscialLimitaion.limitedMobility;
   int sleepTime = 0;
   Diet? diet;
   BadHabit? badHabit;
