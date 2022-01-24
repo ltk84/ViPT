@@ -57,7 +57,13 @@ Widget _buildQuestion(context) {
           height: 20,
         ),
         _buildNextQuestionButton(context),
-        _buildSkipButton(context),
+        controller.getCurrentQuestion().canBeSkipped == true
+            ? _buildSkipButton(context)
+            : Container(
+                color: Colors.transparent,
+                height: 46,
+                width: double.maxFinite,
+              ),
       ],
     ),
   );
@@ -150,7 +156,8 @@ Widget _buildQuestionTitle(context,
     children: [
       Text(
         title.tr,
-        style: Theme.of(context).textTheme.headline1,
+        style: Theme.of(context).textTheme.headline2,
+        textAlign: TextAlign.center,
       ),
       const SizedBox(
         height: 8,
@@ -158,6 +165,7 @@ Widget _buildQuestionTitle(context,
       Text(
         description.tr,
         style: Theme.of(context).textTheme.bodyText1,
+        textAlign: TextAlign.center,
       ),
     ],
   );
@@ -187,7 +195,7 @@ Widget _buildSkipButton(context) {
     child: TextButton(
       onPressed: () {},
       child: Text(
-        'Bỏ qua'.tr,
+        'Không có lựa chọn nào ở trên'.tr,
         style: Theme.of(context).textTheme.button!.copyWith(
               fontSize: 16,
               color: AppColor.textColor.withOpacity(AppColor.subTextOpacity),

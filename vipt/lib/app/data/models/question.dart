@@ -6,6 +6,7 @@ class Question {
   final QuestionLayoutType layoutType;
   final int moduleParent;
   final int moduleIndex;
+  final bool canBeSkipped;
 
   const Question({
     required this.title,
@@ -13,5 +14,6 @@ class Question {
     required this.layoutType,
     required this.moduleParent,
     required this.moduleIndex,
+    this.canBeSkipped = false,
   });
 }
