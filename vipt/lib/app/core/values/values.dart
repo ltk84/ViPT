@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/data/models/answer.dart';
 import 'package:vipt/app/data/models/question.dart';
 import 'package:vipt/app/enums/app_enums.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 import 'colors.dart';
 
@@ -55,65 +57,96 @@ class AppQuiz {
 
   static Map<Question, List<Answer>> questions = {
     // Module 1
-    const Question(
-        canBeSkipped: true,
-        title: 'Tên của bạn là gì?',
+    Question(
+        title: 'Tên của bạn là gì?'.tr,
         description: '',
         moduleParent: 0,
         moduleIndex: 1,
         layoutType: QuestionLayoutType.textField): [],
-    const Question(
-        title: 'Mục tiêu về cân nặng',
-        description: 'Bạn muốn mình có thể đạt được mức cân nặng bao nhiêu?',
+    Question(
+        title: 'Mục tiêu về cân nặng'.tr,
+        description: 'Bạn muốn mình có thể đạt được mức cân nặng bao nhiêu?'.tr,
         moduleParent: 0,
         moduleIndex: 2,
         layoutType: QuestionLayoutType.measurementPicker): [],
-    const Question(
-        title: 'Giới tính',
+    Question(
+        title: 'Giới tính'.tr,
         description:
-            'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.',
+            'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.'
+                .tr,
         moduleParent: 0,
         moduleIndex: 3,
         layoutType: QuestionLayoutType.singleChoiceOneColumn): [
-      Answer(title: 'Nam', description: '', asset: null),
-      Answer(title: 'Nữ', description: '', asset: null),
-      Answer(title: 'Khác', description: '', asset: null),
+      Answer(
+          title: 'Nam'.tr,
+          description: '',
+          asset: SVGAssetString.male,
+          enumValue: Gender.male),
+      Answer(
+          title: 'Nữ'.tr,
+          description: '',
+          asset: SVGAssetString.female,
+          enumValue: Gender.female),
+      Answer(
+          title: 'Khác'.tr,
+          description: '',
+          asset: SVGAssetString.otherGender,
+          enumValue: Gender.other),
     ],
-    const Question(
-        title: 'Ngày sinh',
+    Question(
+        title: 'Ngày sinh'.tr,
         description:
-            'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.',
+            'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.'
+                .tr,
         moduleParent: 0,
         moduleIndex: 4,
         layoutType: QuestionLayoutType.datePicker): [],
-    const Question(
-        title: 'Cân nặng hiện tại',
+    Question(
+        title: 'Cân nặng hiện tại'.tr,
         description:
-            'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.',
+            'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.'
+                .tr,
         moduleParent: 0,
         moduleIndex: 5,
         layoutType: QuestionLayoutType.measurementPicker): [],
-    const Question(
-        title: 'Chiều cao hiện tại',
+    Question(
+        title: 'Chiều cao hiện tại'.tr,
         description:
-            'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.',
+            'Việc thu thập thông tin này sẽ giúp tôi có thể tính toán BMI và tạo ra một kế hoạch cân nặng lành mạnh cá nhân cho riêng bạn.'
+                .tr,
         moduleParent: 0,
         moduleIndex: 6,
         layoutType: QuestionLayoutType.measurementPicker): [],
-    const Question(
-        title: 'Mục tiêu chính',
+    Question(
+        title: 'Mục tiêu chính'.tr,
         description:
-            'Bạn hãy chọn một lựa chọn phù hợp nhất trong những lựa chọn bên dưới.',
+            'Bạn hãy chọn một lựa chọn phù hợp nhất trong những lựa chọn bên dưới.'
+                .tr,
         moduleParent: 0,
         moduleIndex: 7,
         layoutType: QuestionLayoutType.singleChoiceOneColumn): [
-      Answer(title: 'vcl', description: '', asset: null),
-      Answer(title: 'vcl', description: '', asset: null),
-      Answer(title: 'vcl', description: '', asset: null),
-      Answer(title: 'vcl', description: '', asset: null),
-      Answer(title: 'vcl', description: '', asset: null),
+      Answer(
+          title: 'Giảm cân, giảm mỡ'.tr,
+          description: '',
+          asset: null,
+          enumValue: MainGoal.loseWeight),
+      Answer(
+          title: 'Tăng cơ bắp'.tr,
+          description: '',
+          asset: null,
+          enumValue: MainGoal.buildMuscle),
+      Answer(
+          title: 'Có vóc dáng đẹp, vừa vặn'.tr,
+          description: '',
+          asset: null,
+          enumValue: MainGoal.getFit),
+      Answer(
+          title: 'Tăng sức mạnh'.tr,
+          description: '',
+          asset: null,
+          enumValue: MainGoal.gainStrength),
     ],
-    const Question(
+    Question(
         title: 'Các vấn đề đặc biệt',
         description: '',
         moduleParent: 0,
@@ -125,7 +158,7 @@ class AppQuiz {
       Answer(title: 'vcl', description: '', asset: null),
       Answer(title: 'vcl', description: '', asset: null),
     ],
-    const Question(
+    Question(
         title: 'Kiểu cơ thể',
         description: 'Hình ảnh nào dưới đây gần giống với bạn nhất?',
         moduleParent: 0,
@@ -135,17 +168,22 @@ class AppQuiz {
       Answer(title: 'vcl', description: '', asset: null),
       Answer(title: 'vcl', description: '', asset: null),
     ],
-    const Question(
-        title: 'Sở thích',
+    Question(
+        canBeSkipped: true,
+        title: 'Sở thích'.tr,
         description: '',
         moduleParent: 0,
         moduleIndex: 10,
         layoutType: QuestionLayoutType.multipleChoiceOneColumn): [
-      Answer(title: 'vcl', description: '', asset: null),
-      Answer(title: 'vcl', description: '', asset: null),
-      Answer(title: 'vcl', description: '', asset: null),
+      Answer(title: 'Tập luyện tại nhà', description: '', asset: null),
+      Answer(title: 'Đi bộ', description: '', asset: null),
+      Answer(title: 'Chạy bộ', description: '', asset: null),
+      Answer(title: 'Yoga', description: '', asset: null),
+      Answer(title: 'Nhảy', description: '', asset: null),
+      Answer(title: 'Gym', description: '', asset: null),
+      Answer(title: 'Fighting', description: '', asset: null),
     ],
-    const Question(
+    Question(
         title: 'Kinh nghiệm',
         description: '',
         moduleParent: 0,
@@ -158,7 +196,7 @@ class AppQuiz {
     ],
 
     // Module 2
-    const Question(
+    Question(
         title: 'Kiểu ngày bình thường của bạn?',
         description:
             'Để có thể đạt được mục tiêu về vóc dáng cơ thể thì mỗi cá nhân đều có một hướng tiếp cận riêng dựa trên thói quen của chính mình.',
@@ -170,7 +208,7 @@ class AppQuiz {
       Answer(title: 'vcl', description: '', asset: null),
       Answer(title: 'vcl', description: '', asset: null),
     ],
-    const Question(
+    Question(
         title: 'Bạn thường vận động như thế nào?',
         description: '',
         moduleParent: 1,
@@ -181,7 +219,7 @@ class AppQuiz {
       Answer(title: 'vcl', description: '', asset: null),
       Answer(title: 'vcl', description: '', asset: null),
     ],
-    const Question(
+    Question(
         title: 'Mỗi đêm bạn dành ra bao nhiêu thời gian để ngủ?',
         description:
             'Việc ngủ đủ giấc là rất cần thiết trong việc hình thành nên vóc dáng cơ thể đẹp.',
@@ -193,7 +231,7 @@ class AppQuiz {
       Answer(title: 'vcl', description: '', asset: null),
       Answer(title: 'vcl', description: '', asset: null),
     ],
-    const Question(
+    Question(
         title: 'Thói quen xấu',
         description: '',
         moduleParent: 1,
@@ -207,7 +245,7 @@ class AppQuiz {
     ],
 
     // Module 3
-    const Question(
+    Question(
         title: 'Chế độ ăn kiêng của bạn',
         description: 'Hãy chọn theo thói quen hằng ngày hoặc sở thích của bạn.',
         moduleParent: 2,
@@ -219,7 +257,7 @@ class AppQuiz {
       Answer(title: 'vcl', description: '', asset: null),
       Answer(title: 'vcl', description: '', asset: null),
     ],
-    const Question(
+    Question(
         title: 'Nguồn chất đạm',
         description: 'Hãy chọn theo thói quen hằng ngày hoặc sở thích của bạn.',
         moduleParent: 2,
@@ -231,7 +269,7 @@ class AppQuiz {
       Answer(title: 'vcl', description: '', asset: null),
       Answer(title: 'vcl', description: '', asset: null),
     ],
-    const Question(
+    Question(
         title: 'Một ngày bạn uống bao nhiêu nước?',
         description: '',
         moduleParent: 2,

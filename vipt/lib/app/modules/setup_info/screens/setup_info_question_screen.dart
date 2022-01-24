@@ -51,6 +51,9 @@ Widget _buildQuestion(context) {
         _buildQuestionTitle(context,
             title: controller.getCurrentQuestion().title,
             description: controller.getCurrentQuestion().description),
+        const SizedBox(
+          height: 10,
+        ),
         _buildQuestionLayout(
             context, controller.getCurrentQuestion().layoutType),
         const SizedBox(
