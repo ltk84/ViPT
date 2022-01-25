@@ -36,22 +36,83 @@ class SingleChoiceCard extends StatelessWidget {
         onTap: () {
           Get.find<SetupInfoController>().handleSingleSelectAnswer(value);
         },
-        child: ListTile(
-          contentPadding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-          leading: asset == null
-              ? null
-              : p.extension(asset as String) == '.svg'
-                  ? SvgPicture.asset(asset as String)
-                  : Image.asset(
-                      asset as String,
-                    ),
-          title: Text(title, style: Theme.of(context).textTheme.headline4),
-          subtitle: subtitle == null
-              ? null
-              : Text(subtitle as String,
-                  style: Theme.of(context).textTheme.subtitle1),
-        ),
+        child: subtitle == 'Kiểu cơ thể'.tr
+            ? _buildBodyTypeCard(context, asset)
+            : subtitle == 'Kiểu ngày bình thường'.tr
+                ? _buildTypicalDayCard(context, asset)
+                : ListTile(
+                    contentPadding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                    leading: _buildAsset(asset),
+                    title: Text(title,
+                        style: Theme.of(context).textTheme.headline5),
+                    subtitle: subtitle == null
+                        ? null
+                        : Text(subtitle as String,
+                            style: Theme.of(context).textTheme.subtitle1),
+                  ),
       ),
     );
+  }
+
+  Widget _buildBodyTypeCard(context, asset) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (asset != null) _buildAsset(asset) as Widget,
+          const SizedBox(
+            width: 24,
+          ),
+          Text(title, style: Theme.of(context).textTheme.headline5),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTypicalDayCard(context, String? asset) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (asset != null) _buildAsset(asset) as Widget,
+          const SizedBox(
+            width: 24,
+          ),
+          Container(
+              padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
+              child: Text(title, style: Theme.of(context).textTheme.headline5)),
+        ],
+      ),
+    );
+  }
+
+  Widget? _buildAsset(String? asset) {
+    if (asset == null) {
+      return null;
+    } else if (p.extension(asset) == '.svg') {
+      return ConstrainedBox(
+        constraints: const BoxConstraints(
+          minWidth: 44,
+          minHeight: 44,
+          maxWidth: 80,
+          maxHeight: 150,
+        ),
+        child: SvgPicture.asset(asset),
+      );
+    } else {
+      return ConstrainedBox(
+        constraints: const BoxConstraints(
+          minWidth: 74,
+          minHeight: 74,
+          maxWidth: 80,
+          maxHeight: 150,
+        ),
+        child: Image.asset(
+          asset,
+        ),
+      );
+    }
   }
 }

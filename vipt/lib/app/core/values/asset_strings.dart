@@ -1,6 +1,21 @@
 class PNGAssetString {
   static const String _path = 'assets/images';
   static const String logo = '$_path/logo.png';
+  static const String work = '$_path/work.png';
+  static const String office = '$_path/office.png';
+  static const String home = '$_path/home.png';
+  static const String walking = '$_path/walking.png';
+  static const String ectomorph = '$_path/ectomorph.png';
+  static const String mesomorph = '$_path/mesomorph.png';
+  static const String endomorph = '$_path/endomorph.png';
+  static const String chicken = '$_path/chicken.png';
+  static const String egg = '$_path/egg.png';
+  static const String nuts = '$_path/nuts.png';
+  static const String olives = '$_path/olives.png';
+  static const String peanutButter = '$_path/peanut_butter.png';
+  static const String tofu = '$_path/tofu.png';
+  static const String yogurt = '$_path/yogurt.png';
+  static const String cottageCheese = '$_path/cottage_cheese.png';
 }
 
 class GIFAssetString {
@@ -25,4 +40,30 @@ class SVGAssetString {
   static const String knee = '$_path/knee.svg';
   static const String backPain = '$_path/back_pain.svg';
   static const String wheelChair = '$_path/wheel_chair.svg';
+  static const String home = '$_path/home.svg';
+  static const String walking = '$_path/walking.svg';
+  static const String running = '$_path/running.svg';
+  static const String yoga = '$_path/yoga.svg';
+  static const String dancing = '$_path/dancing.svg';
+  static const String gym = '$_path/gym.svg';
+  static const String boxing = '$_path/boxing.svg';
+  static const String beer = '$_path/beer.svg';
+  static const String pizza = '$_path/pizza.svg';
+  static const String sweet = '$_path/sweet.svg';
+  static const String salt = '$_path/salt.svg';
+  static const String soda = '$_path/soda.svg';
+  static const String night = '$_path/night.svg';
+  static const String ketoVegan = '$_path/keto_vegan.svg';
+  static const String keto = '$_path/keto.svg';
+  static const String vegan = '$_path/vegan.svg';
+  static const String vegetarian = '$_path/vegetarian.svg';
+  static const String glutenFree = '$_path/gluten_free.svg';
+  static const String lactoseFree = '$_path/lactose_free.svg';
+  static const String diabetes_2 = '$_path/diabetes_2.svg';
+  static const String diabetes_1 = '$_path/diabetes_1.svg';
+  static const String holiday = '$_path/holiday.svg';
+  static const String mediterranean = '$_path/mediterranean.svg';
+  static const String paleo = '$_path/paleo.svg';
+  static const String pescatarian = '$_path/pescatarian.svg';
+  static const String traditional = '$_path/traditional.svg';
 }
