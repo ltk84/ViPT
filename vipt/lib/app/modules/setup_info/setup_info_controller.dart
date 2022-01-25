@@ -24,10 +24,36 @@ class SetupInfoController extends GetxController {
   TextEditingController textFieldControllerForDatePickerLayout =
       TextEditingController();
   int? toggleValueForMeasureLayout = 0;
-  dynamic selectedValueForSingleChoiceLayout;
-  List<dynamic> listSelectedValueForMultipleChoiceLayout = [];
-  Rx<String>? groupValue;
+  dynamic _selectedValueForSingleChoiceLayout;
+  List<dynamic> _listSelectedValueForMultipleChoiceLayout = [];
+  String? groupValue;
   bool isAbleToGoToNextQuestion = false;
+
+  set selectedValueForSingleChoiceLayout(dynamic value) {
+    _selectedValueForSingleChoiceLayout = value;
+    if (_selectedValueForSingleChoiceLayout == null) {
+      isAbleToGoToNextQuestion = false;
+    } else {
+      isAbleToGoToNextQuestion = true;
+    }
+    update();
+  }
+
+  dynamic get selectedValueForSingleChoiceLayout =>
+      _selectedValueForSingleChoiceLayout;
+
+  set listSelectedValueForMultipleChoiceLayout(List<dynamic> listValue) {
+    _listSelectedValueForMultipleChoiceLayout = listValue;
+    if (_listSelectedValueForMultipleChoiceLayout.isEmpty) {
+      isAbleToGoToNextQuestion = false;
+    } else {
+      isAbleToGoToNextQuestion = true;
+    }
+    update();
+  }
+
+  List<dynamic> get listSelectedValueForMultipleChoiceLayout =>
+      _listSelectedValueForMultipleChoiceLayout;
 
   String? name;
   Gender? gender;
@@ -84,14 +110,6 @@ class SetupInfoController extends GetxController {
       }
       update();
     });
-
-    ever(groupValue!, (value) {
-      if (groupValue!.value == "") {
-        isAbleToGoToNextQuestion = false;
-      } else {
-        isAbleToGoToNextQuestion = true;
-      }
-    });
   }
 
   void _passValueForMeasurementLayout(int? toggleValue, String textValue) {
@@ -123,19 +141,17 @@ class SetupInfoController extends GetxController {
   void _passValueForSingleChoiceLayout(dynamic value) {
     if (value == null) return;
     selectedValueForSingleChoiceLayout = value;
-    groupValue!.value = getCurrentAnswer()
+    groupValue = getCurrentAnswer()
         .firstWhere((element) => element.enumValue == value)
         .title;
   }
 
   void _clearValueForSingleChoiceLayout() {
     selectedValueForSingleChoiceLayout = null;
-    groupValue!.value = '';
+    groupValue = '';
   }
 
   void _passValueForMultipleChoiceLayout(List<dynamic> listValue) {
-    if (listValue.isEmpty) return;
-
     listSelectedValueForMultipleChoiceLayout = listValue;
   }
 
@@ -153,6 +169,12 @@ class SetupInfoController extends GetxController {
     if (!listSelectedValueForMultipleChoiceLayout
         .contains(selectedAnswer.enumValue)) {
       listSelectedValueForMultipleChoiceLayout.add(selectedAnswer.enumValue);
+      isAbleToGoToNextQuestion = true;
+    } else {
+      listSelectedValueForMultipleChoiceLayout.remove(selectedAnswer.enumValue);
+      if (listSelectedValueForMultipleChoiceLayout.isEmpty) {
+        isAbleToGoToNextQuestion = false;
+      }
     }
 
     update();
@@ -162,13 +184,15 @@ class SetupInfoController extends GetxController {
     var selectedAnswer = _data.values
         .elementAt(index)
         .firstWhere((element) => element.title == value);
-    if (groupValue!.value == value) {
-      groupValue!.value = '';
+    if (groupValue == value) {
+      groupValue = '';
+      selectedValueForSingleChoiceLayout = null;
     } else {
-      groupValue!.value = value;
+      groupValue = value;
+      selectedValueForSingleChoiceLayout = selectedAnswer.enumValue;
     }
     selectedAnswer.isSelected = !selectedAnswer.isSelected;
-    selectedValueForSingleChoiceLayout = selectedAnswer.enumValue;
+
     update();
   }
 

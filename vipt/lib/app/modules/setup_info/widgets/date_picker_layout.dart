@@ -32,7 +32,7 @@ Widget _buildDatePickerField(
           initialDate: DateTime.now(),
           firstDate: DateTime(2015, 8),
           lastDate: DateTime(2101));
-      handleChangeDateTime(dateTime);
+      handleChangeDateTime(dateTime ?? DateTime.now());
     },
     controller: controller,
     focusNode: AlwaysDisabledFocusNode(),

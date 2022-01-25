@@ -114,12 +114,12 @@ Widget _handleLayoutSelection(
       );
     case QuestionLayoutType.singleChoiceOneColumn:
       return SingleChoiceOneColumnLayout(
-        groupValue: controller.groupValue!.value,
+        groupValue: controller.groupValue,
         listAnswers: controller.getCurrentAnswer(),
       );
     case QuestionLayoutType.singleChoiceTwoColumns:
       return SingleChoiceTwoColumnsLayout(
-        groupValue: controller.groupValue!.value,
+        groupValue: controller.groupValue,
         listAnswers: controller.getCurrentAnswer(),
       );
     default:
