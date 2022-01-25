@@ -21,3 +21,26 @@ class FirebaseExceptionString {
   static const invalidCode = 'invalid-verification-code';
   static const invalidVerficationID = 'invalid-verification-id';
 }
+
+class PropertyLink {
+  static const userName = 'user/name'; //
+  static const userGender = 'user/gender'; //
+  static const userDateOfBirth = 'user/dateOfBirth'; //
+  static const userHeight = 'user/height/unit'; //
+  static const userWeight = 'user/weight/unit'; //
+  static const userGoalWeight = 'user/goalWeight'; //
+  static const userHobby = 'user/hobby'; //
+  static const userLimit = 'user/limit'; //
+  static const userSleepTime = 'user/sleepTime'; //
+  static const userDiet = 'user/diet'; //
+  static const userBadHabit = 'user/badHabit'; //
+  static const userProteinSource = 'user/proteinSource'; //
+  static const userDailyWater = 'user/dailyWater'; //
+  static const userMainGoal = 'user/mainGoal'; //
+  static const userBodyType = 'user/bodyType'; //
+  static const userExp = 'user/exp'; //
+  static const userTypicalDay = 'user/typicalDay'; //
+  static const userActiveFrequency = 'user/activeFreq'; //
+
+  static const none = '';
+}

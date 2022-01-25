@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:vipt/app/core/values/values.dart';
 
 class DatePickerLayout extends StatelessWidget {
-  const DatePickerLayout({Key? key}) : super(key: key);
+  final TextEditingController textFieldController;
+  final Function handleChangeDateTime;
+  const DatePickerLayout(
+      {required this.textFieldController,
+      required this.handleChangeDateTime,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,23 +17,24 @@ class DatePickerLayout extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 40),
       alignment: Alignment.center,
       child: _buildDatePickerField(
-        context,
-      ),
+          context, textFieldController, handleChangeDateTime),
     );
   }
 }
 
 // Hàm build các field chọn ngày tháng năm như ngày sinh.
-Widget _buildDatePickerField(context) {
+Widget _buildDatePickerField(
+    context, TextEditingController controller, Function handleChangeDateTime) {
   return TextField(
-    onTap: () {
-      showDatePicker(
+    onTap: () async {
+      var dateTime = await showDatePicker(
           context: context,
           initialDate: DateTime.now(),
           firstDate: DateTime(2015, 8),
           lastDate: DateTime(2101));
+      handleChangeDateTime(dateTime ?? DateTime.now());
     },
-    onChanged: (value) {},
+    controller: controller,
     focusNode: AlwaysDisabledFocusNode(),
     style: Theme.of(context).textTheme.bodyText2,
     textAlign: TextAlign.center,

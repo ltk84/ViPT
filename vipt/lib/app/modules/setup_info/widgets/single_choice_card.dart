@@ -10,11 +10,14 @@ class SingleChoiceCard extends StatelessWidget {
   final String? asset;
   final String value;
   final String? groupValue;
+  final Function onSelected;
+
   const SingleChoiceCard({
     Key? key,
     required this.title,
     required this.value,
     required this.groupValue,
+    required this.onSelected,
     this.subtitle,
     this.asset,
   }) : super(key: key);
@@ -34,7 +37,7 @@ class SingleChoiceCard extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(5.0),
         onTap: () {
-          Get.find<SetupInfoController>().handleSingleSelectAnswer(value);
+          onSelected();
         },
         child: subtitle == 'Kiểu cơ thể'.tr
             ? _buildBodyTypeCard(context, asset)

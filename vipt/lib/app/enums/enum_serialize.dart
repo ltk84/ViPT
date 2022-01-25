@@ -38,30 +38,48 @@ extension TypicalDayFormat on TypicalDay {
       TypicalDay.values.firstWhere((e) => e.toStr() == string);
 }
 
-const Map<String, int> _trainingFreqMap = {
-  "Không nhiều": 0,
-  "1-2 ngày/tuần": 1,
-  "3-5 ngày/tuần": 2,
-  "5-7 ngày/tuần": 3,
-};
-
-extension TrainFrequencyFormat on String {
-  int toFreqValue() => _trainingFreqMap[this] as int;
-  static String fromValueToString(int value) => _trainingFreqMap.keys
-      .firstWhere((element) => _trainingFreqMap[element] == value);
+extension SleepTimeFormat on SleepTime {
+  String toStr() => toString().split('.').last;
+  static SleepTime fromStr(String string) =>
+      SleepTime.values.firstWhere((e) => e.toStr() == string);
 }
 
-const Map<String, int> _dailyWaterMap = {
-  'không uống nước': 0,
-  '2 ly/ngày': 1,
-  '2 - 6 ly/ngày': 2,
-  'trên 6 ly/ngày': 3,
-};
+extension ExperienceFormat on Experience {
+  String toStr() => toString().split('.').last;
+  static Experience fromStr(String string) =>
+      Experience.values.firstWhere((e) => e.toStr() == string);
+}
 
-extension DailyWaterFormat on String {
-  int toFreqValue() => _dailyWaterMap[this] as int;
-  static String fromValueToString(int value) => _dailyWaterMap.keys
-      .firstWhere((element) => _dailyWaterMap[element] == value);
+// const Map<String, int> _trainingFreqMap = {
+//   "Không nhiều": 0,
+//   "1-2 ngày/tuần": 1,
+//   "3-5 ngày/tuần": 2,
+//   "5-7 ngày/tuần": 3,
+// };
+
+extension ActiveFrequencyFormat on ActiveFrequency {
+  String toStr() => toString().split('.').last;
+  static ActiveFrequency fromStr(String string) =>
+      ActiveFrequency.values.firstWhere((e) => e.toStr() == string);
+}
+
+// const Map<String, int> _dailyWaterMap = {
+//   'không uống nước': 0,
+//   '2 ly/ngày': 1,
+//   '2 - 6 ly/ngày': 2,
+//   'trên 6 ly/ngày': 3,
+// };
+
+extension DailyWaterFormat on DailyWater {
+  String toStr() => toString().split('.').last;
+  static DailyWater fromStr(String string) =>
+      DailyWater.values.firstWhere((e) => e.toStr() == string);
+}
+
+extension MainGoalFormat on MainGoal {
+  String toStr() => toString().split('.').last;
+  static MainGoal fromStr(String string) =>
+      MainGoal.values.firstWhere((e) => e.toStr() == string);
 }
 
 extension PhyscialLimitationFormat on PhyscialLimitaion {

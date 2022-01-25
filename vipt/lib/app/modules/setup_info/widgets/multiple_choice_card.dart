@@ -9,6 +9,7 @@ class MultipleChoiceCard extends StatelessWidget {
   final String? subtitle;
   final String? asset;
   final bool isSelected;
+  final Function onSelected;
 
   const MultipleChoiceCard({
     Key? key,
@@ -16,6 +17,7 @@ class MultipleChoiceCard extends StatelessWidget {
     this.subtitle,
     this.asset,
     required this.isSelected,
+    required this.onSelected,
   }) : super(key: key);
 
   @override
@@ -33,7 +35,7 @@ class MultipleChoiceCard extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(5.0),
         onTap: () {
-          Get.find<SetupInfoController>().handleMultipleSelectAnswer(title);
+          onSelected();
         },
         child: subtitle == 'Kiểu cơ thể'.tr
             ? _buildBodyTypeCard(context, asset)

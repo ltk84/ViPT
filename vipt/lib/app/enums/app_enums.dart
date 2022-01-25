@@ -8,13 +8,13 @@ enum WeightUnit { kg, lbs }
 
 enum MainGoal { loseWeight, buildMuscle, getFit, gainStrength }
 
-enum Hobby { homeWorkOut, walking, running, yoga, dancing, gym, fighting }
+enum Hobby { homeWorkOut, walking, running, yoga, dancing, gym, fighting, none }
 
 enum BodyType { endomorph, mesomorph, ectomorph }
 
 enum TypicalDay { office, walkingDaily, mostlyAtHome, workPhysically }
 
-enum PhyscialLimitaion { backPain, kneePain, limitedMobility }
+enum PhyscialLimitaion { backPain, kneePain, limitedMobility, none }
 
 enum Experience { beginner, intermediate, advanced }
 
@@ -47,6 +47,7 @@ enum BadHabit {
   eatSalty,
   eatSnackLate,
   drinkMuchBeer,
+  none,
 }
 
 enum ProteinSource {
