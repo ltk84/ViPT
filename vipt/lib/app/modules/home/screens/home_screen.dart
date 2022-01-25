@@ -14,11 +14,23 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Home ne'),
       ),
       body: Center(
-        child: TextButton(
-          onPressed: () async {
-            await _controller.signOut();
-          },
-          child: const Text('Sign out'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: () async {
+                var result = await _controller.fetchUserData();
+                print(result.toMap());
+              },
+              child: const Text('Fetch data'),
+            ),
+            TextButton(
+              onPressed: () async {
+                await _controller.signOut();
+              },
+              child: const Text('Sign out'),
+            ),
+          ],
         ),
       ),
     );

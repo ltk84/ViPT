@@ -17,8 +17,10 @@ class UserProvider implements Firestoration<String, ViPTUser> {
   }
 
   @override
-  Future<ViPTUser> fetch(String id) {
-    throw UnimplementedError();
+  Future<ViPTUser> fetch(String id) async {
+    final rawData = await _firestore.collection(collectionPath).doc(id).get();
+
+    return ViPTUser.fromMap(rawData.data() as Map<String, dynamic>);
   }
 
   @override

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:vipt/app/data/models/base_model.dart';
 import 'package:vipt/app/enums/app_enums.dart';
 import 'package:vipt/app/enums/enum_serialize.dart';
@@ -8,17 +9,21 @@ class ViPTUser extends BaseModel {
   DateTime dateOfBirth;
   num currentWeight;
   num currentHeight;
-  num? goalWeight;
+  num goalWeight;
   WeightUnit weightUnit;
   HeightUnit heightUnit;
-  Hobby? hobby;
-  String trainFrequency;
-  PhyscialLimitaion limit;
-  int sleepTime;
-  Diet? diet;
+  List<Hobby>? hobbies;
+  Diet diet;
   BadHabit? badHabit;
-  ProteinSource? proteinSource;
-  String dailyWater;
+  ProteinSource proteinSource;
+  List<PhyscialLimitaion>? limits;
+  SleepTime sleepTime;
+  DailyWater dailyWater;
+  MainGoal mainGoal;
+  BodyType bodyType;
+  Experience experience;
+  TypicalDay typicalDay;
+  ActiveFrequency activeFrequency;
 
   ViPTUser({
     required String id,
@@ -30,14 +35,18 @@ class ViPTUser extends BaseModel {
     required this.goalWeight,
     required this.weightUnit,
     required this.heightUnit,
-    required this.hobby,
-    required this.trainFrequency,
-    required this.limit,
-    required this.sleepTime,
+    required this.hobbies,
     required this.diet,
     required this.badHabit,
     required this.proteinSource,
+    required this.limits,
+    required this.sleepTime,
     required this.dailyWater,
+    required this.mainGoal,
+    required this.bodyType,
+    required this.experience,
+    required this.typicalDay,
+    required this.activeFrequency,
   }) : super(id);
 
   @override
@@ -52,36 +61,50 @@ class ViPTUser extends BaseModel {
       'goalWeight': goalWeight,
       'weightUnit': weightUnit.toStr(),
       'heightUnit': heightUnit.toStr(),
-      'hobby': hobby?.toStr(),
-      'trainFrequency': trainFrequency,
-      'limit': limit.toStr(),
-      'sleepTime': sleepTime,
-      'diet': diet?.toStr(),
+      'hobbies': hobbies!.map((e) => e.toStr()).toList(),
+      'diet': diet.toStr(),
       'badHabit': badHabit?.toStr(),
-      'proteinSource': proteinSource?.toStr(),
-      'dailyWater': dailyWater,
+      'proteinSource': proteinSource.toStr(),
+      'limits': limits!.map((e) => e.toStr()).toList(),
+      'sleepTime': sleepTime.toStr(),
+      'dailyWater': dailyWater.toStr(),
+      'mainGoal': mainGoal.toStr(),
+      'bodyType': bodyType.toStr(),
+      'experience': experience.toStr(),
+      'typicalDay': typicalDay.toStr(),
+      'activeFrequency': activeFrequency.toStr(),
     };
   }
 
   factory ViPTUser.fromMap(Map<String, dynamic> data) {
+    Iterable hobbies = data['hobbies'];
+    Iterable limits = data['limits'];
     return ViPTUser(
       id: data['id'],
       name: data['name'],
       gender: GenderFormat.fromStr(data['gender']),
-      dateOfBirth: data['dateOfBirth'],
+      dateOfBirth: (data['dateOfBirth'] as Timestamp).toDate(),
       currentWeight: data['currentWeight'],
       currentHeight: data['currentHeight'],
+      goalWeight: data['goalWeight'],
       weightUnit: WeightUnitFormat.fromStr(data['weightUnit']),
       heightUnit: HeightUnitFormat.fromStr(data['heightUnit']),
-      hobby: HobbyFormat.fromStr(data['hobby']),
-      trainFrequency: data['trainFrequency'],
-      limit: PhyscialLimitationFormat.fromStr(data['limit']),
-      sleepTime: data['sleepTime'],
+      hobbies: List<Hobby>.from(hobbies.isEmpty
+          ? [Hobby.none]
+          : hobbies.map((x) => HobbyFormat.fromStr(x))),
       diet: DietFormat.fromStr(data['diet']),
-      badHabit: BadHabitFormat.fromStr(data['badHabit']),
-      goalWeight: data['goalWeight'],
+      badHabit: BadHabitFormat.fromStr(data['badHabit'] ?? 'none'),
       proteinSource: ProteinSourceFormat.fromStr(data['proteinSource']),
-      dailyWater: data['dailyWater)'],
+      limits: List<PhyscialLimitaion>.from(limits.isEmpty
+          ? [PhyscialLimitaion.none]
+          : limits.map((x) => PhyscialLimitationFormat.fromStr(x))),
+      sleepTime: SleepTimeFormat.fromStr(data['sleepTime']),
+      dailyWater: DailyWaterFormat.fromStr(data['dailyWater']),
+      mainGoal: MainGoalFormat.fromStr(data['mainGoal']),
+      bodyType: BodyTypeFormat.fromStr(data['bodyType']),
+      experience: ExperienceFormat.fromStr(data['experience']),
+      typicalDay: TypicalDayFormat.fromStr(data['typicalDay']),
+      activeFrequency: ActiveFrequencyFormat.fromStr(data['activeFrequency']),
     );
   }
 }

@@ -558,26 +558,30 @@ class SetupInfoController extends GetxController {
 
   Future<void> _finishSetupBasicInformation() async {
     // create user voi thong tin cung cap tu quiz
-    // ViPTUser newUser = ViPTUser(
-    //     id: AuthService.instance.currentUser!.uid,
-    //     name: name as String,
-    //     gender: gender as Gender,
-    //     dateOfBirth: dateOfBirth as DateTime,
-    //     currentWeight: currentWeight as num,
-    //     currentHeight: currentHeight as num,
-    //     weightUnit: weightUnit as WeightUnit,
-    //     heightUnit: heightUnit as HeightUnit,
-    //     trainFrequency: trainFrequency as String,
-    //     limit: limit as PhyscialLimitaion,
-    //     sleepTime: sleepTime as int,
-    //     badHabit: badHabit,
-    //     diet: diet,
-    //     goalWeight: goalWeight,
-    //     hobby: hobby,
-    //     proteinSource: proteinSource,
-    //     dailyWater: dailyWater as String);
+    ViPTUser newUser = ViPTUser(
+        id: AuthService.instance.currentUser!.uid,
+        name: name as String,
+        gender: gender as Gender,
+        dateOfBirth: dateOfBirth as DateTime,
+        currentWeight: currentWeight as num,
+        currentHeight: currentHeight as num,
+        goalWeight: goalWeight as num,
+        weightUnit: weightUnit as WeightUnit,
+        heightUnit: heightUnit as HeightUnit,
+        hobbies: hobby,
+        diet: diet as Diet,
+        badHabit: badHabit,
+        proteinSource: proteinSource as ProteinSource,
+        limits: limit,
+        sleepTime: sleepTime as SleepTime,
+        dailyWater: dailyWater as DailyWater,
+        mainGoal: mainGoal as MainGoal,
+        bodyType: bodyType as BodyType,
+        experience: experience as Experience,
+        typicalDay: typicalDay as TypicalDay,
+        activeFrequency: activeFrequency as ActiveFrequency);
 
-    // await DataService.instance.createUser(newUser);
+    await DataService.instance.createUser(newUser);
 
     Get.offAllNamed(Routes.home);
   }
