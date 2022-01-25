@@ -340,7 +340,7 @@ class AppQuiz {
         layoutType: QuestionLayoutType.singleChoiceOneColumn): [
       Answer(
           title: 'Không nhiều'.tr,
-          description: 'Ít hơn 3 giờ',
+          description: 'Ít hơn 3 giờ'.tr,
           asset: null,
           enumValue: SleepTime.notMuch),
       Answer(
@@ -366,7 +366,7 @@ class AppQuiz {
         description: '',
         moduleParent: 1,
         moduleIndex: 4,
-        layoutType: QuestionLayoutType.singleChoiceOneColumn): [
+        layoutType: QuestionLayoutType.multipleChoiceOneColumn): [
       Answer(
           title: 'Không nghỉ ngơi đủ'.tr,
           description: '',
@@ -533,7 +533,7 @@ class AppQuiz {
         layoutType: QuestionLayoutType.singleChoiceOneColumn): [
       Answer(
           title: 'Không nhiều'.tr,
-          description: 'Ít hơn 1 ly nước',
+          description: 'Ít hơn 1 ly nước'.tr,
           asset: null,
           enumValue: DailyWater.notMuch),
       Answer(
