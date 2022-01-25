@@ -61,7 +61,7 @@ Widget _buildQuestion(context) {
         ),
         _buildNextQuestionButton(context, controller),
         controller.getCurrentQuestion().canBeSkipped == true
-            ? _buildSkipButton(context)
+            ? _buildSkipButton(context, controller)
             : Container(
                 color: Colors.transparent,
                 height: 46,
@@ -193,13 +193,15 @@ Widget _buildNextQuestionButton(
   );
 }
 
-Widget _buildSkipButton(context) {
+Widget _buildSkipButton(context, SetupInfoController controller) {
   return Container(
     color: Colors.transparent,
     height: 46,
     width: double.maxFinite,
     child: TextButton(
-      onPressed: () {},
+      onPressed: () {
+        controller.skipQuestion();
+      },
       child: Text(
         'Không có lựa chọn nào ở trên'.tr,
         style: Theme.of(context).textTheme.button!.copyWith(

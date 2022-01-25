@@ -585,4 +585,28 @@ class SetupInfoController extends GetxController {
 
     Get.offAllNamed(Routes.home);
   }
+
+  void skipQuestion() {
+    String propertyToGet = getCurrentQuestion().propertyLink;
+    switch (propertyToGet) {
+      case PropertyLink.userLimit:
+        limit = [PhyscialLimitaion.none];
+        break;
+      case PropertyLink.userHobby:
+        hobby = [Hobby.none];
+        break;
+      case PropertyLink.userBadHabit:
+        badHabit = BadHabit.none;
+        break;
+      default:
+    }
+
+    if (index < _data.length - 1) {
+      index++;
+      _setupValueForNextFixedControl();
+      _updateProgressList();
+    }
+
+    update();
+  }
 }
