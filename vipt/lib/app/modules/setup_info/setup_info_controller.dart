@@ -172,6 +172,9 @@ class SetupInfoController extends GetxController {
 
   void _clearValueForMultipleChoiceLayout() {
     listSelectedValueForMultipleChoiceLayout = <dynamic>[];
+    for (var item in getCurrentAnswer()) {
+      if (item.isSelected) item.isSelected = false;
+    }
   }
 
   void handleMultipleSelectAnswer(String title) {
@@ -455,7 +458,7 @@ class SetupInfoController extends GetxController {
         break;
 
       case PropertyLink.userBadHabit:
-        _passValueForFixedControlBaseOnLayoutType(type, [badHabits]);
+        _passValueForFixedControlBaseOnLayoutType(type, badHabits ?? []);
         break;
 
       case PropertyLink.userDailyWater:
@@ -511,7 +514,7 @@ class SetupInfoController extends GetxController {
         break;
 
       case PropertyLink.userProteinSource:
-        _passValueForFixedControlBaseOnLayoutType(type, [proteinSources]);
+        _passValueForFixedControlBaseOnLayoutType(type, proteinSources ?? []);
         break;
 
       case PropertyLink.userSleepTime:
@@ -606,7 +609,7 @@ class SetupInfoController extends GetxController {
         hobbies: hobbies,
         diet: diet as Diet,
         badHabits: badHabits,
-        proteinSources: proteinSources as List<ProteinSource>,
+        proteinSources: proteinSources,
         limits: limits,
         sleepTime: sleepTime as SleepTime,
         dailyWater: dailyWater as DailyWater,
@@ -623,6 +626,7 @@ class SetupInfoController extends GetxController {
 
   void skipQuestion() {
     String propertyToGet = getCurrentQuestion().propertyLink;
+    _clearValueOfFixedControlBaseOnLayoutType(getCurrentQuestion().layoutType);
     switch (propertyToGet) {
       case PropertyLink.userLimit:
         limits = [PhyscialLimitaion.none];
@@ -632,6 +636,9 @@ class SetupInfoController extends GetxController {
         break;
       case PropertyLink.userBadHabit:
         badHabits = [BadHabit.none];
+        break;
+      case PropertyLink.userProteinSource:
+        proteinSources = [ProteinSource.none];
         break;
       default:
     }

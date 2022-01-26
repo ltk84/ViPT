@@ -15,7 +15,7 @@ class ViPTUser extends BaseModel {
   List<Hobby>? hobbies;
   Diet diet;
   List<BadHabit>? badHabits;
-  List<ProteinSource> proteinSources;
+  List<ProteinSource>? proteinSources;
   List<PhyscialLimitaion>? limits;
   SleepTime sleepTime;
   DailyWater dailyWater;
@@ -64,7 +64,7 @@ class ViPTUser extends BaseModel {
       'hobbies': hobbies!.map((e) => e.toStr()).toList(),
       'diet': diet.toStr(),
       'badHabits': badHabits!.map((e) => e.toStr()).toList(),
-      'proteinSources': proteinSources.map((e) => e.toStr()).toList(),
+      'proteinSources': proteinSources!.map((e) => e.toStr()).toList(),
       'limits': limits!.map((e) => e.toStr()).toList(),
       'sleepTime': sleepTime.toStr(),
       'dailyWater': dailyWater.toStr(),
