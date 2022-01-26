@@ -72,3 +72,9 @@ enum QuestionLayoutType {
   singleChoiceOneColumn,
   singleChoiceTwoColumns,
 }
+
+enum CategoryType {
+  bodyPart,
+  fitnessTool,
+  none,
+}
