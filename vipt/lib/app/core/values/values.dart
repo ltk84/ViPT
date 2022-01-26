@@ -19,34 +19,35 @@ class AppDecoration {
     focusedBorder: UnderlineInputBorder(
         borderSide: BorderSide(color: AppColor.textFieldUnderlineColor)),
   );
-  static InputDecoration fillInputDecoration = InputDecoration(
-    filled: true,
-    fillColor: AppColor.textFieldFill,
-    border: const OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(28),
-          bottomLeft: Radius.circular(28),
-          bottomRight: Radius.circular(28),
-        )),
-  );
-  static InputDecoration dateTimeFieldDecoration = InputDecoration(
-    filled: true,
-    suffixIcon: const Icon(
-      Icons.calendar_today_rounded,
-      size: 18,
-    ),
-    fillColor: AppColor.textFieldFill,
-    border: const OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(28),
-          bottomLeft: Radius.circular(28),
-          bottomRight: Radius.circular(10),
-        )),
-  );
+  // static InputDecoration fillInputDecoration = InputDecoration(
+  //   filled: true,
+  //   fillColor: AppColor.textFieldFill,
+  //   border: const OutlineInputBorder(
+  //       borderSide: BorderSide.none,
+  //       borderRadius: BorderRadius.only(
+  //         topLeft: Radius.circular(10),
+  //         topRight: Radius.circular(28),
+  //         bottomLeft: Radius.circular(28),
+  //         bottomRight: Radius.circular(28),
+  //       )),
+  // );
+  // static InputDecoration dateTimeFieldDecoration = InputDecoration(
+  //   filled: true,
+  //   suffixIcon: const Icon(
+  //     Icons.calendar_today_rounded,
+  //     size: 18,
+  //   ),
+  //   fillColor: AppColor.textFieldFill,
+  //   border: const OutlineInputBorder(
+  //     borderSide: BorderSide.none,
+  //     borderRadius: BorderRadius.only(
+  //       topLeft: Radius.circular(10),
+  //       topRight: Radius.circular(28),
+  //       bottomLeft: Radius.circular(28),
+  //       bottomRight: Radius.circular(10),
+  //     ),
+  //   ),
+  // );
 }
 
 class AppQuiz {
@@ -83,17 +84,17 @@ class AppQuiz {
         layoutType: QuestionLayoutType.singleChoiceOneColumn): [
       Answer(
           title: 'Nam'.tr,
-          description: '',
+          description: 'Về mặt sinh học có giới tính nam'.tr,
           asset: SVGAssetString.male,
           enumValue: Gender.male),
       Answer(
           title: 'Nữ'.tr,
-          description: '',
+          description: 'Về mặt sinh học có giới tính nữ'.tr,
           asset: SVGAssetString.female,
           enumValue: Gender.female),
       Answer(
           title: 'Khác'.tr,
-          description: '',
+          description: 'Song tính, á tính, đồng tính,...'.tr,
           asset: SVGAssetString.otherGender,
           enumValue: Gender.other),
     ],
@@ -135,25 +136,23 @@ class AppQuiz {
         layoutType: QuestionLayoutType.singleChoiceOneColumn): [
       Answer(
           title: 'Giảm cân, giảm mỡ'.tr,
-          description:
-              'Đốt mỡ một cách hợp lý để không làm mất kích cỡ và sức mạnh của cơ bắp'
-                  .tr,
-          asset: null,
+          description: 'Đốt mỡ nhưng không làm mất đi sức mạnh'.tr,
+          asset: SVGAssetString.burnFire,
           enumValue: MainGoal.loseWeight),
       Answer(
           title: 'Tăng cơ bắp'.tr,
           description: 'Xây dựng cơ bắp to khỏe, săn chắc, chất lượng'.tr,
-          asset: null,
+          asset: SVGAssetString.muscle,
           enumValue: MainGoal.buildMuscle),
       Answer(
-          title: 'Có vóc dáng đẹp, vừa vặn'.tr,
+          title: 'Có vóc dáng đẹp'.tr,
           description: 'Giữ vóc dáng vừa vặn, tăng cường sức bền của cơ thể'.tr,
-          asset: null,
+          asset: SVGAssetString.fitBody,
           enumValue: MainGoal.getFit),
       Answer(
           title: 'Tăng sức mạnh'.tr,
           description: 'Trở nên mạnh mẽ hơn về thể chất, sức mạnh'.tr,
-          asset: null,
+          asset: SVGAssetString.strongMan,
           enumValue: MainGoal.gainStrength),
     ],
     Question(
@@ -165,19 +164,19 @@ class AppQuiz {
         moduleIndex: 8,
         layoutType: QuestionLayoutType.multipleChoiceOneColumn): [
       Answer(
-          title: 'Có vấn đề về khớp gối'.tr,
+          title: 'Có các vấn đề về khớp gối'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.knee,
           enumValue: PhyscialLimitaion.kneePain),
       Answer(
-          title: 'Có vấn đề về lưng'.tr,
+          title: 'Có các vấn đề về lưng'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.backPain,
           enumValue: PhyscialLimitaion.backPain),
       Answer(
           title: 'Khả năng di chuyển hạn chế'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.wheelChair,
           enumValue: PhyscialLimitaion.limitedMobility),
     ],
     Question(
@@ -188,20 +187,20 @@ class AppQuiz {
         moduleIndex: 9,
         layoutType: QuestionLayoutType.singleChoiceOneColumn): [
       Answer(
-          title: 'Endomorph'.tr,
-          description: '',
-          asset: null,
-          enumValue: BodyType.endomorph),
+          title: 'Ectomorph'.tr,
+          description: 'Kiểu cơ thể'.tr,
+          asset: PNGAssetString.ectomorph,
+          enumValue: BodyType.ectomorph),
       Answer(
           title: 'Mesomorph'.tr,
-          description: '',
-          asset: null,
+          description: 'Kiểu cơ thể'.tr,
+          asset: PNGAssetString.mesomorph,
           enumValue: BodyType.mesomorph),
       Answer(
-          title: 'Ectomorph'.tr,
-          description: '',
-          asset: null,
-          enumValue: BodyType.ectomorph),
+          title: 'Endomorph'.tr,
+          description: 'Kiểu cơ thể'.tr,
+          asset: PNGAssetString.endomorph,
+          enumValue: BodyType.endomorph),
     ],
     Question(
         canBeSkipped: true,
@@ -214,34 +213,37 @@ class AppQuiz {
       Answer(
           title: 'Tập luyện tại nhà'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.home,
           enumValue: Hobby.homeWorkOut),
       Answer(
           title: 'Đi bộ'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.walking,
           enumValue: Hobby.walking),
       Answer(
           title: 'Chạy bộ'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.running,
           enumValue: Hobby.running),
       Answer(
           title: 'Yoga'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.yoga,
           enumValue: Hobby.yoga),
       Answer(
           title: 'Nhảy'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.dancing,
           enumValue: Hobby.dancing),
       Answer(
-          title: 'Gym'.tr, description: '', asset: null, enumValue: Hobby.gym),
+          title: 'Gym'.tr,
+          description: '',
+          asset: SVGAssetString.gym,
+          enumValue: Hobby.gym),
       Answer(
           title: 'Đánh nhau'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.boxing,
           enumValue: Hobby.fighting),
     ],
     Question(
@@ -280,23 +282,23 @@ class AppQuiz {
         layoutType: QuestionLayoutType.singleChoiceOneColumn): [
       Answer(
           title: 'Công việc văn phòng'.tr,
-          description: '',
-          asset: null,
+          description: 'Kiểu ngày bình thường'.tr,
+          asset: PNGAssetString.office,
           enumValue: TypicalDay.office),
       Answer(
           title: 'Đi bộ mỗi ngày'.tr,
-          description: '',
-          asset: null,
+          description: 'Kiểu ngày bình thường'.tr,
+          asset: PNGAssetString.walking,
           enumValue: TypicalDay.walkingDaily),
       Answer(
           title: 'Hầu như chỉ ở nhà'.tr,
-          description: '',
-          asset: null,
+          description: 'Kiểu ngày bình thường'.tr,
+          asset: PNGAssetString.home,
           enumValue: TypicalDay.mostlyAtHome),
       Answer(
           title: 'Vận động tay chân'.tr,
-          description: '',
-          asset: null,
+          description: 'Kiểu ngày bình thường'.tr,
+          asset: PNGAssetString.work,
           enumValue: TypicalDay.workPhysically),
     ],
     Question(
@@ -309,7 +311,7 @@ class AppQuiz {
         layoutType: QuestionLayoutType.singleChoiceOneColumn): [
       Answer(
           title: 'Không nhiều'.tr,
-          description: '',
+          description: 'Không đều đặn hoặc không có'.tr,
           asset: null,
           enumValue: ActiveFrequency.notMuch),
       Answer(
@@ -339,7 +341,7 @@ class AppQuiz {
         layoutType: QuestionLayoutType.singleChoiceOneColumn): [
       Answer(
           title: 'Không nhiều'.tr,
-          description: '',
+          description: 'Ít hơn 3 giờ'.tr,
           asset: null,
           enumValue: SleepTime.notMuch),
       Answer(
@@ -365,36 +367,36 @@ class AppQuiz {
         description: '',
         moduleParent: 1,
         moduleIndex: 4,
-        layoutType: QuestionLayoutType.singleChoiceOneColumn): [
+        layoutType: QuestionLayoutType.multipleChoiceOneColumn): [
       Answer(
           title: 'Không nghỉ ngơi đủ'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.night,
           enumValue: BadHabit.notRestMuch),
       Answer(
           title: 'Ăn nhiều đồ ngọt'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.sweet,
           enumValue: BadHabit.drinkSoftDrink),
       Answer(
           title: 'Uống nhiều nước ngọt'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.soda,
           enumValue: BadHabit.eatManySweets),
       Answer(
           title: 'Ăn đồ mặn'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.salt,
           enumValue: BadHabit.eatSalty),
       Answer(
           title: 'Ăn vặt'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.pizza,
           enumValue: BadHabit.eatSnackLate),
       Answer(
           title: 'Uống rượu bia nhiều'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.beer,
           enumValue: BadHabit.drinkMuchBeer),
     ],
 
@@ -410,113 +412,117 @@ class AppQuiz {
       Answer(
           title: 'Truyền thống'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.traditional,
           enumValue: Diet.traditional),
       Answer(
           title: 'Ăn nửa chay'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.vegetarian,
           enumValue: Diet.vegetarian),
       Answer(
-          title: 'Keto'.tr, description: '', asset: null, enumValue: Diet.keto),
+          title: 'Keto'.tr,
+          description: '',
+          asset: SVGAssetString.keto,
+          enumValue: Diet.keto),
       Answer(
           title: 'Ăn thuần chay'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.vegan,
           enumValue: Diet.vegan),
       Answer(
           title: 'Keto chay'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.ketoVegan,
           enumValue: Diet.ketoVegan),
       Answer(
           title: 'Pescatarian'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.pescatarian,
           enumValue: Diet.pescatarian),
       Answer(
           title: 'Không Lactose'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.lactoseFree,
           enumValue: Diet.lactoseFree),
       Answer(
           title: 'Không Gluten'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.glutenFree,
           enumValue: Diet.glutenFree),
       Answer(
           title: 'Paleo'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.paleo,
           enumValue: Diet.paleo),
       Answer(
           title: 'Mediterranean'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.mediterranean,
           enumValue: Diet.mediterranean),
       Answer(
           title: 'Tiểu đường loại một'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.diabetes_1,
           enumValue: Diet.diabetsTypeOne),
       Answer(
           title: 'Tiểu đường loại hai'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.diabetes_2,
           enumValue: Diet.diabetsTypeTwo),
       Answer(
           title: 'Theo dịp lễ'.tr,
           description: '',
-          asset: null,
+          asset: SVGAssetString.holiday,
           enumValue: Diet.holiday),
     ],
     Question(
+        canBeSkipped: true,
         title: 'Nguồn chất đạm'.tr,
         propertyLink: PropertyLink.userProteinSource,
         description:
             'Hãy chọn theo thói quen hằng ngày hoặc sở thích của bạn.'.tr,
         moduleParent: 2,
         moduleIndex: 2,
-        layoutType: QuestionLayoutType.singleChoiceOneColumn): [
+        layoutType: QuestionLayoutType.multipleChoiceOneColumn): [
       Answer(
           title: 'Ức gà'.tr,
           description: '',
-          asset: null,
+          asset: PNGAssetString.chicken,
           enumValue: ProteinSource.chickenBreast),
       Answer(
           title: 'Trứng gà'.tr,
           description: '',
-          asset: null,
+          asset: PNGAssetString.egg,
           enumValue: ProteinSource.egg),
       Answer(
           title: 'Sữa chua'.tr,
           description: '',
-          asset: null,
+          asset: PNGAssetString.yogurt,
           enumValue: ProteinSource.yogurt),
       Answer(
           title: 'Phô mai tươi'.tr,
           description: '',
-          asset: null,
+          asset: PNGAssetString.cottageCheese,
           enumValue: ProteinSource.cottageCheese),
       Answer(
           title: 'Đậu hũ'.tr,
           description: '',
-          asset: null,
+          asset: PNGAssetString.tofu,
           enumValue: ProteinSource.tofu),
       Answer(
           title: 'Dầu Ô-liu'.tr,
           description: '',
-          asset: null,
+          asset: PNGAssetString.olives,
           enumValue: ProteinSource.olives),
       Answer(
           title: 'Quả hạch'.tr,
           description: '',
-          asset: null,
+          asset: PNGAssetString.nuts,
           enumValue: ProteinSource.nuts),
       Answer(
           title: 'Bơ đậu phộng'.tr,
           description: '',
-          asset: null,
+          asset: PNGAssetString.peanutButter,
           enumValue: ProteinSource.peanutButter),
     ],
     Question(
@@ -528,7 +534,7 @@ class AppQuiz {
         layoutType: QuestionLayoutType.singleChoiceOneColumn): [
       Answer(
           title: 'Không nhiều'.tr,
-          description: '',
+          description: 'Ít hơn 1 ly nước'.tr,
           asset: null,
           enumValue: DailyWater.notMuch),
       Answer(

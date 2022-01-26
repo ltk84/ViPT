@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/theme/app_theme.dart';
 import 'package:vipt/app/data/services/app_start_service.dart';
@@ -16,6 +17,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('vi'),
+      ],
       // title: AppStrings.appName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
