@@ -87,6 +87,8 @@ Widget _handleLayoutSelection(
       );
     case QuestionLayoutType.measurementPicker:
       return MeasurementPickerLayout(
+        primaryUnitSymbol: controller.primaryUnitSymbol,
+        secondaryUnitSymbol: controller.secondaryUnitSymbol,
         onUnitChanged: (int? value) {
           controller.handleOnUnitChange(value);
         },

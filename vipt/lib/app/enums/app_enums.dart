@@ -37,7 +37,8 @@ enum Diet {
   mediterranean,
   diabetsTypeOne,
   diabetsTypeTwo,
-  holiday
+  holiday,
+  none
 }
 
 enum BadHabit {
@@ -58,7 +59,8 @@ enum ProteinSource {
   tofu,
   olives,
   nuts,
-  peanutButter
+  peanutButter,
+  none
 }
 
 enum QuestionLayoutType {

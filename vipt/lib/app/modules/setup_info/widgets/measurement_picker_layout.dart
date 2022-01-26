@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/colors.dart';
-import 'package:vipt/app/modules/setup_info/setup_info_controller.dart';
 
 class MeasurementPickerLayout extends StatelessWidget {
   const MeasurementPickerLayout({
@@ -12,11 +11,15 @@ class MeasurementPickerLayout extends StatelessWidget {
     required this.toggleValueForMeasureLayout,
     required this.textFieldControllerForMeasureLayout,
     required this.onUnitChanged,
+    required this.primaryUnitSymbol,
+    required this.secondaryUnitSymbol,
   }) : super(key: key);
 
   final int? toggleValueForMeasureLayout;
   final TextEditingController textFieldControllerForMeasureLayout;
   final Function(int?) onUnitChanged;
+  final String primaryUnitSymbol;
+  final String secondaryUnitSymbol;
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +28,9 @@ class MeasurementPickerLayout extends StatelessWidget {
       alignment: Alignment.center,
       child: _buildMeasurementField(
         context,
-        primaryUnit: 'kg',
+        primaryUnit: primaryUnitSymbol,
         initalValue: toggleValueForMeasureLayout,
-        secondaryUnit: 'lbs',
+        secondaryUnit: secondaryUnitSymbol,
         textFieldController: textFieldControllerForMeasureLayout,
         onUnitChanged: onUnitChanged,
       ),

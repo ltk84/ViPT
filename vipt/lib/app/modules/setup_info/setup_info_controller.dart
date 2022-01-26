@@ -8,6 +8,7 @@ import 'package:vipt/app/data/services/auth_service.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/enums/app_enums.dart';
 import 'package:vipt/app/routes/pages.dart';
+import 'package:intl/intl.dart';
 import 'package:vipt/app/data/models/question.dart';
 
 class SetupInfoController extends GetxController {
@@ -28,6 +29,20 @@ class SetupInfoController extends GetxController {
   List<dynamic> _listSelectedValueForMultipleChoiceLayout = [];
   String? groupValue;
   bool isAbleToGoToNextQuestion = false;
+
+  String _primaryUnitSymbol = AppString.primaryWeightUnitSymbol;
+  String get primaryUnitSymbol => _primaryUnitSymbol;
+  set primaryUnitSymbol(String value) {
+    _primaryUnitSymbol = value;
+    update();
+  }
+
+  String _secondaryUnitSymbol = AppString.secondaryWeightUnitSymbol;
+  String get secondaryUnitSymbol => _secondaryUnitSymbol;
+  set secondaryUnitSymbol(String value) {
+    _secondaryUnitSymbol = value;
+    update();
+  }
 
   set selectedValueForSingleChoiceLayout(dynamic value) {
     _selectedValueForSingleChoiceLayout = value;
@@ -63,13 +78,12 @@ class SetupInfoController extends GetxController {
   num? goalWeight;
   WeightUnit? weightUnit;
   HeightUnit? heightUnit;
-  List<Hobby>? hobby;
-  String? trainFrequency;
-  List<PhyscialLimitaion>? limit;
+  List<Hobby>? hobbies;
+  List<PhyscialLimitaion>? limits;
   SleepTime? sleepTime;
   Diet? diet;
-  BadHabit? badHabit;
-  ProteinSource? proteinSource;
+  List<BadHabit>? badHabits;
+  List<ProteinSource>? proteinSources;
   DailyWater? dailyWater;
   MainGoal? mainGoal;
   BodyType? bodyType;
@@ -118,7 +132,8 @@ class SetupInfoController extends GetxController {
   }
 
   void _passValueForDatePickerLayout(String dateTime) {
-    textFieldControllerForDatePickerLayout.text = dateTime;
+    textFieldControllerForDatePickerLayout.text = formatDateTime(
+        DateFormat(AppString.defaultDateTimeFormat).parse(dateTime));
   }
 
   void _passValueForTextFieldLayout(String text) {
@@ -196,8 +211,15 @@ class SetupInfoController extends GetxController {
     update();
   }
 
+  String formatDateTime(
+    DateTime inputDateTime,
+  ) {
+    return DateFormat(AppString.vnDatetimeFormat).format(inputDateTime);
+  }
+
   void handleSelectDateTime(DateTime inputDateTime) {
-    textFieldControllerForDatePickerLayout.text = inputDateTime.toString();
+    textFieldControllerForDatePickerLayout.text = formatDateTime(inputDateTime);
+
     update();
   }
 
@@ -257,7 +279,13 @@ class SetupInfoController extends GetxController {
         break;
 
       case PropertyLink.userBadHabit:
-        badHabit = selectedValueForSingleChoiceLayout as BadHabit;
+        List<BadHabit> list = [];
+        for (var item in listSelectedValueForMultipleChoiceLayout) {
+          if (item != null) {
+            list.add(item as BadHabit);
+          }
+        }
+        badHabits = list;
         break;
 
       case PropertyLink.userDailyWater:
@@ -265,8 +293,8 @@ class SetupInfoController extends GetxController {
         break;
 
       case PropertyLink.userDateOfBirth:
-        dateOfBirth =
-            DateTime.parse(textFieldControllerForDatePickerLayout.text);
+        dateOfBirth = DateFormat(AppString.vnDatetimeFormat)
+            .parse(textFieldControllerForDatePickerLayout.text);
         break;
 
       case PropertyLink.userDiet:
@@ -290,21 +318,31 @@ class SetupInfoController extends GetxController {
       case PropertyLink.userHobby:
         List<Hobby> list = [];
         for (var item in listSelectedValueForMultipleChoiceLayout) {
-          list.add(item as Hobby);
+          if (item != null) {
+            list.add(item as Hobby);
+          }
         }
-        hobby = list;
+        hobbies = list;
         break;
 
       case PropertyLink.userLimit:
         List<PhyscialLimitaion> list = [];
         for (var item in listSelectedValueForMultipleChoiceLayout) {
-          list.add(item as PhyscialLimitaion);
+          if (item != null) {
+            list.add(item as PhyscialLimitaion);
+          }
         }
-        limit = list;
+        limits = list;
         break;
 
       case PropertyLink.userProteinSource:
-        proteinSource = selectedValueForSingleChoiceLayout as ProteinSource;
+        List<ProteinSource> list = [];
+        for (var item in listSelectedValueForMultipleChoiceLayout) {
+          if (item != null) {
+            list.add(item as ProteinSource);
+          }
+        }
+        proteinSources = list;
         break;
 
       case PropertyLink.userSleepTime:
@@ -335,23 +373,6 @@ class SetupInfoController extends GetxController {
 
     _clearValueOfFixedControlBaseOnLayoutType(getCurrentQuestion().layoutType);
   }
-
-  // void _setValueForFixedControl() {
-  //   var currentLayout = getCurrentQuestion().layoutType;
-  //   // if (index == 0) {
-  //   //   _passValueForFixedControlBaseOnLayoutType(currentLayout,
-  //   //       [weightUnit == WeightUnit.kg ? 0 : 1, currentWeight.toString()]);
-  //   // } else if (index == 1) {
-  //   //   _passValueForFixedControlBaseOnLayoutType(currentLayout, [name]);
-  //   // } else if (index == 2) {
-  //   //   _passValueForFixedControlBaseOnLayoutType(currentLayout, [dateOfBirth]);
-  //   // }
-  //   if (index == 0) {
-  //     _passValueForFixedControlBaseOnLayoutType(currentLayout, [dateOfBirth]);
-  //   } else if (index == 1) {
-  //     _passValueForFixedControlBaseOnLayoutType(currentLayout, [testDate]);
-  //   }
-  // }
 
   void _passValueForFixedControlBaseOnLayoutType(
       QuestionLayoutType type, List<dynamic> data) {
@@ -427,10 +448,14 @@ class SetupInfoController extends GetxController {
           String text = currentWeight.toString();
           _passValueForFixedControlBaseOnLayoutType(type, [toggle, text]);
         }
+
+        primaryUnitSymbol = AppString.primaryWeightUnitSymbol;
+        secondaryUnitSymbol = AppString.secondaryWeightUnitSymbol;
+
         break;
 
       case PropertyLink.userBadHabit:
-        _passValueForFixedControlBaseOnLayoutType(type, [badHabit]);
+        _passValueForFixedControlBaseOnLayoutType(type, [badHabits]);
         break;
 
       case PropertyLink.userDailyWater:
@@ -457,8 +482,12 @@ class SetupInfoController extends GetxController {
         if (goalWeight != null) {
           int? toggle = weightUnit == WeightUnit.kg ? 0 : 1;
           _passValueForFixedControlBaseOnLayoutType(
-              type, [toggle, goalWeight.toString()]);
+              type, [toggle, goalWeight.toString(), 'weight']);
         }
+
+        primaryUnitSymbol = AppString.primaryWeightUnitSymbol;
+        secondaryUnitSymbol = AppString.secondaryWeightUnitSymbol;
+
         break;
 
       case PropertyLink.userHeight:
@@ -467,18 +496,22 @@ class SetupInfoController extends GetxController {
           String text = currentHeight.toString();
           _passValueForFixedControlBaseOnLayoutType(type, [toggle, text]);
         }
+
+        primaryUnitSymbol = AppString.primaryHeightUnitSymbol;
+        secondaryUnitSymbol = AppString.secondaryHeightUnitSymbol;
+
         break;
 
       case PropertyLink.userHobby:
-        _passValueForFixedControlBaseOnLayoutType(type, hobby ?? []);
+        _passValueForFixedControlBaseOnLayoutType(type, hobbies ?? []);
         break;
 
       case PropertyLink.userLimit:
-        _passValueForFixedControlBaseOnLayoutType(type, limit ?? []);
+        _passValueForFixedControlBaseOnLayoutType(type, limits ?? []);
         break;
 
       case PropertyLink.userProteinSource:
-        _passValueForFixedControlBaseOnLayoutType(type, [proteinSource]);
+        _passValueForFixedControlBaseOnLayoutType(type, [proteinSources]);
         break;
 
       case PropertyLink.userSleepTime:
@@ -548,6 +581,8 @@ class SetupInfoController extends GetxController {
   }
 
   void goToPreviousQuestion() {
+    _clearValueOfFixedControlBaseOnLayoutType(getCurrentQuestion().layoutType);
+
     if (index > 0) {
       index--;
       _setupValueForNextFixedControl();
@@ -568,11 +603,11 @@ class SetupInfoController extends GetxController {
         goalWeight: goalWeight as num,
         weightUnit: weightUnit as WeightUnit,
         heightUnit: heightUnit as HeightUnit,
-        hobbies: hobby,
+        hobbies: hobbies,
         diet: diet as Diet,
-        badHabit: badHabit,
-        proteinSource: proteinSource as ProteinSource,
-        limits: limit,
+        badHabits: badHabits,
+        proteinSources: proteinSources as List<ProteinSource>,
+        limits: limits,
         sleepTime: sleepTime as SleepTime,
         dailyWater: dailyWater as DailyWater,
         mainGoal: mainGoal as MainGoal,
@@ -590,13 +625,13 @@ class SetupInfoController extends GetxController {
     String propertyToGet = getCurrentQuestion().propertyLink;
     switch (propertyToGet) {
       case PropertyLink.userLimit:
-        limit = [PhyscialLimitaion.none];
+        limits = [PhyscialLimitaion.none];
         break;
       case PropertyLink.userHobby:
-        hobby = [Hobby.none];
+        hobbies = [Hobby.none];
         break;
       case PropertyLink.userBadHabit:
-        badHabit = BadHabit.none;
+        badHabits = [BadHabit.none];
         break;
       default:
     }

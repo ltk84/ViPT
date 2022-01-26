@@ -44,3 +44,13 @@ class PropertyLink {
 
   static const none = '';
 }
+
+class AppString {
+  static const defaultDateTimeFormat = 'yyyy-MM-dd';
+  static const vnDatetimeFormat = 'dd/MM/yyyy';
+  static const enDateTimeFormat = 'MM/dd/yyyy';
+  static const primaryWeightUnitSymbol = 'kg';
+  static const secondaryWeightUnitSymbol = 'lbs';
+  static const primaryHeightUnitSymbol = 'cm';
+  static const secondaryHeightUnitSymbol = 'ft';
+}

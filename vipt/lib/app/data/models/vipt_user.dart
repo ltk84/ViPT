@@ -14,8 +14,8 @@ class ViPTUser extends BaseModel {
   HeightUnit heightUnit;
   List<Hobby>? hobbies;
   Diet diet;
-  BadHabit? badHabit;
-  ProteinSource proteinSource;
+  List<BadHabit>? badHabits;
+  List<ProteinSource> proteinSources;
   List<PhyscialLimitaion>? limits;
   SleepTime sleepTime;
   DailyWater dailyWater;
@@ -37,8 +37,8 @@ class ViPTUser extends BaseModel {
     required this.heightUnit,
     required this.hobbies,
     required this.diet,
-    required this.badHabit,
-    required this.proteinSource,
+    required this.badHabits,
+    required this.proteinSources,
     required this.limits,
     required this.sleepTime,
     required this.dailyWater,
@@ -63,8 +63,8 @@ class ViPTUser extends BaseModel {
       'heightUnit': heightUnit.toStr(),
       'hobbies': hobbies!.map((e) => e.toStr()).toList(),
       'diet': diet.toStr(),
-      'badHabit': badHabit?.toStr(),
-      'proteinSource': proteinSource.toStr(),
+      'badHabits': badHabits!.map((e) => e.toStr()).toList(),
+      'proteinSources': proteinSources.map((e) => e.toStr()).toList(),
       'limits': limits!.map((e) => e.toStr()).toList(),
       'sleepTime': sleepTime.toStr(),
       'dailyWater': dailyWater.toStr(),
@@ -79,6 +79,9 @@ class ViPTUser extends BaseModel {
   factory ViPTUser.fromMap(Map<String, dynamic> data) {
     Iterable hobbies = data['hobbies'];
     Iterable limits = data['limits'];
+    Iterable badHabits = data['badHabits'];
+    Iterable proteinSources = data['proteinSources'];
+
     return ViPTUser(
       id: data['id'],
       name: data['name'],
@@ -93,8 +96,12 @@ class ViPTUser extends BaseModel {
           ? [Hobby.none]
           : hobbies.map((x) => HobbyFormat.fromStr(x))),
       diet: DietFormat.fromStr(data['diet']),
-      badHabit: BadHabitFormat.fromStr(data['badHabit'] ?? 'none'),
-      proteinSource: ProteinSourceFormat.fromStr(data['proteinSource']),
+      badHabits: List<BadHabit>.from(badHabits.isEmpty
+          ? [BadHabit.none]
+          : badHabits.map((x) => BadHabitFormat.fromStr(x))),
+      proteinSources: List<ProteinSource>.from(proteinSources.isEmpty
+          ? [ProteinSource.none]
+          : proteinSources.map((x) => ProteinSourceFormat.fromStr(x))),
       limits: List<PhyscialLimitaion>.from(limits.isEmpty
           ? [PhyscialLimitaion.none]
           : limits.map((x) => PhyscialLimitationFormat.fromStr(x))),
