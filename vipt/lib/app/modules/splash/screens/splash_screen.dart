@@ -17,7 +17,7 @@ class SplashScreen extends StatelessWidget {
       alignment: Alignment.center,
       child: Image.asset(
         GIFAssetString.logoAnimation,
-        height: 50,
+        height: 80,
       ),
     );
   }

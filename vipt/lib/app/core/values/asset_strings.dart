@@ -8,7 +8,7 @@ class GIFAssetString {
   static const String introduction = '$_path/introduction.gif';
   static const String introduction_2 = '$_path/introduction_2.gif';
   static const String setupInfoIntro = '$_path/setup_info_intro.gif';
-  static const String logoAnimation = '$_path/setup_info_intro.gif';
+  static const String logoAnimation = '$_path/logo_animation.gif';
 }
 
 class SVGAssetString {
