@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
-import 'package:vipt/app/data/models/answer.dart';
 import 'package:vipt/app/enums/app_enums.dart';
 import 'package:vipt/app/modules/error/screens/error_screen.dart';
 import 'package:vipt/app/modules/setup_info/setup_info_controller.dart';
@@ -62,18 +60,14 @@ Widget _buildQuestion(context) {
         _buildNextQuestionButton(context, controller),
         controller.getCurrentQuestion().canBeSkipped == true
             ? _buildSkipButton(context, controller)
-            : Container(
-                color: Colors.transparent,
-                height: 46,
-                width: double.maxFinite,
-              ),
+            : Container(),
       ],
     ),
   );
 }
 
 Widget _buildQuestionLayout(context, QuestionLayoutType layoutType) {
-  return Expanded(
+  return Flexible(
     child: Container(
       //padding: const EdgeInsets.symmetric(horizontal: 40),
       child: GetBuilder<SetupInfoController>(
@@ -186,6 +180,7 @@ Widget _buildNextQuestionButton(
       onPressed: !controller.isAbleToGoNextQuestion()
           ? null
           : () {
+              FocusManager.instance.primaryFocus?.unfocus();
               controller.goToNextQuestion();
             },
       child: Text('Tiếp theo'.tr, style: Theme.of(context).textTheme.button),
@@ -200,6 +195,7 @@ Widget _buildSkipButton(context, SetupInfoController controller) {
     width: double.maxFinite,
     child: TextButton(
       onPressed: () {
+        FocusManager.instance.primaryFocus?.unfocus();
         controller.skipQuestion();
       },
       child: Text(

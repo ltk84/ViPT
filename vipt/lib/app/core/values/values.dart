@@ -19,34 +19,35 @@ class AppDecoration {
     focusedBorder: UnderlineInputBorder(
         borderSide: BorderSide(color: AppColor.textFieldUnderlineColor)),
   );
-  static InputDecoration fillInputDecoration = InputDecoration(
-    filled: true,
-    fillColor: AppColor.textFieldFill,
-    border: const OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(28),
-          bottomLeft: Radius.circular(28),
-          bottomRight: Radius.circular(28),
-        )),
-  );
-  static InputDecoration dateTimeFieldDecoration = InputDecoration(
-    filled: true,
-    suffixIcon: const Icon(
-      Icons.calendar_today_rounded,
-      size: 18,
-    ),
-    fillColor: AppColor.textFieldFill,
-    border: const OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(28),
-          bottomLeft: Radius.circular(28),
-          bottomRight: Radius.circular(10),
-        )),
-  );
+  // static InputDecoration fillInputDecoration = InputDecoration(
+  //   filled: true,
+  //   fillColor: AppColor.textFieldFill,
+  //   border: const OutlineInputBorder(
+  //       borderSide: BorderSide.none,
+  //       borderRadius: BorderRadius.only(
+  //         topLeft: Radius.circular(10),
+  //         topRight: Radius.circular(28),
+  //         bottomLeft: Radius.circular(28),
+  //         bottomRight: Radius.circular(28),
+  //       )),
+  // );
+  // static InputDecoration dateTimeFieldDecoration = InputDecoration(
+  //   filled: true,
+  //   suffixIcon: const Icon(
+  //     Icons.calendar_today_rounded,
+  //     size: 18,
+  //   ),
+  //   fillColor: AppColor.textFieldFill,
+  //   border: const OutlineInputBorder(
+  //     borderSide: BorderSide.none,
+  //     borderRadius: BorderRadius.only(
+  //       topLeft: Radius.circular(10),
+  //       topRight: Radius.circular(28),
+  //       bottomLeft: Radius.circular(28),
+  //       bottomRight: Radius.circular(10),
+  //     ),
+  //   ),
+  // );
 }
 
 class AppQuiz {

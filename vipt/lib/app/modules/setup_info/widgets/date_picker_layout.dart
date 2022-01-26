@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:vipt/app/core/values/values.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:vipt/app/core/values/colors.dart';
 
 class DatePickerLayout extends StatelessWidget {
   final TextEditingController textFieldController;
@@ -28,17 +29,36 @@ Widget _buildDatePickerField(
   return TextField(
     onTap: () async {
       var dateTime = await showDatePicker(
+          locale: const Locale("vi", "VI"),
           context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(2015, 8),
-          lastDate: DateTime(2101));
+          initialDate: DateTime(1999),
+          firstDate: DateTime(1970),
+          lastDate: DateTime(2022));
       handleChangeDateTime(dateTime ?? DateTime.now());
     },
     controller: controller,
     focusNode: AlwaysDisabledFocusNode(),
     style: Theme.of(context).textTheme.bodyText2,
     textAlign: TextAlign.center,
-    decoration: AppDecoration.dateTimeFieldDecoration,
+    decoration: InputDecoration(
+      filled: true,
+      suffixIcon: const Icon(
+        Icons.calendar_today_rounded,
+        size: 18,
+      ),
+      hintText: 'Chạm vào để chọn'.tr,
+      hintStyle: Theme.of(context).textTheme.subtitle2,
+      fillColor: AppColor.textFieldFill,
+      border: const OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(28),
+          bottomLeft: Radius.circular(28),
+          bottomRight: Radius.circular(10),
+        ),
+      ),
+    ),
   );
 }
 
