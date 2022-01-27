@@ -1,3 +1,5 @@
+import 'package:vipt/app/data/models/workout_category.dart';
+
 import 'app_enums.dart';
 
 extension GenderFormat on Gender {
@@ -104,4 +106,10 @@ extension ProteinSourceFormat on ProteinSource {
   String toStr() => toString().split('.').last;
   static ProteinSource fromStr(String string) =>
       ProteinSource.values.firstWhere((e) => e.toStr() == string);
+}
+
+extension CategoryTypeFormat on CategoryType {
+  String toStr() => toString().split('.').last;
+  static CategoryType fromStr(String string) =>
+      CategoryType.values.firstWhere((e) => e.toStr() == string);
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:vipt/app/data/models/base_model.dart';
 import 'package:vipt/app/data/models/workout_category.dart';
 import 'package:vipt/app/data/models/workout_equipment.dart';
@@ -28,6 +30,38 @@ class Workout extends BaseModel {
 
   @override
   Map<String, dynamic> toMap() {
-    throw UnimplementedError();
+    return {
+      'name': name,
+      'animationLink': animationLink,
+      'hints': hints,
+      'breathing': breathing,
+      'muscleFocusImageLink': muscleFocusImageLink,
+      'categories': categories.map((x) => x.toMap()).toList(),
+      'calo': calo,
+      'time': time,
+      'equipment': equipment.map((x) => x.toMap()).toList(),
+    };
   }
+
+  factory Workout.fromMap(Map<String, dynamic> map) {
+    return Workout(
+      id: map['id'] ?? '',
+      name: map['name'] ?? '',
+      animationLink: map['animationLink'] ?? '',
+      hints: map['hints'] ?? '',
+      breathing: map['breathing'] ?? '',
+      muscleFocusImageLink: map['muscleFocusImageLink'] ?? '',
+      categories: List<WorkoutCategory>.from(
+          map['categories']?.map((x) => WorkoutCategory.fromMap(x))),
+      calo: map['calo']?.toInt() ?? 0,
+      time: map['time']?.toInt() ?? 0,
+      equipment: List<WorkoutEquipment>.from(
+          map['equipment']?.map((x) => WorkoutEquipment.fromMap(x))),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Workout.fromJson(String source) =>
+      Workout.fromMap(json.decode(source));
 }
