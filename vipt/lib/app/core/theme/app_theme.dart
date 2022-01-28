@@ -69,11 +69,11 @@ class AppTheme {
         headline3: GoogleFonts.beVietnamPro(
           color: textColor,
           fontSize: 22,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
         ),
         headline4: GoogleFonts.beVietnamPro(
           color: textColor,
-          fontSize: 18,
+          fontSize: 20,
           fontWeight: FontWeight.w600,
         ),
         headline5: GoogleFonts.beVietnamPro(
