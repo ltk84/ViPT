@@ -30,4 +30,16 @@ class WorkoutProvider implements Firestoration<String, Workout> {
   Future<Workout> update(String id, Workout obj) {
     throw UnimplementedError();
   }
+
+  Future<List<Workout>> fetchAll() async {
+    QuerySnapshot<Map<String, dynamic>> raw =
+        await _firestore.collection(collectionPath).get();
+
+    List<Workout> list = [];
+    for (var element in raw.docs) {
+      list.add(Workout.fromMap(element.data()));
+    }
+
+    return list;
+  }
 }
