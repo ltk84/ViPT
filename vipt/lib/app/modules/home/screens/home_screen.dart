@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/home/home_controller.dart';
 import 'package:vipt/app/modules/workout/screens/library_screen.dart';
 
@@ -28,18 +29,19 @@ class HomeScreen extends StatelessWidget {
       hideNavigationBarWhenKeyboardShows:
           true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
       decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        colorBehindNavBar: Colors.white,
+        border: Border(
+          top: BorderSide(color: AppColor.textFieldUnderlineColor),
+        ),
       ),
       popAllScreensOnTapOfSelectedTab: true,
       popActionScreens: PopActionScreensType.all,
       itemAnimationProperties: const ItemAnimationProperties(
         duration: Duration(milliseconds: 200),
-        curve: Curves.ease,
+        curve: Curves.bounceInOut,
       ),
       screenTransitionAnimation: const ScreenTransitionAnimation(
         animateTabTransition: true,
-        curve: Curves.ease,
+        curve: Curves.bounceInOut,
         duration: Duration(milliseconds: 200),
       ),
       navBarStyle: NavBarStyle.style9, // 6 vs 9 phù hợp

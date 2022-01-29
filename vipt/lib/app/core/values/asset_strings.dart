@@ -16,6 +16,11 @@ class PNGAssetString {
   static const String tofu = '$_path/tofu.png';
   static const String yogurt = '$_path/yogurt.png';
   static const String cottageCheese = '$_path/cottage_cheese.png';
+  static const String workout_1 = '$_path/workout_1.png';
+  static const String workout_2 = '$_path/workout_2.png';
+  static const String fitness_1 = '$_path/fitness_1.png';
+  static const String nutrition_1 = '$_path/nutrition_1.png';
+  static const String nutrition_2 = '$_path/nutrition_2.png';
 }
 
 class GIFAssetString {

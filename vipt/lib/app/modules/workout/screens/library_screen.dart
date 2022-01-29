@@ -23,29 +23,41 @@ class LibraryScreen extends StatelessWidget {
       body: ListView(
         children: [
           CustomTile(
-            asset: PNGAssetString.office,
+            asset: PNGAssetString.workout_2,
             onPressed: () {},
             title: 'Bài tập',
             description: 'Tra cứu thông tin chi tiết của một bài tập cụ thể',
           ),
+          const Divider(
+            indent: 24,
+          ),
           CustomTile(
-            asset: PNGAssetString.walking,
+            asset: PNGAssetString.workout_1,
             onPressed: () {},
             title: 'Bộ luyện tập',
             description:
                 'Tra cứu các bộ sưu tập gồm nhiều bài tập để tập luyện',
           ),
+          const Divider(
+            indent: 24,
+          ),
           CustomTile(
-            asset: PNGAssetString.home,
+            asset: PNGAssetString.nutrition_1,
             onPressed: () {},
             title: 'Món ăn',
             description: 'Tra cứu thông tin chi tiết của một món ăn cụ thể',
           ),
+          const Divider(
+            indent: 24,
+          ),
           CustomTile(
-            asset: PNGAssetString.work,
+            asset: PNGAssetString.nutrition_2,
             onPressed: () {},
             title: 'Bộ dinh dưỡng',
             description: 'Tra cứu các bộ sưu tập gồm nhiều món ăn',
+          ),
+          const Divider(
+            indent: 24,
           ),
         ],
       ),
