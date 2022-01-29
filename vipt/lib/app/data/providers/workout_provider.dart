@@ -22,8 +22,8 @@ class WorkoutProvider implements Firestoration<String, Workout> {
 
   @override
   Future<Workout> fetch(String id) async {
-    final workOut = await _firestore.collection(collectionPath).doc(id).get();
-    return Workout.fromMap(workOut.data() ?? {});
+    final raw = await _firestore.collection(collectionPath).doc(id).get();
+    return Workout.fromMap(raw.data() ?? {});
   }
 
   @override
