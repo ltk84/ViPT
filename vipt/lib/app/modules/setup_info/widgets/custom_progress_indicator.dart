@@ -10,7 +10,7 @@ class CustomProgressIndicator extends StatelessWidget {
   final double circleIconSize;
   final double circleThickness;
 
-  CustomProgressIndicator({
+  const CustomProgressIndicator({
     Key? key,
     required this.moduleCount,
     required this.progress,
