@@ -35,10 +35,10 @@ class AuthenticationController extends GetxController {
       Get.offAllNamed(Routes.setupInfoIntro);
     } else {
       await DataService.instance.loadUserData();
-      await DataService.instance.loadWorkoutList();
+      await DataService.instance.loadWorkoutCategory();
+      await DataService.instance.loadWorkoutEquipment();
       Get.offAllNamed(Routes.home);
     }
-    // Get.offAllNamed(Routes.setupInfoIntro);
   }
 
   void _handleSignInFail(String message) {
