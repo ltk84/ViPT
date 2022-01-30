@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:vipt/app/modules/auth/authentication_binding.dart';
 import 'package:vipt/app/modules/auth/screens/authentication_screen.dart';
@@ -29,7 +28,7 @@ abstract class AppPages {
     GetPage(name: Routes.error, page: () => const ErrorScreen()),
     GetPage(
       name: Routes.setupInfoIntro,
-      page: () => SetupInfoIntroScreen(),
+      page: () => const SetupInfoIntroScreen(),
       binding: SetupInfoBinding(),
     ),
     GetPage(

@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:vipt/app/data/models/base_model.dart';
-import 'package:vipt/app/data/models/workout_category.dart';
-import 'package:vipt/app/data/models/workout_equipment.dart';
 
 class Workout extends BaseModel {
   final String name;

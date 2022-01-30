@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/modules/home/home_controller.dart';
@@ -9,30 +10,30 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home ne'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(
-              onPressed: () async {
-                var result = await _controller.fetchUserData();
-                print(result.toMap());
-              },
-              child: const Text('Fetch data'),
-            ),
-            TextButton(
-              onPressed: () async {
-                await _controller.signOut();
-              },
-              child: const Text('Sign out'),
-            ),
+    return CupertinoTabScaffold(
+        tabBuilder: (context, index) {
+          switch (index) {
+            case 0:
+              return CupertinoTabView(
+                builder: (_) => Container(),
+              );
+
+            case 1:
+              return CupertinoTabView(
+                builder: (_) => Container(),
+              );
+            default:
+              return Container();
+          }
+        },
+        tabBar: CupertinoTabBar(
+          currentIndex: _controller.tabIndex.value,
+          onTap: _controller.onChangeTab,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.ac_unit), label: 'Page 1'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.access_alarm_outlined), label: 'Page 2'),
           ],
-        ),
-      ),
-    );
+        ));
   }
 }
