@@ -7,8 +7,8 @@ class WorkoutCategory extends BaseModel {
   final String imageLink;
   final CategoryType categoryType;
 
-  WorkoutCategory({
-    required String id,
+  WorkoutCategory(
+    String? id, {
     required this.name,
     required this.imageLink,
     required this.categoryType,
@@ -17,7 +17,6 @@ class WorkoutCategory extends BaseModel {
   @override
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'name': name,
       'imageLink': imageLink,
       'categoryType': categoryType.toStr(),
@@ -25,8 +24,7 @@ class WorkoutCategory extends BaseModel {
   }
 
   factory WorkoutCategory.fromMap(Map<String, dynamic> data) {
-    return WorkoutCategory(
-        id: data['id'],
+    return WorkoutCategory(data['id'],
         name: data['name'],
         imageLink: data['imageLink'],
         categoryType: CategoryTypeFormat.fromStr(data['categoryType']));

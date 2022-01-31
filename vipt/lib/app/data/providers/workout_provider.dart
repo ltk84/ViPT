@@ -8,7 +8,10 @@ class WorkoutProvider implements Firestoration<String, Workout> {
 
   @override
   Future<Workout> add(Workout obj) async {
-    await _firestore.collection(collectionPath).doc(obj.id).set(obj.toMap());
+    await _firestore
+        .collection(collectionPath)
+        .add(obj.toMap())
+        .then((value) => obj.id = value.id);
     return obj;
   }
 

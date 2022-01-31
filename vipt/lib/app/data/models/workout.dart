@@ -13,8 +13,8 @@ class Workout extends BaseModel {
   final int time;
   final List<String> equipmentIDs;
 
-  Workout({
-    required String id,
+  Workout(
+    String? id, {
     required this.name,
     required this.animationLink,
     required this.hints,
@@ -43,7 +43,7 @@ class Workout extends BaseModel {
 
   factory Workout.fromMap(Map<String, dynamic> map) {
     return Workout(
-      id: map['id'] ?? '',
+      map['id'] ?? '',
       name: map['name'] ?? '',
       animationLink: map['animationLink'] ?? '',
       hints: map['hints'] ?? '',
