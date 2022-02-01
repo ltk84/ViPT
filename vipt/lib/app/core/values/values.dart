@@ -561,4 +561,6 @@ class AppValue {
   static const workoutCollectionPath = 'workout';
   static const workoutCategoryCollectionPath = 'workoutCategory';
   static const workoutEquipmentCollectionPath = 'workoutEquipment';
+  static const collectionOfWorkoutCollectionPath = 'workoutCollection';
+  static const userCollectionOfWorkoutCollectionPath = 'userWorkoutCollection';
 }

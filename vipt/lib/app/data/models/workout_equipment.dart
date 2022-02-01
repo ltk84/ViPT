@@ -15,6 +15,7 @@ class WorkoutEquipment extends BaseModel {
   @override
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'imageLink': imageLink,
     };

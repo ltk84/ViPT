@@ -17,6 +17,7 @@ class WorkoutCategory extends BaseModel {
   @override
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'imageLink': imageLink,
       'categoryType': categoryType.toStr(),
