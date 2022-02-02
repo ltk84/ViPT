@@ -49,4 +49,21 @@ class WorkoutCollectionProvider
         .then((value) => obj.id = value.id);
     return obj;
   }
+
+  Future<String> deleteDefaultCollection(String id) async {
+    await _firestore.collection(collectionPath).doc(id).delete();
+    return id;
+  }
+
+  Future<List<WorkoutCollection>> fetchAll() async {
+    QuerySnapshot<Map<String, dynamic>> raw =
+        await _firestore.collection(collectionPath).get();
+
+    List<WorkoutCollection> list = [];
+    for (var element in raw.docs) {
+      list.add(WorkoutCollection.fromMap(element.data()));
+    }
+
+    return list;
+  }
 }
