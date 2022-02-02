@@ -55,6 +55,20 @@ class WorkoutCollectionProvider
     return id;
   }
 
+  Future<WorkoutCollection> addWorkoutToCollection(
+      String workoutID, WorkoutCollection wc) async {
+    wc.workoutIDs.add(workoutID);
+    await update(wc.id ?? "", wc);
+    return wc;
+  }
+
+  Future<WorkoutCollection> deleteWorkoutFromCollection(
+      String workoutID, WorkoutCollection wc) async {
+    wc.workoutIDs.remove(workoutID);
+    update(wc.id ?? '', wc);
+    return wc;
+  }
+
   Future<List<WorkoutCollection>> fetchAll() async {
     QuerySnapshot<Map<String, dynamic>> raw =
         await _firestore.collection(collectionPath).get();
