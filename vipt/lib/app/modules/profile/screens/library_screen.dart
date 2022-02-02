@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
-import 'package:vipt/app/modules/workout/widgets/custom_tile.dart';
+import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
 
 class LibraryScreen extends StatelessWidget {
   const LibraryScreen({Key? key}) : super(key: key);
@@ -61,6 +62,17 @@ class LibraryScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class FakeScreen extends StatelessWidget {
+  const FakeScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text('fake'),
     );
   }
 }

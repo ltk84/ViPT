@@ -17,7 +17,7 @@ class CustomTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onPressed,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: LayoutBuilder(builder: (context, constraints) {

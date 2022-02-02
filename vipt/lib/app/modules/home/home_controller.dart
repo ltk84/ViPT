@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:vipt/app/data/models/vipt_user.dart';
 import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/data/services/auth_service.dart';
-import 'package:vipt/app/modules/splash/screens/splash_screen.dart';
-import 'package:vipt/app/modules/splash/splash_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class HomeController extends GetxController {
