@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
+import 'package:vipt/app/modules/workout/screens/category_list_screen.dart';
 import 'package:vipt/app/modules/workout/widgets/custom_tile.dart';
 
 class LibraryScreen extends StatelessWidget {
@@ -14,17 +16,36 @@ class LibraryScreen extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.5,
-        leading: null,
-        title: Text(
-          'Thư viện'.tr,
-          style: Theme.of(context).textTheme.headline3,
+        leading: IconButton(
+          icon: const Hero(
+            tag: 'leadingButtonAppBar',
+            child: Icon(Icons.arrow_back_ios_new_rounded),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop;
+          },
+        ),
+        title: Hero(
+          tag: 'titleAppBar',
+          child: Text(
+            'Thư viện'.tr,
+            style: Theme.of(context).textTheme.headline3,
+          ),
         ),
       ),
       body: ListView(
+        physics: const BouncingScrollPhysics(),
         children: [
           CustomTile(
             asset: PNGAssetString.workout_2,
-            onPressed: () {},
+            onPressed: () {
+              pushNewScreen(
+                context,
+                screen: CategoryListScreen(),
+                withNavBar: true, // OPTIONAL VALUE. True by default.
+                pageTransitionAnimation: PageTransitionAnimation.cupertino,
+              );
+            },
             title: 'Bài tập',
             description: 'Tra cứu thông tin chi tiết của một bài tập cụ thể',
           ),
