@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:vipt/app/modules/setup_info/setup_info_controller.dart';
 import 'package:path/path.dart' as p;
 
 class SingleChoiceCard extends StatelessWidget {

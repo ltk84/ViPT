@@ -8,7 +8,10 @@ class WorkoutProvider implements Firestoration<String, Workout> {
 
   @override
   Future<Workout> add(Workout obj) async {
-    await _firestore.collection(collectionPath).doc(obj.id).set(obj.toMap());
+    await _firestore
+        .collection(collectionPath)
+        .add(obj.toMap())
+        .then((value) => obj.id = value.id);
     return obj;
   }
 
@@ -22,12 +25,24 @@ class WorkoutProvider implements Firestoration<String, Workout> {
 
   @override
   Future<Workout> fetch(String id) async {
-    final workOut = await _firestore.collection(collectionPath).doc(id).get();
-    return Workout.fromMap(workOut.data() ?? {});
+    final raw = await _firestore.collection(collectionPath).doc(id).get();
+    return Workout.fromMap(raw.data() ?? {});
   }
 
   @override
   Future<Workout> update(String id, Workout obj) {
     throw UnimplementedError();
+  }
+
+  Future<List<Workout>> fetchAll() async {
+    QuerySnapshot<Map<String, dynamic>> raw =
+        await _firestore.collection(collectionPath).get();
+
+    List<Workout> list = [];
+    for (var element in raw.docs) {
+      list.add(Workout.fromMap(element.data()));
+    }
+
+    return list;
   }
 }

@@ -1,5 +1,3 @@
-import 'package:vipt/app/data/models/workout_category.dart';
-
 import 'app_enums.dart';
 
 extension GenderFormat on Gender {

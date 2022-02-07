@@ -6,8 +6,8 @@ class WorkoutEquipment extends BaseModel {
   final String name;
   final String imageLink;
 
-  WorkoutEquipment({
-    required String id,
+  WorkoutEquipment(
+    String? id, {
     required this.name,
     required this.imageLink,
   }) : super(id);
@@ -15,6 +15,7 @@ class WorkoutEquipment extends BaseModel {
   @override
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'imageLink': imageLink,
     };
@@ -22,7 +23,7 @@ class WorkoutEquipment extends BaseModel {
 
   factory WorkoutEquipment.fromMap(Map<String, dynamic> map) {
     return WorkoutEquipment(
-      id: map['id'] ?? '',
+      map['id'] ?? '',
       name: map['name'] ?? '',
       imageLink: map['imageLink'] ?? '',
     );

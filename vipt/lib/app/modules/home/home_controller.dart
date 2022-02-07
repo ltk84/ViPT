@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/data/models/vipt_user.dart';
 import 'package:vipt/app/data/providers/user_provider.dart';
@@ -5,9 +7,16 @@ import 'package:vipt/app/data/services/auth_service.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class HomeController extends GetxController {
-  @override
-  void onInit() {
-    super.onInit();
+  Rx<int> tabIndex = 0.obs;
+
+  final List<Widget> _tabList = [];
+
+  Widget getCurrentTab() {
+    return _tabList.elementAt(tabIndex.value);
+  }
+
+  void onChangeTab(int index) {
+    tabIndex.value = index;
   }
 
   Future<ViPTUser> fetchUserData() async {

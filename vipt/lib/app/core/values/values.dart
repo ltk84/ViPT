@@ -559,4 +559,8 @@ class AppQuiz {
 class AppValue {
   static const userCollectionPath = 'user';
   static const workoutCollectionPath = 'workout';
+  static const workoutCategoryCollectionPath = 'workoutCategory';
+  static const workoutEquipmentCollectionPath = 'workoutEquipment';
+  static const collectionOfWorkoutCollectionPath = 'workoutCollection';
+  static const userCollectionOfWorkoutCollectionPath = 'userWorkoutCollection';
 }
