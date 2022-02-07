@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
+import 'package:vipt/app/modules/profile/screens/exercise_detail_screen.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
 
 class ExerciseListScreen extends StatelessWidget {
@@ -35,17 +37,24 @@ class ExerciseListScreen extends StatelessWidget {
       body: ListView(
         physics: const BouncingScrollPhysics(
             parent: AlwaysScrollableScrollPhysics()),
-        children: _buildExerciseList(),
+        children: _buildExerciseList(context),
       ),
     );
   }
 
-  List<Widget> _buildExerciseList() {
+  List<Widget> _buildExerciseList(context) {
     return [
       CustomTile(
         level: 2,
         asset: SVGAssetString.gym,
-        onPressed: () {},
+        onPressed: () {
+          pushNewScreen(
+            context,
+            screen: ExerciseDetail(),
+            withNavBar: false, // OPTIONAL VALUE. True by default.
+            pageTransitionAnimation: PageTransitionAnimation.cupertino,
+          );
+        },
         title: 'Bài tập ABC',
       ),
       const Divider(
