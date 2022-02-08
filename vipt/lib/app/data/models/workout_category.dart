@@ -3,7 +3,7 @@ import 'package:vipt/app/data/models/base_model.dart';
 class WorkoutCategory extends BaseModel {
   final String name;
   final String asset;
-  final String parentCategoryID;
+  final String? parentCategoryID;
 
   WorkoutCategory(
     String? id, {
@@ -15,18 +15,17 @@ class WorkoutCategory extends BaseModel {
   @override
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'name': name,
-      'imageLink': asset,
+      'asset': asset,
       'parentCategoryID': parentCategoryID,
     };
   }
 
-  factory WorkoutCategory.fromMap(Map<String, dynamic> data) {
+  factory WorkoutCategory.fromMap(String id, Map<String, dynamic> data) {
     return WorkoutCategory(
-      data['id'],
+      id,
       name: data['name'],
-      asset: data['imageLink'],
+      asset: data['asset'],
       parentCategoryID: data['parentCategoryID'],
     );
   }

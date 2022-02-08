@@ -4,6 +4,9 @@ import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
+import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/data/models/workout_category.dart';
+import 'package:vipt/app/data/providers/workout_category_provider.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
 import 'package:vipt/app/modules/workout/screens/exercise_list_screen.dart';
 import 'package:vipt/app/modules/workout/workout_controller.dart';
@@ -39,12 +42,41 @@ class CategoryListScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(
-            parent: AlwaysScrollableScrollPhysics()),
-        children: _buildExerciseCategory(context),
-      ),
+      // body: ListView(
+      //   physics: const BouncingScrollPhysics(
+      //       parent: AlwaysScrollableScrollPhysics()),
+      //   children: _buildExerciseCategory(context),
+      // ),
+      body: ListView.separated(
+          itemBuilder: (_, index) {
+            final cate = _controller.workoutCategories[index];
+            return CustomTile(
+              level: 1,
+              asset: SVGAssetString.gym,
+              onPressed: () {
+                _navigateToSuitableScreen(cate);
+              },
+              title: cate.name,
+              description: '24 bài tập',
+            );
+          },
+          separatorBuilder: (_, index) {
+            return const Divider(
+              indent: 24,
+            );
+          },
+          itemCount: _controller.cateListAndNumWorkout.keys.length),
     );
+  }
+
+  void _navigateToSuitableScreen(WorkoutCategory cate) {
+    if (cate.parentCategoryID == null) {
+      _controller.loadChildCategoriesBaseOnParentCategory(cate.id ?? '');
+      Get.toNamed(Routes.workoutCategory);
+    } else {
+      _controller.loadChildCategoriesBaseOnParentCategory(cate.id ?? '');
+      Get.toNamed(Routes.exerciseList);
+    }
   }
 
   List<Widget> _buildExerciseCategory(context) {

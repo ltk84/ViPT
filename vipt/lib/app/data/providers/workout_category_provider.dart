@@ -8,8 +8,12 @@ class WorkoutCategoryProvider
   final _firestore = FirebaseFirestore.instance;
 
   @override
-  Future<WorkoutCategory> add(WorkoutCategory obj) {
-    throw UnimplementedError();
+  Future<WorkoutCategory> add(WorkoutCategory obj) async {
+    await _firestore
+        .collection(collectionPath)
+        .add(obj.toMap())
+        .then((value) => obj.id = value.id);
+    return obj;
   }
 
   @override
@@ -23,7 +27,7 @@ class WorkoutCategoryProvider
   @override
   Future<WorkoutCategory> fetch(String id) async {
     final raw = await _firestore.collection(collectionPath).doc(id).get();
-    return WorkoutCategory.fromMap(raw.data() ?? {});
+    return WorkoutCategory.fromMap(raw.id, raw.data() ?? {});
   }
 
   Future<List<WorkoutCategory>> fetchAll() async {
@@ -32,7 +36,7 @@ class WorkoutCategoryProvider
 
     List<WorkoutCategory> list = [];
     for (var element in raw.docs) {
-      list.add(WorkoutCategory.fromMap(element.data()));
+      list.add(WorkoutCategory.fromMap(element.id, element.data()));
     }
 
     return list;

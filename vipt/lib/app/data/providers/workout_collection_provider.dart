@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:vipt/app/core/values/values.dart';
-import 'package:vipt/app/data/models/workout_collection_model.dart';
+import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/providers/firestoration.dart';
 import 'package:vipt/app/data/services/auth_service.dart';
 

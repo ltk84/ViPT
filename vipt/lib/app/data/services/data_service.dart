@@ -10,16 +10,20 @@ import 'package:vipt/app/data/services/auth_service.dart';
 
 class DataService {
   DataService._privateConstructor();
+
   static final DataService instance = DataService._privateConstructor();
   static late ViPTUser currentUser;
-  static late List<Workout> workoutList;
-  static late List<WorkoutCategory> workoutCateList;
-  static late List<WorkoutEquipment> workoutEquipList;
+  static late List<Workout> _workoutList;
+  static late List<WorkoutCategory> _workoutCateList;
+  static List<WorkoutEquipment> workoutEquipList = [];
 
   final _userProvider = UserProvider();
   final _workoutProvider = WorkoutProvider();
   final _workoutCategoryProvider = WorkoutCategoryProvider();
   final _workoutEquipmentProvider = WorkoutEquipmentProvider();
+
+  List<Workout> get workoutList => [..._workoutList];
+  List<WorkoutCategory> get workoutCateList => [..._workoutCateList];
 
   Future<ViPTUser> createUser(ViPTUser user) async {
     currentUser = await _userProvider.add(user);
@@ -32,11 +36,11 @@ class DataService {
   }
 
   loadWorkoutList() async {
-    workoutList = await _workoutProvider.fetchAll();
+    _workoutList = await _workoutProvider.fetchAll();
   }
 
   loadWorkoutCategory() async {
-    workoutCateList = await _workoutCategoryProvider.fetchAll();
+    _workoutCateList = await _workoutCategoryProvider.fetchAll();
   }
 
   loadWorkoutEquipment() async {

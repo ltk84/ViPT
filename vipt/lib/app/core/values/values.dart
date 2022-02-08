@@ -4,6 +4,7 @@ import 'package:vipt/app/core/values/app_strings.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/data/models/answer.dart';
 import 'package:vipt/app/data/models/question.dart';
+import 'package:vipt/app/data/models/workout_category.dart';
 import 'package:vipt/app/enums/app_enums.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
@@ -556,10 +557,32 @@ class AppQuiz {
   };
 }
 
+class FakeData {
+  static List<WorkoutCategory> data = [
+    WorkoutCategory(null,
+        name: 'Abs & Core',
+        asset: 'asset',
+        parentCategoryID: 'ZONA7pDsUDBZK2MP7IdE'),
+    WorkoutCategory(null,
+        name: 'Upper body',
+        asset: 'asset',
+        parentCategoryID: 'ZONA7pDsUDBZK2MP7IdE'),
+    WorkoutCategory(null,
+        name: 'Lower body',
+        asset: 'asset',
+        parentCategoryID: 'ZONA7pDsUDBZK2MP7IdE'),
+    // WorkoutCategory(null,
+    //     name: 'Stretching', asset: 'asset', parentCategoryID: null),
+    // WorkoutCategory(null,
+    //     name: 'Fitness at home', asset: 'asset', parentCategoryID: null),
+    // WorkoutCategory(null, name: 'Gym', asset: 'asset', parentCategoryID: null),
+  ];
+}
+
 class AppValue {
   static const userCollectionPath = 'user';
   static const workoutCollectionPath = 'workout';
-  static const workoutCategoryCollectionPath = 'workoutCategory';
+  static const workoutCategoryCollectionPath = 'workoutCategories';
   static const workoutEquipmentCollectionPath = 'workoutEquipment';
   static const collectionOfWorkoutCollectionPath = 'workoutCollection';
   static const userCollectionOfWorkoutCollectionPath = 'userWorkoutCollection';
