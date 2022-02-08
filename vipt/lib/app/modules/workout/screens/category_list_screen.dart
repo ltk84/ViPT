@@ -7,6 +7,7 @@ import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/workout_category.dart';
 import 'package:vipt/app/data/providers/workout_category_provider.dart';
+import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
 import 'package:vipt/app/modules/workout/screens/exercise_list_screen.dart';
 import 'package:vipt/app/modules/workout/workout_controller.dart';
@@ -65,14 +66,15 @@ class CategoryListScreen extends StatelessWidget {
               indent: 24,
             );
           },
-          itemCount: _controller.cateListAndNumWorkout.keys.length),
+          itemCount: _controller.workoutCategories.length),
     );
   }
 
   void _navigateToSuitableScreen(WorkoutCategory cate) {
-    if (cate.parentCategoryID == null) {
+    if (cate.isRootCategory() &&
+        DataService.instance.checkIfWorkoutCategoryHasChild(cate)) {
       _controller.loadChildCategoriesBaseOnParentCategory(cate.id ?? '');
-      Get.toNamed(Routes.workoutCategory);
+      Get.toNamed(Routes.workoutCategory, preventDuplicates: false);
     } else {
       _controller.loadChildCategoriesBaseOnParentCategory(cate.id ?? '');
       Get.toNamed(Routes.exerciseList);

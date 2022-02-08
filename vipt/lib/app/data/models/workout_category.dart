@@ -29,4 +29,6 @@ class WorkoutCategory extends BaseModel {
       parentCategoryID: data['parentCategoryID'],
     );
   }
+
+  bool isRootCategory() => parentCategoryID == null;
 }

@@ -46,4 +46,12 @@ class DataService {
   loadWorkoutEquipment() async {
     workoutEquipList = await _workoutEquipmentProvider.fetchAll();
   }
+
+  bool checkIfWorkoutCategoryHasChild(WorkoutCategory cate) {
+    for (var item in workoutCateList) {
+      if (item.parentCategoryID == cate.id) return true;
+    }
+
+    return false;
+  }
 }

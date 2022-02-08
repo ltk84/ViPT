@@ -28,7 +28,7 @@ class WorkoutController extends GetxController {
     int num = 0;
     List<String> childCateID = [];
 
-    bool isRootCate = cate.parentCategoryID == null ? true : false;
+    bool isRootCate = cate.isRootCategory();
 
     if (isRootCate) {
       for (var cate in DataService.instance.workoutCateList) {
@@ -58,12 +58,12 @@ class WorkoutController extends GetxController {
   }
 
   void loadWorkoutListBaseOnCategory(String categoryID) {
-    // currentWorkoutList = DataService.workoutList
-    //     .where((workout) => workout.categoryIDs.contains(categoryID))
-    //     .toList();
+    currentWorkoutList = DataService.instance.workoutList
+        .where((workout) => workout.categoryIDs.contains(categoryID))
+        .toList();
   }
 
-  void loadCategoriesBaseOnParentCategory(String categoryID) {
+  void loadChildCategoriesBaseOnParentCategory(String categoryID) {
     workoutCategories = DataService.instance.workoutCateList
         .where((element) => element.parentCategoryID == categoryID)
         .toList();
