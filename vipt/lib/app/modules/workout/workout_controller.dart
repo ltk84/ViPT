@@ -9,10 +9,10 @@ class WorkoutController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    DataService.instance.loadWorkoutCategory();
-    DataService.instance.loadWorkoutList();
+    // DataService.instance.loadWorkoutCategory();
+    // DataService.instance.loadWorkoutList();
 
-    workoutCateList = DataService.workoutCateList;
+    // workoutCateList = DataService.workoutCateList;
   }
 
   void loadWorkoutListBaseOnCategory(String categoryID) {
