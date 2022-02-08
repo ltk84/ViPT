@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
-import 'package:vipt/app/modules/profile/screens/exercise_list_screen.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
+import 'package:vipt/app/modules/workout/screens/exercise_list_screen.dart';
 
 class CategoryListScreen extends StatelessWidget {
   const CategoryListScreen({Key? key}) : super(key: key);

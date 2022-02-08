@@ -3,11 +3,14 @@ import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
-import 'package:vipt/app/modules/profile/screens/category_list_screen.dart';
+import 'package:vipt/app/modules/profile/profile_controller.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
+import 'package:vipt/app/modules/workout/screens/category_list_screen.dart';
 
 class LibraryScreen extends StatelessWidget {
-  const LibraryScreen({Key? key}) : super(key: key);
+  LibraryScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {

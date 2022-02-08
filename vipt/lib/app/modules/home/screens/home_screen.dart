@@ -10,14 +10,12 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
   final _controller = Get.find<HomeController>();
-  final PersistentTabController _tabController =
-      PersistentTabController(initialIndex: 0);
 
   @override
   Widget build(BuildContext context) {
     return PersistentTabView(
       context,
-      controller: _tabController,
+      controller: _controller.tabController,
       screens: _buildScreens(),
       items: _navBarsItems(context),
       confineInSafeArea: true,
@@ -56,14 +54,14 @@ class HomeScreen extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () async {
-                var result = await _controller.fetchUserData();
-                print(result.toMap());
+                // var result = await _controller.fetchUserData();
+                // print(result.toMap());
               },
               child: const Text('Fetch data'),
             ),
             TextButton(
               onPressed: () async {
-                await _controller.signOut();
+                // await _controller.signOut();
               },
               child: const Text('Sign out'),
             ),

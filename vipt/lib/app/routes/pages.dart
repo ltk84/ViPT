@@ -38,10 +38,5 @@ abstract class AppPages {
       page: () => SetupInfoQuestionScreen(),
       binding: SetupInfoBinding(),
     ),
-    GetPage(
-        name: Routes.library,
-        page: () => LibraryScreen(),
-        binding: ProfileBinding()),
-    GetPage(name: '/fake', page: () => FakeScreen())
   ];
 }
