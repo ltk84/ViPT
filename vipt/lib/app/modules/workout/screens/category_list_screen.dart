@@ -1,13 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
 import 'package:vipt/app/modules/workout/screens/exercise_list_screen.dart';
+import 'package:vipt/app/modules/workout/workout_controller.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 class CategoryListScreen extends StatelessWidget {
-  const CategoryListScreen({Key? key}) : super(key: key);
+  CategoryListScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.find<WorkoutController>();
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +53,7 @@ class CategoryListScreen extends StatelessWidget {
         level: 1,
         asset: SVGAssetString.gym,
         onPressed: () {
-          pushNewScreen(
-            context,
-            screen: ExerciseListScreen(),
-            withNavBar: true, // OPTIONAL VALUE. True by default.
-            pageTransitionAnimation: PageTransitionAnimation.cupertino,
-          );
+          Get.toNamed(Routes.exerciseList);
         },
         title: 'Abs',
         description: '24 bài tập',

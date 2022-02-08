@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
 import 'package:vipt/app/modules/workout/screens/exercise_detail_screen.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 class ExerciseListScreen extends StatelessWidget {
   const ExerciseListScreen({Key? key}) : super(key: key);
@@ -48,12 +50,7 @@ class ExerciseListScreen extends StatelessWidget {
         level: 2,
         asset: SVGAssetString.gym,
         onPressed: () {
-          pushNewScreen(
-            context,
-            screen: ExerciseDetail(),
-            withNavBar: false, // OPTIONAL VALUE. True by default.
-            pageTransitionAnimation: PageTransitionAnimation.cupertino,
-          );
+          Get.toNamed(Routes.exerciseDetail);
         },
         title: 'Bài tập ABC',
       ),

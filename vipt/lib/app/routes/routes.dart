@@ -8,4 +8,7 @@ abstract class Routes {
   static const setupInfoIntro = '/setupInfoIntro';
   static const setupInfoQuestion = '/setupInfoQuestion';
   static const library = '/library';
+  static const workoutCategory = '/workoutCategory';
+  static const exerciseList = '/exerciseList';
+  static const exerciseDetail = '/exerciseDetail';
 }

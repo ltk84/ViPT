@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
-import 'package:vipt/app/modules/profile/profile_controller.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
-import 'package:vipt/app/modules/workout/screens/category_list_screen.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 class LibraryScreen extends StatelessWidget {
-  LibraryScreen({Key? key}) : super(key: key);
-
-  final _controller = Get.find<ProfileController>();
+  const LibraryScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +38,8 @@ class LibraryScreen extends StatelessWidget {
         children: [
           CustomTile(
             asset: PNGAssetString.workout_2,
-            onPressed: () {
-              pushNewScreen(
-                context,
-                screen: CategoryListScreen(),
-                withNavBar: true, // OPTIONAL VALUE. True by default.
-                pageTransitionAnimation: PageTransitionAnimation.cupertino,
-              );
+            onPressed: () async {
+              Get.toNamed(Routes.workoutCategory);
             },
             title: 'Bài tập',
             description: 'Tra cứu thông tin chi tiết của một bài tập cụ thể',
@@ -86,17 +77,6 @@ class LibraryScreen extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class FakeScreen extends StatelessWidget {
-  const FakeScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Text('fake'),
     );
   }
 }
