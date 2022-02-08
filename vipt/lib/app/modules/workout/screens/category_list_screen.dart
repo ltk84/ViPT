@@ -73,49 +73,4 @@ class CategoryListScreen extends StatelessWidget {
       ),
     ];
   }
-
-  List<Widget> _buildWorkoutCollectionCategory() {
-    return [
-      CustomTile(
-        level: 1,
-        asset: SVGAssetString.gym,
-        onPressed: () {},
-        title: 'Bộ luyện tập của bạn',
-        description: '24 bài tập',
-      ),
-      const Divider(
-        indent: 24,
-      ),
-      CustomTile(
-        level: 1,
-        asset: SVGAssetString.boxing,
-        onPressed: () {},
-        title: 'Cardio',
-        description: '32 bài tập',
-      ),
-      const Divider(
-        indent: 24,
-      ),
-      CustomTile(
-        level: 1,
-        asset: SVGAssetString.boxing,
-        onPressed: () {},
-        title: 'Stretching',
-        description: '32 bài tập',
-      ),
-      const Divider(
-        indent: 24,
-      ),
-      CustomTile(
-        level: 1,
-        asset: SVGAssetString.boxing,
-        onPressed: () {},
-        title: 'Fighting',
-        description: '32 bài tập',
-      ),
-      const Divider(
-        indent: 24,
-      ),
-    ];
-  }
 }

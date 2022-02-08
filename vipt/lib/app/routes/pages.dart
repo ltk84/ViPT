@@ -16,6 +16,10 @@ import 'package:vipt/app/modules/workout/screens/category_list_screen.dart';
 import 'package:vipt/app/modules/workout/screens/exercise_detail_screen.dart';
 import 'package:vipt/app/modules/workout/screens/exercise_list_screen.dart';
 import 'package:vipt/app/modules/workout/workout_binding.dart';
+import 'package:vipt/app/modules/workout_collection/screens/collection_detail_screen.dart';
+import 'package:vipt/app/modules/workout_collection/screens/workout_collection_category_list_screen.dart';
+import 'package:vipt/app/modules/workout_collection/screens/workout_collection_list_screen.dart';
+import 'package:vipt/app/modules/workout_collection/workout_collection_binding.dart';
 
 part 'routes.dart';
 
@@ -55,6 +59,19 @@ abstract class AppPages {
     GetPage(
       name: Routes.exerciseDetail,
       page: () => ExerciseDetail(),
+    ),
+    GetPage(
+      name: Routes.workoutCollectionCategory,
+      page: () => WorkoutCollectionCategoryListScreen(),
+      binding: WorkoutCollectionBinding(),
+    ),
+    GetPage(
+      name: Routes.workoutCollectionList,
+      page: () => WorkoutCollectionListScreen(),
+    ),
+    GetPage(
+      name: Routes.workoutCollectionDetail,
+      page: () => WorkoutCollectionDetailScreen(),
     ),
   ];
 }

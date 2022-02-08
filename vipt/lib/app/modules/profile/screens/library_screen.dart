@@ -49,7 +49,9 @@ class LibraryScreen extends StatelessWidget {
           ),
           CustomTile(
             asset: PNGAssetString.workout_1,
-            onPressed: () {},
+            onPressed: () {
+              Get.toNamed(Routes.workoutCollectionCategory);
+            },
             title: 'Bộ luyện tập',
             description:
                 'Tra cứu các bộ sưu tập gồm nhiều bài tập để tập luyện',
