@@ -4,25 +4,23 @@ import 'package:vipt/app/data/models/base_model.dart';
 
 class Workout extends BaseModel {
   final String name;
-  final String animationLink;
+  final String animation;
   final String hints;
   final String breathing;
-  final String muscleFocusImageLink;
+  final String muscleFocusAsset;
   final List<String> categoryIDs;
-  final int calo;
-  final int time;
+  final num metValue;
   final List<String> equipmentIDs;
 
   Workout(
     String? id, {
     required this.name,
-    required this.animationLink,
+    required this.animation,
     required this.hints,
     required this.breathing,
-    required this.muscleFocusImageLink,
+    required this.muscleFocusAsset,
     required this.categoryIDs,
-    required this.calo,
-    required this.time,
+    required this.metValue,
     required this.equipmentIDs,
   }) : super(id);
 
@@ -31,34 +29,32 @@ class Workout extends BaseModel {
     return {
       'id': id,
       'name': name,
-      'animationLink': animationLink,
+      'animation': animation,
       'hints': hints,
       'breathing': breathing,
-      'muscleFocusImageLink': muscleFocusImageLink,
+      'muscleFocusAsset': muscleFocusAsset,
       'categoryIDs': categoryIDs,
-      'calo': calo,
-      'time': time,
+      'metValue': metValue,
       'equipmentIDs': equipmentIDs,
     };
-  }
-
-  factory Workout.fromMap(Map<String, dynamic> map) {
-    return Workout(
-      map['id'] ?? '',
-      name: map['name'] ?? '',
-      animationLink: map['animationLink'] ?? '',
-      hints: map['hints'] ?? '',
-      breathing: map['breathing'] ?? '',
-      muscleFocusImageLink: map['muscleFocusImageLink'] ?? '',
-      categoryIDs: List<String>.from(map['categoryIDs']),
-      calo: map['calo']?.toInt() ?? 0,
-      time: map['time']?.toInt() ?? 0,
-      equipmentIDs: List<String>.from(map['equipmentIDs']),
-    );
   }
 
   String toJson() => json.encode(toMap());
 
   factory Workout.fromJson(String source) =>
       Workout.fromMap(json.decode(source));
+
+  factory Workout.fromMap(Map<String, dynamic> map) {
+    return Workout(
+      map['id'] ?? '',
+      name: map['name'] ?? '',
+      animation: map['animation'] ?? '',
+      hints: map['hints'] ?? '',
+      breathing: map['breathing'] ?? '',
+      muscleFocusAsset: map['muscleFocusAsset'] ?? '',
+      categoryIDs: List<String>.from(map['categoryIDs']),
+      metValue: map['metValue'] ?? 0,
+      equipmentIDs: List<String>.from(map['equipmentIDs']),
+    );
+  }
 }

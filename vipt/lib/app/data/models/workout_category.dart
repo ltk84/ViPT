@@ -1,17 +1,15 @@
 import 'package:vipt/app/data/models/base_model.dart';
-import 'package:vipt/app/enums/app_enums.dart';
-import 'package:vipt/app/enums/enum_serialize.dart';
 
 class WorkoutCategory extends BaseModel {
   final String name;
-  final String imageLink;
-  final CategoryType categoryType;
+  final String asset;
+  final String parentCategoryID;
 
   WorkoutCategory(
     String? id, {
     required this.name,
-    required this.imageLink,
-    required this.categoryType,
+    required this.asset,
+    required this.parentCategoryID,
   }) : super(id);
 
   @override
@@ -19,15 +17,17 @@ class WorkoutCategory extends BaseModel {
     return {
       'id': id,
       'name': name,
-      'imageLink': imageLink,
-      'categoryType': categoryType.toStr(),
+      'imageLink': asset,
+      'parentCategoryID': parentCategoryID,
     };
   }
 
   factory WorkoutCategory.fromMap(Map<String, dynamic> data) {
-    return WorkoutCategory(data['id'],
-        name: data['name'],
-        imageLink: data['imageLink'],
-        categoryType: CategoryTypeFormat.fromStr(data['categoryType']));
+    return WorkoutCategory(
+      data['id'],
+      name: data['name'],
+      asset: data['imageLink'],
+      parentCategoryID: data['parentCategoryID'],
+    );
   }
 }
