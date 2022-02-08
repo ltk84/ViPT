@@ -58,7 +58,8 @@ class CategoryListScreen extends StatelessWidget {
                 _navigateToSuitableScreen(cate);
               },
               title: cate.name,
-              description: '24 bài tập',
+              description:
+                  '${_controller.cateListAndNumWorkout[cate.id]} bài tập',
             );
           },
           separatorBuilder: (_, index) {

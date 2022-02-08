@@ -31,16 +31,16 @@ class WorkoutController extends GetxController {
     bool isRootCate = cate.isRootCategory();
 
     if (isRootCate) {
-      for (var cate in DataService.instance.workoutCateList) {
-        if (cate.parentCategoryID == cate.id) {
-          childCateID.add(cate.id ?? '');
+      for (var c in DataService.instance.workoutCateList) {
+        if (c.parentCategoryID == cate.id) {
+          childCateID.add(c.id ?? '');
         }
       }
 
       if (childCateID.isNotEmpty) {
-        for (var cate in childCateID) {
+        for (var child in childCateID) {
           for (var wk in DataService.instance.workoutList) {
-            num = num + (wk.categoryIDs.contains(cate) ? 1 : 0);
+            num = num + (wk.categoryIDs.contains(child) ? 1 : 0);
           }
         }
       } else {
