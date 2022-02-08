@@ -73,5 +73,9 @@ abstract class AppPages {
       name: Routes.workoutCollectionDetail,
       page: () => WorkoutCollectionDetailScreen(),
     ),
+    GetPage(
+      name: Routes.library,
+      page: () => LibraryScreen(),
+    ),
   ];
 }
