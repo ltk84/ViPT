@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
-import 'package:vipt/app/data/services/data_service.dart';
+import 'package:vipt/app/data/models/workout_category.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
 import 'package:vipt/app/modules/workout/workout_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
@@ -12,6 +12,7 @@ class ExerciseListScreen extends StatelessWidget {
   ExerciseListScreen({Key? key}) : super(key: key);
 
   final _controller = Get.find<WorkoutController>();
+  final WorkoutCategory cate = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class ExerciseListScreen extends StatelessWidget {
         title: Hero(
           tag: 'titleAppBar',
           child: Text(
-            'Tên danh mục'.tr,
+            cate.name,
             style: Theme.of(context).textTheme.headline3,
           ),
         ),

@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_category.dart';
 import 'package:vipt/app/data/services/data_service.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 class WorkoutController extends GetxController {
   late List<Workout> workouts;
@@ -65,15 +66,17 @@ class WorkoutController extends GetxController {
     return num;
   }
 
-  void loadWorkoutListBaseOnCategory(String categoryID) {
+  void loadWorkoutListBaseOnCategory(WorkoutCategory cate) {
     workouts = DataService.instance.workoutList
-        .where((workout) => workout.categoryIDs.contains(categoryID))
+        .where((workout) => workout.categoryIDs.contains(cate.id))
         .toList();
+    Get.toNamed(Routes.exerciseList, arguments: cate);
   }
 
   void loadChildCategoriesBaseOnParentCategory(String categoryID) {
     workoutCategories = DataService.instance.workoutCateList
         .where((element) => element.parentCategoryID == categoryID)
         .toList();
+    Get.toNamed(Routes.workoutCategory, preventDuplicates: false);
   }
 }
