@@ -39,19 +39,16 @@ class ExerciseListScreen extends StatelessWidget {
           ),
         ),
       ),
-      // body: ListView(
-      //   physics: const BouncingScrollPhysics(
-      //       parent: AlwaysScrollableScrollPhysics()),
-      //   children: _buildExerciseList(context),
-      // ),
       body: ListView.separated(
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
           itemBuilder: (_, index) {
             var workout = _controller.workouts[index];
             return CustomTile(
               level: 2,
               asset: SVGAssetString.gym,
               onPressed: () {
-                Get.toNamed(Routes.exerciseDetail);
+                Get.toNamed(Routes.exerciseDetail, arguments: workout);
               },
               title: workout.name,
             );

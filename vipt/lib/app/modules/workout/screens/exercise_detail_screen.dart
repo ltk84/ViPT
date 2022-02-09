@@ -2,15 +2,38 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:path/path.dart' as p;
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/data/models/workout.dart';
+import 'package:vipt/app/data/services/data_service.dart';
 
 class ExerciseDetail extends StatelessWidget {
-  const ExerciseDetail({Key? key}) : super(key: key);
+  ExerciseDetail({Key? key}) : super(key: key);
+
+  final Workout workout = Get.arguments;
+  String categories = '';
+
+  void getCategories() {
+    var list = workout.categoryIDs
+        .map((e) => DataService.instance.workoutCateList
+            .firstWhere((element) => element.id == e)
+            .name)
+        .toList();
+    for (int i = 0; i < list.length; i++) {
+      if (i == list.length - 1) {
+        categories += list[i];
+      } else {
+        categories += list[i] + ',' + ' ';
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    getCategories();
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Theme.of(context).backgroundColor,
@@ -46,7 +69,7 @@ class ExerciseDetail extends StatelessWidget {
               Container(
                 alignment: Alignment.center,
                 child: Text(
-                  'Tên bài tập',
+                  workout.name,
                   style: Theme.of(context).textTheme.headline2,
                 ),
               ),
@@ -54,7 +77,7 @@ class ExerciseDetail extends StatelessWidget {
                 alignment: Alignment.center,
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
-                  'Danh mục A, Danh mục B, Danh mục C',
+                  categories,
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
               ),
@@ -79,9 +102,7 @@ class ExerciseDetail extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline4,
                 ),
               ),
-              Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eros lorem, luctus at congue in, hendrerit sit amet lorem. Suspendisse dapibus orci et elementum luctus.',
-                  style: Theme.of(context).textTheme.bodyText1),
+              Text(workout.hints, style: Theme.of(context).textTheme.bodyText1),
               Container(
                 padding: const EdgeInsets.only(top: 24, bottom: 8),
                 child: Text(
@@ -89,7 +110,7 @@ class ExerciseDetail extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline4,
                 ),
               ),
-              Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+              Text(workout.breathing,
                   style: Theme.of(context).textTheme.bodyText1),
               Container(
                 padding: const EdgeInsets.only(top: 24, bottom: 8),

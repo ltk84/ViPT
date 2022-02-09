@@ -8,6 +8,7 @@ class WorkoutController extends GetxController {
   late List<Workout> workouts;
   late List<WorkoutCategory> workoutCategories;
   Map<String, int> cateListAndNumWorkout = {};
+
   @override
   void onInit() async {
     super.onInit();
