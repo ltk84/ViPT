@@ -7,6 +7,7 @@ import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/workout_category.dart';
 import 'package:vipt/app/data/providers/workout_category_provider.dart';
+import 'package:vipt/app/data/providers/workout_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
 import 'package:vipt/app/modules/workout/screens/exercise_list_screen.dart';
@@ -43,12 +44,9 @@ class CategoryListScreen extends StatelessWidget {
           ),
         ),
       ),
-      // body: ListView(
-      //   physics: const BouncingScrollPhysics(
-      //       parent: AlwaysScrollableScrollPhysics()),
-      //   children: _buildExerciseCategory(context),
-      // ),
       body: ListView.separated(
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
           itemBuilder: (_, index) {
             final cate = _controller.workoutCategories[index];
             return CustomTile(
@@ -77,36 +75,9 @@ class CategoryListScreen extends StatelessWidget {
       _controller.loadChildCategoriesBaseOnParentCategory(cate.id ?? '');
       Get.toNamed(Routes.workoutCategory, preventDuplicates: false);
     } else {
-      _controller.loadChildCategoriesBaseOnParentCategory(cate.id ?? '');
+      _controller.loadWorkoutListBaseOnCategory(cate.id ?? '');
       Get.toNamed(Routes.exerciseList);
     }
-  }
-
-  List<Widget> _buildExerciseCategory(context) {
-    return [
-      CustomTile(
-        level: 1,
-        asset: SVGAssetString.gym,
-        onPressed: () {
-          Get.toNamed(Routes.exerciseList);
-        },
-        title: 'Abs',
-        description: '24 bài tập',
-      ),
-      const Divider(
-        indent: 24,
-      ),
-      CustomTile(
-        level: 1,
-        asset: SVGAssetString.boxing,
-        onPressed: () {},
-        title: 'Legs',
-        description: '32 bài tập',
-      ),
-      const Divider(
-        indent: 24,
-      ),
-    ];
   }
 
   List<Widget> _buildWorkoutCollectionCategory() {

@@ -1,20 +1,28 @@
 import 'package:get/get.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_category.dart';
-import 'package:vipt/app/data/providers/workout_category_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 
 class WorkoutController extends GetxController {
-  late List<Workout> currentWorkoutList;
+  late List<Workout> workouts;
   late List<WorkoutCategory> workoutCategories;
   Map<String, int> cateListAndNumWorkout = {};
   @override
   void onInit() async {
     super.onInit();
+    initWorkoutCategories();
+    initWorkoutList();
+    initCateListAndNumWorkout();
+  }
+
+  void initWorkoutList() {
+    workouts = [];
+  }
+
+  void initWorkoutCategories() {
     workoutCategories = DataService.instance.workoutCateList
         .where((element) => element.parentCategoryID == null)
         .toList();
-    initCateListAndNumWorkout();
   }
 
   void initCateListAndNumWorkout() async {
@@ -58,7 +66,7 @@ class WorkoutController extends GetxController {
   }
 
   void loadWorkoutListBaseOnCategory(String categoryID) {
-    currentWorkoutList = DataService.instance.workoutList
+    workouts = DataService.instance.workoutList
         .where((workout) => workout.categoryIDs.contains(categoryID))
         .toList();
   }

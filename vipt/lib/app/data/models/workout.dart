@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:vipt/app/data/models/base_model.dart';
 
 class Workout extends BaseModel {
@@ -27,7 +25,6 @@ class Workout extends BaseModel {
   @override
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'name': name,
       'animation': animation,
       'hints': hints,
@@ -39,14 +36,9 @@ class Workout extends BaseModel {
     };
   }
 
-  String toJson() => json.encode(toMap());
-
-  factory Workout.fromJson(String source) =>
-      Workout.fromMap(json.decode(source));
-
-  factory Workout.fromMap(Map<String, dynamic> map) {
+  factory Workout.fromMap(String id, Map<String, dynamic> map) {
     return Workout(
-      map['id'] ?? '',
+      id,
       name: map['name'] ?? '',
       animation: map['animation'] ?? '',
       hints: map['hints'] ?? '',
