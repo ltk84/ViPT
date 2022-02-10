@@ -57,7 +57,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              _buildRoundProperty(context),
+              _buildRoundProperty(context, constraints.maxHeight),
               const SizedBox(
                 height: 12,
               ),
@@ -69,19 +69,19 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
               const SizedBox(
                 height: 12,
               ),
-              _buildExerciseTimeProperty(context),
+              _buildExerciseTimeProperty(context, constraints.maxHeight),
               const SizedBox(
                 height: 12,
               ),
-              _buildTransitionTimeProperty(context),
+              _buildTransitionTimeProperty(context, constraints.maxHeight),
               const SizedBox(
                 height: 12,
               ),
-              _buildRestTimeProperty(context),
+              _buildRestTimeProperty(context, constraints.maxHeight),
               const SizedBox(
                 height: 12,
               ),
-              _buildRestFrequencyProperty(context),
+              _buildRestFrequencyProperty(context, constraints.maxHeight),
               const SizedBox(
                 height: 24,
               ),
@@ -159,9 +159,22 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRoundProperty(context) {
+  Widget _buildRoundProperty(context, maxHeight) {
     return ListTile(
-      onTap: () {},
+      onTap: () {
+        _showSelection(context, maxHeight: maxHeight,
+            itemBuilder: (context, index) {
+          if (index > 0) {
+            return Container(
+              alignment: Alignment.center,
+              child: Text(
+                index.toString(),
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            );
+          }
+        });
+      },
       tileColor: AppColor.listTileButtonColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
@@ -236,9 +249,22 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildExerciseTimeProperty(context) {
+  Widget _buildExerciseTimeProperty(context, maxHeight) {
     return ListTile(
-      onTap: () {},
+      onTap: () {
+        _showSelection(context, maxHeight: maxHeight,
+            itemBuilder: (context, index) {
+          if (index > 0) {
+            return Container(
+              alignment: Alignment.center,
+              child: Text(
+                '$index giây',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            );
+          }
+        });
+      },
       tileColor: AppColor.listTileButtonColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
@@ -263,9 +289,22 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTransitionTimeProperty(context) {
+  Widget _buildTransitionTimeProperty(context, maxHeight) {
     return ListTile(
-      onTap: () {},
+      onTap: () {
+        _showSelection(context, maxHeight: maxHeight,
+            itemBuilder: (context, index) {
+          if (index > 0) {
+            return Container(
+              alignment: Alignment.center,
+              child: Text(
+                '$index giây',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            );
+          }
+        });
+      },
       tileColor: AppColor.listTileButtonColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
@@ -290,9 +329,22 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRestTimeProperty(context) {
+  Widget _buildRestTimeProperty(context, maxHeight) {
     return ListTile(
-      onTap: () {},
+      onTap: () {
+        _showSelection(context, maxHeight: maxHeight,
+            itemBuilder: (context, index) {
+          if (index > 0) {
+            return Container(
+              alignment: Alignment.center,
+              child: Text(
+                '$index giây',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            );
+          }
+        });
+      },
       tileColor: AppColor.listTileButtonColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
@@ -317,9 +369,23 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRestFrequencyProperty(context) {
+// check check!!
+  Widget _buildRestFrequencyProperty(context, maxHeight) {
     return ListTile(
-      onTap: () {},
+      onTap: () {
+        _showSelection(context, maxHeight: maxHeight,
+            itemBuilder: (context, index) {
+          if (index > 0) {
+            return Container(
+              alignment: Alignment.center,
+              child: Text(
+                'sau $index bài', // chỗ này có phải check thêm điều kiện count danh sách bài tập trong collection?
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            );
+          }
+        });
+      },
       tileColor: AppColor.listTileButtonColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
@@ -378,6 +444,26 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
           onPressed: () {},
         ),
       ],
+    );
+  }
+
+  _showSelection(context,
+      {required double maxHeight,
+      required Widget? Function(BuildContext, int) itemBuilder}) {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: maxHeight * 0.32,
+          child: CupertinoPicker.builder(
+            onSelectedItemChanged: (int value) {},
+            backgroundColor: Colors.white,
+            itemExtent: 48,
+            scrollController: FixedExtentScrollController(initialItem: 1),
+            itemBuilder: itemBuilder,
+          ),
+        );
+      },
     );
   }
 }
