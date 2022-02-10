@@ -2,16 +2,15 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
-import 'package:vipt/app/routes/pages.dart';
+import 'package:vipt/app/modules/workout_collection/widgets/text_field_widget.dart';
 
-class WorkoutCollectionDetailScreen extends StatelessWidget {
-  const WorkoutCollectionDetailScreen({Key? key}) : super(key: key);
+class EditWorkoutCollectionScreen extends StatelessWidget {
+  const EditWorkoutCollectionScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,29 +41,14 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         actions: [
           IconButton(
             color: Theme.of(context).backgroundColor,
-            icon: Hero(
-              tag: 'actionButtonAppBar_2',
+            icon: const Hero(
+              tag: 'actionButtonAppBar',
               child: Icon(
-                Icons.delete_rounded,
-                color: AppColor.textColor,
+                Icons.check_rounded,
+                color: AppColor.secondaryColor,
               ),
             ),
             onPressed: () {},
-          ),
-
-          // này phải check thêm xem collection này là custom hay default.
-          IconButton(
-            color: Theme.of(context).backgroundColor,
-            icon: Hero(
-              tag: 'actionButtonAppBar',
-              child: Icon(
-                Icons.settings_rounded,
-                color: AppColor.textColor,
-              ),
-            ),
-            onPressed: () {
-              Get.toNamed(Routes.editWorkoutCollection);
-            },
           ),
         ],
       ),
@@ -76,10 +60,6 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
                 parent: AlwaysScrollableScrollPhysics()),
             children: [
               _buildIntro(context),
-              const SizedBox(
-                height: 8,
-              ),
-              _buildIndicatorDisplay(context),
               const SizedBox(
                 height: 16,
               ),
@@ -124,62 +104,19 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
       children: [
         Container(
           alignment: Alignment.center,
-          child: Text(
-            'Tên bộ luyện tập'.tr,
-            style: Theme.of(context).textTheme.headline2,
+          child: TextFieldWidget(
+            hint: 'Nhập tên bộ luyện tập',
+            textStyle: Theme.of(context).textTheme.headline2,
           ),
         ),
         Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Text(
-            'Mô tả mô tả mô tả mô tả mô tả mô tả'.tr,
-            style: Theme.of(context).textTheme.subtitle2,
+          child: TextFieldWidget(
+            hint: 'Nhập mô tả',
+            textStyle: Theme.of(context).textTheme.subtitle2,
+            underline: false,
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildIndicatorDisplay(context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          Icons.access_time_filled_rounded,
-          color: AppColor.textColor,
-          size: 28,
-        ),
-        const SizedBox(
-          width: 8,
-        ),
-        Text(
-          '10 phút'.tr,
-          style: Theme.of(context).textTheme.headline6,
-        ),
-        const SizedBox(
-          width: 8,
-        ),
-        SizedBox(
-          height: 28,
-          child: VerticalDivider(
-            color: AppColor.textColor,
-          ),
-        ),
-        const SizedBox(
-          width: 8,
-        ),
-        Icon(
-          CupertinoIcons.flame_fill,
-          color: AppColor.textColor,
-          size: 28,
-        ),
-        const SizedBox(
-          width: 8,
-        ),
-        Text(
-          '100 calo'.tr,
-          style: Theme.of(context).textTheme.headline6,
         ),
       ],
     );
@@ -445,10 +382,60 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         const SizedBox(
           height: 4,
         ),
+        ListTile(
+          onTap: () {},
+          horizontalTitleGap: 5,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(5),
+            ),
+          ),
+          leading: Icon(
+            Icons.add,
+            color: AppColor.textColor.withOpacity(AppColor.subTextOpacity),
+          ),
+          title: Text(
+            'Thêm bài tập'.tr,
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  color:
+                      AppColor.textColor.withOpacity(AppColor.subTextOpacity),
+                ),
+          ),
+        ),
+        Divider(
+          color: AppColor.textFieldUnderlineColor,
+          height: 0,
+        ),
+        ListTile(
+          onTap: () {},
+          horizontalTitleGap: 5,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(5),
+            ),
+          ),
+          leading: Icon(
+            Icons.delete_sweep_rounded,
+            color: AppColor.textColor.withOpacity(AppColor.subTextOpacity),
+          ),
+          title: Text(
+            'Xóa hết'.tr,
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  color:
+                      AppColor.textColor.withOpacity(AppColor.subTextOpacity),
+                ),
+          ),
+        ),
+        Divider(
+          color: AppColor.textFieldUnderlineColor,
+          height: 0,
+        ),
+        const SizedBox(
+          height: 4,
+        ),
         ExerciseInCollectionTile(
           asset: SVGAssetString.boxing,
           title: 'Đánh lộn nè',
-          description: '10 giây',
           onPressed: () {},
         ),
         const SizedBox(
@@ -457,7 +444,6 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         ExerciseInCollectionTile(
           asset: SVGAssetString.boxing,
           title: 'Đánh lộn nè 2',
-          description: '10 giây',
           onPressed: () {},
         ),
         const SizedBox(
@@ -466,7 +452,6 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         ExerciseInCollectionTile(
           asset: SVGAssetString.boxing,
           title: 'Đánh lộn nè 3',
-          description: '10 giây',
           onPressed: () {},
         ),
       ],

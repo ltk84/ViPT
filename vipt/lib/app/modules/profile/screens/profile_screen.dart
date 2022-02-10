@@ -27,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
                       icon: const Hero(
                         tag: 'actionButtonAppBar',
                         child: Icon(
-                          Icons.settings,
+                          Icons.settings_rounded,
                         ),
                       ),
                       onPressed: () {

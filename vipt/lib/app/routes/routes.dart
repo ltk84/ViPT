@@ -16,4 +16,5 @@ abstract class Routes {
   static const myWorkoutCollectionList = '/myWorkoutCollectionList';
   static const workoutCollectionDetail = '/workoutCollectionDetail';
   static const addWorkoutCollection = '/addWorkoutCollection';
+  static const editWorkoutCollection = '/editWorkoutCollection';
 }
