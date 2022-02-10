@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 class AppColor {
   AppColor._();
   static const Color primaryColor = Colors.red;
-  static const Color secondaryColor = Color(0xff36f468);
+  static const Color secondaryColor = Color(0xff00C734);
   static const Color lightModeBackgroundColor = Colors.white;
   static const Color lightModeTextColor = Color(0xFF1B1B1B);
   static const Color darkModeBackgroundColor = Color(0xFF1B1B1B);

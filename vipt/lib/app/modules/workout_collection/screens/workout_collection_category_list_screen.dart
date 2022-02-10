@@ -46,7 +46,9 @@ class WorkoutCollectionCategoryListScreen extends StatelessWidget {
       CustomTile(
         level: 1,
         asset: SVGAssetString.gym,
-        onPressed: () {},
+        onPressed: () {
+          Get.toNamed(Routes.myWorkoutCollectionList);
+        },
         title: 'Bộ luyện tập của bạn',
         description: '24 bài tập',
       ),
