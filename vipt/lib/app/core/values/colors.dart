@@ -25,6 +25,9 @@ class AppColor {
   static const Color lightModeTextFieldUnderlineColor = Color(0xffe4e4e4);
   static const Color darkModeTextFieldUnderlineColor =
       Color(0xffe4e4e4); // Chưa implement
+  static const Color lightModeListTileButtonColor = Color(0xFFf8f8f8);
+  static const Color darkModeListTileButtonColor =
+      Color(0xfff8f8f8); // Chưa implement
 
   // Extra Color field (static)
   static const Color googleButtonBackgroundColor = Colors.white;
@@ -44,6 +47,9 @@ class AppColor {
   static Color get textFieldUnderlineColor => (Get.isDarkMode)
       ? darkModeTextFieldUnderlineColor
       : lightModeTextFieldUnderlineColor;
+  static Color get listTileButtonColor => (Get.isDarkMode)
+      ? darkModeListTileButtonColor
+      : lightModeListTileButtonColor;
   //
   // static Color get disabledTextColor => (Get.isDarkMode) ? darkTextColor.withOpacity(disabledTextOpacity) : lightTextColor.withOpacity(disabledTextOpacity);
   //
