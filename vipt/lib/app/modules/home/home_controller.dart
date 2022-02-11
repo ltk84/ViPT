@@ -15,6 +15,7 @@ class HomeController extends GetxController {
     _initControllerForTabs();
     await DataService.instance.loadWorkoutCategory();
     await DataService.instance.loadWorkoutList();
+    await DataService.instance.initCateListAndNumWorkout();
 
     super.onInit();
   }

@@ -5,7 +5,7 @@ import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/data/models/answer.dart';
 import 'package:vipt/app/data/models/question.dart';
 import 'package:vipt/app/data/models/workout.dart';
-import 'package:vipt/app/data/models/workout_category.dart';
+import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/enums/app_enums.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
@@ -560,19 +560,22 @@ class AppQuiz {
 }
 
 class FakeData {
-  static List<WorkoutCollection> data = [
-    WorkoutCollection(null,
-        title: 'title',
-        workoutIDs: [],
-        time: 10,
-        calo: 10,
-        round: 10,
-        isStartWithWarmUp: true,
-        isShuffle: true,
-        exerciseTime: 10,
-        transitionTime: 10,
-        restTime: 10,
-        restFrequency: 10),
+  static List<Category> data = [
+    // Category(null, name: 'Cardio', asset: 'asset', parentCategoryID: null),
+    // Category(null, name: 'Stretching', asset: 'asset', parentCategoryID: null),
+    // Category(null, name: 'Fighting', asset: 'asset', parentCategoryID: null),
+    // Category(null,
+    //     name: 'Cardio1',
+    //     asset: 'asset',
+    //     parentCategoryID: 'aKwc2BKwRTxjmhAkZOae'),
+    // Category(null,
+    //     name: 'Fighting1',
+    //     asset: 'asset',
+    //     parentCategoryID: 'XsMPhZzwUiMpbQP2Yuuo'),
+    // Category(null,
+    //     name: 'Stretching1',
+    //     asset: 'asset',
+    //     parentCategoryID: 'J4yR8z3kV4NJN2dS4CMb'),
   ];
 }
 
@@ -580,8 +583,10 @@ class AppValue {
   static const userCollectionPath = 'user';
   static const workoutCollectionPath = 'workout';
   static const workoutCategoryCollectionPath = 'workoutCategories';
+  static const workoutCollectionCategoryCollectionPath =
+      'workoutCollectionCategories';
   static const workoutEquipmentCollectionPath = 'workoutEquipment';
   static const collectionOfWorkoutCollectionPath = 'workoutCollection';
   static const userCollectionOfWorkoutCollectionPath = 'userWorkoutCollection';
-  static const workoutStorageCollectionPath = 'workouts';
+  static const workoutStorageCollectionPath = 'workout';
 }

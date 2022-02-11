@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:vipt/app/data/models/workout.dart';
-import 'package:vipt/app/data/models/workout_category.dart';
+import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/routes/pages.dart';
 
@@ -27,44 +27,8 @@ class WorkoutController extends GetxController {
         .toList();
   }
 
-  void initCateListAndNumWorkout() async {
-    for (var item in DataService.instance.workoutCateList) {
-      String cateID = item.id as String;
-      cateListAndNumWorkout[cateID] = countNumberOfWorkoutBaseOnCateID(item);
-    }
-  }
-
-  int countNumberOfWorkoutBaseOnCateID(Category cate) {
-    int num = 0;
-    List<String> childCateID = [];
-
-    bool isRootCate = cate.isRootCategory();
-
-    if (isRootCate) {
-      for (var c in DataService.instance.workoutCateList) {
-        if (c.parentCategoryID == cate.id) {
-          childCateID.add(c.id ?? '');
-        }
-      }
-
-      if (childCateID.isNotEmpty) {
-        for (var child in childCateID) {
-          for (var wk in DataService.instance.workoutList) {
-            num = num + (wk.categoryIDs.contains(child) ? 1 : 0);
-          }
-        }
-      } else {
-        for (var wk in DataService.instance.workoutList) {
-          num = num + (wk.categoryIDs.contains(cate.id) ? 1 : 0);
-        }
-      }
-    } else {
-      for (var wk in DataService.instance.workoutList) {
-        num = num + (wk.categoryIDs.contains(cate.id) ? 1 : 0);
-      }
-    }
-
-    return num;
+  void initCateListAndNumWorkout() {
+    cateListAndNumWorkout = DataService.instance.cateListAndNumWorkout;
   }
 
   void loadWorkoutListBaseOnCategory(Category cate) {

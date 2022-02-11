@@ -3,7 +3,8 @@ import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/providers/firestoration.dart';
 
-class WorkoutCategoryProvider implements Firestoration<String, Category> {
+class WorkoutCollectionCategoryProvider
+    implements Firestoration<String, Category> {
   final _firestore = FirebaseFirestore.instance;
 
   @override
@@ -16,7 +17,7 @@ class WorkoutCategoryProvider implements Firestoration<String, Category> {
   }
 
   @override
-  String get collectionPath => AppValue.workoutCategoryCollectionPath;
+  String get collectionPath => AppValue.workoutCollectionCategoryCollectionPath;
 
   @override
   Future<String> delete(String id) {
