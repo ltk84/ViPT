@@ -4,18 +4,54 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as p;
+import 'package:video_player/video_player.dart';
+import 'package:vipt/app/core/values/app_strings.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
+import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/workout.dart';
+import 'package:vipt/app/data/services/cloud_storage_service.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 
-class ExerciseDetail extends StatelessWidget {
+class ExerciseDetail extends StatefulWidget {
   ExerciseDetail({Key? key}) : super(key: key);
 
+  @override
+  State<ExerciseDetail> createState() => _ExerciseDetailState();
+}
+
+class _ExerciseDetailState extends State<ExerciseDetail> {
   final Workout workout = Get.arguments;
   String categories = '';
+  VideoPlayerController? _controller;
+  String link = '';
 
-  void getCategories() {
+  @override
+  void initState() {
+    _getCategories();
+    initVideoController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller!.dispose();
+    super.dispose();
+  }
+
+  void initVideoController() async {
+    var link = await _getAnimationLink(workout.name);
+    _controller = VideoPlayerController.network(link)
+      ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        setState(() {
+          _controller!.setLooping(true);
+          _controller!.play();
+        });
+      });
+  }
+
+  void _getCategories() {
     var list = workout.categoryIDs
         .map((e) => DataService.instance.workoutCateList
             .firstWhere((element) => element.id == e)
@@ -30,10 +66,16 @@ class ExerciseDetail extends StatelessWidget {
     }
   }
 
+  Future<String> _getAnimationLink(String name) async {
+    return await CloudStorageService.instance.storage
+        .ref()
+        .child(AppValue.workoutStorageCollectionPath)
+        .child(name + '.${AppString.videoFormat}')
+        .getDownloadURL();
+  }
+
   @override
   Widget build(BuildContext context) {
-    getCategories();
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Theme.of(context).backgroundColor,
@@ -89,7 +131,7 @@ class ExerciseDetail extends StatelessWidget {
                     maxWidth: constraints.maxWidth,
                     maxHeight: constraints.maxHeight * 0.3,
                   ),
-                  child: _buildAsset(PNGAssetString.fitness_1),
+                  child: _buildMediaPlayer(),
                 ),
               ),
               Container(
@@ -146,6 +188,15 @@ class ExerciseDetail extends StatelessWidget {
         }),
       ),
     );
+  }
+
+  Widget _buildMediaPlayer() {
+    if (_controller == null) {
+      return Container(
+        color: AppColor.textFieldFill,
+      );
+    }
+    return VideoPlayer(_controller as VideoPlayerController);
   }
 
   Widget _buildAsset(String asset) {

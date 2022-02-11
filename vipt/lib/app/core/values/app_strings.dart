@@ -53,4 +53,5 @@ class AppString {
   static const secondaryWeightUnitSymbol = 'lbs';
   static const primaryHeightUnitSymbol = 'cm';
   static const secondaryHeightUnitSymbol = 'ft';
+  static const videoFormat = 'mp4';
 }
