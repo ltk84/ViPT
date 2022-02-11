@@ -3,12 +3,11 @@ import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/workout_category.dart';
 import 'package:vipt/app/data/providers/firestoration.dart';
 
-class WorkoutCategoryProvider
-    implements Firestoration<String, WorkoutCategory> {
+class WorkoutCategoryProvider implements Firestoration<String, Category> {
   final _firestore = FirebaseFirestore.instance;
 
   @override
-  Future<WorkoutCategory> add(WorkoutCategory obj) async {
+  Future<Category> add(Category obj) async {
     await _firestore
         .collection(collectionPath)
         .add(obj.toMap())
@@ -25,25 +24,25 @@ class WorkoutCategoryProvider
   }
 
   @override
-  Future<WorkoutCategory> fetch(String id) async {
+  Future<Category> fetch(String id) async {
     final raw = await _firestore.collection(collectionPath).doc(id).get();
-    return WorkoutCategory.fromMap(raw.id, raw.data() ?? {});
+    return Category.fromMap(raw.id, raw.data() ?? {});
   }
 
-  Future<List<WorkoutCategory>> fetchAll() async {
+  Future<List<Category>> fetchAll() async {
     QuerySnapshot<Map<String, dynamic>> raw =
         await _firestore.collection(collectionPath).get();
 
-    List<WorkoutCategory> list = [];
+    List<Category> list = [];
     for (var element in raw.docs) {
-      list.add(WorkoutCategory.fromMap(element.id, element.data()));
+      list.add(Category.fromMap(element.id, element.data()));
     }
 
     return list;
   }
 
   @override
-  Future<WorkoutCategory> update(String id, WorkoutCategory obj) {
+  Future<Category> update(String id, Category obj) {
     throw UnimplementedError();
   }
 }

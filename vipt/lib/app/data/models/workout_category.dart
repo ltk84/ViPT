@@ -1,11 +1,11 @@
 import 'package:vipt/app/data/models/base_model.dart';
 
-class WorkoutCategory extends BaseModel {
+class Category extends BaseModel {
   final String name;
   final String asset;
   final String? parentCategoryID;
 
-  WorkoutCategory(
+  Category(
     String? id, {
     required this.name,
     required this.asset,
@@ -21,8 +21,8 @@ class WorkoutCategory extends BaseModel {
     };
   }
 
-  factory WorkoutCategory.fromMap(String id, Map<String, dynamic> data) {
-    return WorkoutCategory(
+  factory Category.fromMap(String id, Map<String, dynamic> data) {
+    return Category(
       id,
       name: data['name'],
       asset: data['asset'],

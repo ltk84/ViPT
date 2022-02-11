@@ -63,7 +63,7 @@ class CategoryListScreen extends StatelessWidget {
     );
   }
 
-  void _navigateToSuitableScreen(WorkoutCategory cate) {
+  void _navigateToSuitableScreen(Category cate) {
     if (cate.isRootCategory() &&
         DataService.instance.checkIfWorkoutCategoryHasChild(cate)) {
       _controller.loadChildCategoriesBaseOnParentCategory(cate.id ?? '');

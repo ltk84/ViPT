@@ -22,7 +22,7 @@ class LibraryScreen extends StatelessWidget {
             child: Icon(Icons.arrow_back_ios_new_rounded),
           ),
           onPressed: () {
-            Navigator.of(context).pop;
+            Get.back();
           },
         ),
         title: Hero(

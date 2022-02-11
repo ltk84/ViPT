@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -35,12 +36,15 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
 
   @override
   void dispose() {
-    _controller!.dispose();
+    if (_controller != null) {
+      _controller!.dispose();
+    }
     super.dispose();
   }
 
   void initVideoController() async {
     var link = await _getAnimationLink(workout.name);
+    if (link == null) return;
     _controller = VideoPlayerController.network(link)
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
@@ -66,12 +70,17 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
     }
   }
 
-  Future<String> _getAnimationLink(String name) async {
-    return await CloudStorageService.instance.storage
-        .ref()
-        .child(AppValue.workoutStorageCollectionPath)
-        .child(name + '.${AppString.videoFormat}')
-        .getDownloadURL();
+  Future<dynamic> _getAnimationLink(String name) async {
+    try {
+      final result = await CloudStorageService.instance.storage
+          .ref()
+          .child(AppValue.workoutStorageCollectionPath)
+          .child(name + '.${AppString.videoFormat}')
+          .getDownloadURL();
+      return result;
+    } on FirebaseException catch (_) {
+      return null;
+    }
   }
 
   @override

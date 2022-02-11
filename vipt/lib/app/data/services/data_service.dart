@@ -14,7 +14,7 @@ class DataService {
   static final DataService instance = DataService._privateConstructor();
   static late ViPTUser currentUser;
   static late List<Workout> _workoutList;
-  static late List<WorkoutCategory> _workoutCateList;
+  static late List<Category> _workoutCateList;
   static List<WorkoutEquipment> workoutEquipList = [];
 
   final _userProvider = UserProvider();
@@ -23,7 +23,7 @@ class DataService {
   final _workoutEquipmentProvider = WorkoutEquipmentProvider();
 
   List<Workout> get workoutList => [..._workoutList];
-  List<WorkoutCategory> get workoutCateList => [..._workoutCateList];
+  List<Category> get workoutCateList => [..._workoutCateList];
 
   Future<ViPTUser> createUser(ViPTUser user) async {
     currentUser = await _userProvider.add(user);
@@ -47,7 +47,7 @@ class DataService {
     workoutEquipList = await _workoutEquipmentProvider.fetchAll();
   }
 
-  bool checkIfWorkoutCategoryHasChild(WorkoutCategory cate) {
+  bool checkIfWorkoutCategoryHasChild(Category cate) {
     for (var item in workoutCateList) {
       if (item.parentCategoryID == cate.id) return true;
     }

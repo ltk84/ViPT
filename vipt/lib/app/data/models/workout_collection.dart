@@ -33,7 +33,6 @@ class WorkoutCollection extends BaseModel {
   @override
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'title': title,
       'workoutIDs': workoutIDs,
       'time': time,
@@ -48,9 +47,9 @@ class WorkoutCollection extends BaseModel {
     };
   }
 
-  factory WorkoutCollection.fromMap(Map<String, dynamic> map) {
+  factory WorkoutCollection.fromMap(String id, Map<String, dynamic> map) {
     return WorkoutCollection(
-      map['id'],
+      id,
       title: map['title'] ?? '',
       workoutIDs: List<String>.from(map['workoutIDs']),
       time: map['time']?.toInt() ?? 0,
@@ -64,9 +63,4 @@ class WorkoutCollection extends BaseModel {
       restFrequency: map['restFrequency']?.toInt() ?? 0,
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory WorkoutCollection.fromJson(String source) =>
-      WorkoutCollection.fromMap(json.decode(source));
 }

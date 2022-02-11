@@ -32,7 +32,7 @@ class WorkoutCollectionProvider
   @override
   Future<WorkoutCollection> fetch(String id) async {
     final raw = await _userPath.doc(id).get();
-    return WorkoutCollection.fromMap(raw.data() ?? {});
+    return WorkoutCollection.fromMap(id, raw.data() ?? {});
   }
 
   @override
@@ -75,7 +75,7 @@ class WorkoutCollectionProvider
 
     List<WorkoutCollection> list = [];
     for (var element in raw.docs) {
-      list.add(WorkoutCollection.fromMap(element.data()));
+      list.add(WorkoutCollection.fromMap(element.id, element.data()));
     }
 
     return list;

@@ -6,7 +6,7 @@ import 'package:vipt/app/routes/pages.dart';
 
 class WorkoutController extends GetxController {
   late List<Workout> workouts;
-  late List<WorkoutCategory> workoutCategories;
+  late List<Category> workoutCategories;
   Map<String, int> cateListAndNumWorkout = {};
 
   @override
@@ -34,7 +34,7 @@ class WorkoutController extends GetxController {
     }
   }
 
-  int countNumberOfWorkoutBaseOnCateID(WorkoutCategory cate) {
+  int countNumberOfWorkoutBaseOnCateID(Category cate) {
     int num = 0;
     List<String> childCateID = [];
 
@@ -67,7 +67,7 @@ class WorkoutController extends GetxController {
     return num;
   }
 
-  void loadWorkoutListBaseOnCategory(WorkoutCategory cate) {
+  void loadWorkoutListBaseOnCategory(Category cate) {
     workouts = DataService.instance.workoutList
         .where((workout) => workout.categoryIDs.contains(cate.id))
         .toList();

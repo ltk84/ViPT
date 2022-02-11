@@ -12,7 +12,7 @@ class ExerciseListScreen extends StatelessWidget {
   ExerciseListScreen({Key? key}) : super(key: key);
 
   final _controller = Get.find<WorkoutController>();
-  final WorkoutCategory cate = Get.arguments;
+  final Category cate = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
