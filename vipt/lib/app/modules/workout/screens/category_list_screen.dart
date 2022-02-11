@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
-import 'package:vipt/app/data/models/workout_category.dart';
+import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
 import 'package:vipt/app/modules/workout/workout_controller.dart';
