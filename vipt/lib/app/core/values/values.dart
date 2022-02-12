@@ -5,6 +5,10 @@ import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/data/models/answer.dart';
 import 'package:vipt/app/data/models/question.dart';
 import 'package:vipt/app/data/models/category.dart';
+import 'package:vipt/app/data/models/workout_collection.dart';
+import 'package:vipt/app/data/models/workout_collection.dart';
+import 'package:vipt/app/data/models/workout_collection.dart';
+import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/enums/app_enums.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
@@ -558,23 +562,7 @@ class AppQuiz {
 }
 
 class FakeData {
-  static List<Category> data = [
-    // Category(null, name: 'Cardio', asset: 'asset', parentCategoryID: null),
-    // Category(null, name: 'Stretching', asset: 'asset', parentCategoryID: null),
-    // Category(null, name: 'Fighting', asset: 'asset', parentCategoryID: null),
-    // Category(null,
-    //     name: 'Cardio1',
-    //     asset: 'asset',
-    //     parentCategoryID: 'aKwc2BKwRTxjmhAkZOae'),
-    // Category(null,
-    //     name: 'Fighting1',
-    //     asset: 'asset',
-    //     parentCategoryID: 'XsMPhZzwUiMpbQP2Yuuo'),
-    // Category(null,
-    //     name: 'Stretching1',
-    //     asset: 'asset',
-    //     parentCategoryID: 'J4yR8z3kV4NJN2dS4CMb'),
-  ];
+  static List<WorkoutCollection> data = [];
 }
 
 class AppValue {
@@ -584,7 +572,7 @@ class AppValue {
   static const workoutCollectionCategoryCollectionPath =
       'workoutCollectionCategories';
   static const workoutEquipmentCollectionPath = 'workoutEquipment';
-  static const collectionOfWorkoutCollectionPath = 'workoutCollection';
+  static const collectionOfWorkoutCollectionPath = 'workoutCollections';
   static const userCollectionOfWorkoutCollectionPath = 'userWorkoutCollection';
   static const workoutStorageCollectionPath = 'workout';
 }

@@ -15,6 +15,54 @@ class WorkoutCollectionProvider
     return obj;
   }
 
+  void addFakeData() {
+    final data = [
+      WorkoutCollection(null,
+          title: 'Fight till die',
+          workoutIDs: ['QCVbVHUwqI60DBrEcZIs'],
+          time: 10,
+          calo: 10,
+          categoryIDs: ['VdOqUgsCGARIYyu1zCe3'],
+          round: 10,
+          isStartWithWarmUp: true,
+          isShuffle: true,
+          exerciseTime: 10,
+          transitionTime: 10,
+          restTime: 10,
+          restFrequency: 10),
+      WorkoutCollection(null,
+          title: 'Stretch till die',
+          workoutIDs: ['oLrjD5ZIqtIH8XDBJTLK'],
+          time: 10,
+          calo: 10,
+          categoryIDs: ['aHc37ervZP5whfU2pWc3'],
+          round: 10,
+          isStartWithWarmUp: true,
+          isShuffle: true,
+          exerciseTime: 10,
+          transitionTime: 10,
+          restTime: 10,
+          restFrequency: 10),
+      WorkoutCollection(null,
+          title: 'Cardio till die',
+          workoutIDs: ['WPOwO0boeOMyBbCdVuPr'],
+          time: 10,
+          calo: 10,
+          categoryIDs: ['pn8jgNN2MM6bwzckhaAH'],
+          round: 10,
+          isStartWithWarmUp: true,
+          isShuffle: true,
+          exerciseTime: 10,
+          transitionTime: 10,
+          restTime: 10,
+          restFrequency: 10),
+    ];
+
+    for (var item in data) {
+      addDefaultCollection(item);
+    }
+  }
+
   CollectionReference<Map<String, dynamic>> get _userPath => _firestore
       .collection(AppValue.userCollectionPath)
       .doc(AuthService.instance.currentUser!.uid)
