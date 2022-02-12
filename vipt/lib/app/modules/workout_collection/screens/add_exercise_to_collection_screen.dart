@@ -3,11 +3,9 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
-import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
 import 'package:vipt/app/modules/setup_info/widgets/multiple_choice_one_column_layout.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/search_field_widget.dart';
-import 'package:vipt/app/routes/pages.dart';
 
 class AddExerciseToCollectionScreen extends StatelessWidget {
   const AddExerciseToCollectionScreen({Key? key}) : super(key: key);

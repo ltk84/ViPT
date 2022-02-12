@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/data/models/vipt_user.dart';
@@ -16,6 +14,9 @@ class HomeController extends GetxController {
     await DataService.instance.loadWorkoutCategory();
     await DataService.instance.loadWorkoutList();
     await DataService.instance.initCateListAndNumWorkout();
+    await DataService.instance.loadCollectionCategoryList();
+    await DataService.instance.loadCollectionList();
+    await DataService.instance.initCateListAndNumCollection();
 
     super.onInit();
   }

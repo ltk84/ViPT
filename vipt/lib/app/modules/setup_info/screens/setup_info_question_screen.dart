@@ -16,7 +16,7 @@ import 'package:vipt/app/modules/setup_info/widgets/single_choice_two_columns_la
 import 'package:vipt/app/modules/setup_info/widgets/text_field_layout.dart';
 
 class SetupInfoQuestionScreen extends StatelessWidget {
-  SetupInfoQuestionScreen({Key? key}) : super(key: key);
+  const SetupInfoQuestionScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

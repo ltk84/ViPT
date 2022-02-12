@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:get/get.dart';
+import 'package:vipt/app/data/models/category.dart';
+import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
@@ -36,60 +38,40 @@ class WorkoutCollectionCategoryListScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(
-            parent: AlwaysScrollableScrollPhysics()),
-        children: _buildWorkoutCollectionCategory(context),
-      ),
+      // body: ListView(
+
+      //   children: _buildWorkoutCollectionCategory(context),
+      // ),
+
+      body: ListView.separated(
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
+          itemBuilder: (_, index) {
+            final cate = _controller.collectionCategories[index];
+            return CustomTile(
+              level: 1,
+              asset: SVGAssetString.gym,
+              onPressed: () {
+                _navigateToSuitableScreen(cate);
+              },
+              title: cate.name,
+              description:
+                  '${_controller.cateListAndNumCollection[cate.id]} bài tập',
+            );
+          },
+          separatorBuilder: (_, index) => const Divider(
+                indent: 24,
+              ),
+          itemCount: _controller.collectionCategories.length),
     );
   }
 
-  List<Widget> _buildWorkoutCollectionCategory(context) {
-    return [
-      CustomTile(
-        level: 1,
-        asset: SVGAssetString.gym,
-        onPressed: () {
-          Get.toNamed(Routes.myWorkoutCollectionList);
-        },
-        title: 'Bộ luyện tập của bạn',
-        description: '24 bài tập',
-      ),
-      const Divider(
-        indent: 24,
-      ),
-      CustomTile(
-        level: 1,
-        asset: SVGAssetString.boxing,
-        onPressed: () {
-          Get.toNamed(Routes.workoutCollectionList);
-        },
-        title: 'Cardio',
-        description: '32 bài tập',
-      ),
-      const Divider(
-        indent: 24,
-      ),
-      CustomTile(
-        level: 1,
-        asset: SVGAssetString.boxing,
-        onPressed: () {},
-        title: 'Stretching',
-        description: '32 bài tập',
-      ),
-      const Divider(
-        indent: 24,
-      ),
-      CustomTile(
-        level: 1,
-        asset: SVGAssetString.boxing,
-        onPressed: () {},
-        title: 'Fighting',
-        description: '32 bài tập',
-      ),
-      const Divider(
-        indent: 24,
-      ),
-    ];
+  void _navigateToSuitableScreen(Category cate) {
+    if (cate.isRootCategory() &&
+        DataService.instance.checkIfCollectionCategoryHasChild(cate)) {
+      _controller.loadChildCategoriesBaseOnParentCategory(cate.id ?? '');
+    } else {
+      _controller.loadCollectionListBaseOnCategory(cate);
+    }
   }
 }

@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 import 'package:vipt/app/data/models/base_model.dart';
 
 class WorkoutCollection extends BaseModel {
   final String title;
   final List<String> workoutIDs;
+  final List<String> categoryIDs;
   final int time;
   final int calo;
   final int round;
@@ -21,6 +20,7 @@ class WorkoutCollection extends BaseModel {
     required this.workoutIDs,
     required this.time,
     required this.calo,
+    required this.categoryIDs,
     required this.round,
     required this.isStartWithWarmUp,
     required this.isShuffle,
@@ -35,6 +35,7 @@ class WorkoutCollection extends BaseModel {
     return {
       'title': title,
       'workoutIDs': workoutIDs,
+      'categoryIDs': categoryIDs,
       'time': time,
       'calo': calo,
       'round': round,
@@ -52,6 +53,7 @@ class WorkoutCollection extends BaseModel {
       id,
       title: map['title'] ?? '',
       workoutIDs: List<String>.from(map['workoutIDs']),
+      categoryIDs: List<String>.from(map['categoryIDs']),
       time: map['time']?.toInt() ?? 0,
       calo: map['calo']?.toInt() ?? 0,
       round: map['round']?.toInt() ?? 0,

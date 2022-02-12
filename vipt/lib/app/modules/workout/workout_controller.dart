@@ -7,7 +7,7 @@ import 'package:vipt/app/routes/pages.dart';
 class WorkoutController extends GetxController {
   late List<Workout> workouts;
   late List<Category> workoutCategories;
-  Map<String, int> cateListAndNumWorkout = {};
+  late Map<String, int> cateListAndNumWorkout;
 
   @override
   void onInit() async {
