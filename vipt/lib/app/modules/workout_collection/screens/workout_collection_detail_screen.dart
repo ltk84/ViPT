@@ -120,7 +120,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Text(
-            'Mô tả mô tả mô tả mô tả mô tả mô tả'.tr,
+            _collection.description.tr,
             style: Theme.of(context).textTheme.subtitle2,
           ),
         ),
@@ -141,7 +141,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
           width: 8,
         ),
         Text(
-          '${_collection.time} phút'.tr,
+          '0 phút'.tr,
           style: Theme.of(context).textTheme.headline6,
         ),
         const SizedBox(
@@ -165,7 +165,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
           width: 8,
         ),
         Text(
-          '${_collection.calo} calo'.tr,
+          '0 calo'.tr,
           style: Theme.of(context).textTheme.headline6,
         ),
       ],

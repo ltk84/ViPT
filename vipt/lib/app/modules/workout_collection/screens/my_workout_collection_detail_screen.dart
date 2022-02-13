@@ -7,6 +7,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
@@ -162,7 +163,7 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
           width: 8,
         ),
         Text(
-          '${_collection.time} phút'.tr,
+          '0 phút'.tr,
           style: Theme.of(context).textTheme.headline6,
         ),
         const SizedBox(
@@ -186,7 +187,7 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
           width: 8,
         ),
         Text(
-          '${_collection.calo} calo'.tr,
+          '0 calo'.tr,
           style: Theme.of(context).textTheme.headline6,
         ),
       ],

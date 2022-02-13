@@ -54,7 +54,9 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
-              onPressed: () async {},
+              onPressed: () async {
+                WorkoutCollectionProvider().addFakeData();
+              },
               child: const Text('Fetch data'),
             ),
             TextButton(

@@ -1,50 +1,27 @@
+import 'package:collection/collection.dart';
 import 'package:vipt/app/data/models/base_model.dart';
 
 class WorkoutCollection extends BaseModel {
   final String title;
+  final String description;
   final List<String> workoutIDs;
   final List<String> categoryIDs;
-  final int time;
-  final int calo;
-  final int round;
-  final bool isStartWithWarmUp;
-  final bool isShuffle;
-  final int exerciseTime;
-  final int transitionTime;
-  final int restTime;
-  final int restFrequency;
 
   WorkoutCollection(
     String? id, {
     required this.title,
+    required this.description,
     required this.workoutIDs,
-    required this.time,
-    required this.calo,
     required this.categoryIDs,
-    required this.round,
-    required this.isStartWithWarmUp,
-    required this.isShuffle,
-    required this.exerciseTime,
-    required this.transitionTime,
-    required this.restTime,
-    required this.restFrequency,
   }) : super(id);
 
   @override
   Map<String, dynamic> toMap() {
     return {
       'title': title,
+      'description': description,
       'workoutIDs': workoutIDs,
       'categoryIDs': categoryIDs,
-      'time': time,
-      'calo': calo,
-      'round': round,
-      'isStartWithWarmUp': isStartWithWarmUp,
-      'isShuffle': isShuffle,
-      'exerciseTime': exerciseTime,
-      'transitionTime': transitionTime,
-      'restTime': restTime,
-      'restFrequency': restFrequency,
     };
   }
 
@@ -52,17 +29,34 @@ class WorkoutCollection extends BaseModel {
     return WorkoutCollection(
       id,
       title: map['title'] ?? '',
+      description: map['description'],
       workoutIDs: List<String>.from(map['workoutIDs']),
       categoryIDs: List<String>.from(map['categoryIDs']),
-      time: map['time']?.toInt() ?? 0,
-      calo: map['calo']?.toInt() ?? 0,
-      round: map['round']?.toInt() ?? 0,
-      isStartWithWarmUp: map['isStartWithWarmUp'] ?? false,
-      isShuffle: map['isShuffle'] ?? false,
-      exerciseTime: map['exerciseTime']?.toInt() ?? 0,
-      transitionTime: map['transitionTime']?.toInt() ?? 0,
-      restTime: map['restTime']?.toInt() ?? 0,
-      restFrequency: map['restFrequency']?.toInt() ?? 0,
     );
+  }
+
+  @override
+  String toString() {
+    return 'WorkoutCollection(title: $title, description: $description, workoutIDs: $workoutIDs, categoryIDs: $categoryIDs)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    final listEquals = const DeepCollectionEquality().equals;
+
+    return other is WorkoutCollection &&
+        other.title == title &&
+        other.description == description &&
+        listEquals(other.workoutIDs, workoutIDs) &&
+        listEquals(other.categoryIDs, categoryIDs);
+  }
+
+  @override
+  int get hashCode {
+    return title.hashCode ^
+        description.hashCode ^
+        workoutIDs.hashCode ^
+        categoryIDs.hashCode;
   }
 }
