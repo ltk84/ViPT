@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:vipt/app/data/models/base_model.dart';
+import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/enums/app_enums.dart';
 import 'package:vipt/app/enums/enum_serialize.dart';
 
@@ -24,6 +25,7 @@ class ViPTUser extends BaseModel {
   Experience experience;
   TypicalDay typicalDay;
   ActiveFrequency activeFrequency;
+  CollectionSetting collectionSetting;
 
   ViPTUser({
     required String id,
@@ -47,6 +49,7 @@ class ViPTUser extends BaseModel {
     required this.experience,
     required this.typicalDay,
     required this.activeFrequency,
+    required this.collectionSetting,
   }) : super(id);
 
   @override
@@ -73,6 +76,7 @@ class ViPTUser extends BaseModel {
       'experience': experience.toStr(),
       'typicalDay': typicalDay.toStr(),
       'activeFrequency': activeFrequency.toStr(),
+      'collectionSetting': collectionSetting.toMap(),
     };
   }
 
@@ -111,7 +115,10 @@ class ViPTUser extends BaseModel {
       bodyType: BodyTypeFormat.fromStr(data['bodyType']),
       experience: ExperienceFormat.fromStr(data['experience']),
       typicalDay: TypicalDayFormat.fromStr(data['typicalDay']),
-      activeFrequency: ActiveFrequencyFormat.fromStr(data['activeFrequency']),
+      activeFrequency: ActiveFrequencyFormat.fromStr(
+        data['activeFrequency'],
+      ),
+      collectionSetting: CollectionSetting.fromMap(data['collectionSetting']),
     );
   }
 }

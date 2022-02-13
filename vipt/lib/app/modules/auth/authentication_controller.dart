@@ -34,9 +34,9 @@ class AuthenticationController extends GetxController {
     if (!isExist) {
       Get.offAllNamed(Routes.setupInfoIntro);
     } else {
-      await DataService.instance.loadUserData();
-      await DataService.instance.loadWorkoutCategory();
-      await DataService.instance.loadWorkoutEquipment();
+      // await DataService.instance.loadUserData();
+      // await DataService.instance.loadWorkoutCategory();
+      // await DataService.instance.loadWorkoutEquipment();
       Get.offAllNamed(Routes.home);
     }
   }

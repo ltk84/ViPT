@@ -11,6 +11,7 @@ class HomeController extends GetxController {
   @override
   Future<void> onInit() async {
     _initControllerForTabs();
+    await DataService.instance.loadUserData();
     await DataService.instance.loadWorkoutCategory();
     await DataService.instance.loadWorkoutList();
     await DataService.instance.initCateListAndNumWorkout();

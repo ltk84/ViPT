@@ -12,8 +12,8 @@ import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collecti
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
 
-class WorkoutCollectionDetailScreen extends StatelessWidget {
-  WorkoutCollectionDetailScreen({Key? key}) : super(key: key);
+class MyWorkoutCollectionDetailScreen extends StatelessWidget {
+  MyWorkoutCollectionDetailScreen({Key? key}) : super(key: key);
 
   final WorkoutCollection _collection = Get.arguments;
   final _controller = Get.find<WorkoutCollectionController>();
@@ -22,86 +22,107 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     _controller.loadCollectionSetting();
 
-    return WillPopScope(
-      onWillPop: () async {
-        _controller.updateCollectionSetting();
-        return true;
-      },
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        backgroundColor: Theme.of(context).backgroundColor,
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Hero(
-              tag: 'leadingButtonAppBar',
-              child: Icon(Icons.arrow_back_ios_new_rounded),
-            ),
-            onPressed: () {
-              _controller.updateCollectionSetting();
-
-              Navigator.of(context).pop();
-            },
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      backgroundColor: Theme.of(context).backgroundColor,
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Hero(
+            tag: 'leadingButtonAppBar',
+            child: Icon(Icons.arrow_back_ios_new_rounded),
           ),
-          flexibleSpace: ClipRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
-              child: Container(
-                color: Colors.transparent,
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        flexibleSpace: ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
+            child: Container(
+              color: Colors.transparent,
+            ),
+          ),
+        ),
+        actions: [
+          IconButton(
+            color: Theme.of(context).backgroundColor,
+            icon: Hero(
+              tag: 'actionButtonAppBar_2',
+              child: Icon(
+                Icons.delete_rounded,
+                color: AppColor.textColor,
               ),
             ),
+            onPressed: () {},
           ),
-        ),
-        body: Container(
-          padding: AppDecoration.screenPadding.copyWith(top: 8, bottom: 0),
-          child: LayoutBuilder(builder: (context, constraints) {
-            return ListView(
-              physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
-              children: [
-                _buildIntro(context),
-                const SizedBox(
-                  height: 8,
-                ),
-                _buildIndicatorDisplay(context),
-                const SizedBox(
-                  height: 16,
-                ),
-                _buildRoundProperty(context, constraints.maxHeight),
-                const SizedBox(
-                  height: 12,
-                ),
-                _buildWarmUpProperty(context),
-                const SizedBox(
-                  height: 12,
-                ),
-                _buildShuffleProperty(context),
-                const SizedBox(
-                  height: 12,
-                ),
-                _buildExerciseTimeProperty(context, constraints.maxHeight),
-                const SizedBox(
-                  height: 12,
-                ),
-                _buildTransitionTimeProperty(context, constraints.maxHeight),
-                const SizedBox(
-                  height: 12,
-                ),
-                _buildRestTimeProperty(context, constraints.maxHeight),
-                const SizedBox(
-                  height: 12,
-                ),
-                _buildRestFrequencyProperty(context, constraints.maxHeight),
-                const SizedBox(
-                  height: 24,
-                ),
-                _buildExerciseList(context),
-              ],
-            );
-          }),
-        ),
+
+          // này phải check thêm xem collection này là custom hay default.
+
+          IconButton(
+            color: Theme.of(context).backgroundColor,
+            icon: Hero(
+              tag: 'actionButtonAppBar',
+              child: Icon(
+                Icons.settings_rounded,
+                color: AppColor.textColor,
+              ),
+            ),
+            onPressed: () {
+              Get.toNamed(Routes.editWorkoutCollection);
+            },
+          ),
+        ],
+      ),
+      body: Container(
+        padding: AppDecoration.screenPadding.copyWith(top: 8, bottom: 0),
+        child: LayoutBuilder(builder: (context, constraints) {
+          return ListView(
+            physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics()),
+            children: [
+              _buildIntro(context),
+              const SizedBox(
+                height: 8,
+              ),
+              _buildIndicatorDisplay(context),
+              const SizedBox(
+                height: 16,
+              ),
+              _buildRoundProperty(context, constraints.maxHeight),
+              const SizedBox(
+                height: 12,
+              ),
+              _buildWarmUpProperty(context),
+              const SizedBox(
+                height: 12,
+              ),
+              _buildShuffleProperty(context),
+              const SizedBox(
+                height: 12,
+              ),
+              _buildExerciseTimeProperty(context, constraints.maxHeight),
+              const SizedBox(
+                height: 12,
+              ),
+              _buildTransitionTimeProperty(context, constraints.maxHeight),
+              const SizedBox(
+                height: 12,
+              ),
+              _buildRestTimeProperty(context, constraints.maxHeight),
+              const SizedBox(
+                height: 12,
+              ),
+              _buildRestFrequencyProperty(context, constraints.maxHeight),
+              const SizedBox(
+                height: 24,
+              ),
+              _buildExerciseList(context),
+            ],
+          );
+        }),
       ),
     );
   }

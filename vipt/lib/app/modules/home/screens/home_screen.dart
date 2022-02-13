@@ -54,14 +54,12 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
-              onPressed: () async {
-                WorkoutCollectionProvider().addFakeData();
-              },
+              onPressed: () async {},
               child: const Text('Fetch data'),
             ),
             TextButton(
               onPressed: () async {
-                // await _controller.signOut();
+                await _controller.signOut();
               },
               child: const Text('Sign out'),
             ),

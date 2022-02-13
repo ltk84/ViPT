@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:vipt/app/core/values/app_strings.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/answer.dart';
+import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/vipt_user.dart';
 import 'package:vipt/app/data/services/auth_service.dart';
 import 'package:vipt/app/data/services/data_service.dart';
@@ -597,27 +598,29 @@ class SetupInfoController extends GetxController {
   Future<void> _finishSetupBasicInformation() async {
     // create user voi thong tin cung cap tu quiz
     ViPTUser newUser = ViPTUser(
-        id: AuthService.instance.currentUser!.uid,
-        name: name as String,
-        gender: gender as Gender,
-        dateOfBirth: dateOfBirth as DateTime,
-        currentWeight: currentWeight as num,
-        currentHeight: currentHeight as num,
-        goalWeight: goalWeight as num,
-        weightUnit: weightUnit as WeightUnit,
-        heightUnit: heightUnit as HeightUnit,
-        hobbies: hobbies,
-        diet: diet as Diet,
-        badHabits: badHabits,
-        proteinSources: proteinSources,
-        limits: limits,
-        sleepTime: sleepTime as SleepTime,
-        dailyWater: dailyWater as DailyWater,
-        mainGoal: mainGoal as MainGoal,
-        bodyType: bodyType as BodyType,
-        experience: experience as Experience,
-        typicalDay: typicalDay as TypicalDay,
-        activeFrequency: activeFrequency as ActiveFrequency);
+      id: AuthService.instance.currentUser!.uid,
+      name: name as String,
+      gender: gender as Gender,
+      dateOfBirth: dateOfBirth as DateTime,
+      currentWeight: currentWeight as num,
+      currentHeight: currentHeight as num,
+      goalWeight: goalWeight as num,
+      weightUnit: weightUnit as WeightUnit,
+      heightUnit: heightUnit as HeightUnit,
+      hobbies: hobbies,
+      diet: diet as Diet,
+      badHabits: badHabits,
+      proteinSources: proteinSources,
+      limits: limits,
+      sleepTime: sleepTime as SleepTime,
+      dailyWater: dailyWater as DailyWater,
+      mainGoal: mainGoal as MainGoal,
+      bodyType: bodyType as BodyType,
+      experience: experience as Experience,
+      typicalDay: typicalDay as TypicalDay,
+      activeFrequency: activeFrequency as ActiveFrequency,
+      collectionSetting: CollectionSetting(),
+    );
 
     await DataService.instance.createUser(newUser);
 

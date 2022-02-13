@@ -561,12 +561,9 @@ class AppQuiz {
   };
 }
 
-class FakeData {
-  static List<WorkoutCollection> data = [];
-}
-
 class AppValue {
-  static const userCollectionPath = 'user';
+  static const userCollectionPath = 'users';
+  // đổi lại sau:
   static const workoutCollectionPath = 'workout';
   static const workoutCategoryCollectionPath = 'workoutCategories';
   static const workoutCollectionCategoryCollectionPath =
@@ -574,5 +571,6 @@ class AppValue {
   static const workoutEquipmentCollectionPath = 'workoutEquipment';
   static const collectionOfWorkoutCollectionPath = 'workoutCollections';
   static const userCollectionOfWorkoutCollectionPath = 'userWorkoutCollection';
+  // đổi lại sau:
   static const workoutStorageCollectionPath = 'workout';
 }
