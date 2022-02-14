@@ -5,8 +5,13 @@ class TextFieldWidget extends StatelessWidget {
   final String? hint;
   final TextStyle? textStyle;
   final bool underline;
+  final TextEditingController textEditingController;
   const TextFieldWidget(
-      {Key? key, this.hint, this.textStyle, this.underline = true})
+      {Key? key,
+      this.hint,
+      this.textStyle,
+      this.underline = true,
+      required this.textEditingController})
       : super(key: key);
 
   @override
@@ -14,7 +19,7 @@ class TextFieldWidget extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       child: TextField(
-        //controller: textEditingController,
+        controller: textEditingController,
         style: textStyle,
         textAlign: TextAlign.center,
         decoration: underline

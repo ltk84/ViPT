@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
@@ -17,6 +18,12 @@ class WorkoutCollectionController extends GetxController {
   Rx<int> timeValue = 0.obs;
   late List<WorkoutCollection> userCollections;
 
+  // add, edit action
+  TextEditingController titleTextController = TextEditingController();
+  TextEditingController descriptionTextController = TextEditingController();
+  List<String> workoutIDs = ['AzXGIxsw1bLgPfF0WVoL', '4idAW2eNjLdkc8b6YGbE'];
+  //
+
   @override
   void onInit() {
     loadCollectionCategories();
@@ -29,6 +36,11 @@ class WorkoutCollectionController extends GetxController {
     ever(collectionSetting, (_) {
       calculateCaloAndTime();
     });
+  }
+
+  void addUserCollection() {
+    print(titleTextController.text);
+    print(descriptionTextController.text);
   }
 
   void deleteUserCollection(String? id) async {

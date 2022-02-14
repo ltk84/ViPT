@@ -7,12 +7,16 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/text_field_widget.dart';
+import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class AddWorkoutCollectionScreen extends StatelessWidget {
-  const AddWorkoutCollectionScreen({Key? key}) : super(key: key);
+  AddWorkoutCollectionScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.find<WorkoutCollectionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +54,9 @@ class AddWorkoutCollectionScreen extends StatelessWidget {
                 color: AppColor.secondaryColor,
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              _controller.addUserCollection();
+            },
           ),
         ],
       ),
@@ -65,34 +71,34 @@ class AddWorkoutCollectionScreen extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              _buildRoundProperty(context, constraints.maxHeight),
-              const SizedBox(
-                height: 12,
-              ),
-              _buildWarmUpProperty(context),
-              const SizedBox(
-                height: 12,
-              ),
-              _buildShuffleProperty(context),
-              const SizedBox(
-                height: 12,
-              ),
-              _buildExerciseTimeProperty(context, constraints.maxHeight),
-              const SizedBox(
-                height: 12,
-              ),
-              _buildTransitionTimeProperty(context, constraints.maxHeight),
-              const SizedBox(
-                height: 12,
-              ),
-              _buildRestTimeProperty(context, constraints.maxHeight),
-              const SizedBox(
-                height: 12,
-              ),
-              _buildRestFrequencyProperty(context, constraints.maxHeight),
-              const SizedBox(
-                height: 24,
-              ),
+              // _buildRoundProperty(context, constraints.maxHeight),
+              // const SizedBox(
+              //   height: 12,
+              // ),
+              // _buildWarmUpProperty(context),
+              // const SizedBox(
+              //   height: 12,
+              // ),
+              // _buildShuffleProperty(context),
+              // const SizedBox(
+              //   height: 12,
+              // ),
+              // _buildExerciseTimeProperty(context, constraints.maxHeight),
+              // const SizedBox(
+              //   height: 12,
+              // ),
+              // _buildTransitionTimeProperty(context, constraints.maxHeight),
+              // const SizedBox(
+              //   height: 12,
+              // ),
+              // _buildRestTimeProperty(context, constraints.maxHeight),
+              // const SizedBox(
+              //   height: 12,
+              // ),
+              // _buildRestFrequencyProperty(context, constraints.maxHeight),
+              // const SizedBox(
+              //   height: 24,
+              // ),
               _buildExerciseList(context),
             ],
           );
@@ -107,6 +113,7 @@ class AddWorkoutCollectionScreen extends StatelessWidget {
         Container(
           alignment: Alignment.center,
           child: TextFieldWidget(
+            textEditingController: _controller.titleTextController,
             hint: 'Nhập tên bộ luyện tập',
             textStyle: Theme.of(context).textTheme.headline2,
           ),
@@ -115,6 +122,7 @@ class AddWorkoutCollectionScreen extends StatelessWidget {
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: TextFieldWidget(
+            textEditingController: _controller.descriptionTextController,
             hint: 'Nhập mô tả',
             textStyle: Theme.of(context).textTheme.subtitle2,
             underline: false,
@@ -434,30 +442,15 @@ class AddWorkoutCollectionScreen extends StatelessWidget {
           color: AppColor.textFieldUnderlineColor,
           height: 0,
         ),
-        const SizedBox(
-          height: 4,
-        ),
-        ExerciseInCollectionTile(
-          asset: SVGAssetString.boxing,
-          title: 'Đánh lộn nè',
-          onPressed: () {},
-        ),
-        const SizedBox(
-          height: 4,
-        ),
-        ExerciseInCollectionTile(
-          asset: SVGAssetString.boxing,
-          title: 'Đánh lộn nè 2',
-          onPressed: () {},
-        ),
-        const SizedBox(
-          height: 4,
-        ),
-        ExerciseInCollectionTile(
-          asset: SVGAssetString.boxing,
-          title: 'Đánh lộn nè 3',
-          onPressed: () {},
-        ),
+        ..._controller.workoutIDs.map((e) {
+          final workout = DataService.instance.workoutList
+              .firstWhere((element) => element.id == e);
+          return ExerciseInCollectionTile(
+            asset: SVGAssetString.boxing,
+            title: workout.name,
+            onPressed: () {},
+          );
+        }),
       ],
     );
   }

@@ -9,10 +9,13 @@ import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/text_field_widget.dart';
+import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class EditWorkoutCollectionScreen extends StatelessWidget {
-  const EditWorkoutCollectionScreen({Key? key}) : super(key: key);
+  EditWorkoutCollectionScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.find<WorkoutCollectionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +110,7 @@ class EditWorkoutCollectionScreen extends StatelessWidget {
         Container(
           alignment: Alignment.center,
           child: TextFieldWidget(
+            textEditingController: _controller.titleTextController,
             hint: 'Nhập tên bộ luyện tập',
             textStyle: Theme.of(context).textTheme.headline2,
           ),
@@ -115,6 +119,7 @@ class EditWorkoutCollectionScreen extends StatelessWidget {
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: TextFieldWidget(
+            textEditingController: _controller.descriptionTextController,
             hint: 'Nhập mô tả',
             textStyle: Theme.of(context).textTheme.subtitle2,
             underline: false,
