@@ -22,6 +22,8 @@ class DataService {
   static late Map<String, int> _cateListAndNumCollection;
   static late List<Category> _collectionCateList;
   static late List<WorkoutCollection> _collectionList;
+  static late List<WorkoutCollection> _userCollectionList;
+
   static List<WorkoutEquipment> workoutEquipList = [];
 
   final _userProvider = UserProvider();
@@ -36,14 +38,19 @@ class DataService {
   Map<String, int> get cateListAndNumWorkout => _cateListAndNumWorkout;
   Map<String, int> get cateListAndNumCollection => _cateListAndNumCollection;
   List<WorkoutCollection> get collectionList => [..._collectionList];
+  List<WorkoutCollection> get userCollectionList => [..._userCollectionList];
   List<Category> get collectionCateList => [..._collectionCateList];
+
+  loadUserCollectionList() async {
+    _userCollectionList = await _collectionProvider.fetchAllUserCollection();
+  }
 
   Future<ViPTUser> createUser(ViPTUser user) async {
     currentUser = await _userProvider.add(user);
     return currentUser;
   }
 
-  Future<void> loadUserData() async {
+  loadUserData() async {
     currentUser =
         await _userProvider.fetch(AuthService.instance.currentUser!.uid);
   }
@@ -135,6 +142,6 @@ class DataService {
   }
 
   loadCollectionList() async {
-    _collectionList = await _collectionProvider.fetchAll();
+    _collectionList = await _collectionProvider.fetchAllDefaultCollection();
   }
 }

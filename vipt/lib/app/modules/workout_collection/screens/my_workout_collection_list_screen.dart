@@ -4,10 +4,13 @@ import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
+import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class MyWorkoutCollectionListScreen extends StatelessWidget {
-  const MyWorkoutCollectionListScreen({Key? key}) : super(key: key);
+  MyWorkoutCollectionListScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.find<WorkoutCollectionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -49,36 +52,25 @@ class MyWorkoutCollectionListScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(
-            parent: AlwaysScrollableScrollPhysics()),
-        children: _buildCollectionList(context),
-      ),
+      body: ListView.separated(
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
+          itemBuilder: (_, index) {
+            var collection = _controller.userCollections[index];
+            return CustomTile(
+              level: 2,
+              asset: SVGAssetString.gym,
+              onPressed: () {
+                Get.toNamed(Routes.workoutCollectionDetail,
+                    arguments: collection);
+              },
+              title: collection.title,
+            );
+          },
+          separatorBuilder: (_, index) => const Divider(
+                indent: 24,
+              ),
+          itemCount: _controller.userCollections.length),
     );
-  }
-
-  List<Widget> _buildCollectionList(context) {
-    return [
-      CustomTile(
-        level: 2,
-        asset: SVGAssetString.gym,
-        onPressed: () {
-          Get.toNamed(Routes.workoutCollectionDetail);
-        },
-        title: 'Bài tập ABC',
-      ),
-      const Divider(
-        indent: 24,
-      ),
-      CustomTile(
-        level: 2,
-        asset: SVGAssetString.boxing,
-        onPressed: () {},
-        title: 'DEF GHI',
-      ),
-      const Divider(
-        indent: 24,
-      ),
-    ];
   }
 }

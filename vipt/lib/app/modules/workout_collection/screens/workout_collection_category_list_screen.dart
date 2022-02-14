@@ -47,12 +47,23 @@ class WorkoutCollectionCategoryListScreen extends StatelessWidget {
           physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics()),
           itemBuilder: (_, index) {
-            final cate = _controller.collectionCategories[index];
+            if (index == 0) {
+              return CustomTile(
+                level: 1,
+                asset: SVGAssetString.gym,
+                onPressed: () {
+                  Get.toNamed(Routes.myWorkoutCollectionList);
+                },
+                title: 'Bộ luyện tập của bạn',
+                description: '24 bài tập',
+              );
+            }
+            final cate = _controller.collectionCategories[index - 1];
             return CustomTile(
               level: 1,
               asset: SVGAssetString.gym,
               onPressed: () {
-                _navigateToSuitableScreen(cate);
+                _controller.loadCollectionListBaseOnCategory(cate);
               },
               title: cate.name.tr,
               description:
@@ -62,16 +73,7 @@ class WorkoutCollectionCategoryListScreen extends StatelessWidget {
           separatorBuilder: (_, index) => const Divider(
                 indent: 24,
               ),
-          itemCount: _controller.collectionCategories.length),
+          itemCount: _controller.collectionCategories.length + 1),
     );
-  }
-
-  void _navigateToSuitableScreen(Category cate) {
-    if (cate.isRootCategory() &&
-        DataService.instance.checkIfCollectionCategoryHasChild(cate)) {
-      _controller.loadChildCategoriesBaseOnParentCategory(cate.id ?? '');
-    } else {
-      _controller.loadCollectionListBaseOnCategory(cate);
-    }
   }
 }

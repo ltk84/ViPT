@@ -12,11 +12,11 @@ class WorkoutCollectionSettingProvider
   }
 
   @override
-  String get collectionPath => AppValue.userCollectionPath;
+  String get collectionPath => AppValue.usersPath;
 
   DocumentReference<Map<String, dynamic>> get _userDoc =>
       FirebaseFirestore.instance
-          .collection(AppValue.userCollectionPath)
+          .collection(AppValue.usersPath)
           .doc(AuthService.instance.currentUser!.uid);
 
   @override

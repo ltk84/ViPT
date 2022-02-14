@@ -17,7 +17,7 @@ class WorkoutCollectionCategoryProvider
   }
 
   @override
-  String get collectionPath => AppValue.workoutCollectionCategoryCollectionPath;
+  String get collectionPath => AppValue.workoutCollectionCategoriesPath;
 
   @override
   Future<String> delete(String id) {

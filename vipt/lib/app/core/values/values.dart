@@ -562,15 +562,15 @@ class AppQuiz {
 }
 
 class AppValue {
-  static const userCollectionPath = 'users';
+  static const usersPath = 'users';
   // đổi lại sau:
-  static const workoutCollectionPath = 'workout';
-  static const workoutCategoryCollectionPath = 'workoutCategories';
-  static const workoutCollectionCategoryCollectionPath =
-      'workoutCollectionCategories';
+  static const workoutsPath = 'workout';
+  static const workoutCategoriesPath = 'workoutCategories';
+  static const workoutCollectionCategoriesPath = 'workoutCollectionCategories';
   static const workoutEquipmentCollectionPath = 'workoutEquipment';
-  static const collectionOfWorkoutCollectionPath = 'workoutCollections';
-  static const userCollectionOfWorkoutCollectionPath = 'userWorkoutCollection';
+  static const workoutCollectionsPath = 'workoutCollections';
+  static const userCollectionsPath = 'userCollections';
+  static const collectionOfSingleUserPath = 'collections';
   // đổi lại sau:
   static const workoutStorageCollectionPath = 'workout';
 }

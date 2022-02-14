@@ -10,7 +10,9 @@ class WorkoutCollectionProvider
 
   @override
   Future<WorkoutCollection> add(WorkoutCollection obj) async {
-    await _userPath.add(obj.toMap()).then((value) => obj.id = value.id);
+    await _userCollectionPath
+        .add(obj.toMap())
+        .then((value) => obj.id = value.id);
 
     return obj;
   }
@@ -45,29 +47,60 @@ class WorkoutCollectionProvider
     }
   }
 
-  CollectionReference<Map<String, dynamic>> get _userPath => _firestore
-      .collection(AppValue.userCollectionPath)
-      .doc(AuthService.instance.currentUser!.uid)
-      .collection(AppValue.userCollectionOfWorkoutCollectionPath);
+  void addUserCollectionFakeData() {
+    final data = [
+      WorkoutCollection(
+        null,
+        title: 'Tinh yeu la tro choi',
+        description: 'Ai choi hay nguoi do thang',
+        workoutIDs: ['QCVbVHUwqI60DBrEcZIs'],
+        categoryIDs: [],
+      ),
+      WorkoutCollection(
+        null,
+        title: 'Yeu em dai kho',
+        description: 'Lou Hoang',
+        workoutIDs: ['oLrjD5ZIqtIH8XDBJTLK'],
+        categoryIDs: [],
+      ),
+      WorkoutCollection(
+        null,
+        title: 'Day tui cach iu',
+        description: 'TLinh',
+        workoutIDs: ['WPOwO0boeOMyBbCdVuPr'],
+        categoryIDs: [],
+      ),
+    ];
+
+    for (var item in data) {
+      add(item);
+    }
+  }
+
+  CollectionReference<Map<String, dynamic>> get _userCollectionPath =>
+      _firestore
+          .collection(AppValue.userCollectionsPath)
+          .doc(AuthService.instance.currentUser!.uid)
+          .collection(AppValue.collectionOfSingleUserPath);
 
   @override
-  String get collectionPath => AppValue.collectionOfWorkoutCollectionPath;
+  String get collectionPath => AppValue.workoutCollectionsPath;
 
   @override
   Future<String> delete(String id) async {
-    await _userPath.doc(id).delete();
+    await _userCollectionPath.doc(id).delete();
     return id;
   }
 
   @override
   Future<WorkoutCollection> fetch(String id) async {
-    final raw = await _userPath.doc(id).get();
+    final raw = await _userCollectionPath.doc(id).get();
     return WorkoutCollection.fromMap(id, raw.data() ?? {});
   }
 
   @override
   Future<WorkoutCollection> update(String id, WorkoutCollection obj) async {
-    await _userPath.doc(id).update(obj.toMap());
+    await _userCollectionPath.doc(id).update(obj.toMap());
 
     return obj;
   }
@@ -99,9 +132,20 @@ class WorkoutCollectionProvider
     return wc;
   }
 
-  Future<List<WorkoutCollection>> fetchAll() async {
+  Future<List<WorkoutCollection>> fetchAllDefaultCollection() async {
     QuerySnapshot<Map<String, dynamic>> raw =
         await _firestore.collection(collectionPath).get();
+
+    List<WorkoutCollection> list = [];
+    for (var element in raw.docs) {
+      list.add(WorkoutCollection.fromMap(element.id, element.data()));
+    }
+
+    return list;
+  }
+
+  Future<List<WorkoutCollection>> fetchAllUserCollection() async {
+    QuerySnapshot<Map<String, dynamic>> raw = await _userCollectionPath.get();
 
     List<WorkoutCollection> list = [];
     for (var element in raw.docs) {

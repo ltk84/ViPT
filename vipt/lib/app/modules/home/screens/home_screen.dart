@@ -55,7 +55,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () async {
-                WorkoutCollectionProvider().addFakeData();
+                // WorkoutCollectionProvider().addUserCollectionFakeData();
               },
               child: const Text('Fetch data'),
             ),

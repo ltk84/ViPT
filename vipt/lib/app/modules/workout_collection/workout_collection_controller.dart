@@ -14,6 +14,7 @@ class WorkoutCollectionController extends GetxController {
   late Rx<CollectionSetting> collectionSetting;
   Rx<int> caloValue = 0.obs;
   Rx<int> timeValue = 0.obs;
+  late List<WorkoutCollection> userCollections;
 
   @override
   void onInit() {
@@ -21,11 +22,16 @@ class WorkoutCollectionController extends GetxController {
     initCollections();
     loadCateListAndNumCollection();
     initCollectionSetting();
+    loadUserCollections();
     super.onInit();
 
     ever(collectionSetting, (_) {
       calculateCaloAndTime();
     });
+  }
+
+  void loadUserCollections() {
+    userCollections = DataService.instance.userCollectionList;
   }
 
   List<Workout> loadWorkoutList(List<String> workoutIDs) {

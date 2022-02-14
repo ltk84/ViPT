@@ -30,7 +30,7 @@ class UserProvider implements Firestoration<String, ViPTUser> {
   }
 
   @override
-  String get collectionPath => AppValue.userCollectionPath;
+  String get collectionPath => AppValue.usersPath;
 
   Future<bool> checkIfUserExist(String uid) async {
     var doc = await _firestore.collection(collectionPath).doc(uid).get();

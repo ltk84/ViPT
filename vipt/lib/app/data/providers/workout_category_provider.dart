@@ -16,7 +16,7 @@ class WorkoutCategoryProvider implements Firestoration<String, Category> {
   }
 
   @override
-  String get collectionPath => AppValue.workoutCategoryCollectionPath;
+  String get collectionPath => AppValue.workoutCategoriesPath;
 
   @override
   Future<String> delete(String id) {
