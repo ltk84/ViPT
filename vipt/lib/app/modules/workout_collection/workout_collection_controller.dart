@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
+import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/providers/workout_collection_setting_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
@@ -11,6 +12,8 @@ class WorkoutCollectionController extends GetxController {
   late List<Category> collectionCategories;
   late Map<String, int> cateListAndNumCollection;
   late Rx<CollectionSetting> collectionSetting;
+  Rx<int> caloValue = 0.obs;
+  Rx<int> timeValue = 0.obs;
 
   @override
   void onInit() {
@@ -19,6 +22,31 @@ class WorkoutCollectionController extends GetxController {
     loadCateListAndNumCollection();
     initCollectionSetting();
     super.onInit();
+
+    ever(collectionSetting, (_) {
+      calculateCaloAndTime();
+    });
+  }
+
+  List<Workout> loadWorkoutList(List<String> workoutIDs) {
+    List<Workout> list = [];
+    for (var id in workoutIDs) {
+      var workout = DataService.instance.workoutList
+          .firstWhere((element) => element.id == id);
+      list.add(workout);
+    }
+
+    return list;
+  }
+
+  void resetCaloAndTime() {
+    caloValue.value = 0;
+    timeValue.value = 0;
+  }
+
+  void calculateCaloAndTime() {
+    caloValue.value++;
+    timeValue.value++;
   }
 
   void initCollectionSetting() {

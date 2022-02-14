@@ -7,6 +7,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
@@ -17,14 +18,24 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
 
   final WorkoutCollection _collection = Get.arguments;
   final _controller = Get.find<WorkoutCollectionController>();
+  late List<Workout> _workoutList;
+
+  void handleBackAction() {
+    _controller.updateCollectionSetting();
+    _controller.resetCaloAndTime();
+  }
+
+  void init() {
+    _controller.loadCollectionSetting();
+    _workoutList = _controller.loadWorkoutList(_collection.workoutIDs);
+  }
 
   @override
   Widget build(BuildContext context) {
-    _controller.loadCollectionSetting();
-
+    init();
     return WillPopScope(
       onWillPop: () async {
-        _controller.updateCollectionSetting();
+        handleBackAction();
         return true;
       },
       child: Scaffold(
@@ -40,7 +51,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
               child: Icon(Icons.arrow_back_ios_new_rounded),
             ),
             onPressed: () {
-              _controller.updateCollectionSetting();
+              handleBackAction();
 
               Navigator.of(context).pop();
             },
@@ -140,9 +151,11 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         const SizedBox(
           width: 8,
         ),
-        Text(
-          '0 phút'.tr,
-          style: Theme.of(context).textTheme.headline6,
+        Obx(
+          () => Text(
+            '${_controller.timeValue.value} phút'.tr,
+            style: Theme.of(context).textTheme.headline6,
+          ),
         ),
         const SizedBox(
           width: 8,
@@ -164,9 +177,11 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         const SizedBox(
           width: 8,
         ),
-        Text(
-          '0 calo'.tr,
-          style: Theme.of(context).textTheme.headline6,
+        Obx(
+          () => Text(
+            '${_controller.caloValue.value} calo'.tr,
+            style: Theme.of(context).textTheme.headline6,
+          ),
         ),
       ],
     );
@@ -491,29 +506,15 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         const SizedBox(
           height: 4,
         ),
-        ExerciseInCollectionTile(
-          asset: SVGAssetString.boxing,
-          title: 'Đánh lộn nè',
-          description: '10 giây',
-          onPressed: () {},
-        ),
-        const SizedBox(
-          height: 4,
-        ),
-        ExerciseInCollectionTile(
-          asset: SVGAssetString.boxing,
-          title: 'Đánh lộn nè 2',
-          description: '10 giây',
-          onPressed: () {},
-        ),
-        const SizedBox(
-          height: 4,
-        ),
-        ExerciseInCollectionTile(
-          asset: SVGAssetString.boxing,
-          title: 'Đánh lộn nè 3',
-          description: '10 giây',
-          onPressed: () {},
+        ..._workoutList.map(
+          (workout) => ExerciseInCollectionTile(
+            asset: SVGAssetString.boxing,
+            title: workout.name,
+            description: '10 giây',
+            onPressed: () {
+              Get.toNamed(Routes.exerciseDetail, arguments: workout);
+            },
+          ),
         ),
       ],
     );

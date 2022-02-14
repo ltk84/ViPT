@@ -54,7 +54,7 @@ class WorkoutCollectionCategoryListScreen extends StatelessWidget {
               onPressed: () {
                 _navigateToSuitableScreen(cate);
               },
-              title: cate.name,
+              title: cate.name.tr,
               description:
                   '${_controller.cateListAndNumCollection[cate.id]} bài tập',
             );
