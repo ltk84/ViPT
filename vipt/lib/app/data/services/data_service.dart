@@ -38,7 +38,7 @@ class DataService {
   Map<String, int> get cateListAndNumWorkout => _cateListAndNumWorkout;
   Map<String, int> get cateListAndNumCollection => _cateListAndNumCollection;
   List<WorkoutCollection> get collectionList => [..._collectionList];
-  List<WorkoutCollection> get userCollectionList => [..._userCollectionList];
+  List<WorkoutCollection> get userCollectionList => _userCollectionList;
   List<Category> get collectionCateList => [..._collectionCateList];
 
   loadUserCollectionList() async {

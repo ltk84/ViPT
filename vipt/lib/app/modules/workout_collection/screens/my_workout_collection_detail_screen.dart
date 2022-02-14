@@ -7,7 +7,6 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
-import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
@@ -29,6 +28,12 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
   void init() {
     _controller.loadCollectionSetting();
     _workoutList = _controller.loadWorkoutList(_collection.workoutIDs);
+  }
+
+  void handleDeleteAction() {
+    _controller.deleteUserCollection(_collection.id);
+    handleBackAction();
+    Get.back();
   }
 
   @override
@@ -75,7 +80,9 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
                   color: AppColor.textColor,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                handleDeleteAction();
+              },
             ),
 
             // này phải check thêm xem collection này là custom hay default.

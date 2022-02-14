@@ -7,7 +7,7 @@ class ExpandableWidget extends StatefulWidget {
   final bool expand;
 
   //Hàm khỏi tạo class
-  ExpandableWidget({this.expand = false, required this.child});
+  const ExpandableWidget({this.expand = false, required this.child});
 
   @override
   _ExpandableWidgetState createState() => _ExpandableWidgetState();

@@ -4,11 +4,6 @@ import 'package:vipt/app/core/values/app_strings.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/data/models/answer.dart';
 import 'package:vipt/app/data/models/question.dart';
-import 'package:vipt/app/data/models/category.dart';
-import 'package:vipt/app/data/models/workout_collection.dart';
-import 'package:vipt/app/data/models/workout_collection.dart';
-import 'package:vipt/app/data/models/workout_collection.dart';
-import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/enums/app_enums.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 

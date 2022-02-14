@@ -52,25 +52,27 @@ class MyWorkoutCollectionListScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView.separated(
-          physics: const BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics()),
-          itemBuilder: (_, index) {
-            var collection = _controller.userCollections[index];
-            return CustomTile(
-              level: 2,
-              asset: SVGAssetString.gym,
-              onPressed: () {
-                Get.toNamed(Routes.myWorkoutCollectionDetail,
-                    arguments: collection);
-              },
-              title: collection.title,
-            );
-          },
-          separatorBuilder: (_, index) => const Divider(
-                indent: 24,
-              ),
-          itemCount: _controller.userCollections.length),
+      body: GetBuilder<WorkoutCollectionController>(
+        builder: (_) => ListView.separated(
+            physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics()),
+            itemBuilder: (_, index) {
+              var collection = _controller.userCollections[index];
+              return CustomTile(
+                level: 2,
+                asset: SVGAssetString.gym,
+                onPressed: () {
+                  Get.toNamed(Routes.myWorkoutCollectionDetail,
+                      arguments: collection);
+                },
+                title: collection.title,
+              );
+            },
+            separatorBuilder: (_, index) => const Divider(
+                  indent: 24,
+                ),
+            itemCount: _controller.userCollections.length),
+      ),
     );
   }
 }

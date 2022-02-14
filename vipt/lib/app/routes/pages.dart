@@ -1,11 +1,9 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
-import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/modules/auth/authentication_binding.dart';
 import 'package:vipt/app/modules/auth/screens/authentication_screen.dart';
 import 'package:vipt/app/modules/error/screens/error_screen.dart';
 import 'package:vipt/app/modules/home/home_binding.dart';
 import 'package:vipt/app/modules/home/screens/home_screen.dart';
-import 'package:vipt/app/modules/profile/profile_binding.dart';
 import 'package:vipt/app/modules/profile/screens/library_screen.dart';
 import 'package:vipt/app/modules/setup_info/screens/setup_info_intro_screen.dart';
 import 'package:vipt/app/modules/setup_info/screens/setup_info_question_screen.dart';

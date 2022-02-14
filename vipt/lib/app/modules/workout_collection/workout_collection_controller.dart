@@ -3,6 +3,7 @@ import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
+import 'package:vipt/app/data/providers/workout_collection_provider.dart';
 import 'package:vipt/app/data/providers/workout_collection_setting_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/routes/pages.dart';
@@ -28,6 +29,13 @@ class WorkoutCollectionController extends GetxController {
     ever(collectionSetting, (_) {
       calculateCaloAndTime();
     });
+  }
+
+  void deleteUserCollection(String? id) async {
+    if (id == null) return;
+    userCollections.removeWhere((element) => element.id == id);
+    await WorkoutCollectionProvider().delete(id);
+    update();
   }
 
   void loadUserCollections() {
@@ -61,7 +69,6 @@ class WorkoutCollectionController extends GetxController {
 
   void loadCollectionSetting() {
     collectionSetting.value = DataService.currentUser.collectionSetting;
-    update();
   }
 
   Future<void> updateCollectionSetting() async {
