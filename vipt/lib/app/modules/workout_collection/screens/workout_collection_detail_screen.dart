@@ -18,7 +18,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
 
   final WorkoutCollection _collection = Get.arguments;
   final _controller = Get.find<WorkoutCollectionController>();
-  late List<Workout> _workoutList;
+  late final List<Workout> _workoutList;
 
   void handleBackAction() {
     _controller.updateCollectionSetting();

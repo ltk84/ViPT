@@ -19,6 +19,7 @@ import 'package:vipt/app/modules/workout/workout_binding.dart';
 import 'package:vipt/app/modules/workout_collection/screens/add_exercise_to_collection_screen.dart';
 import 'package:vipt/app/modules/workout_collection/screens/add_workout_collection_screen.dart';
 import 'package:vipt/app/modules/workout_collection/screens/edit_workout_collection_screen.dart';
+import 'package:vipt/app/modules/workout_collection/screens/my_workout_collection_detail_screen.dart';
 import 'package:vipt/app/modules/workout_collection/screens/my_workout_collection_list_screen.dart';
 import 'package:vipt/app/modules/workout_collection/screens/workout_collection_detail_screen.dart';
 import 'package:vipt/app/modules/workout_collection/screens/workout_collection_category_list_screen.dart';
@@ -48,7 +49,7 @@ abstract class AppPages {
     ),
     GetPage(
       name: Routes.setupInfoQuestion,
-      page: () => SetupInfoQuestionScreen(),
+      page: () => const SetupInfoQuestionScreen(),
       binding: SetupInfoBinding(),
     ),
     GetPage(
@@ -80,6 +81,10 @@ abstract class AppPages {
     GetPage(
       name: Routes.workoutCollectionDetail,
       page: () => WorkoutCollectionDetailScreen(),
+    ),
+    GetPage(
+      name: Routes.myWorkoutCollectionDetail,
+      page: () => MyWorkoutCollectionDetailScreen(),
     ),
     GetPage(
       name: Routes.library,

@@ -8,6 +8,7 @@ import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
+import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
@@ -18,112 +19,130 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
 
   final WorkoutCollection _collection = Get.arguments;
   final _controller = Get.find<WorkoutCollectionController>();
+  late final List<Workout> _workoutList;
+
+  void handleBackAction() {
+    _controller.updateCollectionSetting();
+    _controller.resetCaloAndTime();
+  }
+
+  void init() {
+    _controller.loadCollectionSetting();
+    _workoutList = _controller.loadWorkoutList(_collection.workoutIDs);
+  }
 
   @override
   Widget build(BuildContext context) {
-    _controller.loadCollectionSetting();
+    init();
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Hero(
-            tag: 'leadingButtonAppBar',
-            child: Icon(Icons.arrow_back_ios_new_rounded),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        flexibleSpace: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
-            child: Container(
-              color: Colors.transparent,
-            ),
-          ),
-        ),
-        actions: [
-          IconButton(
-            color: Theme.of(context).backgroundColor,
-            icon: Hero(
-              tag: 'actionButtonAppBar_2',
-              child: Icon(
-                Icons.delete_rounded,
-                color: AppColor.textColor,
-              ),
-            ),
-            onPressed: () {},
-          ),
-
-          // này phải check thêm xem collection này là custom hay default.
-
-          IconButton(
-            color: Theme.of(context).backgroundColor,
-            icon: Hero(
-              tag: 'actionButtonAppBar',
-              child: Icon(
-                Icons.settings_rounded,
-                color: AppColor.textColor,
-              ),
+    return WillPopScope(
+      onWillPop: () async {
+        handleBackAction();
+        return true;
+      },
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        backgroundColor: Theme.of(context).backgroundColor,
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Hero(
+              tag: 'leadingButtonAppBar',
+              child: Icon(Icons.arrow_back_ios_new_rounded),
             ),
             onPressed: () {
-              Get.toNamed(Routes.editWorkoutCollection);
+              handleBackAction();
+              Navigator.of(context).pop();
             },
           ),
-        ],
-      ),
-      body: Container(
-        padding: AppDecoration.screenPadding.copyWith(top: 8, bottom: 0),
-        child: LayoutBuilder(builder: (context, constraints) {
-          return ListView(
-            physics: const BouncingScrollPhysics(
-                parent: AlwaysScrollableScrollPhysics()),
-            children: [
-              _buildIntro(context),
-              const SizedBox(
-                height: 8,
+          flexibleSpace: ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
+              child: Container(
+                color: Colors.transparent,
               ),
-              _buildIndicatorDisplay(context),
-              const SizedBox(
-                height: 16,
+            ),
+          ),
+          actions: [
+            IconButton(
+              color: Theme.of(context).backgroundColor,
+              icon: Hero(
+                tag: 'actionButtonAppBar_2',
+                child: Icon(
+                  Icons.delete_rounded,
+                  color: AppColor.textColor,
+                ),
               ),
-              _buildRoundProperty(context, constraints.maxHeight),
-              const SizedBox(
-                height: 12,
+              onPressed: () {},
+            ),
+
+            // này phải check thêm xem collection này là custom hay default.
+
+            IconButton(
+              color: Theme.of(context).backgroundColor,
+              icon: Hero(
+                tag: 'actionButtonAppBar',
+                child: Icon(
+                  Icons.settings_rounded,
+                  color: AppColor.textColor,
+                ),
               ),
-              _buildWarmUpProperty(context),
-              const SizedBox(
-                height: 12,
-              ),
-              _buildShuffleProperty(context),
-              const SizedBox(
-                height: 12,
-              ),
-              _buildExerciseTimeProperty(context, constraints.maxHeight),
-              const SizedBox(
-                height: 12,
-              ),
-              _buildTransitionTimeProperty(context, constraints.maxHeight),
-              const SizedBox(
-                height: 12,
-              ),
-              _buildRestTimeProperty(context, constraints.maxHeight),
-              const SizedBox(
-                height: 12,
-              ),
-              _buildRestFrequencyProperty(context, constraints.maxHeight),
-              const SizedBox(
-                height: 24,
-              ),
-              _buildExerciseList(context),
-            ],
-          );
-        }),
+              onPressed: () {
+                Get.toNamed(Routes.editWorkoutCollection);
+              },
+            ),
+          ],
+        ),
+        body: Container(
+          padding: AppDecoration.screenPadding.copyWith(top: 8, bottom: 0),
+          child: LayoutBuilder(builder: (context, constraints) {
+            return ListView(
+              physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
+              children: [
+                _buildIntro(context),
+                const SizedBox(
+                  height: 8,
+                ),
+                _buildIndicatorDisplay(context),
+                const SizedBox(
+                  height: 16,
+                ),
+                _buildRoundProperty(context, constraints.maxHeight),
+                const SizedBox(
+                  height: 12,
+                ),
+                _buildWarmUpProperty(context),
+                const SizedBox(
+                  height: 12,
+                ),
+                _buildShuffleProperty(context),
+                const SizedBox(
+                  height: 12,
+                ),
+                _buildExerciseTimeProperty(context, constraints.maxHeight),
+                const SizedBox(
+                  height: 12,
+                ),
+                _buildTransitionTimeProperty(context, constraints.maxHeight),
+                const SizedBox(
+                  height: 12,
+                ),
+                _buildRestTimeProperty(context, constraints.maxHeight),
+                const SizedBox(
+                  height: 12,
+                ),
+                _buildRestFrequencyProperty(context, constraints.maxHeight),
+                const SizedBox(
+                  height: 24,
+                ),
+                _buildExerciseList(context),
+              ],
+            );
+          }),
+        ),
       ),
     );
   }
@@ -142,7 +161,7 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Text(
-            'Mô tả mô tả mô tả mô tả mô tả mô tả'.tr,
+            _collection.description.tr,
             style: Theme.of(context).textTheme.subtitle2,
           ),
         ),
@@ -162,9 +181,11 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
         const SizedBox(
           width: 8,
         ),
-        Text(
-          '0 phút'.tr,
-          style: Theme.of(context).textTheme.headline6,
+        Obx(
+          () => Text(
+            '${_controller.timeValue} phút'.tr,
+            style: Theme.of(context).textTheme.headline6,
+          ),
         ),
         const SizedBox(
           width: 8,
@@ -186,9 +207,11 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
         const SizedBox(
           width: 8,
         ),
-        Text(
-          '0 calo'.tr,
-          style: Theme.of(context).textTheme.headline6,
+        Obx(
+          () => Text(
+            '${_controller.caloValue} calo'.tr,
+            style: Theme.of(context).textTheme.headline6,
+          ),
         ),
       ],
     );
@@ -513,29 +536,15 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
         const SizedBox(
           height: 4,
         ),
-        ExerciseInCollectionTile(
-          asset: SVGAssetString.boxing,
-          title: 'Đánh lộn nè',
-          description: '10 giây',
-          onPressed: () {},
-        ),
-        const SizedBox(
-          height: 4,
-        ),
-        ExerciseInCollectionTile(
-          asset: SVGAssetString.boxing,
-          title: 'Đánh lộn nè 2',
-          description: '10 giây',
-          onPressed: () {},
-        ),
-        const SizedBox(
-          height: 4,
-        ),
-        ExerciseInCollectionTile(
-          asset: SVGAssetString.boxing,
-          title: 'Đánh lộn nè 3',
-          description: '10 giây',
-          onPressed: () {},
+        ..._workoutList.map(
+          (workout) => ExerciseInCollectionTile(
+            asset: SVGAssetString.boxing,
+            title: workout.name,
+            description: '10 giây',
+            onPressed: () {
+              Get.toNamed(Routes.exerciseDetail, arguments: workout);
+            },
+          ),
         ),
       ],
     );
