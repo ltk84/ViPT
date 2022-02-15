@@ -11,7 +11,7 @@ class AddWorkoutCollectionController extends GetxController {
   RxList<String> selectValueList = <String>[].obs;
   //
 
-  WorkoutCollection selectedCollection =
+  WorkoutCollection? selectedCollection =
       Get.find<WorkoutCollectionController>().selectedCollection;
 
   addWorkoutCollection() async {
@@ -24,13 +24,13 @@ class AddWorkoutCollectionController extends GetxController {
   }
 
   beforeEdit() {
-    titleTextController.text = selectedCollection.title;
-    descriptionTextController.text = selectedCollection.description;
-    workoutIDs = selectedCollection.workoutIDs;
+    titleTextController.text = selectedCollection!.title;
+    descriptionTextController.text = selectedCollection!.description;
+    workoutIDs = selectedCollection!.workoutIDs;
   }
 
   editWorkoutCollection() {
-    var editCollection = WorkoutCollection(selectedCollection.id,
+    var editCollection = WorkoutCollection(selectedCollection!.id,
         title: titleTextController.text,
         description: descriptionTextController.text,
         workoutIDs: workoutIDs,

@@ -162,7 +162,7 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
         Container(
           alignment: Alignment.center,
           child: Text(
-            _controller.selectedCollection.title.tr,
+            _controller.selectedCollection!.title.tr,
             style: Theme.of(context).textTheme.headline2,
           ),
         ),
@@ -170,7 +170,7 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Text(
-            _controller.selectedCollection.description.tr,
+            _controller.selectedCollection!.description.tr,
             style: Theme.of(context).textTheme.subtitle2,
           ),
         ),

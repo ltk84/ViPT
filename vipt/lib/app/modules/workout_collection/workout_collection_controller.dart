@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
@@ -18,7 +17,7 @@ class WorkoutCollectionController extends GetxController {
   Rx<int> timeValue = 0.obs;
   late List<WorkoutCollection> userCollections;
 
-  late WorkoutCollection selectedCollection;
+  late WorkoutCollection? selectedCollection;
   late List<Workout> workoutList;
 
   @override
@@ -28,6 +27,7 @@ class WorkoutCollectionController extends GetxController {
     loadCateListAndNumCollection();
     initCollectionSetting();
     loadUserCollections();
+    selectedCollection = null;
     super.onInit();
 
     ever(collectionSetting, (_) {
@@ -50,22 +50,22 @@ class WorkoutCollectionController extends GetxController {
     selectedCollection = editedCollection;
 
     for (var col in userCollections) {
-      if (col.id == selectedCollection.id) {
-        col = selectedCollection;
+      if (col.id == selectedCollection!.id) {
+        col = selectedCollection!;
       }
     }
 
     loadWorkoutListForUserCollection();
     update();
     await WorkoutCollectionProvider()
-        .update(selectedCollection.id ?? '', selectedCollection);
+        .update(selectedCollection!.id ?? '', selectedCollection!);
   }
 
   void deleteUserCollection() async {
-    if (selectedCollection.id == null) return;
+    if (selectedCollection!.id == null) return;
     userCollections
-        .removeWhere((element) => element.id == selectedCollection.id);
-    await WorkoutCollectionProvider().delete(selectedCollection.id ?? '');
+        .removeWhere((element) => element.id == selectedCollection!.id);
+    await WorkoutCollectionProvider().delete(selectedCollection!.id ?? '');
     update();
   }
 
@@ -75,7 +75,7 @@ class WorkoutCollectionController extends GetxController {
 
   void loadWorkoutListForUserCollection() {
     workoutList = <Workout>[].obs;
-    for (var id in selectedCollection.workoutIDs) {
+    for (var id in selectedCollection!.workoutIDs) {
       var workout = DataService.instance.workoutList
           .firstWhere((element) => element.id == id);
       workoutList.add(workout);
