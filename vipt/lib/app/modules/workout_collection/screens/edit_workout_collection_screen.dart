@@ -7,6 +7,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/modules/workout_collection/add_workout_collection_controller.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/text_field_widget.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
@@ -15,7 +16,7 @@ import 'package:vipt/app/routes/pages.dart';
 class EditWorkoutCollectionScreen extends StatelessWidget {
   EditWorkoutCollectionScreen({Key? key}) : super(key: key);
 
-  final _controller = Get.find<WorkoutCollectionController>();
+  final _controller = Get.find<AddWorkoutCollectionController>();
 
   @override
   Widget build(BuildContext context) {

@@ -18,12 +18,6 @@ class WorkoutCollectionController extends GetxController {
   Rx<int> timeValue = 0.obs;
   late List<WorkoutCollection> userCollections;
 
-  // add, edit action
-  TextEditingController titleTextController = TextEditingController();
-  TextEditingController descriptionTextController = TextEditingController();
-  List<String> workoutIDs = ['AzXGIxsw1bLgPfF0WVoL', '4idAW2eNjLdkc8b6YGbE'];
-  //
-
   @override
   void onInit() {
     loadCollectionCategories();
@@ -38,9 +32,10 @@ class WorkoutCollectionController extends GetxController {
     });
   }
 
-  void addUserCollection() {
-    print(titleTextController.text);
-    print(descriptionTextController.text);
+  void addUserCollection(WorkoutCollection wkCollection) async {
+    userCollections.add(wkCollection);
+    update();
+    await WorkoutCollectionProvider().add(wkCollection);
   }
 
   void deleteUserCollection(String? id) async {

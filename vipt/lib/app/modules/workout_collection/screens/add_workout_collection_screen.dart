@@ -8,6 +8,7 @@ import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/services/data_service.dart';
+import 'package:vipt/app/modules/workout_collection/add_workout_collection_controller.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/text_field_widget.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
@@ -16,7 +17,7 @@ import 'package:vipt/app/routes/pages.dart';
 class AddWorkoutCollectionScreen extends StatelessWidget {
   AddWorkoutCollectionScreen({Key? key}) : super(key: key);
 
-  final _controller = Get.find<WorkoutCollectionController>();
+  final _controller = Get.find<AddWorkoutCollectionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,7 @@ class AddWorkoutCollectionScreen extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              _controller.addUserCollection();
+              _controller.addWorkoutCollection();
             },
           ),
         ],
@@ -394,6 +395,7 @@ class AddWorkoutCollectionScreen extends StatelessWidget {
         ),
         ListTile(
           onTap: () {
+            _controller.assignForSelectValueList();
             Get.toNamed(Routes.addExerciseToCollection);
           },
           horizontalTitleGap: 5,
@@ -419,7 +421,9 @@ class AddWorkoutCollectionScreen extends StatelessWidget {
           height: 0,
         ),
         ListTile(
-          onTap: () {},
+          onTap: () {
+            _controller.removeAllWorkoutFromCollection();
+          },
           horizontalTitleGap: 5,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
@@ -442,15 +446,19 @@ class AddWorkoutCollectionScreen extends StatelessWidget {
           color: AppColor.textFieldUnderlineColor,
           height: 0,
         ),
-        ..._controller.workoutIDs.map((e) {
-          final workout = DataService.instance.workoutList
-              .firstWhere((element) => element.id == e);
-          return ExerciseInCollectionTile(
-            asset: SVGAssetString.boxing,
-            title: workout.name,
-            onPressed: () {},
-          );
-        }),
+        GetBuilder<AddWorkoutCollectionController>(
+          builder: (_) => Column(
+            children: _controller.workoutIDs.map((e) {
+              final workout = DataService.instance.workoutList
+                  .firstWhere((element) => element.id == e);
+              return ExerciseInCollectionTile(
+                asset: SVGAssetString.boxing,
+                title: workout.name,
+                onPressed: () {},
+              );
+            }).toList(),
+          ),
+        ),
       ],
     );
   }

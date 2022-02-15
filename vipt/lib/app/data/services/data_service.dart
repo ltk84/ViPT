@@ -16,13 +16,13 @@ class DataService {
 
   static final DataService instance = DataService._privateConstructor();
   static late ViPTUser currentUser;
-  static late List<Workout> _workoutList;
-  static late List<Category> _workoutCateList;
+  static late List<Workout> _workoutList = [];
+  static late List<Category> _workoutCateList = [];
   static late Map<String, int> _cateListAndNumWorkout;
   static late Map<String, int> _cateListAndNumCollection;
-  static late List<Category> _collectionCateList;
-  static late List<WorkoutCollection> _collectionList;
-  static late List<WorkoutCollection> _userCollectionList;
+  static late List<Category> _collectionCateList = [];
+  static late List<WorkoutCollection> _collectionList = [];
+  static late List<WorkoutCollection> _userCollectionList = [];
 
   static List<WorkoutEquipment> workoutEquipList = [];
 
