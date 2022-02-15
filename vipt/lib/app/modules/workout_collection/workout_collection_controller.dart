@@ -35,6 +35,11 @@ class WorkoutCollectionController extends GetxController {
     });
   }
 
+  void onSelectCollection(WorkoutCollection collection) {
+    selectedCollection = collection;
+    loadWorkoutListForUserCollection();
+  }
+
   void addUserCollection(WorkoutCollection wkCollection) async {
     userCollections.add(wkCollection);
     update();
