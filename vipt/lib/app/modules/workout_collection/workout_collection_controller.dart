@@ -18,6 +18,9 @@ class WorkoutCollectionController extends GetxController {
   Rx<int> timeValue = 0.obs;
   late List<WorkoutCollection> userCollections;
 
+  late WorkoutCollection selectedCollection;
+  late List<Workout> workoutList;
+
   @override
   void onInit() {
     loadCollectionCategories();
@@ -38,15 +41,41 @@ class WorkoutCollectionController extends GetxController {
     await WorkoutCollectionProvider().add(wkCollection);
   }
 
-  void deleteUserCollection(String? id) async {
-    if (id == null) return;
-    userCollections.removeWhere((element) => element.id == id);
-    await WorkoutCollectionProvider().delete(id);
+  editUserCollection(WorkoutCollection editedCollection) async {
+    selectedCollection = editedCollection;
+
+    for (var col in userCollections) {
+      if (col.id == selectedCollection.id) {
+        col = selectedCollection;
+      }
+    }
+
+    loadWorkoutListForUserCollection();
+    update();
+    await WorkoutCollectionProvider()
+        .update(selectedCollection.id ?? '', selectedCollection);
+  }
+
+  void deleteUserCollection() async {
+    if (selectedCollection.id == null) return;
+    userCollections
+        .removeWhere((element) => element.id == selectedCollection.id);
+    await WorkoutCollectionProvider().delete(selectedCollection.id ?? '');
     update();
   }
 
   void loadUserCollections() {
     userCollections = DataService.instance.userCollectionList;
+  }
+
+  void loadWorkoutListForUserCollection() {
+    workoutList = <Workout>[].obs;
+    for (var id in selectedCollection.workoutIDs) {
+      var workout = DataService.instance.workoutList
+          .firstWhere((element) => element.id == id);
+      workoutList.add(workout);
+      update();
+    }
   }
 
   List<Workout> loadWorkoutList(List<String> workoutIDs) {

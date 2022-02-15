@@ -46,8 +46,11 @@ class MyWorkoutCollectionListScreen extends StatelessWidget {
                 color: AppColor.textColor,
               ),
             ),
-            onPressed: () {
-              Get.toNamed(Routes.addWorkoutCollection);
+            onPressed: () async {
+              final result = await Get.toNamed(Routes.addWorkoutCollection);
+              if (result != null) {
+                _controller.addUserCollection(result);
+              }
             },
           ),
         ],
@@ -62,8 +65,11 @@ class MyWorkoutCollectionListScreen extends StatelessWidget {
                 level: 2,
                 asset: SVGAssetString.gym,
                 onPressed: () {
-                  Get.toNamed(Routes.myWorkoutCollectionDetail,
-                      arguments: collection);
+                  _controller.selectedCollection = collection;
+                  _controller.loadWorkoutListForUserCollection();
+                  Get.toNamed(
+                    Routes.myWorkoutCollectionDetail,
+                  );
                 },
                 title: collection.title,
               );

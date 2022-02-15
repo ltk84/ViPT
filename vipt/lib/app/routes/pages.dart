@@ -97,6 +97,7 @@ abstract class AppPages {
     GetPage(
       name: Routes.editWorkoutCollection,
       page: () => EditWorkoutCollectionScreen(),
+      binding: AddWorkoutCollectionBinding(),
     ),
     GetPage(
       name: Routes.addExerciseToCollection,

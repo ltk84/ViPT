@@ -16,9 +16,7 @@ import 'package:vipt/app/routes/pages.dart';
 class MyWorkoutCollectionDetailScreen extends StatelessWidget {
   MyWorkoutCollectionDetailScreen({Key? key}) : super(key: key);
 
-  final WorkoutCollection _collection = Get.arguments;
   final _controller = Get.find<WorkoutCollectionController>();
-  late final List<Workout> _workoutList;
 
   void handleBackAction() {
     _controller.updateCollectionSetting();
@@ -27,11 +25,11 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
 
   void init() {
     _controller.loadCollectionSetting();
-    _workoutList = _controller.loadWorkoutList(_collection.workoutIDs);
+    // _controller.loadWorkoutList();
   }
 
   void handleDeleteAction() {
-    _controller.deleteUserCollection(_collection.id);
+    _controller.deleteUserCollection();
     handleBackAction();
     Get.back();
   }
@@ -96,8 +94,12 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
                   color: AppColor.textColor,
                 ),
               ),
-              onPressed: () {
-                Get.toNamed(Routes.editWorkoutCollection);
+              onPressed: () async {
+                final result = await Get.toNamed(Routes.editWorkoutCollection);
+                if (result != null) {
+                  await _controller.editUserCollection(result);
+                  init();
+                }
               },
             ),
           ],
@@ -160,7 +162,7 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
         Container(
           alignment: Alignment.center,
           child: Text(
-            _collection.title.tr,
+            _controller.selectedCollection.title.tr,
             style: Theme.of(context).textTheme.headline2,
           ),
         ),
@@ -168,7 +170,7 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Text(
-            _collection.description.tr,
+            _controller.selectedCollection.description.tr,
             style: Theme.of(context).textTheme.subtitle2,
           ),
         ),
@@ -535,25 +537,27 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
   }
 
   Widget _buildExerciseList(context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Danh sách bài tập'.tr,
-            style: Theme.of(context).textTheme.headline3),
-        const SizedBox(
-          height: 4,
-        ),
-        ..._workoutList.map(
-          (workout) => ExerciseInCollectionTile(
-            asset: SVGAssetString.boxing,
-            title: workout.name,
-            description: '10 giây',
-            onPressed: () {
-              Get.toNamed(Routes.exerciseDetail, arguments: workout);
-            },
+    return GetBuilder<WorkoutCollectionController>(
+      builder: (_) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Danh sách bài tập'.tr,
+              style: Theme.of(context).textTheme.headline3),
+          const SizedBox(
+            height: 4,
           ),
-        ),
-      ],
+          ..._controller.workoutList.map(
+            (workout) => ExerciseInCollectionTile(
+              asset: SVGAssetString.boxing,
+              title: workout.name,
+              description: '10 giây',
+              onPressed: () {
+                Get.toNamed(Routes.exerciseDetail, arguments: workout);
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
