@@ -69,19 +69,13 @@ class AddExerciseToCollectionScreen extends StatelessWidget {
             color: AppColor.textFieldUnderlineColor,
           ),
           GetBuilder<AddWorkoutCollectionController>(
-            builder: (_) => Container(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              // child: ListView(
-              //   physics: const BouncingScrollPhysics(
-              //       parent: AlwaysScrollableScrollPhysics()),
-              //   children: [
-              //     _buildExerciseList(context),
-              //   ],
-              // ),
-              // child: MultipleChoiceOneColumnLayout(listAnswers: []),
-              child: _controller.searchTextController.text.isNotEmpty
-                  ? _buildSearchResultListView(_controller)
-                  : _buildInitialListView(_controller),
+            builder: (_) => Expanded(
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: _controller.searchTextController.text.isNotEmpty
+                    ? _buildSearchResultListView(_controller)
+                    : _buildInitialListView(_controller),
+              ),
             ),
           ),
         ],

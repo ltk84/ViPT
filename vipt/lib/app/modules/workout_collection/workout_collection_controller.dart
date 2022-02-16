@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:get/get.dart';
+import 'package:vipt/app/core/utilities/utils.dart';
 import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/workout.dart';
@@ -112,39 +113,16 @@ class WorkoutCollectionController extends GetxController {
   }
 
   void calculateCaloAndTime() {
-    // caloValue.value++;
-    // timeValue.value++;
     num bodyWeight = DataService.currentUser.currentWeight;
     resetCaloAndTime();
-    workoutList
-        .map((workout) => {
-              caloValue.value += collectionSetting.value.round *
-                  ((collectionSetting.value.exerciseTime / 60) *
-                      workout.metValue *
-                      bodyWeight *
-                      3.5) /
-                  200
-            })
-        .toList();
+    caloValue.value = WorkoutCollectionUtils.calculateCalo(
+        workoutList: workoutList,
+        collectionSetting: collectionSetting.value,
+        bodyWeight: bodyWeight);
 
-    int restTimeValue = ((collectionSetting.value.round * workoutList.length) %
-                collectionSetting.value.restFrequency ==
-            0)
-        ? ((collectionSetting.value.round * workoutList.length) /
-                    collectionSetting.value.restFrequency)
-                .toInt() -
-            1
-        : (collectionSetting.value.round *
-                workoutList.length /
-                collectionSetting.value.restFrequency)
-            .toInt();
-
-    timeValue.value = (collectionSetting.value.round *
-                workoutList.length *
-                (collectionSetting.value.exerciseTime +
-                    collectionSetting.value.transitionTime) +
-            restTimeValue * collectionSetting.value.restTime) /
-        60;
+    timeValue.value = WorkoutCollectionUtils.calculateTime(
+        collectionSetting: collectionSetting.value,
+        workoutListLenght: workoutList.length);
   }
 
   void initCollectionSetting() {

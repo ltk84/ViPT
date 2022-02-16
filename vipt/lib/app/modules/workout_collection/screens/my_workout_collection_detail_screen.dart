@@ -95,6 +95,7 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
                 if (result != null) {
                   await _controller.editUserCollection(result);
                   init();
+                  _controller.calculateCaloAndTime();
                 }
               },
             ),
