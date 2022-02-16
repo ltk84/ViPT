@@ -13,8 +13,8 @@ class WorkoutCollectionController extends GetxController {
   late List<Category> collectionCategories;
   late Map<String, int> cateListAndNumCollection;
   late Rx<CollectionSetting> collectionSetting;
-  Rx<int> caloValue = 0.obs;
-  Rx<int> timeValue = 0.obs;
+  Rx<double> caloValue = 0.0.obs;
+  Rx<double> timeValue = 0.0.obs;
   late List<WorkoutCollection> userCollections;
 
   WorkoutCollection? selectedCollection;
@@ -101,8 +101,39 @@ class WorkoutCollectionController extends GetxController {
   }
 
   void calculateCaloAndTime() {
-    caloValue.value++;
-    timeValue.value++;
+    // caloValue.value++;
+    // timeValue.value++;
+    num bodyWeight = DataService.currentUser.currentWeight;
+    resetCaloAndTime();
+    workoutList
+        .map((workout) => {
+              caloValue.value += collectionSetting.value.round *
+                  ((collectionSetting.value.exerciseTime / 60) *
+                      workout.metValue *
+                      bodyWeight *
+                      3.5) /
+                  200
+            })
+        .toList();
+
+    int restTimeValue = ((collectionSetting.value.round * workoutList.length) %
+                collectionSetting.value.restFrequency ==
+            0)
+        ? ((collectionSetting.value.round * workoutList.length) /
+                    collectionSetting.value.restFrequency)
+                .toInt() -
+            1
+        : (collectionSetting.value.round *
+                workoutList.length /
+                collectionSetting.value.restFrequency)
+            .toInt();
+
+    timeValue.value = (collectionSetting.value.round *
+                workoutList.length *
+                (collectionSetting.value.exerciseTime +
+                    collectionSetting.value.transitionTime) +
+            restTimeValue * collectionSetting.value.restTime) /
+        60;
   }
 
   void initCollectionSetting() {
