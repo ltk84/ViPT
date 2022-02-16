@@ -54,8 +54,18 @@ class MyWorkoutCollectionListScreen extends StatelessWidget {
               //   _controller.addUserCollection(result);
               // }
               Get.lazyPut(() => AddWorkoutCollectionController());
-              final result = await Get.bottomSheet(AddWorkoutCollectionScreen(),
-                  isScrollControlled: true);
+              final result = await Get.bottomSheet(
+                Container(
+                  margin: const EdgeInsets.only(top: 36),
+                  child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        topRight: Radius.circular(10.0),
+                      ),
+                      child: AddWorkoutCollectionScreen()),
+                ),
+                isScrollControlled: true,
+              );
               if (result != null) {
                 _controller.addUserCollection(result);
                 // Get.delete<AddWorkoutCollectionController>();

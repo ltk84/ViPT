@@ -22,6 +22,7 @@ class AddWorkoutCollectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
+      resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         centerTitle: true,
@@ -30,19 +31,11 @@ class AddWorkoutCollectionScreen extends StatelessWidget {
         leading: IconButton(
           icon: const Hero(
             tag: 'leadingButtonAppBar',
-            child: Icon(Icons.arrow_back_ios_new_rounded),
+            child: Icon(Icons.close_rounded),
           ),
           onPressed: () {
             Navigator.of(context).pop();
           },
-        ),
-        flexibleSpace: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
-            child: Container(
-              color: Colors.transparent,
-            ),
-          ),
         ),
         actions: [
           IconButton(
