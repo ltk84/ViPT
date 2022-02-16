@@ -49,12 +49,9 @@ class WorkoutCollectionController extends GetxController {
   editUserCollection(WorkoutCollection editedCollection) async {
     selectedCollection = editedCollection;
 
-    for (var col in userCollections) {
-      if (col.id == selectedCollection!.id) {
-        col = selectedCollection!;
-        break;
-      }
-    }
+    final index = userCollections
+        .indexWhere((element) => element.id == selectedCollection!.id);
+    userCollections[index] = selectedCollection!;
 
     loadWorkoutListForUserCollection();
     update();

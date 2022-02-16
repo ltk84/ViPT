@@ -59,6 +59,7 @@ class AddExerciseToCollectionScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 16),
             child: SearchFieldWidget(
+                controller: _controller.searchTextController,
                 textStyle: Theme.of(context)
                     .textTheme
                     .subtitle1!
@@ -68,45 +69,79 @@ class AddExerciseToCollectionScreen extends StatelessWidget {
             height: 0,
             color: AppColor.textFieldUnderlineColor,
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            height: _maxHeight * 0.6,
-            // child: ListView(
-            //   physics: const BouncingScrollPhysics(
-            //       parent: AlwaysScrollableScrollPhysics()),
-            //   children: [
-            //     _buildExerciseList(context),
-            //   ],
-            // ),
-            // child: MultipleChoiceOneColumnLayout(listAnswers: []),
-            child: ListView(
-              physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
-              children: [
-                ResponsiveGridRow(
-                  children: DataService.instance.workoutList.map((wk) {
-                    return ResponsiveGridCol(
-                      xs: 12,
-                      child: Obx(
-                        () => MultipleChoiceCard(
-                          title: wk.name,
-                          subtitle: null,
-                          asset: null,
-                          isSelected:
-                              _controller.selectValueList.contains(wk.id),
-                          onSelected: () {
-                            _controller.handleSelect(wk.id ?? '');
-                          },
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ],
+          GetBuilder<AddWorkoutCollectionController>(
+            builder: (_) => Container(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              height: _maxHeight * 0.6,
+              // child: ListView(
+              //   physics: const BouncingScrollPhysics(
+              //       parent: AlwaysScrollableScrollPhysics()),
+              //   children: [
+              //     _buildExerciseList(context),
+              //   ],
+              // ),
+              // child: MultipleChoiceOneColumnLayout(listAnswers: []),
+              child: _controller.searchTextController.text.isNotEmpty
+                  ? _buildSearchResultListView(_controller)
+                  : _buildInitialListView(_controller),
             ),
           ),
         ],
       ),
     );
   }
+}
+
+Widget _buildSearchResultListView(AddWorkoutCollectionController _controller) {
+  return ListView(
+    physics:
+        const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+    children: [
+      ResponsiveGridRow(
+        children: _controller.searchResult.map((wk) {
+          return ResponsiveGridCol(
+            xs: 12,
+            child: Obx(
+              () => MultipleChoiceCard(
+                title: wk.name,
+                subtitle: null,
+                asset: null,
+                isSelected: _controller.selectValueList.contains(wk.id),
+                onSelected: () {
+                  _controller.handleSelect(wk.id ?? '');
+                },
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    ],
+  );
+}
+
+Widget _buildInitialListView(_controller) {
+  return ListView(
+    physics:
+        const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+    children: [
+      ResponsiveGridRow(
+        children: DataService.instance.workoutList.map((wk) {
+          return ResponsiveGridCol(
+            xs: 12,
+            child: Obx(
+              () => MultipleChoiceCard(
+                title: wk.name,
+                subtitle: null,
+                asset: null,
+                isSelected: _controller.selectValueList.contains(wk.id),
+                onSelected: () {
+                  _controller.handleSelect(wk.id ?? '');
+                },
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    ],
+  );
 }

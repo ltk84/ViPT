@@ -4,9 +4,11 @@ import 'package:vipt/app/core/values/colors.dart';
 
 class SearchFieldWidget extends StatelessWidget {
   final TextStyle? textStyle;
+  final TextEditingController controller;
   const SearchFieldWidget({
     Key? key,
     this.textStyle,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -14,6 +16,7 @@ class SearchFieldWidget extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       child: TextField(
+        controller: controller,
         style: textStyle,
         decoration: InputDecoration(
           filled: true,
