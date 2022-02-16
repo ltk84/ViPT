@@ -17,7 +17,7 @@ class WorkoutCollectionController extends GetxController {
   Rx<int> timeValue = 0.obs;
   late List<WorkoutCollection> userCollections;
 
-  late WorkoutCollection? selectedCollection;
+  WorkoutCollection? selectedCollection;
   late List<Workout> workoutList;
 
   @override
