@@ -52,6 +52,7 @@ class WorkoutCollectionController extends GetxController {
     for (var col in userCollections) {
       if (col.id == selectedCollection!.id) {
         col = selectedCollection!;
+        break;
       }
     }
 

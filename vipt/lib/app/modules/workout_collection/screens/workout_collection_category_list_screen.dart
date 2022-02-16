@@ -36,24 +36,22 @@ class WorkoutCollectionCategoryListScreen extends StatelessWidget {
           ),
         ),
       ),
-      // body: ListView(
-
-      //   children: _buildWorkoutCollectionCategory(context),
-      // ),
-
       body: ListView.separated(
           physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics()),
           itemBuilder: (_, index) {
             if (index == 0) {
-              return CustomTile(
-                level: 1,
-                asset: SVGAssetString.gym,
-                onPressed: () {
-                  Get.toNamed(Routes.myWorkoutCollectionList);
-                },
-                title: 'Bộ luyện tập của bạn',
-                description: '24 bài tập',
+              return GetBuilder<WorkoutCollectionController>(
+                builder: (_) => CustomTile(
+                  level: 1,
+                  asset: SVGAssetString.gym,
+                  onPressed: () {
+                    Get.toNamed(Routes.myWorkoutCollectionList);
+                  },
+                  title: 'Bộ luyện tập của bạn',
+                  description:
+                      '${_controller.userCollections.length} bộ bài tập',
+                ),
               );
             }
             final cate = _controller.collectionCategories[index - 1];
@@ -65,7 +63,7 @@ class WorkoutCollectionCategoryListScreen extends StatelessWidget {
               },
               title: cate.name.tr,
               description:
-                  '${_controller.cateListAndNumCollection[cate.id]} bài tập',
+                  '${_controller.cateListAndNumCollection[cate.id]} bộ bài tập',
             );
           },
           separatorBuilder: (_, index) => const Divider(
