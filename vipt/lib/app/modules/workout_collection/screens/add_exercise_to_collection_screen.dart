@@ -74,13 +74,23 @@ class AddExerciseToCollectionScreen extends StatelessWidget {
                 physics: const BouncingScrollPhysics(
                     parent: AlwaysScrollableScrollPhysics()),
                 children: [
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 4, top: 8),
+                    alignment: Alignment.center,
+                    child: Obx(
+                      () => Text(
+                        'Đã chọn ${_controller.selectValueList.length} bài tập',
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                    ),
+                  ),
                   ResponsiveGridRow(
                     children: DataService.instance.workoutList.map((wk) {
                       return ResponsiveGridCol(
                         xs: 12,
                         child: Obx(
                           () => Container(
-                            margin: EdgeInsets.symmetric(vertical: 2),
+                            margin: const EdgeInsets.symmetric(vertical: 2),
                             child: MultipleChoiceCard(
                               title: wk.name,
                               subtitle: null,
