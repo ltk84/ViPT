@@ -16,9 +16,7 @@ import 'package:vipt/app/routes/pages.dart';
 class WorkoutCollectionDetailScreen extends StatelessWidget {
   WorkoutCollectionDetailScreen({Key? key}) : super(key: key);
 
-  final WorkoutCollection _collection = Get.arguments;
   final _controller = Get.find<WorkoutCollectionController>();
-  late final List<Workout> _workoutList;
 
   void handleBackAction() {
     _controller.updateCollectionSetting();
@@ -27,7 +25,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
 
   void init() {
     _controller.loadCollectionSetting();
-    _workoutList = _controller.loadWorkoutList(_collection.workoutIDs);
+    // _workoutList = _controller.loadWorkoutList(_collection.workoutIDs);
   }
 
   @override
@@ -123,7 +121,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         Container(
           alignment: Alignment.center,
           child: Text(
-            _collection.title.tr,
+            _controller.selectedCollection!.title.tr,
             style: Theme.of(context).textTheme.headline2,
           ),
         ),
@@ -131,7 +129,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Text(
-            _collection.description.tr,
+            _controller.selectedCollection!.description.tr,
             style: Theme.of(context).textTheme.subtitle2,
           ),
         ),
@@ -506,7 +504,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         const SizedBox(
           height: 4,
         ),
-        ..._workoutList.map(
+        ..._controller.workoutList.map(
           (workout) => ExerciseInCollectionTile(
             asset: SVGAssetString.boxing,
             title: workout.name,
