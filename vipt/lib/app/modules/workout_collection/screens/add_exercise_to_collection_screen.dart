@@ -48,7 +48,7 @@ class AddExerciseToCollectionScreen extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              _controller.onSave();
+              _controller.onSaveAfterAddExercise();
             },
           ),
         ],

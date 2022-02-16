@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
-import 'package:vipt/app/data/providers/workout_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 
@@ -21,17 +19,7 @@ class AddWorkoutCollectionController extends GetxController {
   TextEditingController searchTextController = TextEditingController();
   RxString searchText = ''.obs;
 
-  List<Workout> searchResult = [
-    // Workout('oLrjD5ZIqtIH8XDBJTLK',
-    //     name: 'stretching1',
-    //     animation: 'animation',
-    //     hints: 'hints',
-    //     breathing: 'breathing',
-    //     muscleFocusAsset: 'muscleFocusAsset',
-    //     categoryIDs: ['Rxb89cZTkXtSLvghJeei'],
-    //     metValue: 1,
-    //     equipmentIDs: [])
-  ];
+  List<Workout> searchResult = [];
 
   @override
   void onInit() {
@@ -52,6 +40,17 @@ class AddWorkoutCollectionController extends GetxController {
     }, time: const Duration(seconds: 1));
 
     super.onInit();
+  }
+
+  resetScreen() {
+    titleTextController.clear();
+    descriptionTextController.clear();
+    workoutIDs.clear();
+    selectValueList.clear();
+    selectedCollection = null;
+    searchTextController.clear();
+    searchText = ''.obs;
+    searchResult.clear();
   }
 
   addWorkoutCollection() async {
@@ -83,7 +82,7 @@ class AddWorkoutCollectionController extends GetxController {
     selectValueList = RxList.from(workoutIDs);
   }
 
-  onSave() {
+  onSaveAfterAddExercise() {
     workoutIDs = [...selectValueList];
     update();
     Get.back();

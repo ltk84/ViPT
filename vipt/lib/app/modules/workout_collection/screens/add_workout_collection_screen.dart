@@ -34,6 +34,7 @@ class AddWorkoutCollectionScreen extends StatelessWidget {
           ),
           onPressed: () {
             Navigator.of(context).pop();
+            _controller.resetScreen();
           },
         ),
         flexibleSpace: ClipRect(
