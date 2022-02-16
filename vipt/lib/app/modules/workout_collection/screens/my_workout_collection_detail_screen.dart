@@ -188,7 +188,7 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
         ),
         Obx(
           () => Text(
-            '${_controller.timeValue} phút'.tr,
+            '${_controller.timeValue.value.toInt()} phút'.tr,
             style: Theme.of(context).textTheme.headline6,
           ),
         ),
@@ -214,7 +214,7 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
         ),
         Obx(
           () => Text(
-            '${_controller.caloValue} calo'.tr,
+            '${_controller.caloValue.value.toInt()} calo'.tr,
             style: Theme.of(context).textTheme.headline6,
           ),
         ),

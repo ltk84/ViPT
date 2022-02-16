@@ -39,12 +39,14 @@ class WorkoutCollectionController extends GetxController {
   void onSelectCollection(WorkoutCollection collection) {
     selectedCollection = collection;
     loadWorkoutListForUserCollection();
+    calculateCaloAndTime();
   }
 
   void addUserCollection(WorkoutCollection wkCollection) async {
     userCollections.add(wkCollection);
     update();
     await WorkoutCollectionProvider().add(wkCollection);
+    calculateCaloAndTime();
   }
 
   editUserCollection(WorkoutCollection editedCollection) async {
