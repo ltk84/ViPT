@@ -25,10 +25,9 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
     // _controller.loadWorkoutList();
   }
 
-  void handleDeleteAction() {
-    _controller.deleteUserCollection();
+  void handleDeleteAction() async {
+    await _controller.deleteUserCollection();
     handleBackAction();
-    Get.back();
   }
 
   @override

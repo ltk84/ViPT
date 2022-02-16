@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
@@ -62,12 +63,23 @@ class WorkoutCollectionController extends GetxController {
         .update(selectedCollection!.id ?? '', selectedCollection!);
   }
 
-  void deleteUserCollection() async {
-    if (selectedCollection!.id == null) return;
-    userCollections
-        .removeWhere((element) => element.id == selectedCollection!.id);
-    await WorkoutCollectionProvider().delete(selectedCollection!.id ?? '');
-    update();
+  deleteUserCollection() async {
+    final result = await showOkCancelAlertDialog(
+        context: Get.context!,
+        title: 'Xóa bộ luyện tập',
+        message:
+            'Bạn có chắc chắn muốn xóa bộ luyện tập này? Bạn sẽ không thể hoàn tác lại thao tác này.',
+        okLabel: 'Có',
+        cancelLabel: 'Không');
+
+    if (result == OkCancelResult.ok) {
+      if (selectedCollection!.id == null) return;
+      userCollections
+          .removeWhere((element) => element.id == selectedCollection!.id);
+      await WorkoutCollectionProvider().delete(selectedCollection!.id ?? '');
+      update();
+      Get.back();
+    }
   }
 
   void loadUserCollections() {
