@@ -15,7 +15,6 @@ class AddExerciseToCollectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double _maxHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
@@ -68,41 +67,37 @@ class AddExerciseToCollectionScreen extends StatelessWidget {
             height: 0,
             color: AppColor.textFieldUnderlineColor,
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            height: _maxHeight * 0.6,
-            // child: ListView(
-            //   physics: const BouncingScrollPhysics(
-            //       parent: AlwaysScrollableScrollPhysics()),
-            //   children: [
-            //     _buildExerciseList(context),
-            //   ],
-            // ),
-            // child: MultipleChoiceOneColumnLayout(listAnswers: []),
-            child: ListView(
-              physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
-              children: [
-                ResponsiveGridRow(
-                  children: DataService.instance.workoutList.map((wk) {
-                    return ResponsiveGridCol(
-                      xs: 12,
-                      child: Obx(
-                        () => MultipleChoiceCard(
-                          title: wk.name,
-                          subtitle: null,
-                          asset: null,
-                          isSelected:
-                              _controller.selectValueList.contains(wk.id),
-                          onSelected: () {
-                            _controller.handleSelect(wk.id ?? '');
-                          },
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+              child: ListView(
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
+                children: [
+                  ResponsiveGridRow(
+                    children: DataService.instance.workoutList.map((wk) {
+                      return ResponsiveGridCol(
+                        xs: 12,
+                        child: Obx(
+                          () => Container(
+                            margin: EdgeInsets.symmetric(vertical: 2),
+                            child: MultipleChoiceCard(
+                              title: wk.name,
+                              subtitle: null,
+                              asset: null,
+                              isSelected:
+                                  _controller.selectValueList.contains(wk.id),
+                              onSelected: () {
+                                _controller.handleSelect(wk.id ?? '');
+                              },
+                            ),
+                          ),
                         ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ],
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
