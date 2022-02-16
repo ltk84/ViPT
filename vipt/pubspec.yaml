@@ -47,6 +47,7 @@ dependencies:
   responsive_grid: ^2.0.0
   path: ^1.8.0
   persistent_bottom_nav_bar: ^4.0.2
+  adaptive_dialog: ^1.2.0
   
   flutter_localizations:
     sdk: flutter

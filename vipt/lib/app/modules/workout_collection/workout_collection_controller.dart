@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
@@ -13,8 +14,8 @@ class WorkoutCollectionController extends GetxController {
   late List<Category> collectionCategories;
   late Map<String, int> cateListAndNumCollection;
   late Rx<CollectionSetting> collectionSetting;
-  Rx<int> caloValue = 0.obs;
-  Rx<int> timeValue = 0.obs;
+  Rx<double> caloValue = 0.0.obs;
+  Rx<double> timeValue = 0.0.obs;
   late List<WorkoutCollection> userCollections;
 
   WorkoutCollection? selectedCollection;
@@ -38,12 +39,14 @@ class WorkoutCollectionController extends GetxController {
   void onSelectCollection(WorkoutCollection collection) {
     selectedCollection = collection;
     loadWorkoutListForUserCollection();
+    calculateCaloAndTime();
   }
 
   void addUserCollection(WorkoutCollection wkCollection) async {
     userCollections.add(wkCollection);
     update();
     await WorkoutCollectionProvider().add(wkCollection);
+    calculateCaloAndTime();
   }
 
   editUserCollection(WorkoutCollection editedCollection) async {
@@ -59,12 +62,23 @@ class WorkoutCollectionController extends GetxController {
         .update(selectedCollection!.id ?? '', selectedCollection!);
   }
 
-  void deleteUserCollection() async {
-    if (selectedCollection!.id == null) return;
-    userCollections
-        .removeWhere((element) => element.id == selectedCollection!.id);
-    await WorkoutCollectionProvider().delete(selectedCollection!.id ?? '');
-    update();
+  deleteUserCollection() async {
+    final result = await showOkCancelAlertDialog(
+        context: Get.context!,
+        title: 'Xóa bộ luyện tập',
+        message:
+            'Bạn có chắc chắn muốn xóa bộ luyện tập này? Bạn sẽ không thể hoàn tác lại thao tác này.',
+        okLabel: 'Có',
+        cancelLabel: 'Không');
+
+    if (result == OkCancelResult.ok) {
+      if (selectedCollection!.id == null) return;
+      userCollections
+          .removeWhere((element) => element.id == selectedCollection!.id);
+      await WorkoutCollectionProvider().delete(selectedCollection!.id ?? '');
+      update();
+      Get.back();
+    }
   }
 
   void loadUserCollections() {
@@ -98,8 +112,39 @@ class WorkoutCollectionController extends GetxController {
   }
 
   void calculateCaloAndTime() {
-    caloValue.value++;
-    timeValue.value++;
+    // caloValue.value++;
+    // timeValue.value++;
+    num bodyWeight = DataService.currentUser.currentWeight;
+    resetCaloAndTime();
+    workoutList
+        .map((workout) => {
+              caloValue.value += collectionSetting.value.round *
+                  ((collectionSetting.value.exerciseTime / 60) *
+                      workout.metValue *
+                      bodyWeight *
+                      3.5) /
+                  200
+            })
+        .toList();
+
+    int restTimeValue = ((collectionSetting.value.round * workoutList.length) %
+                collectionSetting.value.restFrequency ==
+            0)
+        ? ((collectionSetting.value.round * workoutList.length) /
+                    collectionSetting.value.restFrequency)
+                .toInt() -
+            1
+        : (collectionSetting.value.round *
+                workoutList.length /
+                collectionSetting.value.restFrequency)
+            .toInt();
+
+    timeValue.value = (collectionSetting.value.round *
+                workoutList.length *
+                (collectionSetting.value.exerciseTime +
+                    collectionSetting.value.transitionTime) +
+            restTimeValue * collectionSetting.value.restTime) /
+        60;
   }
 
   void initCollectionSetting() {

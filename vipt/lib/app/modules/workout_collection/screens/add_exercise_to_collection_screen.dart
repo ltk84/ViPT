@@ -15,7 +15,6 @@ class AddExerciseToCollectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double _maxHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
@@ -72,7 +71,6 @@ class AddExerciseToCollectionScreen extends StatelessWidget {
           GetBuilder<AddWorkoutCollectionController>(
             builder: (_) => Container(
               padding: const EdgeInsets.symmetric(vertical: 4),
-              height: _maxHeight * 0.6,
               // child: ListView(
               //   physics: const BouncingScrollPhysics(
               //       parent: AlwaysScrollableScrollPhysics()),
@@ -97,6 +95,16 @@ Widget _buildSearchResultListView(AddWorkoutCollectionController _controller) {
     physics:
         const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
     children: [
+      Container(
+        margin: const EdgeInsets.only(bottom: 4, top: 8),
+        alignment: Alignment.center,
+        child: Obx(
+          () => Text(
+            'Đã chọn ${_controller.selectValueList.length} bài tập',
+            style: Theme.of(Get.context!).textTheme.subtitle1,
+          ),
+        ),
+      ),
       ResponsiveGridRow(
         children: _controller.searchResult.map((wk) {
           return ResponsiveGridCol(
@@ -124,6 +132,16 @@ Widget _buildInitialListView(_controller) {
     physics:
         const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
     children: [
+      Container(
+        margin: const EdgeInsets.only(bottom: 4, top: 8),
+        alignment: Alignment.center,
+        child: Obx(
+          () => Text(
+            'Đã chọn ${_controller.selectValueList.length} bài tập',
+            style: Theme.of(Get.context!).textTheme.subtitle1,
+          ),
+        ),
+      ),
       ResponsiveGridRow(
         children: DataService.instance.workoutList.map((wk) {
           return ResponsiveGridCol(
