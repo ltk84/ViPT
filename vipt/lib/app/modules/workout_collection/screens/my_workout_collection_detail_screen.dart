@@ -544,13 +544,16 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
             height: 4,
           ),
           ..._controller.workoutList.map(
-            (workout) => ExerciseInCollectionTile(
-              asset: SVGAssetString.boxing,
-              title: workout.name,
-              description: '10 giây',
-              onPressed: () {
-                Get.toNamed(Routes.exerciseDetail, arguments: workout);
-              },
+            (workout) => Obx(
+              () => ExerciseInCollectionTile(
+                asset: SVGAssetString.boxing,
+                title: workout.name,
+                description:
+                    '${_controller.collectionSetting.value.exerciseTime} giây',
+                onPressed: () {
+                  Get.toNamed(Routes.exerciseDetail, arguments: workout);
+                },
+              ),
             ),
           ),
         ],
