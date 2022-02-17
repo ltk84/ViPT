@@ -13,8 +13,6 @@ import 'package:vipt/app/modules/workout_collection/screens/add_exercise_to_coll
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/text_field_widget.dart';
 
-import 'package:vipt/app/routes/pages.dart';
-
 class EditWorkoutCollectionScreen extends StatelessWidget {
   EditWorkoutCollectionScreen({Key? key}) : super(key: key);
 
@@ -112,7 +110,6 @@ class EditWorkoutCollectionScreen extends StatelessWidget {
         ListTile(
           onTap: () {
             _controller.assignForSelectValueList();
-            // Get.toNamed(Routes.addExerciseToCollection);
             Get.bottomSheet(
               Container(
                 margin: const EdgeInsets.only(top: 36),

@@ -112,13 +112,6 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
                   _controller.calculateCaloAndTime();
                 }
                 Get.delete<AddWorkoutCollectionController>();
-
-                // final result = await Get.toNamed(Routes.editWorkoutCollection);
-                // if (result != null) {
-                //   await _controller.editUserCollection(result);
-                //   init();
-                //   _controller.calculateCaloAndTime();
-                // }
               },
             ),
           ],

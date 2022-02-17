@@ -49,10 +49,6 @@ class MyWorkoutCollectionListScreen extends StatelessWidget {
               ),
             ),
             onPressed: () async {
-              // final result = await Get.toNamed(Routes.addWorkoutCollection);
-              // if (result != null) {
-              //   _controller.addUserCollection(result);
-              // }
               Get.lazyPut(() => AddWorkoutCollectionController());
               final result = await Get.bottomSheet(
                 Container(

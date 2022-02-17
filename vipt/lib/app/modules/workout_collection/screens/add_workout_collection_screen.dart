@@ -12,7 +12,6 @@ import 'package:vipt/app/modules/workout_collection/add_workout_collection_contr
 import 'package:vipt/app/modules/workout_collection/screens/add_exercise_to_collection_screen.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/text_field_widget.dart';
-import 'package:vipt/app/routes/pages.dart';
 
 class AddWorkoutCollectionScreen extends StatelessWidget {
   AddWorkoutCollectionScreen({Key? key}) : super(key: key);
@@ -123,7 +122,6 @@ class AddWorkoutCollectionScreen extends StatelessWidget {
               ),
               isScrollControlled: true,
             );
-            // Get.toNamed(Routes.addExerciseToCollection);
           },
           horizontalTitleGap: 5,
           shape: const RoundedRectangleBorder(
