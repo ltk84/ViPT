@@ -24,6 +24,7 @@ class EditWorkoutCollectionScreen extends StatelessWidget {
     _controller.beforeEdit();
     return Scaffold(
       extendBodyBehindAppBar: true,
+      resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         centerTitle: true,
@@ -37,14 +38,6 @@ class EditWorkoutCollectionScreen extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-        ),
-        flexibleSpace: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
-            child: Container(
-              color: Colors.transparent,
-            ),
-          ),
         ),
         actions: [
           IconButton(
