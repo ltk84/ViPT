@@ -16,6 +16,7 @@ class AddExerciseToCollectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         centerTitle: true,
@@ -71,7 +72,8 @@ class AddExerciseToCollectionScreen extends StatelessWidget {
           GetBuilder<AddWorkoutCollectionController>(
             builder: (_) => Expanded(
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 4),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
                 child: _controller.searchTextController.text.isNotEmpty
                     ? _buildSearchResultListView(_controller)
                     : _buildInitialListView(_controller),
@@ -104,14 +106,17 @@ Widget _buildSearchResultListView(AddWorkoutCollectionController _controller) {
           return ResponsiveGridCol(
             xs: 12,
             child: Obx(
-              () => MultipleChoiceCard(
-                title: wk.name,
-                subtitle: null,
-                asset: null,
-                isSelected: _controller.selectValueList.contains(wk.id),
-                onSelected: () {
-                  _controller.handleSelect(wk.id ?? '');
-                },
+              () => Container(
+                margin: const EdgeInsets.symmetric(vertical: 2),
+                child: MultipleChoiceCard(
+                  title: wk.name,
+                  subtitle: null,
+                  asset: null,
+                  isSelected: _controller.selectValueList.contains(wk.id),
+                  onSelected: () {
+                    _controller.handleSelect(wk.id ?? '');
+                  },
+                ),
               ),
             ),
           );
@@ -141,14 +146,17 @@ Widget _buildInitialListView(_controller) {
           return ResponsiveGridCol(
             xs: 12,
             child: Obx(
-              () => MultipleChoiceCard(
-                title: wk.name,
-                subtitle: null,
-                asset: null,
-                isSelected: _controller.selectValueList.contains(wk.id),
-                onSelected: () {
-                  _controller.handleSelect(wk.id ?? '');
-                },
+              () => Container(
+                margin: const EdgeInsets.symmetric(vertical: 2),
+                child: MultipleChoiceCard(
+                  title: wk.name,
+                  subtitle: null,
+                  asset: null,
+                  isSelected: _controller.selectValueList.contains(wk.id),
+                  onSelected: () {
+                    _controller.handleSelect(wk.id ?? '');
+                  },
+                ),
               ),
             ),
           );

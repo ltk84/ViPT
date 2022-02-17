@@ -112,7 +112,7 @@ class EditWorkoutCollectionScreen extends StatelessWidget {
             _controller.assignForSelectValueList();
             Get.bottomSheet(
               Container(
-                margin: const EdgeInsets.only(top: 36),
+                margin: const EdgeInsets.only(top: 48),
                 child: ClipRRect(
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(10.0),
