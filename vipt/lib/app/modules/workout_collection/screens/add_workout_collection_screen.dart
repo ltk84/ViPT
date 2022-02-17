@@ -9,6 +9,7 @@ import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/workout_collection/add_workout_collection_controller.dart';
+import 'package:vipt/app/modules/workout_collection/screens/add_exercise_to_collection_screen.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/text_field_widget.dart';
 import 'package:vipt/app/routes/pages.dart';
@@ -110,7 +111,19 @@ class AddWorkoutCollectionScreen extends StatelessWidget {
         ListTile(
           onTap: () {
             _controller.assignForSelectValueList();
-            Get.toNamed(Routes.addExerciseToCollection);
+            Get.bottomSheet(
+              Container(
+                margin: const EdgeInsets.only(top: 36),
+                child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(10.0),
+                      topRight: Radius.circular(10.0),
+                    ),
+                    child: AddExerciseToCollectionScreen()),
+              ),
+              isScrollControlled: true,
+            );
+            // Get.toNamed(Routes.addExerciseToCollection);
           },
           horizontalTitleGap: 5,
           shape: const RoundedRectangleBorder(

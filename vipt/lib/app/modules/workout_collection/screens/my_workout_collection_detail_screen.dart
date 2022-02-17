@@ -6,6 +6,8 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/modules/workout_collection/add_workout_collection_controller.dart';
+import 'package:vipt/app/modules/workout_collection/screens/edit_workout_collection_screen.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
@@ -91,12 +93,32 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () async {
-                final result = await Get.toNamed(Routes.editWorkoutCollection);
+                Get.lazyPut(() => AddWorkoutCollectionController());
+                final result = await Get.bottomSheet(
+                  Container(
+                    margin: const EdgeInsets.only(top: 36),
+                    child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10.0),
+                          topRight: Radius.circular(10.0),
+                        ),
+                        child: EditWorkoutCollectionScreen()),
+                  ),
+                  isScrollControlled: true,
+                );
                 if (result != null) {
                   await _controller.editUserCollection(result);
                   init();
                   _controller.calculateCaloAndTime();
                 }
+                Get.delete<AddWorkoutCollectionController>();
+
+                // final result = await Get.toNamed(Routes.editWorkoutCollection);
+                // if (result != null) {
+                //   await _controller.editUserCollection(result);
+                //   init();
+                //   _controller.calculateCaloAndTime();
+                // }
               },
             ),
           ],

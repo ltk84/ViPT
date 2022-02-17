@@ -68,8 +68,8 @@ class MyWorkoutCollectionListScreen extends StatelessWidget {
               );
               if (result != null) {
                 _controller.addUserCollection(result);
-                // Get.delete<AddWorkoutCollectionController>();
               }
+              Get.delete<AddWorkoutCollectionController>();
             },
           ),
         ],
