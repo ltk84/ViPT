@@ -46,42 +46,16 @@ class CategoryListScreen extends StatelessWidget {
               parent: AlwaysScrollableScrollPhysics()),
           itemBuilder: (_, index) {
             final cate = _controller.workoutCategories[index];
-            return FutureBuilder(
-                future: CloudStorageService.instance.storage
-                    .ref()
-                    .child(AppValue.categoriesCollectionsStorageCollectionPath)
-                    .child(cate.asset)
-                    .getDownloadURL(),
-                builder: (_, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return SizedBox(
-                      width: 200.0,
-                      height: 100.0,
-                      child: Shimmer.fromColors(
-                        baseColor: Colors.red,
-                        highlightColor: Colors.yellow,
-                        child: const Text(
-                          'Shimmer',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 40.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                  return CustomTile(
-                    level: 1,
-                    asset: snapshot.data as String? ?? '',
-                    onPressed: () {
-                      _navigateToSuitableScreen(cate);
-                    },
-                    title: cate.name,
-                    description:
-                        '${_controller.cateListAndNumWorkout[cate.id]} bài tập',
-                  );
-                });
+            return CustomTile(
+              level: 1,
+              asset: '${JPGAssetString.path}/${cate.asset}',
+              onPressed: () {
+                _navigateToSuitableScreen(cate);
+              },
+              title: cate.name,
+              description:
+                  '${_controller.cateListAndNumWorkout[cate.id]} bài tập',
+            );
           },
           separatorBuilder: (_, index) {
             return const Divider(

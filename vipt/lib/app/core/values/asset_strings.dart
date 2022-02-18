@@ -24,10 +24,9 @@ class PNGAssetString {
 }
 
 class JPGAssetString {
-  static const String _path = 'assets/images';
-  static const String workout_1 = '$_path/workout_1.jpg';
-  static const String workout_2 = '$_path/workout_2.jpg';
-  static const String stretching = '$_path/stretching.jpg';
+  static const String path = 'assets/images';
+  static const String workout_1 = '$path/workout_1.jpg';
+  static const String workout_2 = '$path/workout_2.jpg';
 }
 
 class GIFAssetString {
