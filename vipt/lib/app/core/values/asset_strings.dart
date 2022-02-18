@@ -27,6 +27,8 @@ class JPGAssetString {
   static const String path = 'assets/images';
   static const String workout_1 = '$path/workout_1.jpg';
   static const String workout_2 = '$path/workout_2.jpg';
+  static const String meal = '$path/meal.jpg';
+  static const String nutrition = '$path/nutrition.jpg';
 }
 
 class GIFAssetString {

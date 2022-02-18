@@ -60,7 +60,7 @@ class LibraryScreen extends StatelessWidget {
             indent: 24,
           ),
           CustomTile(
-            asset: PNGAssetString.nutrition_1,
+            asset: JPGAssetString.meal,
             onPressed: () {},
             title: 'Món ăn',
             description: 'Tra cứu thông tin chi tiết của một món ăn cụ thể',
@@ -69,7 +69,7 @@ class LibraryScreen extends StatelessWidget {
             indent: 24,
           ),
           CustomTile(
-            asset: PNGAssetString.nutrition_2,
+            asset: JPGAssetString.nutrition,
             onPressed: () {},
             title: 'Bộ dinh dưỡng',
             description: 'Tra cứu các bộ sưu tập gồm nhiều món ăn',
