@@ -37,7 +37,7 @@ class LibraryScreen extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         children: [
           CustomTile(
-            asset: PNGAssetString.workout_2,
+            asset: JPGAssetString.workout_1,
             onPressed: () async {
               Get.toNamed(Routes.workoutCategory);
             },
@@ -48,7 +48,7 @@ class LibraryScreen extends StatelessWidget {
             indent: 24,
           ),
           CustomTile(
-            asset: PNGAssetString.workout_1,
+            asset: JPGAssetString.workout_2,
             onPressed: () {
               Get.toNamed(Routes.workoutCollectionCategory);
             },

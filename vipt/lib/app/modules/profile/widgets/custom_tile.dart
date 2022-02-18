@@ -20,28 +20,40 @@ class CustomTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double assetWidthFactor = _getAssetWidthFactor(level);
-    double assetHeightFactor = _getAssetHeightFactor(level);
+    double assetWidth = _getAssetWidth(level);
+    double assetHeight = _getAssetHeight(level);
     double gapWidthFactor = _getGapWidthFactor(level);
     double textFieldWidthFactor = _getTextFieldWidthFactor(level);
 
     return InkWell(
       onTap: onPressed,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 8,
+        ),
         child: LayoutBuilder(builder: (context, constraints) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
+                crossAxisAlignment: description != ''
+                    ? CrossAxisAlignment.start
+                    : CrossAxisAlignment.center,
                 children: [
                   // ASSET
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: constraints.maxWidth * assetWidthFactor,
-                      maxHeight: constraints.maxWidth * assetHeightFactor,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      height: assetHeight,
+                      width: assetWidth,
+                      decoration: BoxDecoration(
+                        color: AppColor.textFieldFill
+                            .withOpacity(AppColor.subTextOpacity),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: _buildAsset(asset),
                     ),
-                    child: _buildAsset(asset),
                   ),
                   SizedBox(
                     width: constraints.maxWidth * gapWidthFactor,
@@ -52,12 +64,20 @@ class CustomTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        if (description != '')
+                          const SizedBox(
+                            height: 18,
+                          ),
                         // TITLE
                         Text(
                           title,
-                          style: Theme.of(context).textTheme.headline4,
+                          style: Theme.of(context).textTheme.headline3,
                         ),
 
+                        if (description != '')
+                          const SizedBox(
+                            height: 2,
+                          ),
                         // DESCRIPTION
                         if (description != '')
                           Text(
@@ -87,20 +107,7 @@ class CustomTile extends StatelessWidget {
     if (p.extension(asset) == '.svg') {
       return SvgPicture.asset(asset);
     } else {
-      return Image.asset(asset);
-    }
-  }
-
-  double _getAssetWidthFactor(int level) {
-    switch (level) {
-      case 0:
-        return 0.3;
-      case 1:
-        return 0.25;
-      case 2:
-        return 0.2;
-      default:
-        return 0.3;
+      return Image.asset(asset, fit: BoxFit.cover);
     }
   }
 
@@ -120,26 +127,35 @@ class CustomTile extends StatelessWidget {
   double _getTextFieldWidthFactor(int level) {
     switch (level) {
       case 0:
-        return 0.56;
-      case 1:
-        return 0.61;
-      case 2:
-        return 0.66;
+        return 0.52;
       default:
-        return 0.56;
+        return 0.52;
     }
   }
 
-  double _getAssetHeightFactor(int level) {
+  double _getAssetWidth(int level) {
     switch (level) {
       case 0:
-        return 0.4;
+        return 128;
       case 1:
-        return 0.25;
+        return 110;
       case 2:
-        return 0.2;
+        return 100;
       default:
-        return 0.4;
+        return 128;
+    }
+  }
+
+  double _getAssetHeight(int level) {
+    switch (level) {
+      case 0:
+        return 150;
+      case 1:
+        return 130;
+      case 2:
+        return 80;
+      default:
+        return 150;
     }
   }
 }

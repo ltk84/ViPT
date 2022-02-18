@@ -23,6 +23,13 @@ class PNGAssetString {
   static const String nutrition_2 = '$_path/nutrition_2.png';
 }
 
+class JPGAssetString {
+  static const String _path = 'assets/images';
+  static const String workout_1 = '$_path/workout_1.jpg';
+  static const String workout_2 = '$_path/workout_2.jpg';
+  static const String stretching = '$_path/stretching.jpg';
+}
+
 class GIFAssetString {
   static const String _path = 'assets/gifs';
   static const String introduction = '$_path/introduction.gif';

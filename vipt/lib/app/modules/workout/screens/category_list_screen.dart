@@ -45,7 +45,7 @@ class CategoryListScreen extends StatelessWidget {
             final cate = _controller.workoutCategories[index];
             return CustomTile(
               level: 1,
-              asset: SVGAssetString.gym,
+              asset: JPGAssetString.stretching,
               onPressed: () {
                 _navigateToSuitableScreen(cate);
               },
