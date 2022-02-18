@@ -74,7 +74,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
     try {
       final result = await CloudStorageService.instance.storage
           .ref()
-          .child(AppValue.workoutStorageCollectionPath)
+          .child(AppValue.workoutsStorageCollectionPath)
           .child(name + '.${AppString.videoFormat}')
           .getDownloadURL();
       return result;

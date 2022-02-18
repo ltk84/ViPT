@@ -104,7 +104,29 @@ class CustomTile extends StatelessWidget {
   }
 
   Widget _buildAsset(String asset) {
-    if (p.extension(asset) == '.svg') {
+    // if (asset.isEmpty) {
+    //   return ;
+    // }
+    if (asset.contains('https')) {
+      return Image.network(
+        asset,
+        fit: BoxFit.cover,
+        loadingBuilder: (BuildContext context, Widget child,
+            ImageChunkEvent? loadingProgress) {
+          if (loadingProgress == null) {
+            return child;
+          }
+          return Center(
+            child: CircularProgressIndicator(
+              value: loadingProgress.expectedTotalBytes != null
+                  ? loadingProgress.cumulativeBytesLoaded /
+                      loadingProgress.expectedTotalBytes!
+                  : null,
+            ),
+          );
+        },
+      );
+    } else if (p.extension(asset) == '.svg') {
       return SvgPicture.asset(asset);
     } else {
       return Image.asset(asset, fit: BoxFit.cover);

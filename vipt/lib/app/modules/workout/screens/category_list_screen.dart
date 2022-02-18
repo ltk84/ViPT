@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
+import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/category.dart';
+import 'package:vipt/app/data/services/cloud_storage_service.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
 import 'package:vipt/app/modules/workout/workout_controller.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CategoryListScreen extends StatelessWidget {
   CategoryListScreen({Key? key}) : super(key: key);
@@ -43,16 +46,42 @@ class CategoryListScreen extends StatelessWidget {
               parent: AlwaysScrollableScrollPhysics()),
           itemBuilder: (_, index) {
             final cate = _controller.workoutCategories[index];
-            return CustomTile(
-              level: 1,
-              asset: JPGAssetString.stretching,
-              onPressed: () {
-                _navigateToSuitableScreen(cate);
-              },
-              title: cate.name,
-              description:
-                  '${_controller.cateListAndNumWorkout[cate.id]} bài tập',
-            );
+            return FutureBuilder(
+                future: CloudStorageService.instance.storage
+                    .ref()
+                    .child(AppValue.categoriesCollectionsStorageCollectionPath)
+                    .child(cate.asset)
+                    .getDownloadURL(),
+                builder: (_, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return SizedBox(
+                      width: 200.0,
+                      height: 100.0,
+                      child: Shimmer.fromColors(
+                        baseColor: Colors.red,
+                        highlightColor: Colors.yellow,
+                        child: const Text(
+                          'Shimmer',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 40.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                  return CustomTile(
+                    level: 1,
+                    asset: snapshot.data as String? ?? '',
+                    onPressed: () {
+                      _navigateToSuitableScreen(cate);
+                    },
+                    title: cate.name,
+                    description:
+                        '${_controller.cateListAndNumWorkout[cate.id]} bài tập',
+                  );
+                });
           },
           separatorBuilder: (_, index) {
             return const Divider(

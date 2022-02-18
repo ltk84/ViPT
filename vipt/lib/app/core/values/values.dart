@@ -566,6 +566,10 @@ class AppValue {
   static const workoutCollectionsPath = 'workoutCollections';
   static const userCollectionsPath = 'userCollections';
   static const collectionOfSingleUserPath = 'collections';
-  // đổi lại sau:
-  static const workoutStorageCollectionPath = 'workout';
+
+  static const workoutsStorageCollectionPath = 'workouts';
+  static const workoutCollectionsStorageCollectionPath = 'workoutCollections';
+  static const categoriesCollectionsStorageCollectionPath = 'categories';
+  static const collectioncategoriesCollectionsStorageCollectionPath =
+      'collectionCategories';
 }
