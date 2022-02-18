@@ -104,9 +104,6 @@ class CustomTile extends StatelessWidget {
   }
 
   Widget _buildAsset(String asset) {
-    // if (asset.isEmpty) {
-    //   return ;
-    // }
     if (p.extension(asset) == '.svg') {
       return SvgPicture.asset(asset);
     } else {
