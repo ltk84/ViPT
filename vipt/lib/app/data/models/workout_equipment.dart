@@ -15,22 +15,16 @@ class WorkoutEquipment extends BaseModel {
   @override
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'name': name,
       'imageLink': imageLink,
     };
   }
 
-  factory WorkoutEquipment.fromMap(Map<String, dynamic> map) {
+  factory WorkoutEquipment.fromMap(String? id, Map<String, dynamic> map) {
     return WorkoutEquipment(
-      map['id'] ?? '',
+      id ?? '',
       name: map['name'] ?? '',
       imageLink: map['imageLink'] ?? '',
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory WorkoutEquipment.fromJson(String source) =>
-      WorkoutEquipment.fromMap(json.decode(source));
 }

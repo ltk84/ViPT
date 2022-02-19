@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
+import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/category.dart';
+import 'package:vipt/app/data/services/cloud_storage_service.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
 import 'package:vipt/app/modules/workout/workout_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
@@ -43,14 +46,42 @@ class ExerciseListScreen extends StatelessWidget {
               parent: AlwaysScrollableScrollPhysics()),
           itemBuilder: (_, index) {
             var workout = _controller.workouts[index];
-            return CustomTile(
-              level: 2,
-              asset: SVGAssetString.gym,
-              onPressed: () {
-                Get.toNamed(Routes.exerciseDetail, arguments: workout);
-              },
-              title: workout.name,
-            );
+
+            return FutureBuilder(
+                future: CloudStorageService.instance.storage
+                    .ref()
+                    .child(AppValue.workoutsStorageCollectionPath)
+                    .child(AppValue.workoutsThumbStorageCollectionPath)
+                    .child(workout.thumbnail)
+                    .getDownloadURL(),
+                builder: (_, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return SizedBox(
+                      width: 200.0,
+                      height: 100.0,
+                      child: Shimmer.fromColors(
+                        baseColor: Colors.red,
+                        highlightColor: Colors.yellow,
+                        child: const Text(
+                          'Shimmer',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 40.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                  return CustomTile(
+                    level: 2,
+                    asset: snapshot.data as String? ?? '',
+                    onPressed: () {
+                      Get.toNamed(Routes.exerciseDetail, arguments: workout);
+                    },
+                    title: workout.name,
+                  );
+                });
           },
           separatorBuilder: (_, index) => const Divider(
                 indent: 24,

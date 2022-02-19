@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/data/providers/workout_equipment_provider.dart';
+import 'package:vipt/app/data/providers/workout_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/home/home_controller.dart';
 import 'package:vipt/app/modules/profile/screens/profile_screen.dart';
@@ -56,7 +58,8 @@ class HomeScreen extends StatelessWidget {
             TextButton(
               onPressed: () async {
                 // WorkoutCollectionProvider().addUserCollectionFakeData();
-                print(DataService.instance.userCollectionList.length);
+                // WorkoutEquipmentProvider().addFakeData();
+                // WorkoutProvider().addFakeData();
               },
               child: const Text('Fetch data'),
             ),

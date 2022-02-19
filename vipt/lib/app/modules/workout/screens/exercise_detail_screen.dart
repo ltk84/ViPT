@@ -25,12 +25,13 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
   final Workout workout = Get.arguments;
   String categories = '';
   VideoPlayerController? _controller;
-  String link = '';
+  String animationLink = '';
 
   @override
   void initState() {
     _getCategories();
     initVideoController();
+    _getMuscleFocusLink();
     super.initState();
   }
 
@@ -43,7 +44,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
   }
 
   void initVideoController() async {
-    var link = await _getAnimationLink(workout.name);
+    var link = await _getAnimationLink();
     if (link == null) return;
     _controller = VideoPlayerController.network(link)
       ..initialize().then((_) {
@@ -70,13 +71,29 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
     }
   }
 
-  Future<dynamic> _getAnimationLink(String name) async {
+  Future<dynamic> _getAnimationLink() async {
     try {
       final result = await CloudStorageService.instance.storage
           .ref()
           .child(AppValue.workoutsStorageCollectionPath)
-          .child(name + '.${AppString.videoFormat}')
+          .child(AppValue.workoutsAnimationStorageCollectionPath)
+          .child(workout.animation)
           .getDownloadURL();
+      return result;
+    } on FirebaseException catch (_) {
+      return null;
+    }
+  }
+
+  Future<dynamic> _getMuscleFocusLink() async {
+    try {
+      final result = await CloudStorageService.instance.storage
+          .ref()
+          .child(AppValue.workoutsStorageCollectionPath)
+          .child(AppValue.workoutsMuscleFocusStorageCollectionPath)
+          .child(workout.muscleFocusAsset)
+          .getDownloadURL();
+
       return result;
     } on FirebaseException catch (_) {
       return null;
@@ -171,21 +188,42 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                 ),
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxWidth: constraints.maxWidth * 0.45,
+                      maxWidth: constraints.maxWidth * 0.9,
                     ),
-                    child: _buildAsset(PNGAssetString.workout_1),
-                  ),
-                  SizedBox(
-                    width: constraints.maxWidth * 0.1,
-                  ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: constraints.maxWidth * 0.45,
-                    ),
-                    child: _buildAsset(PNGAssetString.workout_2),
+                    child: FutureBuilder(
+                        future: _getMuscleFocusLink(),
+                        builder: (_, snapshot) {
+                          if (snapshot.connectionState ==
+                                  ConnectionState.done &&
+                              snapshot.hasData) {
+                            return Image.network(
+                              snapshot.data as String,
+                              fit: BoxFit.cover,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent? loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                }
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                          return Container();
+                        }),
                   ),
                 ],
               ),

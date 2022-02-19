@@ -3,6 +3,7 @@ import 'package:vipt/app/data/models/base_model.dart';
 class Workout extends BaseModel {
   final String name;
   final String animation;
+  final String thumbnail;
   final String hints;
   final String breathing;
   final String muscleFocusAsset;
@@ -14,6 +15,7 @@ class Workout extends BaseModel {
     String? id, {
     required this.name,
     required this.animation,
+    required this.thumbnail,
     required this.hints,
     required this.breathing,
     required this.muscleFocusAsset,
@@ -27,6 +29,7 @@ class Workout extends BaseModel {
     return {
       'name': name,
       'animation': animation,
+      'thumbnail': thumbnail,
       'hints': hints,
       'breathing': breathing,
       'muscleFocusAsset': muscleFocusAsset,
@@ -41,6 +44,7 @@ class Workout extends BaseModel {
       id,
       name: map['name'] ?? '',
       animation: map['animation'] ?? '',
+      thumbnail: map['thumbnail'] ?? '',
       hints: map['hints'] ?? '',
       breathing: map['breathing'] ?? '',
       muscleFocusAsset: map['muscleFocusAsset'] ?? '',

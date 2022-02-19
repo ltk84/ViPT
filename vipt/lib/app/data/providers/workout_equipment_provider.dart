@@ -8,8 +8,34 @@ class WorkoutEquipmentProvider
   final _firestore = FirebaseFirestore.instance;
 
   @override
-  Future<WorkoutEquipment> add(WorkoutEquipment obj) {
-    throw UnimplementedError();
+  Future<WorkoutEquipment> add(WorkoutEquipment obj) async {
+    await _firestore
+        .collection(collectionPath)
+        .add(obj.toMap())
+        .then((value) => obj.id = value.id);
+    return obj;
+  }
+
+  void addFakeData() {
+    List<WorkoutEquipment> data = [
+      WorkoutEquipment(null, name: 'Bands', imageLink: 'bands'),
+      WorkoutEquipment(null, name: 'Foam Roll', imageLink: 'foam-roll'),
+      WorkoutEquipment(null, name: 'Barbell', imageLink: 'barbell'),
+      WorkoutEquipment(null, name: 'Kettlebells', imageLink: 'kettlebells'),
+      WorkoutEquipment(null, name: 'Body Only', imageLink: 'body_only'),
+      WorkoutEquipment(null, name: 'Machine', imageLink: 'machine'),
+      WorkoutEquipment(null, name: 'Cable', imageLink: 'cable'),
+      WorkoutEquipment(null, name: 'Medicine Ball', imageLink: 'medicine_ball'),
+      WorkoutEquipment(null, name: 'Dumbbell', imageLink: 'dumbbell'),
+      WorkoutEquipment(null, name: 'None', imageLink: 'none'),
+      WorkoutEquipment(null, name: 'E-Z Curl Bar', imageLink: 'ez_curl_bar'),
+      WorkoutEquipment(null, name: 'Other', imageLink: 'other'),
+      WorkoutEquipment(null, name: 'Exercise Ball', imageLink: 'exercise_ball'),
+    ];
+
+    for (var item in data) {
+      add(item);
+    }
   }
 
   @override
@@ -23,7 +49,7 @@ class WorkoutEquipmentProvider
   @override
   Future<WorkoutEquipment> fetch(String id) async {
     final raw = await _firestore.collection(collectionPath).doc(id).get();
-    return WorkoutEquipment.fromMap(raw.data() ?? {});
+    return WorkoutEquipment.fromMap(raw.id, raw.data() ?? {});
   }
 
   Future<List<WorkoutEquipment>> fetchAll() async {
@@ -32,7 +58,7 @@ class WorkoutEquipmentProvider
 
     List<WorkoutEquipment> list = [];
     for (var element in raw.docs) {
-      list.add(WorkoutEquipment.fromMap(element.data()));
+      list.add(WorkoutEquipment.fromMap(element.id, element.data()));
     }
 
     return list;

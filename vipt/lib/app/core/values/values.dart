@@ -557,19 +557,27 @@ class AppQuiz {
 }
 
 class AppValue {
+  // firestore
   static const usersPath = 'users';
-  // đổi lại sau:
-  static const workoutsPath = 'workout';
+
+  static const workoutsPath = 'workouts';
   static const workoutCategoriesPath = 'workoutCategories';
   static const workoutCollectionCategoriesPath = 'workoutCollectionCategories';
   static const workoutEquipmentCollectionPath = 'workoutEquipment';
   static const workoutCollectionsPath = 'workoutCollections';
   static const userCollectionsPath = 'userCollections';
   static const collectionOfSingleUserPath = 'collections';
+  static const equipmentCollectionPath = 'equipment';
 
+  // storage
   static const workoutsStorageCollectionPath = 'workouts';
+  static const workoutsThumbStorageCollectionPath = 'thumbnails';
+  static const workoutsAnimationStorageCollectionPath = 'animations';
+  static const workoutsMuscleFocusStorageCollectionPath = 'muscle_focus';
+
   static const workoutCollectionsStorageCollectionPath = 'workoutCollections';
   static const categoriesCollectionsStorageCollectionPath = 'categories';
   static const collectioncategoriesCollectionsStorageCollectionPath =
       'collectionCategories';
+  static const equipmentStorageCollectionPath = 'workoutEquipment';
 }
