@@ -21,28 +21,28 @@ class WorkoutCollectionProvider
     final data = [
       WorkoutCollection(
         null,
-        title: 'Insane Six Pack',
+        title: 'HIIT',
         description:
-            'Ab workout that will get you a shredded six-pack in no time.',
-        generatorIDs: [],
-        categoryIDs: ['x52QcIaOEBTW5J8J7S1U'],
+            'High-intensity cardio exercises to boost your metabolism as quickly as possible.',
+        generatorIDs: ['Gwif2wxSJ4MCGh9xT9bs'],
+        categoryIDs: ['5gseIyVRVNbRs9OKG8Pz'],
       ),
       WorkoutCollection(
         null,
-        title: 'Complex Lower Body',
+        title: 'Full Body Stretching',
         description:
-            'Full lower body workout. This is the leg day you should never skip.',
-        generatorIDs: [],
-        categoryIDs: ['x52QcIaOEBTW5J8J7S1U'],
+            'Classic stretches to increase flexibility and release all your muscles. Great cool-down after a workout.',
+        generatorIDs: ['Rxb89cZTkXtSLvghJeei'],
+        categoryIDs: ['34mBd6uHde3VQQMYXUYD'],
       ),
-      WorkoutCollection(
-        null,
-        title: 'Complex Upper Body',
-        description:
-            'A fun and effective workout that will challenge all your upper body.',
-        generatorIDs: [],
-        categoryIDs: ['x52QcIaOEBTW5J8J7S1U'],
-      ),
+      // WorkoutCollection(
+      //   null,
+      //   title: 'Complex Upper Body',
+      //   description:
+      //       'A fun and effective workout that will challenge all your upper body.',
+      //   generatorIDs: [],
+      //   categoryIDs: ['x52QcIaOEBTW5J8J7S1U'],
+      // ),
     ];
 
     for (var item in data) {

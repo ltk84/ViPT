@@ -42,6 +42,11 @@ class WorkoutCollectionController extends GetxController {
   void onSelectUserCollection(WorkoutCollection collection) {
     selectedCollection = collection;
     loadWorkoutListForUserCollection();
+    maxWorkout.value = workoutList.length;
+    if (maxWorkout.value < collectionSetting.value.numOfWorkoutPerRound) {
+      collectionSetting.value.numOfWorkoutPerRound = maxWorkout.value;
+    }
+    generateRandomList();
     calculateCaloAndTime();
   }
 
@@ -136,13 +141,13 @@ class WorkoutCollectionController extends GetxController {
     num bodyWeight = DataService.currentUser.currentWeight;
     resetCaloAndTime();
     caloValue.value = WorkoutCollectionUtils.calculateCalo(
-        workoutList: workoutList,
+        workoutList: generatedWorkoutList,
         collectionSetting: collectionSetting.value,
         bodyWeight: bodyWeight);
 
     timeValue.value = WorkoutCollectionUtils.calculateTime(
         collectionSetting: collectionSetting.value,
-        workoutListLenght: workoutList.length);
+        workoutListLenght: generatedWorkoutList.length);
   }
 
   void initCollectionSetting() {
