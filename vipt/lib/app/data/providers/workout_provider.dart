@@ -469,6 +469,25 @@ class WorkoutProvider implements Firestoration<String, Workout> {
     print('done');
   }
 
+  void updateFakeData() async {
+    List<Workout> list = await fetchAll();
+    list.map((e) {
+      var s = e.thumbnail.replaceAll('.jpg', '.png');
+      update(
+          e.id ?? '',
+          Workout(e.id,
+              name: e.name,
+              animation: e.animation,
+              thumbnail: s,
+              hints: e.hints,
+              breathing: e.breathing,
+              muscleFocusAsset: e.muscleFocusAsset,
+              categoryIDs: e.categoryIDs,
+              metValue: e.metValue,
+              equipmentIDs: e.equipmentIDs));
+    }).toList();
+  }
+
   @override
   String get collectionPath => AppValue.workoutsPath;
 
@@ -484,8 +503,9 @@ class WorkoutProvider implements Firestoration<String, Workout> {
   }
 
   @override
-  Future<Workout> update(String id, Workout obj) {
-    throw UnimplementedError();
+  Future<Workout> update(String id, Workout obj) async {
+    await _firestore.collection(collectionPath).doc(id).update(obj.toMap());
+    return obj;
   }
 
   Future<List<Workout>> fetchAll() async {

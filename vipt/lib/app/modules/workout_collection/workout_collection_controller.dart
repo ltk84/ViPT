@@ -20,15 +20,17 @@ class WorkoutCollectionController extends GetxController {
   late List<WorkoutCollection> userCollections;
 
   WorkoutCollection? selectedCollection;
-  late List<Workout> workoutList;
+  List<Workout> workoutList = [];
+  List<Workout> generatedWorkoutList = [];
+  Rx<int> maxWorkout = 100.obs;
 
   @override
   void onInit() {
     loadCollectionCategories();
-    initCollections();
     loadCateListAndNumCollection();
     initCollectionSetting();
     loadUserCollections();
+    loadCollectionSetting();
     selectedCollection = null;
     super.onInit();
 
@@ -37,10 +39,28 @@ class WorkoutCollectionController extends GetxController {
     });
   }
 
-  void onSelectCollection(WorkoutCollection collection) {
+  void onSelectUserCollection(WorkoutCollection collection) {
     selectedCollection = collection;
     loadWorkoutListForUserCollection();
     calculateCaloAndTime();
+  }
+
+  void onSelectDefaultCollection(WorkoutCollection collection) {
+    selectedCollection = collection;
+    workoutList = loadWorkoutList(collection.generatorIDs);
+    maxWorkout.value = workoutList.length;
+    if (maxWorkout.value < collectionSetting.value.numOfWorkoutPerRound) {
+      collectionSetting.value.numOfWorkoutPerRound = maxWorkout.value;
+    }
+    generateRandomList();
+    calculateCaloAndTime();
+  }
+
+  generateRandomList() {
+    workoutList.shuffle();
+    generatedWorkoutList =
+        workoutList.sublist(0, collectionSetting.value.numOfWorkoutPerRound);
+    update();
   }
 
   void addUserCollection(WorkoutCollection wkCollection) async {
@@ -88,7 +108,7 @@ class WorkoutCollectionController extends GetxController {
 
   void loadWorkoutListForUserCollection() {
     workoutList = <Workout>[].obs;
-    for (var id in selectedCollection!.workoutIDs) {
+    for (var id in selectedCollection!.generatorIDs) {
       var workout = DataService.instance.workoutList
           .firstWhere((element) => element.id == id);
       workoutList.add(workout);
@@ -96,12 +116,12 @@ class WorkoutCollectionController extends GetxController {
     }
   }
 
-  List<Workout> loadWorkoutList(List<String> workoutIDs) {
+  List<Workout> loadWorkoutList(List<String> cateIDs) {
     List<Workout> list = [];
-    for (var id in workoutIDs) {
-      var workout = DataService.instance.workoutList
-          .firstWhere((element) => element.id == id);
-      list.add(workout);
+    for (var id in cateIDs) {
+      var workouts = DataService.instance.workoutList
+          .where((element) => element.categoryIDs.contains(id));
+      list.addAll(workouts);
     }
 
     return list;

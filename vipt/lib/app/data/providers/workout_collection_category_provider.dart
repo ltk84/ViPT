@@ -16,6 +16,22 @@ class WorkoutCollectionCategoryProvider
     return obj;
   }
 
+  void addFakeData() async {
+    final List<Category> data = [
+      Category(null, name: 'Strength', asset: 'asset', parentCategoryID: null),
+      Category(null,
+          name: 'HIIT, Cardio', asset: 'asset', parentCategoryID: null),
+      Category(null,
+          name: 'Yoga, Stretching', asset: 'asset', parentCategoryID: null),
+      Category(null,
+          name: 'Warmup, Recovery', asset: 'asset', parentCategoryID: null),
+    ];
+
+    for (var item in data) {
+      await add(item);
+    }
+  }
+
   @override
   String get collectionPath => AppValue.workoutCollectionCategoriesPath;
 
