@@ -323,36 +323,36 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildShuffleProperty(context) {
-    return Obx(
-      () => SwitchListTile(
-        activeColor: Theme.of(context).primaryColor,
-        onChanged: (bool value) {
-          _controller.collectionSetting.update((val) {
-            val!.isShuffle = value;
-          });
-        },
-        value: _controller.collectionSetting.value.isShuffle,
-        tileColor: AppColor.listTileButtonColor,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(8),
-          ),
-        ),
-        secondary: Icon(
-          Icons.shuffle_rounded,
-          color: AppColor.textColor,
-        ),
-        title: Text(
-          'Trộn ngẫu nhiên'.tr,
-          style: Theme.of(context)
-              .textTheme
-              .bodyText2!
-              .copyWith(fontWeight: FontWeight.w500),
-        ),
-      ),
-    );
-  }
+  // Widget _buildShuffleProperty(context) {
+  //   return Obx(
+  //     () => SwitchListTile(
+  //       activeColor: Theme.of(context).primaryColor,
+  //       onChanged: (bool value) {
+  //         _controller.collectionSetting.update((val) {
+  //           val!.isShuffle = value;
+  //         });
+  //       },
+  //       value: _controller.collectionSetting.value.isShuffle,
+  //       tileColor: AppColor.listTileButtonColor,
+  //       shape: const RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.all(
+  //           Radius.circular(8),
+  //         ),
+  //       ),
+  //       secondary: Icon(
+  //         Icons.shuffle_rounded,
+  //         color: AppColor.textColor,
+  //       ),
+  //       title: Text(
+  //         'Trộn ngẫu nhiên'.tr,
+  //         style: Theme.of(context)
+  //             .textTheme
+  //             .bodyText2!
+  //             .copyWith(fontWeight: FontWeight.w500),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildExerciseTimeProperty(context, maxHeight) {
     return ListTile(

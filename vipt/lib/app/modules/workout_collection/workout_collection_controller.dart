@@ -52,7 +52,7 @@ class WorkoutCollectionController extends GetxController {
 
   void onSelectDefaultCollection(WorkoutCollection collection) {
     selectedCollection = collection;
-    workoutList = loadWorkoutList(collection.generatorIDs);
+    loadWorkoutListForDefaultCollection(collection.generatorIDs);
     maxWorkout.value = workoutList.length;
     if (maxWorkout.value < collectionSetting.value.numOfWorkoutPerRound) {
       collectionSetting.value.numOfWorkoutPerRound = maxWorkout.value;
@@ -121,7 +121,7 @@ class WorkoutCollectionController extends GetxController {
     }
   }
 
-  List<Workout> loadWorkoutList(List<String> cateIDs) {
+  void loadWorkoutListForDefaultCollection(List<String> cateIDs) {
     List<Workout> list = [];
     for (var id in cateIDs) {
       var workouts = DataService.instance.workoutList
@@ -129,7 +129,7 @@ class WorkoutCollectionController extends GetxController {
       list.addAll(workouts);
     }
 
-    return list;
+    workoutList = list;
   }
 
   void resetCaloAndTime() {

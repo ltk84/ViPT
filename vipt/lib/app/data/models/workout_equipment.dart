@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:vipt/app/data/models/base_model.dart';
 
 class WorkoutEquipment extends BaseModel {

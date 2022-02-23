@@ -6,8 +6,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as p;
 import 'package:video_player/video_player.dart';
-import 'package:vipt/app/core/values/app_strings.dart';
-import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/workout.dart';
