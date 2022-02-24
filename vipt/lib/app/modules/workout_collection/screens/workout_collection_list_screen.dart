@@ -46,8 +46,8 @@ class WorkoutCollectionListScreen extends StatelessWidget {
               level: 2,
               asset: SVGAssetString.gym,
               onPressed: () {
-                _controller.onSelectCollection(collection);
-
+                // _controller.onSelectUserCollection(collection);
+                _controller.onSelectDefaultCollection(collection);
                 Get.toNamed(
                   Routes.workoutCollectionDetail,
                 );

@@ -135,6 +135,11 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
                 const SizedBox(
                   height: 12,
                 ),
+                _buildNumOfWorkoutPerRoundProperty(
+                    context, constraints.maxHeight),
+                const SizedBox(
+                  height: 12,
+                ),
                 _buildWarmUpProperty(context),
                 const SizedBox(
                   height: 12,
@@ -283,6 +288,59 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
       trailing: Obx(
         () => Text(
           _controller.collectionSetting.value.round.toString(),
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNumOfWorkoutPerRoundProperty(context, maxHeight) {
+    return ListTile(
+      onTap: () {
+        _showSelection(
+          context,
+          maxHeight: maxHeight,
+          itemBuilder: (context, index) {
+            if (index > 0 && index <= _controller.maxWorkout.value) {
+              return Container(
+                alignment: Alignment.center,
+                child: Text(
+                  index.toString(),
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+              );
+            }
+          },
+          initialValue:
+              _controller.collectionSetting.value.numOfWorkoutPerRound,
+          onSelectedItemChanged: (value) {
+            _controller.collectionSetting.update((val) {
+              val!.numOfWorkoutPerRound = value;
+            });
+            _controller.generateRandomList();
+          },
+        );
+      },
+      tileColor: AppColor.listTileButtonColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(8),
+        ),
+      ),
+      leading: Icon(
+        const IconData(0xf0359, fontFamily: 'MaterialIcons'),
+        color: AppColor.textColor,
+      ),
+      title: Text(
+        'Số bài tập mỗi vòng'.tr,
+        style: Theme.of(context)
+            .textTheme
+            .bodyText2!
+            .copyWith(fontWeight: FontWeight.w500),
+      ),
+      trailing: Obx(
+        () => Text(
+          _controller.collectionSetting.value.numOfWorkoutPerRound.toString(),
           style: Theme.of(context).textTheme.bodyText1,
         ),
       ),
@@ -558,7 +616,7 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
           const SizedBox(
             height: 4,
           ),
-          ..._controller.workoutList.map(
+          ..._controller.generatedWorkoutList.map(
             (workout) => Obx(
               () => ExerciseInCollectionTile(
                 asset: SVGAssetString.boxing,

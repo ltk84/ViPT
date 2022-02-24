@@ -21,25 +21,28 @@ class WorkoutCollectionProvider
     final data = [
       WorkoutCollection(
         null,
-        title: 'Fight till die',
-        description: 'Let fight till we die',
-        workoutIDs: ['QCVbVHUwqI60DBrEcZIs'],
-        categoryIDs: ['VdOqUgsCGARIYyu1zCe3'],
+        title: 'HIIT',
+        description:
+            'High-intensity cardio exercises to boost your metabolism as quickly as possible.',
+        generatorIDs: ['Gwif2wxSJ4MCGh9xT9bs'],
+        categoryIDs: ['5gseIyVRVNbRs9OKG8Pz'],
       ),
       WorkoutCollection(
         null,
-        title: 'Stretch till die',
-        description: 'Let stretch till we die',
-        workoutIDs: ['oLrjD5ZIqtIH8XDBJTLK'],
-        categoryIDs: ['aHc37ervZP5whfU2pWc3'],
+        title: 'Full Body Stretching',
+        description:
+            'Classic stretches to increase flexibility and release all your muscles. Great cool-down after a workout.',
+        generatorIDs: ['Rxb89cZTkXtSLvghJeei'],
+        categoryIDs: ['34mBd6uHde3VQQMYXUYD'],
       ),
-      WorkoutCollection(
-        null,
-        title: 'Cardio till die',
-        description: 'Let cardio till we die',
-        workoutIDs: ['WPOwO0boeOMyBbCdVuPr'],
-        categoryIDs: ['pn8jgNN2MM6bwzckhaAH'],
-      ),
+      // WorkoutCollection(
+      //   null,
+      //   title: 'Complex Upper Body',
+      //   description:
+      //       'A fun and effective workout that will challenge all your upper body.',
+      //   generatorIDs: [],
+      //   categoryIDs: ['x52QcIaOEBTW5J8J7S1U'],
+      // ),
     ];
 
     for (var item in data) {
@@ -51,24 +54,27 @@ class WorkoutCollectionProvider
     final data = [
       WorkoutCollection(
         null,
-        title: 'Tinh yeu la tro choi',
-        description: 'Ai choi hay nguoi do thang',
-        workoutIDs: ['QCVbVHUwqI60DBrEcZIs'],
-        categoryIDs: [],
+        title: 'Insane Six Pack',
+        description:
+            'Ab workout that will get you a shredded six-pack in no time.',
+        generatorIDs: [],
+        categoryIDs: ['jOLYMcvtft5eUGyv2ciW'],
       ),
       WorkoutCollection(
         null,
-        title: 'Yeu em dai kho',
-        description: 'Lou Hoang',
-        workoutIDs: ['oLrjD5ZIqtIH8XDBJTLK'],
-        categoryIDs: [],
+        title: 'Complex Lower Body',
+        description:
+            'Full lower body workout. This is the leg day you should never skip.',
+        generatorIDs: [],
+        categoryIDs: ['4JX1H4ZFDkb85zQkA6df'],
       ),
       WorkoutCollection(
         null,
-        title: 'Day tui cach iu',
-        description: 'TLinh',
-        workoutIDs: ['WPOwO0boeOMyBbCdVuPr'],
-        categoryIDs: [],
+        title: 'Complex Upper Body',
+        description:
+            'A fun and effective workout that will challenge all your upper body.',
+        generatorIDs: [],
+        categoryIDs: ['TOcjJylRaR8D7tJHbz8z'],
       ),
     ];
 
@@ -120,14 +126,14 @@ class WorkoutCollectionProvider
 
   Future<WorkoutCollection> addWorkoutToCollection(
       String workoutID, WorkoutCollection wc) async {
-    wc.workoutIDs.add(workoutID);
+    wc.generatorIDs.add(workoutID);
     await update(wc.id ?? "", wc);
     return wc;
   }
 
   Future<WorkoutCollection> deleteWorkoutFromCollection(
       String workoutID, WorkoutCollection wc) async {
-    wc.workoutIDs.remove(workoutID);
+    wc.generatorIDs.remove(workoutID);
     update(wc.id ?? '', wc);
     return wc;
   }

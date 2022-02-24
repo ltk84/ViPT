@@ -79,14 +79,19 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
                 const SizedBox(
                   height: 12,
                 ),
+                _buildNumOfWorkoutPerRoundProperty(
+                    context, constraints.maxHeight),
+                const SizedBox(
+                  height: 12,
+                ),
                 _buildWarmUpProperty(context),
                 const SizedBox(
                   height: 12,
                 ),
-                _buildShuffleProperty(context),
-                const SizedBox(
-                  height: 12,
-                ),
+                // _buildShuffleProperty(context),
+                // const SizedBox(
+                //   height: 12,
+                // ),
                 _buildExerciseTimeProperty(context, constraints.maxHeight),
                 const SizedBox(
                   height: 12,
@@ -128,6 +133,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
           child: Text(
             _controller.selectedCollection!.description.tr,
             style: Theme.of(context).textTheme.subtitle2,
+            textAlign: TextAlign.center,
           ),
         ),
       ],
@@ -227,6 +233,59 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
       trailing: Obx(
         () => Text(
           _controller.collectionSetting.value.round.toString(),
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNumOfWorkoutPerRoundProperty(context, maxHeight) {
+    return ListTile(
+      onTap: () {
+        _showSelection(
+          context,
+          maxHeight: maxHeight,
+          itemBuilder: (context, index) {
+            if (index > 0 && index <= _controller.maxWorkout.value) {
+              return Container(
+                alignment: Alignment.center,
+                child: Text(
+                  index.toString(),
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+              );
+            }
+          },
+          initialValue:
+              _controller.collectionSetting.value.numOfWorkoutPerRound,
+          onSelectedItemChanged: (value) {
+            _controller.collectionSetting.update((val) {
+              val!.numOfWorkoutPerRound = value;
+            });
+            _controller.generateRandomList();
+          },
+        );
+      },
+      tileColor: AppColor.listTileButtonColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(8),
+        ),
+      ),
+      leading: Icon(
+        const IconData(0xf0359, fontFamily: 'MaterialIcons'),
+        color: AppColor.textColor,
+      ),
+      title: Text(
+        'Số bài tập mỗi vòng'.tr,
+        style: Theme.of(context)
+            .textTheme
+            .bodyText2!
+            .copyWith(fontWeight: FontWeight.w500),
+      ),
+      trailing: Obx(
+        () => Text(
+          _controller.collectionSetting.value.numOfWorkoutPerRound.toString(),
           style: Theme.of(context).textTheme.bodyText1,
         ),
       ),
@@ -493,26 +552,28 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
   }
 
   Widget _buildExerciseList(context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Danh sách bài tập'.tr,
-            style: Theme.of(context).textTheme.headline3),
-        const SizedBox(
-          height: 4,
-        ),
-        ..._controller.workoutList.map(
-          (workout) => ExerciseInCollectionTile(
-            asset: SVGAssetString.boxing,
-            title: workout.name,
-            description:
-                '${_controller.collectionSetting.value.exerciseTime} giây',
-            onPressed: () {
-              Get.toNamed(Routes.exerciseDetail, arguments: workout);
-            },
+    return GetBuilder<WorkoutCollectionController>(
+      builder: (_) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Danh sách bài tập'.tr,
+              style: Theme.of(context).textTheme.headline3),
+          const SizedBox(
+            height: 4,
           ),
-        ),
-      ],
+          ..._controller.generatedWorkoutList.map(
+            (workout) => ExerciseInCollectionTile(
+              asset: SVGAssetString.boxing,
+              title: workout.name,
+              description:
+                  '${_controller.collectionSetting.value.exerciseTime} giây',
+              onPressed: () {
+                Get.toNamed(Routes.exerciseDetail, arguments: workout);
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
