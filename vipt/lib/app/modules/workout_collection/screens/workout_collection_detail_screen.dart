@@ -37,6 +37,13 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         extendBodyBehindAppBar: true,
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Get.toNamed(Routes.workoutSession);
+                },
+                icon: Icon(Icons.access_time_filled_sharp))
+          ],
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,

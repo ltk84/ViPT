@@ -5,7 +5,6 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/home/home_controller.dart';
 import 'package:vipt/app/modules/profile/screens/profile_screen.dart';
-import 'package:vipt/app/modules/session/screens/stop_watch_demo.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -59,7 +58,7 @@ class HomeScreen extends StatelessWidget {
                 // WorkoutEquipmentProvider().addFakeData();
                 // WorkoutProvider().updateFakeData();
                 // WorkoutCollectionCategoryProvider().addFakeData();
-                Get.to(() => CountDownTimerPage());
+                // Get.to(() => CountDownTimerPage());
               },
               child: const Text('Fetch data'),
             ),
