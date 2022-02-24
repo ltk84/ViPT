@@ -24,6 +24,7 @@ class CustomTile extends StatelessWidget {
     double assetHeight = _getAssetHeight(level);
     double gapWidthFactor = _getGapWidthFactor(level);
     double textFieldWidthFactor = _getTextFieldWidthFactor(level);
+    TextStyle? titleStyle = _getTitleStyle(context, level);
 
     return InkWell(
       onTap: onPressed,
@@ -50,7 +51,7 @@ class CustomTile extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: AppColor.textFieldFill
                             .withOpacity(AppColor.subTextOpacity),
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       child: _buildAsset(asset),
                     ),
@@ -71,7 +72,7 @@ class CustomTile extends StatelessWidget {
                         // TITLE
                         Text(
                           title,
-                          style: Theme.of(context).textTheme.headline3,
+                          style: titleStyle,
                         ),
 
                         if (description != '')
@@ -117,6 +118,7 @@ class CustomTile extends StatelessWidget {
           }
           return Center(
             child: CircularProgressIndicator(
+              color: AppColor.textColor.withOpacity(AppColor.subTextOpacity),
               value: loadingProgress.expectedTotalBytes != null
                   ? loadingProgress.cumulativeBytesLoaded /
                       loadingProgress.expectedTotalBytes!
@@ -178,6 +180,19 @@ class CustomTile extends StatelessWidget {
         return 80;
       default:
         return 150;
+    }
+  }
+
+  TextStyle? _getTitleStyle(BuildContext context, int level) {
+    switch (level) {
+      case 0:
+        return Theme.of(context).textTheme.headline3;
+      case 1:
+        return Theme.of(context).textTheme.headline3;
+      case 2:
+        return Theme.of(context).textTheme.headline4;
+      default:
+        return Theme.of(context).textTheme.headline3;
     }
   }
 }

@@ -6,8 +6,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as p;
 import 'package:video_player/video_player.dart';
-import 'package:vipt/app/core/values/app_strings.dart';
-import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/workout.dart';
@@ -187,46 +185,34 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                   style: Theme.of(context).textTheme.headline4,
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: constraints.maxWidth * 0.9,
-                    ),
-                    child: FutureBuilder(
-                        future: _getMuscleFocusLink(),
-                        builder: (_, snapshot) {
-                          if (snapshot.connectionState ==
-                                  ConnectionState.done &&
-                              snapshot.hasData) {
-                            return Image.network(
-                              snapshot.data as String,
-                              fit: BoxFit.cover,
-                              loadingBuilder: (BuildContext context,
-                                  Widget child,
-                                  ImageChunkEvent? loadingProgress) {
-                                if (loadingProgress == null) {
-                                  return child;
-                                }
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                );
-                              },
-                            );
+              FutureBuilder(
+                  future: _getMuscleFocusLink(),
+                  builder: (_, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done &&
+                        snapshot.hasData) {
+                      return Image.network(
+                        snapshot.data as String,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent? loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
                           }
-                          return Container();
-                        }),
-                  ),
-                ],
-              ),
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: AppColor.textColor
+                                  .withOpacity(AppColor.subTextOpacity),
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          );
+                        },
+                      );
+                    }
+                    return Container();
+                  }),
               SizedBox(
                 height: constraints.maxHeight * 0.03,
               )
@@ -240,7 +226,10 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
   Widget _buildMediaPlayer() {
     if (_controller == null) {
       return Container(
-        color: AppColor.textFieldFill,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: AppColor.textFieldFill,
+        ),
       );
     }
     return VideoPlayer(_controller as VideoPlayerController);

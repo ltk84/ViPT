@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
+import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/services/cloud_storage_service.dart';
@@ -60,17 +61,14 @@ class ExerciseListScreen extends StatelessWidget {
                       width: 200.0,
                       height: 100.0,
                       child: Shimmer.fromColors(
-                        baseColor: Colors.red,
-                        highlightColor: Colors.yellow,
-                        child: const Text(
-                          'Shimmer',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 40.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
+                          baseColor: AppColor.textColor,
+                          highlightColor: Theme.of(context).backgroundColor,
+                          child: CustomTile(
+                            level: 2,
+                            asset: '',
+                            onPressed: () {},
+                            title: '',
+                          )),
                     );
                   }
                   return CustomTile(
