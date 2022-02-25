@@ -328,7 +328,7 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
         ),
       ),
       leading: Icon(
-        const IconData(0xf0359, fontFamily: 'MaterialIcons'),
+        Icons.looks_3_outlined,
         color: AppColor.textColor,
       ),
       title: Text(
