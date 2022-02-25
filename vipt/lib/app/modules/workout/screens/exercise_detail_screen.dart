@@ -153,7 +153,6 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     maxWidth: constraints.maxWidth,
-                    maxHeight: constraints.maxHeight * 0.3,
                   ),
                   child: _buildMediaPlayer(),
                 ),
@@ -232,7 +231,13 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
         ),
       );
     }
-    return VideoPlayer(_controller as VideoPlayerController);
+    return FittedBox(
+      fit: BoxFit.contain,
+      child: SizedBox(
+          width: _controller!.value.size.width,
+          height: _controller!.value.size.height,
+          child: VideoPlayer(_controller as VideoPlayerController)),
+    );
   }
 
   Widget _buildAsset(String asset) {
