@@ -3,9 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/data/services/cloud_storage_service.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
@@ -109,6 +111,9 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
                   height: 24,
                 ),
                 _buildExerciseList(context),
+                const SizedBox(
+                  height: 24,
+                ),
               ],
             );
           }),
@@ -561,17 +566,84 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
           const SizedBox(
             height: 4,
           ),
-          ..._controller.generatedWorkoutList.map(
-            (workout) => ExerciseInCollectionTile(
-              asset: SVGAssetString.boxing,
-              title: workout.name,
-              description:
-                  '${_controller.collectionSetting.value.exerciseTime} giây',
-              onPressed: () {
-                Get.toNamed(Routes.exerciseDetail, arguments: workout);
-              },
-            ),
-          ),
+          ..._controller.generatedWorkoutList.map((workout) {
+            int index = _controller.generatedWorkoutList.indexOf(workout);
+            Widget workoutTile = FutureBuilder(
+                future: CloudStorageService.instance.storage
+                    .ref()
+                    .child(AppValue.workoutsStorageCollectionPath)
+                    .child(AppValue.workoutsThumbStorageCollectionPath)
+                    .child(workout.thumbnail)
+                    .getDownloadURL(),
+                builder: (_, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return SizedBox(
+                      width: 200.0,
+                      height: 100.0,
+                      child: Shimmer.fromColors(
+                        baseColor: AppColor.textColor,
+                        highlightColor: Theme.of(context).backgroundColor,
+                        child: ExerciseInCollectionTile(
+                          asset: '',
+                          title: '',
+                          description: '',
+                          onPressed: () {},
+                        ),
+                      ),
+                    );
+                  }
+                  return ExerciseInCollectionTile(
+                    asset: snapshot.data as String? ?? '',
+                    title: workout.name,
+                    description:
+                        '${_controller.collectionSetting.value.exerciseTime} giây',
+                    onPressed: () {
+                      Get.toNamed(Routes.exerciseDetail, arguments: workout);
+                    },
+                  );
+                });
+            if ((index + 1) %
+                        _controller.collectionSetting.value.restFrequency ==
+                    0 &&
+                _controller.generatedWorkoutList.length != index + 1) {
+              return Column(
+                children: [
+                  workoutTile,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          thickness: 1,
+                          color: AppColor.textFieldUnderlineColor
+                              .withOpacity(AppColor.subTextOpacity),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        'Nghỉ ${_controller.collectionSetting.value.restTime} giây',
+                        style: Theme.of(context).textTheme.subtitle2,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Expanded(
+                        child: Divider(
+                          thickness: 1,
+                          color: AppColor.textFieldUnderlineColor
+                              .withOpacity(AppColor.subTextOpacity),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              );
+            }
+            return workoutTile;
+          }),
         ],
       ),
     );

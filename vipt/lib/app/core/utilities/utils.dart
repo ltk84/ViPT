@@ -22,20 +22,20 @@ class WorkoutCollectionUtils {
 
   static double calculateTime(
       {required CollectionSetting collectionSetting,
-      required int workoutListLenght}) {
+      required int workoutListLength}) {
     double timeValue = 0;
-    int restTimeValue = ((collectionSetting.round * workoutListLenght) %
+    int restTimeValue = ((collectionSetting.round * workoutListLength) %
                 collectionSetting.restFrequency ==
             0)
-        ? ((collectionSetting.round * workoutListLenght) ~/
+        ? ((collectionSetting.round * workoutListLength) ~/
                 collectionSetting.restFrequency) -
             1
         : (collectionSetting.round *
-            workoutListLenght ~/
+            workoutListLength ~/
             collectionSetting.restFrequency);
 
     timeValue = (collectionSetting.round *
-                workoutListLenght *
+                workoutListLength *
                 (collectionSetting.exerciseTime +
                     collectionSetting.transitionTime) +
             restTimeValue * collectionSetting.restTime) /
