@@ -38,7 +38,9 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         extendBodyBehindAppBar: true,
         backgroundColor: Theme.of(context).backgroundColor,
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {},
+          onPressed: () {
+            Get.toNamed(Routes.previewExerciseList);
+          },
           isExtended: true,
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           shape: RoundedRectangleBorder(
@@ -582,9 +584,8 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
           const SizedBox(
             height: 4,
           ),
-          ..._controller.generatedWorkoutList.map((workout) {
-            int index = _controller.generatedWorkoutList.indexOf(workout);
-            Widget workoutTile = FutureBuilder(
+          ..._controller.generatedWorkoutList.map(
+            (workout) => FutureBuilder(
                 future: CloudStorageService.instance.storage
                     .ref()
                     .child(AppValue.workoutsStorageCollectionPath)
@@ -619,49 +620,8 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
                       },
                     ),
                   );
-                });
-            if ((index + 1) %
-                        _controller.collectionSetting.value.restFrequency ==
-                    0 &&
-                _controller.generatedWorkoutList.length != index + 1) {
-              return Column(
-                children: [
-                  workoutTile,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          thickness: 1,
-                          color: AppColor.textFieldUnderlineColor
-                              .withOpacity(AppColor.subTextOpacity),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        'Nghỉ ${_controller.collectionSetting.value.restTime} giây',
-                        style: Theme.of(context).textTheme.subtitle2,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Expanded(
-                        child: Divider(
-                          thickness: 1,
-                          color: AppColor.textFieldUnderlineColor
-                              .withOpacity(AppColor.subTextOpacity),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              );
-            }
-            return workoutTile;
-          }),
+                }),
+          ),
         ],
       ),
     );
