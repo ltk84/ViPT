@@ -127,7 +127,7 @@ class PreviewExerciseList extends StatelessWidget {
                         height: 4,
                       ),
                       Divider(
-                        thickness: 2,
+                        thickness: 1,
                         color: AppColor.textFieldUnderlineColor,
                       ),
                       _buildExerciseList(context),
@@ -221,7 +221,8 @@ class PreviewExerciseList extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
+                      SizedBox(
+                        width: 28,
                         child: Divider(
                           thickness: 1,
                           color: AppColor.textFieldUnderlineColor,
@@ -242,7 +243,8 @@ class PreviewExerciseList extends StatelessWidget {
                       const SizedBox(
                         width: 16,
                       ),
-                      Expanded(
+                      SizedBox(
+                        width: 28,
                         child: Divider(
                           thickness: 1,
                           color: AppColor.textFieldUnderlineColor,
