@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
+import 'package:vipt/app/modules/session/widgets/custom_timer.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 
 class SessionController extends GetxController {
@@ -17,21 +18,59 @@ class SessionController extends GetxController {
   final collectionSetting =
       Get.find<WorkoutCollectionController>().collectionSetting.value;
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  final collectionTimeController = MyCountDownController();
+  final workoutTimeController = MyCountDownController();
+  late int round;
 
   @override
   void onInit() {
     currentWorkout = workoutList[workoutIndex.value].obs;
+    round = collectionSetting.round;
 
     super.onInit();
   }
 
-  void pause() {}
+  void onWorkoutTimerComplete() {
+    if (workoutIndex < workoutList.length) {
+      workoutIndex.value++;
+      workoutTimeController.restart();
+    } else {
+      round--;
+      if (round > 0) {
+        workoutIndex.value = 0;
+        workoutTimeController.restart();
+      }
+    }
+  }
 
-  void skip() {}
+  void pause() {
+    collectionTimeController.pause();
+    workoutTimeController.pause();
+  }
 
-  void start() {}
+  void skip() {
+    pause();
+    int remainWorkoutTime = int.parse(workoutTimeController.getTime());
+    List<String> timeStr = collectionTimeController.getTime().split(':');
+
+    int currentCollectionTime =
+        int.parse(timeStr[0]) * 60 + int.parse(timeStr[1]);
+
+    int remainCollectionTime = currentCollectionTime - remainWorkoutTime;
+
+    collectionTimeController.restart(duration: remainCollectionTime);
+    workoutTimeController.restart(duration: collectionSetting.exerciseTime);
+
+    workoutIndex.value++;
+  }
+
+  void start() {
+    collectionTimeController.start();
+    workoutTimeController.start();
+  }
+
+  void resume() {
+    collectionTimeController.resume();
+    workoutTimeController.resume();
+  }
 }
