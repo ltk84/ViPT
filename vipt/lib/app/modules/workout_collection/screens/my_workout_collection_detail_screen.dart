@@ -3,9 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/data/services/cloud_storage_service.dart';
 import 'package:vipt/app/modules/workout_collection/add_workout_collection_controller.dart';
 import 'package:vipt/app/modules/workout_collection/screens/edit_workout_collection_screen.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
@@ -165,6 +167,9 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
                   height: 24,
                 ),
                 _buildExerciseList(context),
+                const SizedBox(
+                  height: 24,
+                ),
               ],
             );
           }),
@@ -617,17 +622,42 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
             height: 4,
           ),
           ..._controller.generatedWorkoutList.map(
-            (workout) => Obx(
-              () => ExerciseInCollectionTile(
-                asset: SVGAssetString.boxing,
-                title: workout.name,
-                description:
-                    '${_controller.collectionSetting.value.exerciseTime} giây',
-                onPressed: () {
-                  Get.toNamed(Routes.exerciseDetail, arguments: workout);
-                },
-              ),
-            ),
+            (workout) => FutureBuilder(
+                future: CloudStorageService.instance.storage
+                    .ref()
+                    .child(AppValue.workoutsStorageCollectionPath)
+                    .child(AppValue.workoutsThumbStorageCollectionPath)
+                    .child(workout.thumbnail)
+                    .getDownloadURL(),
+                builder: (_, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return SizedBox(
+                      width: 200.0,
+                      height: 100.0,
+                      child: Shimmer.fromColors(
+                        baseColor: AppColor.textColor,
+                        highlightColor: Theme.of(context).backgroundColor,
+                        child: ExerciseInCollectionTile(
+                          asset: '',
+                          title: '',
+                          description: '',
+                          onPressed: () {},
+                        ),
+                      ),
+                    );
+                  }
+                  return Obx(
+                    () => ExerciseInCollectionTile(
+                      asset: snapshot.data as String? ?? '',
+                      title: workout.name,
+                      description:
+                          '${_controller.collectionSetting.value.exerciseTime} giây',
+                      onPressed: () {
+                        Get.toNamed(Routes.exerciseDetail, arguments: workout);
+                      },
+                    ),
+                  );
+                }),
           ),
         ],
       ),

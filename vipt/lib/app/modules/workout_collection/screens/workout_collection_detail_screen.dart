@@ -592,14 +592,16 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
                       ),
                     );
                   }
-                  return ExerciseInCollectionTile(
-                    asset: snapshot.data as String? ?? '',
-                    title: workout.name,
-                    description:
-                        '${_controller.collectionSetting.value.exerciseTime} giây',
-                    onPressed: () {
-                      Get.toNamed(Routes.exerciseDetail, arguments: workout);
-                    },
+                  return Obx(
+                    () => ExerciseInCollectionTile(
+                      asset: snapshot.data as String? ?? '',
+                      title: workout.name,
+                      description:
+                          '${_controller.collectionSetting.value.exerciseTime} giây',
+                      onPressed: () {
+                        Get.toNamed(Routes.exerciseDetail, arguments: workout);
+                      },
+                    ),
                   );
                 });
             if ((index + 1) %
