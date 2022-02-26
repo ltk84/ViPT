@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/data/services/cloud_storage_service.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/setup_info/widgets/multiple_choice_card.dart';
 import 'package:vipt/app/modules/workout_collection/add_workout_collection_controller.dart';
+import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/search_field_widget.dart';
 
 class AddExerciseToCollectionScreen extends StatelessWidget {
@@ -75,8 +79,8 @@ class AddExerciseToCollectionScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
                 child: _controller.searchTextController.text.isNotEmpty
-                    ? _buildSearchResultListView(_controller)
-                    : _buildInitialListView(_controller),
+                    ? _buildSearchResultListView(context, _controller)
+                    : _buildInitialListView(context, _controller),
               ),
             ),
           ),
@@ -86,7 +90,8 @@ class AddExerciseToCollectionScreen extends StatelessWidget {
   }
 }
 
-Widget _buildSearchResultListView(AddWorkoutCollectionController _controller) {
+Widget _buildSearchResultListView(
+    context, AddWorkoutCollectionController _controller) {
   return ListView(
     physics:
         const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
@@ -102,23 +107,56 @@ Widget _buildSearchResultListView(AddWorkoutCollectionController _controller) {
         ),
       ),
       ResponsiveGridRow(
-        children: _controller.searchResult.map((wk) {
+        children: _controller.searchResult.map((workout) {
           return ResponsiveGridCol(
             xs: 12,
-            child: Obx(
-              () => Container(
-                margin: const EdgeInsets.symmetric(vertical: 2),
-                child: MultipleChoiceCard(
-                  title: wk.name,
-                  subtitle: null,
-                  asset: null,
-                  isSelected: _controller.selectValueList.contains(wk.id),
-                  onSelected: () {
-                    _controller.handleSelect(wk.id ?? '');
-                  },
-                ),
-              ),
-            ),
+            child: FutureBuilder(
+                future: CloudStorageService.instance.storage
+                    .ref()
+                    .child(AppValue.workoutsStorageCollectionPath)
+                    .child(AppValue.workoutsThumbStorageCollectionPath)
+                    .child(workout.thumbnail)
+                    .getDownloadURL(),
+                builder: (_, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return SizedBox(
+                      width: 200.0,
+                      height: 100.0,
+                      child: Shimmer.fromColors(
+                        baseColor: AppColor.textColor
+                            .withOpacity(AppColor.subTextOpacity * 0.5),
+                        highlightColor: Theme.of(context)
+                            .backgroundColor
+                            .withOpacity(AppColor.subTextOpacity * 0.5),
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(vertical: 2),
+                          child: MultipleChoiceCard(
+                            title: '',
+                            subtitle: null,
+                            asset: '',
+                            isSelected: false,
+                            onSelected: () {},
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                  return Obx(
+                    () => Container(
+                      margin: const EdgeInsets.symmetric(vertical: 2),
+                      child: MultipleChoiceCard(
+                        title: workout.name,
+                        subtitle: null,
+                        asset: snapshot.data as String? ?? '',
+                        isSelected:
+                            _controller.selectValueList.contains(workout.id),
+                        onSelected: () {
+                          _controller.handleSelect(workout.id ?? '');
+                        },
+                      ),
+                    ),
+                  );
+                }),
           );
         }).toList(),
       ),
@@ -126,7 +164,7 @@ Widget _buildSearchResultListView(AddWorkoutCollectionController _controller) {
   );
 }
 
-Widget _buildInitialListView(_controller) {
+Widget _buildInitialListView(context, _controller) {
   return ListView(
     physics:
         const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
@@ -142,23 +180,56 @@ Widget _buildInitialListView(_controller) {
         ),
       ),
       ResponsiveGridRow(
-        children: DataService.instance.workoutList.map((wk) {
+        children: DataService.instance.workoutList.map((workout) {
           return ResponsiveGridCol(
             xs: 12,
-            child: Obx(
-              () => Container(
-                margin: const EdgeInsets.symmetric(vertical: 2),
-                child: MultipleChoiceCard(
-                  title: wk.name,
-                  subtitle: null,
-                  asset: null,
-                  isSelected: _controller.selectValueList.contains(wk.id),
-                  onSelected: () {
-                    _controller.handleSelect(wk.id ?? '');
-                  },
-                ),
-              ),
-            ),
+            child: FutureBuilder(
+                future: CloudStorageService.instance.storage
+                    .ref()
+                    .child(AppValue.workoutsStorageCollectionPath)
+                    .child(AppValue.workoutsThumbStorageCollectionPath)
+                    .child(workout.thumbnail)
+                    .getDownloadURL(),
+                builder: (_, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return SizedBox(
+                      width: 200.0,
+                      height: 100.0,
+                      child: Shimmer.fromColors(
+                        baseColor: AppColor.textColor
+                            .withOpacity(AppColor.subTextOpacity * 0.5),
+                        highlightColor: Theme.of(context)
+                            .backgroundColor
+                            .withOpacity(AppColor.subTextOpacity * 0.5),
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(vertical: 2),
+                          child: MultipleChoiceCard(
+                            title: '',
+                            subtitle: null,
+                            asset: '',
+                            isSelected: false,
+                            onSelected: () {},
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                  return Obx(
+                    () => Container(
+                      margin: const EdgeInsets.symmetric(vertical: 2),
+                      child: MultipleChoiceCard(
+                        title: workout.name,
+                        subtitle: null,
+                        asset: snapshot.data as String? ?? '',
+                        isSelected:
+                            _controller.selectValueList.contains(workout.id),
+                        onSelected: () {
+                          _controller.handleSelect(workout.id ?? '');
+                        },
+                      ),
+                    ),
+                  );
+                }),
           );
         }).toList(),
       ),

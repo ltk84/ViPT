@@ -51,7 +51,7 @@ class ExerciseInCollectionTile extends StatelessWidget {
                         // TITLE
                         Text(
                           title,
-                          style: Theme.of(context).textTheme.headline4,
+                          style: Theme.of(context).textTheme.headline5,
                         ),
 
                         // DESCRIPTION

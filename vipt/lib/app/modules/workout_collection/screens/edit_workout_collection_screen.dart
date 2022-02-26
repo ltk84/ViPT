@@ -203,15 +203,12 @@ class EditWorkoutCollectionScreen extends StatelessWidget {
                         ),
                       );
                     }
-                    return Obx(
-                      () => ExerciseInCollectionTile(
-                        asset: snapshot.data as String? ?? '',
-                        title: workout.name,
-                        onPressed: () {
-                          Get.toNamed(Routes.exerciseDetail,
-                              arguments: workout);
-                        },
-                      ),
+                    return ExerciseInCollectionTile(
+                      asset: snapshot.data as String? ?? '',
+                      title: workout.name,
+                      onPressed: () {
+                        Get.toNamed(Routes.exerciseDetail, arguments: workout);
+                      },
                     );
                   });
             }).toList(),

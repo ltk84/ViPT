@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as p;
+import 'package:vipt/app/core/values/colors.dart';
 
 class MultipleChoiceCard extends StatelessWidget {
   final String title;
   final String? subtitle;
-  final String? asset;
+  final String asset;
   final bool isSelected;
   final Function onSelected;
 
@@ -14,7 +15,7 @@ class MultipleChoiceCard extends StatelessWidget {
     Key? key,
     required this.title,
     this.subtitle,
-    this.asset,
+    this.asset = '',
     required this.isSelected,
     required this.onSelected,
   }) : super(key: key);
@@ -96,9 +97,37 @@ class MultipleChoiceCard extends StatelessWidget {
     );
   }
 
-  Widget? _buildAsset(String? asset) {
-    if (asset == null) {
+  Widget? _buildAsset(String asset) {
+    if (asset.isEmpty) {
       return null;
+    } else if (asset.contains('https')) {
+      return ConstrainedBox(
+        constraints: const BoxConstraints(
+          minWidth: 74,
+          minHeight: 74,
+          maxWidth: 80,
+          maxHeight: 150,
+        ),
+        child: Image.network(
+          asset,
+          fit: BoxFit.cover,
+          loadingBuilder: (BuildContext context, Widget child,
+              ImageChunkEvent? loadingProgress) {
+            if (loadingProgress == null) {
+              return child;
+            }
+            return Center(
+              child: CircularProgressIndicator(
+                color: AppColor.textColor.withOpacity(AppColor.subTextOpacity),
+                value: loadingProgress.expectedTotalBytes != null
+                    ? loadingProgress.cumulativeBytesLoaded /
+                        loadingProgress.expectedTotalBytes!
+                    : null,
+              ),
+            );
+          },
+        ),
+      );
     } else if (p.extension(asset) == '.svg') {
       return ConstrainedBox(
         constraints: const BoxConstraints(
