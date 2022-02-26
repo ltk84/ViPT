@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/services/cloud_storage_service.dart';
@@ -38,6 +37,23 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Theme.of(context).backgroundColor,
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {},
+          isExtended: true,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          label: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.75,
+            child: Text(
+              'Bắt đầu luyện tập'.tr,
+              style: Theme.of(context).textTheme.button,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.transparent,
@@ -111,8 +127,8 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
                   height: 24,
                 ),
                 _buildExerciseList(context),
-                const SizedBox(
-                  height: 24,
+                SizedBox(
+                  height: Theme.of(context).textTheme.button!.fontSize! * 4,
                 ),
               ],
             );
