@@ -24,15 +24,13 @@ class WorkoutCollectionUtils {
       {required CollectionSetting collectionSetting,
       required int workoutListLength}) {
     double timeValue = 0;
-    int restTimeValue = ((collectionSetting.round * workoutListLength) %
-                collectionSetting.restFrequency ==
-            0)
-        ? ((collectionSetting.round * workoutListLength) ~/
-                collectionSetting.restFrequency) -
-            1
-        : (collectionSetting.round *
-            workoutListLength ~/
-            collectionSetting.restFrequency);
+    int restTimeValue =
+        ((workoutListLength % collectionSetting.restFrequency == 0)
+                    ? (workoutListLength ~/ collectionSetting.restFrequency) - 1
+                    : workoutListLength ~/ collectionSetting.restFrequency) *
+                collectionSetting.round +
+            collectionSetting.round -
+            1;
 
     timeValue = (collectionSetting.round *
                 workoutListLength *
