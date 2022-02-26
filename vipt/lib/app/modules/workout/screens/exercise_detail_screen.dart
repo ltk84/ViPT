@@ -153,10 +153,65 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     maxWidth: constraints.maxWidth,
-                    maxHeight: constraints.maxHeight * 0.3,
                   ),
                   child: _buildMediaPlayer(),
                 ),
+              ),
+              Container(
+                padding: const EdgeInsets.only(
+                  top: 24,
+                  bottom: 8,
+                ),
+                child: Text(
+                  'Trang thiết bị/dụng cụ',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+              ),
+              // Hình ảnh Equipment, mô phỏng bằng muscle focus
+              Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(vertical: 2),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: constraints.maxWidth,
+                    maxHeight: constraints.maxHeight * 0.25,
+                  ),
+                  child: FutureBuilder(
+                      future: _getMuscleFocusLink(),
+                      builder: (_, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done &&
+                            snapshot.hasData) {
+                          return Image.network(
+                            snapshot.data as String,
+                            fit: BoxFit.cover,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              }
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColor.textColor
+                                      .withOpacity(AppColor.subTextOpacity),
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            },
+                          );
+                        }
+                        return Container();
+                      }),
+                ),
+              ),
+              // Tên Equipment.
+              Text(
+                "Thiết bị",
+                style: Theme.of(context).textTheme.bodyText1,
+                textAlign: TextAlign.center,
               ),
               Container(
                 padding: const EdgeInsets.only(
@@ -185,45 +240,44 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                   style: Theme.of(context).textTheme.headline4,
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: constraints.maxWidth * 0.9,
-                    ),
-                    child: FutureBuilder(
-                        future: _getMuscleFocusLink(),
-                        builder: (_, snapshot) {
-                          if (snapshot.connectionState ==
-                                  ConnectionState.done &&
-                              snapshot.hasData) {
-                            return Image.network(
-                              snapshot.data as String,
-                              fit: BoxFit.cover,
-                              loadingBuilder: (BuildContext context,
-                                  Widget child,
-                                  ImageChunkEvent? loadingProgress) {
-                                if (loadingProgress == null) {
-                                  return child;
-                                }
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                );
-                              },
-                            );
-                          }
-                          return Container();
-                        }),
+              Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(vertical: 2),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: constraints.maxWidth,
+                    maxHeight: constraints.maxHeight * 0.5,
                   ),
-                ],
+                  child: FutureBuilder(
+                      future: _getMuscleFocusLink(),
+                      builder: (_, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done &&
+                            snapshot.hasData) {
+                          return Image.network(
+                            snapshot.data as String,
+                            fit: BoxFit.cover,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              }
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColor.textColor
+                                      .withOpacity(AppColor.subTextOpacity),
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            },
+                          );
+                        }
+                        return Container();
+                      }),
+                ),
               ),
               SizedBox(
                 height: constraints.maxHeight * 0.03,
@@ -238,10 +292,19 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
   Widget _buildMediaPlayer() {
     if (_controller == null) {
       return Container(
-        color: AppColor.textFieldFill,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: AppColor.textFieldFill,
+        ),
       );
     }
-    return VideoPlayer(_controller as VideoPlayerController);
+    return FittedBox(
+      fit: BoxFit.contain,
+      child: SizedBox(
+          width: _controller!.value.size.width,
+          height: _controller!.value.size.height,
+          child: VideoPlayer(_controller as VideoPlayerController)),
+    );
   }
 
   Widget _buildAsset(String asset) {

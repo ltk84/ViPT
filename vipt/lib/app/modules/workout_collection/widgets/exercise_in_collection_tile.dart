@@ -51,7 +51,7 @@ class ExerciseInCollectionTile extends StatelessWidget {
                         // TITLE
                         Text(
                           title,
-                          style: Theme.of(context).textTheme.headline4,
+                          style: Theme.of(context).textTheme.headline5,
                         ),
 
                         // DESCRIPTION
@@ -80,10 +80,33 @@ class ExerciseInCollectionTile extends StatelessWidget {
   }
 
   Widget _buildAsset(String asset) {
+    if (asset.isEmpty) {
+      return Container();
+    } else if (asset.contains('https')) {
+      return Image.network(
+        asset,
+        fit: BoxFit.cover,
+        loadingBuilder: (BuildContext context, Widget child,
+            ImageChunkEvent? loadingProgress) {
+          if (loadingProgress == null) {
+            return child;
+          }
+          return Center(
+            child: CircularProgressIndicator(
+              color: AppColor.textColor.withOpacity(AppColor.subTextOpacity),
+              value: loadingProgress.expectedTotalBytes != null
+                  ? loadingProgress.cumulativeBytesLoaded /
+                      loadingProgress.expectedTotalBytes!
+                  : null,
+            ),
+          );
+        },
+      );
+    }
     if (p.extension(asset) == '.svg') {
       return SvgPicture.asset(asset);
     } else {
-      return Image.asset(asset);
+      return Image.asset(asset, fit: BoxFit.cover);
     }
   }
 }

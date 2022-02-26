@@ -3,9 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/data/services/cloud_storage_service.dart';
 import 'package:vipt/app/modules/workout_collection/add_workout_collection_controller.dart';
 import 'package:vipt/app/modules/workout_collection/screens/edit_workout_collection_screen.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
@@ -44,6 +46,23 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Theme.of(context).backgroundColor,
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {},
+          isExtended: true,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          label: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.75,
+            child: Text(
+              'Bắt đầu luyện tập'.tr,
+              style: Theme.of(context).textTheme.button,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.transparent,
@@ -165,6 +184,9 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
                   height: 24,
                 ),
                 _buildExerciseList(context),
+                SizedBox(
+                  height: Theme.of(context).textTheme.button!.fontSize! * 4,
+                ),
               ],
             );
           }),
@@ -328,7 +350,7 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
         ),
       ),
       leading: Icon(
-        const IconData(0xf0359, fontFamily: 'MaterialIcons'),
+        Icons.looks_3_outlined,
         color: AppColor.textColor,
       ),
       title: Text(
@@ -617,17 +639,38 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
             height: 4,
           ),
           ..._controller.generatedWorkoutList.map(
-            (workout) => Obx(
-              () => ExerciseInCollectionTile(
-                asset: SVGAssetString.boxing,
-                title: workout.name,
-                description:
-                    '${_controller.collectionSetting.value.exerciseTime} giây',
-                onPressed: () {
-                  Get.toNamed(Routes.exerciseDetail, arguments: workout);
-                },
-              ),
-            ),
+            (workout) => FutureBuilder(
+                future: CloudStorageService.instance.storage
+                    .ref()
+                    .child(AppValue.workoutsStorageCollectionPath)
+                    .child(AppValue.workoutsThumbStorageCollectionPath)
+                    .child(workout.thumbnail)
+                    .getDownloadURL(),
+                builder: (_, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return SizedBox(
+                      width: 200.0,
+                      height: 100.0,
+                      child: Shimmer.fromColors(
+                        baseColor: AppColor.textColor,
+                        highlightColor: Theme.of(context).backgroundColor,
+                        child: ExerciseInCollectionTile(
+                          asset: '',
+                          title: '',
+                          description: '',
+                          onPressed: () {},
+                        ),
+                      ),
+                    );
+                  }
+                  return ExerciseInCollectionTile(
+                    asset: snapshot.data as String? ?? '',
+                    title: workout.name,
+                    onPressed: () {
+                      Get.toNamed(Routes.exerciseDetail, arguments: workout);
+                    },
+                  );
+                }),
           ),
         ],
       ),

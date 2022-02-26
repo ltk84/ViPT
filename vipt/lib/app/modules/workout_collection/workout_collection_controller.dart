@@ -147,7 +147,7 @@ class WorkoutCollectionController extends GetxController {
 
     timeValue.value = WorkoutCollectionUtils.calculateTime(
         collectionSetting: collectionSetting.value,
-        workoutListLenght: generatedWorkoutList.length);
+        workoutListLength: generatedWorkoutList.length);
 
     print(timeValue.value);
   }
