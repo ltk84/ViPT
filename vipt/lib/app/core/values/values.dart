@@ -579,5 +579,5 @@ class AppValue {
   static const categoriesCollectionsStorageCollectionPath = 'categories';
   static const collectioncategoriesCollectionsStorageCollectionPath =
       'collectionCategories';
-  static const equipmentStorageCollectionPath = 'workoutEquipment';
+  static const equipmentStorageCollectionPath = 'equipment';
 }

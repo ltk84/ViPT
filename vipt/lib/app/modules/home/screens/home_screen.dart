@@ -3,6 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/data/models/workout.dart';
+import 'package:vipt/app/data/models/workout_equipment.dart';
+import 'package:vipt/app/data/providers/workout_equipment_provider.dart';
+import 'package:vipt/app/data/providers/workout_provider.dart';
+import 'package:vipt/app/data/services/cloud_storage_service.dart';
+import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/home/home_controller.dart';
 import 'package:vipt/app/modules/profile/screens/profile_screen.dart';
 
@@ -54,11 +61,24 @@ class HomeScreen extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () async {
-                // WorkoutCollectionProvider().addFakeData();
-                // WorkoutEquipmentProvider().addFakeData();
-                // WorkoutProvider().updateFakeData();
-                // WorkoutCollectionCategoryProvider().addFakeData();
-                // Get.to(() => CountDownTimerPage());
+                final list = await WorkoutEquipmentProvider().fetchAll();
+                list.forEach((e) async {
+                  // print(e.toMap());
+                  if (e.name == 'Machine') {
+                  } else {
+                    final newImageLink = await CloudStorageService
+                        .instance.storage
+                        .ref()
+                        .child(AppValue.equipmentStorageCollectionPath)
+                        .child(e.imageLink)
+                        .getDownloadURL();
+
+                    WorkoutEquipmentProvider().update(
+                        e.id ?? '',
+                        WorkoutEquipment(e.id,
+                            name: e.name, imageLink: newImageLink));
+                  }
+                });
               },
               child: const Text('Fetch data'),
             ),

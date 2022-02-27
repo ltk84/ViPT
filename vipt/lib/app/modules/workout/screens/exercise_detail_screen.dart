@@ -9,6 +9,8 @@ import 'package:video_player/video_player.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/workout.dart';
+import 'package:vipt/app/data/models/workout_equipment.dart';
+import 'package:vipt/app/data/providers/workout_equipment_provider.dart';
 import 'package:vipt/app/data/services/cloud_storage_service.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 
@@ -22,14 +24,16 @@ class ExerciseDetail extends StatefulWidget {
 class _ExerciseDetailState extends State<ExerciseDetail> {
   final Workout workout = Get.arguments;
   String categories = '';
+  List<WorkoutEquipment> equipment = [];
   VideoPlayerController? _controller;
   String animationLink = '';
 
   @override
   void initState() {
     _getCategories();
-    initVideoController();
+    _initVideoController();
     _getMuscleFocusLink();
+    _getEquipmentList();
     super.initState();
   }
 
@@ -41,7 +45,18 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
     super.dispose();
   }
 
-  void initVideoController() async {
+  _getEquipmentList() async {
+    for (var item in workout.equipmentIDs) {
+      final element = await WorkoutEquipmentProvider().fetch(item);
+      if (!equipment.contains(element)) {
+        equipment.add(element);
+      }
+    }
+
+    print(equipment.length);
+  }
+
+  void _initVideoController() async {
     var link = await _getAnimationLink();
     if (link == null) return;
     _controller = VideoPlayerController.network(link)
@@ -70,17 +85,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
   }
 
   Future<dynamic> _getAnimationLink() async {
-    try {
-      final result = await CloudStorageService.instance.storage
-          .ref()
-          .child(AppValue.workoutsStorageCollectionPath)
-          .child(AppValue.workoutsAnimationStorageCollectionPath)
-          .child(workout.animation)
-          .getDownloadURL();
-      return result;
-    } on FirebaseException catch (_) {
-      return null;
-    }
+    return workout.animation;
   }
 
   Future<dynamic> _getMuscleFocusLink() async {
@@ -90,6 +95,21 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
           .child(AppValue.workoutsStorageCollectionPath)
           .child(AppValue.workoutsMuscleFocusStorageCollectionPath)
           .child(workout.muscleFocusAsset)
+          .getDownloadURL();
+
+      return result;
+    } on FirebaseException catch (_) {
+      return null;
+    }
+  }
+
+  Future<dynamic> _getEquipmentLink() async {
+    try {
+      if (equipment.isEmpty || equipment[0].imageLink.isEmpty) return null;
+      final result = await CloudStorageService.instance.storage
+          .ref()
+          .child(AppValue.equipmentStorageCollectionPath)
+          .child(equipment[0].imageLink)
           .getDownloadURL();
 
       return result;
@@ -172,40 +192,13 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                 alignment: Alignment.center,
                 padding: const EdgeInsets.symmetric(vertical: 2),
                 child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: constraints.maxWidth,
-                    maxHeight: constraints.maxHeight * 0.25,
-                  ),
-                  child: FutureBuilder(
-                      future: _getMuscleFocusLink(),
-                      builder: (_, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done &&
-                            snapshot.hasData) {
-                          return Image.network(
-                            snapshot.data as String,
-                            fit: BoxFit.cover,
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child;
-                              }
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  color: AppColor.textColor
-                                      .withOpacity(AppColor.subTextOpacity),
-                                  value: loadingProgress.expectedTotalBytes !=
-                                          null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                      : null,
-                                ),
-                              );
-                            },
-                          );
-                        }
-                        return Container();
-                      }),
-                ),
+                    constraints: BoxConstraints(
+                      maxWidth: constraints.maxWidth,
+                      maxHeight: constraints.maxHeight * 0.25,
+                    ),
+                    child: equipment.isNotEmpty
+                        ? _buildEquipmentList()
+                        : Container()),
               ),
               // Tên Equipment.
               Text(
@@ -240,45 +233,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                   style: Theme.of(context).textTheme.headline4,
                 ),
               ),
-              Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 2),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: constraints.maxWidth,
-                    maxHeight: constraints.maxHeight * 0.5,
-                  ),
-                  child: FutureBuilder(
-                      future: _getMuscleFocusLink(),
-                      builder: (_, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done &&
-                            snapshot.hasData) {
-                          return Image.network(
-                            snapshot.data as String,
-                            fit: BoxFit.cover,
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child;
-                              }
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  color: AppColor.textColor
-                                      .withOpacity(AppColor.subTextOpacity),
-                                  value: loadingProgress.expectedTotalBytes !=
-                                          null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                      : null,
-                                ),
-                              );
-                            },
-                          );
-                        }
-                        return Container();
-                      }),
-                ),
-              ),
+              _buildMuscleFocus(constraints),
               SizedBox(
                 height: constraints.maxHeight * 0.03,
               )
@@ -286,6 +241,89 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
           );
         }),
       ),
+    );
+  }
+
+  Widget _buildMuscleFocus(constraints) {
+    return Container(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: constraints.maxWidth,
+          maxHeight: constraints.maxHeight * 0.5,
+        ),
+        child: Image.network(
+          workout.muscleFocusAsset,
+          fit: BoxFit.cover,
+          loadingBuilder: (BuildContext context, Widget child,
+              ImageChunkEvent? loadingProgress) {
+            if (loadingProgress == null) {
+              return child;
+            }
+            return Center(
+              child: CircularProgressIndicator(
+                color: AppColor.textColor.withOpacity(AppColor.subTextOpacity),
+                value: loadingProgress.expectedTotalBytes != null
+                    ? loadingProgress.cumulativeBytesLoaded /
+                        loadingProgress.expectedTotalBytes!
+                    : null,
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEquipmentList() {
+    // return FutureBuilder(
+    //     future: _getEquipmentLink(),
+    //     builder: (_, snapshot) {
+    //       if (snapshot.connectionState == ConnectionState.done &&
+    //           snapshot.hasData) {
+    //         return Image.network(
+    //           snapshot.data as String,
+    //           fit: BoxFit.cover,
+    //           loadingBuilder: (BuildContext context, Widget child,
+    //               ImageChunkEvent? loadingProgress) {
+    //             if (loadingProgress == null) {
+    //               return child;
+    //             }
+    //             return Center(
+    //               child: CircularProgressIndicator(
+    //                 color:
+    //                     AppColor.textColor.withOpacity(AppColor.subTextOpacity),
+    //                 value: loadingProgress.expectedTotalBytes != null
+    //                     ? loadingProgress.cumulativeBytesLoaded /
+    //                         loadingProgress.expectedTotalBytes!
+    //                     : null,
+    //               ),
+    //             );
+    //           },
+    //         );
+    //       }
+    //       return Container();
+    //     });
+
+    return Image.network(
+      equipment[0].imageLink,
+      fit: BoxFit.cover,
+      loadingBuilder: (BuildContext context, Widget child,
+          ImageChunkEvent? loadingProgress) {
+        if (loadingProgress == null) {
+          return child;
+        }
+        return Center(
+          child: CircularProgressIndicator(
+            color: AppColor.textColor.withOpacity(AppColor.subTextOpacity),
+            value: loadingProgress.expectedTotalBytes != null
+                ? loadingProgress.cumulativeBytesLoaded /
+                    loadingProgress.expectedTotalBytes!
+                : null,
+          ),
+        );
+      },
     );
   }
 

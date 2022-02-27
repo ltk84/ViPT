@@ -630,6 +630,7 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
 
   Widget _buildExerciseList(context) {
     return GetBuilder<WorkoutCollectionController>(
+      id: 'exerciseList',
       builder: (_) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -639,38 +640,13 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
             height: 4,
           ),
           ..._controller.generatedWorkoutList.map(
-            (workout) => FutureBuilder(
-                future: CloudStorageService.instance.storage
-                    .ref()
-                    .child(AppValue.workoutsStorageCollectionPath)
-                    .child(AppValue.workoutsThumbStorageCollectionPath)
-                    .child(workout.thumbnail)
-                    .getDownloadURL(),
-                builder: (_, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return SizedBox(
-                      width: 200.0,
-                      height: 100.0,
-                      child: Shimmer.fromColors(
-                        baseColor: AppColor.textColor,
-                        highlightColor: Theme.of(context).backgroundColor,
-                        child: ExerciseInCollectionTile(
-                          asset: '',
-                          title: '',
-                          description: '',
-                          onPressed: () {},
-                        ),
-                      ),
-                    );
-                  }
-                  return ExerciseInCollectionTile(
-                    asset: snapshot.data as String? ?? '',
-                    title: workout.name,
-                    onPressed: () {
-                      Get.toNamed(Routes.exerciseDetail, arguments: workout);
-                    },
-                  );
-                }),
+            (workout) => ExerciseInCollectionTile(
+              asset: workout.thumbnail,
+              title: workout.name,
+              onPressed: () {
+                Get.toNamed(Routes.exerciseDetail, arguments: workout);
+              },
+            ),
           ),
         ],
       ),

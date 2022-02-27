@@ -83,6 +83,7 @@ class WorkoutCollectionController extends GetxController {
     userCollections[index] = selectedCollection!;
 
     loadWorkoutListForUserCollection();
+    generateRandomList();
     update();
     await WorkoutCollectionProvider()
         .update(selectedCollection!.id ?? '', selectedCollection!);

@@ -179,38 +179,13 @@ class EditWorkoutCollectionScreen extends StatelessWidget {
             children: _controller.workoutIDs.map((e) {
               final workout = DataService.instance.workoutList
                   .firstWhere((element) => element.id == e);
-              return FutureBuilder(
-                  future: CloudStorageService.instance.storage
-                      .ref()
-                      .child(AppValue.workoutsStorageCollectionPath)
-                      .child(AppValue.workoutsThumbStorageCollectionPath)
-                      .child(workout.thumbnail)
-                      .getDownloadURL(),
-                  builder: (_, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return SizedBox(
-                        width: 200.0,
-                        height: 100.0,
-                        child: Shimmer.fromColors(
-                          baseColor: AppColor.textColor,
-                          highlightColor: Theme.of(context).backgroundColor,
-                          child: ExerciseInCollectionTile(
-                            asset: '',
-                            title: '',
-                            description: '',
-                            onPressed: () {},
-                          ),
-                        ),
-                      );
-                    }
-                    return ExerciseInCollectionTile(
-                      asset: snapshot.data as String? ?? '',
-                      title: workout.name,
-                      onPressed: () {
-                        Get.toNamed(Routes.exerciseDetail, arguments: workout);
-                      },
-                    );
-                  });
+              return ExerciseInCollectionTile(
+                asset: workout.thumbnail,
+                title: workout.name,
+                onPressed: () {
+                  Get.toNamed(Routes.exerciseDetail, arguments: workout);
+                },
+              );
             }).toList(),
           ),
         ),

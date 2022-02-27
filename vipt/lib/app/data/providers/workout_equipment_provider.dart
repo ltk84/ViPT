@@ -65,7 +65,9 @@ class WorkoutEquipmentProvider
   }
 
   @override
-  Future<WorkoutEquipment> update(String id, WorkoutEquipment obj) {
-    throw UnimplementedError();
+  Future<WorkoutEquipment> update(String id, WorkoutEquipment obj) async {
+    await _firestore.collection(collectionPath).doc(id).update(obj.toMap());
+
+    return obj;
   }
 }

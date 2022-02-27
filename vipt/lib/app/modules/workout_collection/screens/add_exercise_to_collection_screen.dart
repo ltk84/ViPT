@@ -110,53 +110,20 @@ Widget _buildSearchResultListView(
         children: _controller.searchResult.map((workout) {
           return ResponsiveGridCol(
             xs: 12,
-            child: FutureBuilder(
-                future: CloudStorageService.instance.storage
-                    .ref()
-                    .child(AppValue.workoutsStorageCollectionPath)
-                    .child(AppValue.workoutsThumbStorageCollectionPath)
-                    .child(workout.thumbnail)
-                    .getDownloadURL(),
-                builder: (_, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return SizedBox(
-                      width: 200.0,
-                      height: 100.0,
-                      child: Shimmer.fromColors(
-                        baseColor: AppColor.textColor
-                            .withOpacity(AppColor.subTextOpacity * 0.5),
-                        highlightColor: Theme.of(context)
-                            .backgroundColor
-                            .withOpacity(AppColor.subTextOpacity * 0.5),
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 2),
-                          child: MultipleChoiceCard(
-                            title: '',
-                            subtitle: null,
-                            asset: '',
-                            isSelected: false,
-                            onSelected: () {},
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                  return Obx(
-                    () => Container(
-                      margin: const EdgeInsets.symmetric(vertical: 2),
-                      child: MultipleChoiceCard(
-                        title: workout.name,
-                        subtitle: null,
-                        asset: snapshot.data as String? ?? '',
-                        isSelected:
-                            _controller.selectValueList.contains(workout.id),
-                        onSelected: () {
-                          _controller.handleSelect(workout.id ?? '');
-                        },
-                      ),
-                    ),
-                  );
-                }),
+            child: Obx(
+              () => Container(
+                margin: const EdgeInsets.symmetric(vertical: 2),
+                child: MultipleChoiceCard(
+                  title: workout.name,
+                  subtitle: null,
+                  asset: workout.thumbnail,
+                  isSelected: _controller.selectValueList.contains(workout.id),
+                  onSelected: () {
+                    _controller.handleSelect(workout.id ?? '');
+                  },
+                ),
+              ),
+            ),
           );
         }).toList(),
       ),
@@ -183,53 +150,20 @@ Widget _buildInitialListView(context, _controller) {
         children: DataService.instance.workoutList.map((workout) {
           return ResponsiveGridCol(
             xs: 12,
-            child: FutureBuilder(
-                future: CloudStorageService.instance.storage
-                    .ref()
-                    .child(AppValue.workoutsStorageCollectionPath)
-                    .child(AppValue.workoutsThumbStorageCollectionPath)
-                    .child(workout.thumbnail)
-                    .getDownloadURL(),
-                builder: (_, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return SizedBox(
-                      width: 200.0,
-                      height: 100.0,
-                      child: Shimmer.fromColors(
-                        baseColor: AppColor.textColor
-                            .withOpacity(AppColor.subTextOpacity * 0.5),
-                        highlightColor: Theme.of(context)
-                            .backgroundColor
-                            .withOpacity(AppColor.subTextOpacity * 0.5),
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 2),
-                          child: MultipleChoiceCard(
-                            title: '',
-                            subtitle: null,
-                            asset: '',
-                            isSelected: false,
-                            onSelected: () {},
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                  return Obx(
-                    () => Container(
-                      margin: const EdgeInsets.symmetric(vertical: 2),
-                      child: MultipleChoiceCard(
-                        title: workout.name,
-                        subtitle: null,
-                        asset: snapshot.data as String? ?? '',
-                        isSelected:
-                            _controller.selectValueList.contains(workout.id),
-                        onSelected: () {
-                          _controller.handleSelect(workout.id ?? '');
-                        },
-                      ),
-                    ),
-                  );
-                }),
+            child: Obx(
+              () => Container(
+                margin: const EdgeInsets.symmetric(vertical: 2),
+                child: MultipleChoiceCard(
+                  title: workout.name,
+                  subtitle: null,
+                  asset: workout.thumbnail,
+                  isSelected: _controller.selectValueList.contains(workout.id),
+                  onSelected: () {
+                    _controller.handleSelect(workout.id ?? '');
+                  },
+                ),
+              ),
+            ),
           );
         }).toList(),
       ),
