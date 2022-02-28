@@ -111,25 +111,31 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () async {
-                Get.lazyPut(() => AddWorkoutCollectionController());
-                final result = await Get.bottomSheet(
-                  Container(
-                    margin: const EdgeInsets.only(top: 36),
-                    child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10.0),
-                          topRight: Radius.circular(10.0),
-                        ),
-                        child: EditWorkoutCollectionScreen()),
-                  ),
-                  isScrollControlled: true,
-                );
+                // Get.lazyPut(() => AddWorkoutCollectionController());
+                // final result = await Get.bottomSheet(
+                //   Container(
+                //     margin: const EdgeInsets.only(top: 36),
+                //     child: ClipRRect(
+                //         borderRadius: const BorderRadius.only(
+                //           topLeft: Radius.circular(10.0),
+                //           topRight: Radius.circular(10.0),
+                //         ),
+                //         child: EditWorkoutCollectionScreen()),
+                //   ),
+                //   isScrollControlled: true,
+                // );
+                // if (result != null) {
+                //   await _controller.editUserCollection(result);
+                //   init();
+                //   _controller.calculateCaloAndTime();
+                // }
+                // Get.delete<AddWorkoutCollectionController>();
+                final result = await Get.toNamed(Routes.editWorkoutCollection);
                 if (result != null) {
                   await _controller.editUserCollection(result);
                   init();
                   _controller.calculateCaloAndTime();
                 }
-                Get.delete<AddWorkoutCollectionController>();
               },
             ),
           ],

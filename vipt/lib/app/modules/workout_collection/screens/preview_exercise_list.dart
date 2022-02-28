@@ -175,42 +175,17 @@ class PreviewExerciseList extends StatelessWidget {
         children: [
           ..._controller.generatedWorkoutList.map((workout) {
             int index = _controller.generatedWorkoutList.indexOf(workout);
-            Widget workoutTile = FutureBuilder(
-                future: CloudStorageService.instance.storage
-                    .ref()
-                    .child(AppValue.workoutsStorageCollectionPath)
-                    .child(AppValue.workoutsThumbStorageCollectionPath)
-                    .child(workout.thumbnail)
-                    .getDownloadURL(),
-                builder: (_, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return SizedBox(
-                      width: 200.0,
-                      height: 100.0,
-                      child: Shimmer.fromColors(
-                        baseColor: AppColor.textColor,
-                        highlightColor: Theme.of(context).backgroundColor,
-                        child: ExerciseInCollectionTile(
-                          asset: '',
-                          title: '',
-                          description: '',
-                          onPressed: () {},
-                        ),
-                      ),
-                    );
-                  }
-                  return Obx(
-                    () => ExerciseInCollectionTile(
-                      asset: snapshot.data as String? ?? '',
-                      title: workout.name,
-                      description:
-                          '${_controller.collectionSetting.value.exerciseTime} giây',
-                      onPressed: () {
-                        Get.toNamed(Routes.exerciseDetail, arguments: workout);
-                      },
-                    ),
-                  );
-                });
+            Widget workoutTile = Obx(
+              () => ExerciseInCollectionTile(
+                asset: workout.thumbnail,
+                title: workout.name,
+                description:
+                    '${_controller.collectionSetting.value.exerciseTime} giây',
+                onPressed: () {
+                  Get.toNamed(Routes.exerciseDetail, arguments: workout);
+                },
+              ),
+            );
             if ((index + 1) %
                         _controller.collectionSetting.value.restFrequency ==
                     0 &&
