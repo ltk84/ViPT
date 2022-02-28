@@ -176,14 +176,22 @@ class PreviewExerciseList extends StatelessWidget {
           ..._controller.generatedWorkoutList.map((workout) {
             int index = _controller.generatedWorkoutList.indexOf(workout);
             Widget workoutTile = Obx(
-              () => ExerciseInCollectionTile(
-                asset: workout.thumbnail,
-                title: workout.name,
-                description:
-                    '${_controller.collectionSetting.value.exerciseTime} giây',
-                onPressed: () {
-                  Get.toNamed(Routes.exerciseDetail, arguments: workout);
-                },
+              () => Container(
+                margin: const EdgeInsets.symmetric(
+                  vertical: 8,
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: ExerciseInCollectionTile(
+                    asset: workout.thumbnail,
+                    title: workout.name,
+                    description:
+                        '${_controller.collectionSetting.value.exerciseTime} giây',
+                    onPressed: () {
+                      Get.toNamed(Routes.exerciseDetail, arguments: workout);
+                    },
+                  ),
+                ),
               ),
             );
             if ((index + 1) %
