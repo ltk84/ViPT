@@ -36,8 +36,9 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         extendBodyBehindAppBar: true,
         backgroundColor: Theme.of(context).backgroundColor,
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            Get.toNamed(Routes.previewExerciseList);
+          onPressed: () async {
+            await Get.toNamed(Routes.previewExerciseList);
+            _controller.calculateCaloAndTime();
           },
           isExtended: true,
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -60,7 +61,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
                 onPressed: () {
                   Get.toNamed(Routes.workoutSession);
                 },
-                icon: Icon(Icons.access_time_filled_sharp))
+                icon: const Icon(Icons.access_time_filled_sharp))
           ],
           centerTitle: true,
           backgroundColor: Colors.transparent,
