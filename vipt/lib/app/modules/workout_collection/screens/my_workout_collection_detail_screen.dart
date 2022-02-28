@@ -44,7 +44,9 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
         extendBodyBehindAppBar: true,
         backgroundColor: Theme.of(context).backgroundColor,
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {},
+          onPressed: () {
+            Get.toNamed(Routes.previewExerciseList);
+          },
           isExtended: true,
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           shape: RoundedRectangleBorder(
