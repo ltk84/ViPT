@@ -162,7 +162,7 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
                   maxHeight: constraints.maxHeight,
                   controller: _controller,
                   showShuffleTile: true,
-                  enabled: _controller.generatedWorkoutList.isNotEmpty,
+                  enabled: _controller.workoutList.isNotEmpty,
                 ),
                 const SizedBox(
                   height: 24,
