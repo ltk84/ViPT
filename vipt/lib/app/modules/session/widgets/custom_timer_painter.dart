@@ -42,7 +42,7 @@ class MyCustomTimerPainter extends CustomPainter {
       if (backgroundGradient != null) {
         final rect = Rect.fromCircle(
             center: size.center(Offset.zero), radius: size.width / 2.2);
-        backgroundPaint..shader = backgroundGradient!.createShader(rect);
+        backgroundPaint.shader = backgroundGradient!.createShader(rect);
       } else {
         backgroundPaint.color = backgroundColor!;
       }
@@ -53,9 +53,9 @@ class MyCustomTimerPainter extends CustomPainter {
     if (ringGradient != null) {
       final rect = Rect.fromCircle(
           center: size.center(Offset.zero), radius: size.width / 2);
-      paint..shader = ringGradient!.createShader(rect);
+      paint.shader = ringGradient!.createShader(rect);
     } else {
-      paint..shader = null;
+      paint.shader = null;
     }
 
     canvas.drawCircle(size.center(Offset.zero), size.width / 2, paint);
@@ -64,9 +64,9 @@ class MyCustomTimerPainter extends CustomPainter {
     if (fillGradient != null) {
       final rect = Rect.fromCircle(
           center: size.center(Offset.zero), radius: size.width / 2);
-      paint..shader = fillGradient!.createShader(rect);
+      paint.shader = fillGradient!.createShader(rect);
     } else {
-      paint..shader = null;
+      paint.shader = null;
       paint.color = fillColor!;
     }
 

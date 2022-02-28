@@ -4,6 +4,7 @@ import 'package:vipt/app/data/models/base_model.dart';
 class WorkoutCollection extends BaseModel {
   final String title;
   final String description;
+  final String asset;
   final List<String> generatorIDs;
   final List<String> categoryIDs;
 
@@ -11,6 +12,7 @@ class WorkoutCollection extends BaseModel {
     String? id, {
     required this.title,
     required this.description,
+    required this.asset,
     required this.generatorIDs,
     required this.categoryIDs,
   }) : super(id);
@@ -29,15 +31,16 @@ class WorkoutCollection extends BaseModel {
     return WorkoutCollection(
       id,
       title: map['title'] ?? '',
-      description: map['description'],
-      generatorIDs: List<String>.from(map['generatorIDs']),
-      categoryIDs: List<String>.from(map['categoryIDs']),
+      description: map['description'] ?? '',
+      asset: map['asset'] ?? '',
+      generatorIDs: List<String>.from(map['generatorIDs'] ?? []),
+      categoryIDs: List<String>.from(map['categoryIDs'] ?? []),
     );
   }
 
   @override
   String toString() {
-    return 'WorkoutCollection(title: $title, description: $description, generatorIDs: $generatorIDs, categoryIDs: $categoryIDs)';
+    return 'WorkoutCollection(title: $title, description: $description, asset: $asset, generatorIDs: $generatorIDs, categoryIDs: $categoryIDs)';
   }
 
   @override
@@ -48,6 +51,7 @@ class WorkoutCollection extends BaseModel {
     return other is WorkoutCollection &&
         other.title == title &&
         other.description == description &&
+        other.asset == asset &&
         listEquals(other.generatorIDs, generatorIDs) &&
         listEquals(other.categoryIDs, categoryIDs);
   }
@@ -56,6 +60,7 @@ class WorkoutCollection extends BaseModel {
   int get hashCode {
     return title.hashCode ^
         description.hashCode ^
+        asset.hashCode ^
         generatorIDs.hashCode ^
         categoryIDs.hashCode;
   }

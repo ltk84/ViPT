@@ -1,12 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:vipt/app/core/values/asset_strings.dart';
-import 'package:vipt/app/core/values/colors.dart';
-import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/category.dart';
-import 'package:vipt/app/data/services/cloud_storage_service.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
 import 'package:vipt/app/modules/workout/workout_controller.dart';
 import 'package:vipt/app/routes/pages.dart';

@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -10,8 +9,6 @@ import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_equipment.dart';
-import 'package:vipt/app/data/providers/workout_equipment_provider.dart';
-import 'package:vipt/app/data/services/cloud_storage_service.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 
 class ExerciseDetail extends StatefulWidget {
@@ -32,29 +29,27 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
   void initState() {
     _getCategories();
     _initVideoController();
-    _getMuscleFocusLink();
-    _getEquipmentList();
+    // _getMuscleFocusLink();
+    // _getEquipmentList();
     super.initState();
   }
 
   @override
   void dispose() {
-    if (_controller != null) {
-      _controller!.dispose();
-    }
+    // if (_controller != null) {
+    //   _controller!.dispose();
+    // }
     super.dispose();
   }
 
-  _getEquipmentList() async {
-    for (var item in workout.equipmentIDs) {
-      final element = await WorkoutEquipmentProvider().fetch(item);
-      if (!equipment.contains(element)) {
-        equipment.add(element);
-      }
-    }
-
-    print(equipment.length);
-  }
+  // _getEquipmentList() async {
+  //   for (var item in workout.equipmentIDs) {
+  //     final element = await WorkoutEquipmentProvider().fetch(item);
+  //     if (!equipment.contains(element)) {
+  //       equipment.add(element);
+  //     }
+  //   }
+  // }
 
   void _initVideoController() async {
     var link = await _getAnimationLink();
@@ -88,35 +83,35 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
     return workout.animation;
   }
 
-  Future<dynamic> _getMuscleFocusLink() async {
-    try {
-      final result = await CloudStorageService.instance.storage
-          .ref()
-          .child(AppValue.workoutsStorageCollectionPath)
-          .child(AppValue.workoutsMuscleFocusStorageCollectionPath)
-          .child(workout.muscleFocusAsset)
-          .getDownloadURL();
+  // Future<dynamic> _getMuscleFocusLink() async {
+  //   try {
+  //     final result = await CloudStorageService.instance.storage
+  //         .ref()
+  //         .child(AppValue.workoutsStorageCollectionPath)
+  //         .child(AppValue.workoutsMuscleFocusStorageCollectionPath)
+  //         .child(workout.muscleFocusAsset)
+  //         .getDownloadURL();
 
-      return result;
-    } on FirebaseException catch (_) {
-      return null;
-    }
-  }
+  //     return result;
+  //   } on FirebaseException catch (_) {
+  //     return null;
+  //   }
+  // }
 
-  Future<dynamic> _getEquipmentLink() async {
-    try {
-      if (equipment.isEmpty || equipment[0].imageLink.isEmpty) return null;
-      final result = await CloudStorageService.instance.storage
-          .ref()
-          .child(AppValue.equipmentStorageCollectionPath)
-          .child(equipment[0].imageLink)
-          .getDownloadURL();
+  // Future<dynamic> _getEquipmentLink() async {
+  //   try {
+  //     if (equipment.isEmpty || equipment[0].imageLink.isEmpty) return null;
+  //     final result = await CloudStorageService.instance.storage
+  //         .ref()
+  //         .child(AppValue.equipmentStorageCollectionPath)
+  //         .child(equipment[0].imageLink)
+  //         .getDownloadURL();
 
-      return result;
-    } on FirebaseException catch (_) {
-      return null;
-    }
-  }
+  //     return result;
+  //   } on FirebaseException catch (_) {
+  //     return null;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

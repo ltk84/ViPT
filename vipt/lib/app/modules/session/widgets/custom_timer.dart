@@ -1,6 +1,5 @@
 library circular_countdown_timer;
 
-import 'package:circular_countdown_timer/custom_timer_painter.dart';
 import 'package:flutter/material.dart';
 import 'package:vipt/app/modules/session/widgets/custom_timer_painter.dart';
 

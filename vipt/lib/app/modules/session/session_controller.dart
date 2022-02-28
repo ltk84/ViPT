@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/modules/session/widgets/custom_timer.dart';

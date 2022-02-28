@@ -17,71 +17,71 @@ class WorkoutCollectionProvider
     return obj;
   }
 
-  void addFakeData() {
-    final data = [
-      WorkoutCollection(
-        null,
-        title: 'HIIT',
-        description:
-            'High-intensity cardio exercises to boost your metabolism as quickly as possible.',
-        generatorIDs: ['Gwif2wxSJ4MCGh9xT9bs'],
-        categoryIDs: ['5gseIyVRVNbRs9OKG8Pz'],
-      ),
-      WorkoutCollection(
-        null,
-        title: 'Full Body Stretching',
-        description:
-            'Classic stretches to increase flexibility and release all your muscles. Great cool-down after a workout.',
-        generatorIDs: ['Rxb89cZTkXtSLvghJeei'],
-        categoryIDs: ['34mBd6uHde3VQQMYXUYD'],
-      ),
-      // WorkoutCollection(
-      //   null,
-      //   title: 'Complex Upper Body',
-      //   description:
-      //       'A fun and effective workout that will challenge all your upper body.',
-      //   generatorIDs: [],
-      //   categoryIDs: ['x52QcIaOEBTW5J8J7S1U'],
-      // ),
-    ];
+  // void addFakeData() {
+  //   final data = [
+  //     WorkoutCollection(
+  //       null,
+  //       title: 'HIIT',
+  //       description:
+  //           'High-intensity cardio exercises to boost your metabolism as quickly as possible.',
+  //       generatorIDs: ['Gwif2wxSJ4MCGh9xT9bs'],
+  //       categoryIDs: ['5gseIyVRVNbRs9OKG8Pz'],
+  //     ),
+  //     WorkoutCollection(
+  //       null,
+  //       title: 'Full Body Stretching',
+  //       description:
+  //           'Classic stretches to increase flexibility and release all your muscles. Great cool-down after a workout.',
+  //       generatorIDs: ['Rxb89cZTkXtSLvghJeei'],
+  //       categoryIDs: ['34mBd6uHde3VQQMYXUYD'],
+  //     ),
+  //     // WorkoutCollection(
+  //     //   null,
+  //     //   title: 'Complex Upper Body',
+  //     //   description:
+  //     //       'A fun and effective workout that will challenge all your upper body.',
+  //     //   generatorIDs: [],
+  //     //   categoryIDs: ['x52QcIaOEBTW5J8J7S1U'],
+  //     // ),
+  //   ];
 
-    for (var item in data) {
-      addDefaultCollection(item);
-    }
-  }
+  //   for (var item in data) {
+  //     addDefaultCollection(item);
+  //   }
+  // }
 
-  void addUserCollectionFakeData() {
-    final data = [
-      WorkoutCollection(
-        null,
-        title: 'Insane Six Pack',
-        description:
-            'Ab workout that will get you a shredded six-pack in no time.',
-        generatorIDs: [],
-        categoryIDs: ['jOLYMcvtft5eUGyv2ciW'],
-      ),
-      WorkoutCollection(
-        null,
-        title: 'Complex Lower Body',
-        description:
-            'Full lower body workout. This is the leg day you should never skip.',
-        generatorIDs: [],
-        categoryIDs: ['4JX1H4ZFDkb85zQkA6df'],
-      ),
-      WorkoutCollection(
-        null,
-        title: 'Complex Upper Body',
-        description:
-            'A fun and effective workout that will challenge all your upper body.',
-        generatorIDs: [],
-        categoryIDs: ['TOcjJylRaR8D7tJHbz8z'],
-      ),
-    ];
+  // void addUserCollectionFakeData() {
+  //   final data = [
+  //     WorkoutCollection(
+  //       null,
+  //       title: 'Insane Six Pack',
+  //       description:
+  //           'Ab workout that will get you a shredded six-pack in no time.',
+  //       generatorIDs: [],
+  //       categoryIDs: ['jOLYMcvtft5eUGyv2ciW'],
+  //     ),
+  //     WorkoutCollection(
+  //       null,
+  //       title: 'Complex Lower Body',
+  //       description:
+  //           'Full lower body workout. This is the leg day you should never skip.',
+  //       generatorIDs: [],
+  //       categoryIDs: ['4JX1H4ZFDkb85zQkA6df'],
+  //     ),
+  //     WorkoutCollection(
+  //       null,
+  //       title: 'Complex Upper Body',
+  //       description:
+  //           'A fun and effective workout that will challenge all your upper body.',
+  //       generatorIDs: [],
+  //       categoryIDs: ['TOcjJylRaR8D7tJHbz8z'],
+  //     ),
+  //   ];
 
-    for (var item in data) {
-      add(item);
-    }
-  }
+  //   for (var item in data) {
+  //     add(item);
+  //   }
+  // }
 
   CollectionReference<Map<String, dynamic>> get _userCollectionPath =>
       _firestore

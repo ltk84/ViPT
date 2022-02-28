@@ -4,12 +4,9 @@ import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
-import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_equipment.dart';
 import 'package:vipt/app/data/providers/workout_equipment_provider.dart';
-import 'package:vipt/app/data/providers/workout_provider.dart';
 import 'package:vipt/app/data/services/cloud_storage_service.dart';
-import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/home/home_controller.dart';
 import 'package:vipt/app/modules/profile/screens/profile_screen.dart';
 

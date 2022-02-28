@@ -57,6 +57,7 @@ class AddWorkoutCollectionController extends GetxController {
     WorkoutCollection wkCollection = WorkoutCollection(null,
         title: titleTextController.text,
         description: descriptionTextController.text,
+        asset: '',
         generatorIDs: workoutIDs,
         categoryIDs: []);
     Get.back(result: wkCollection);
@@ -72,6 +73,7 @@ class AddWorkoutCollectionController extends GetxController {
     var editCollection = WorkoutCollection(selectedCollection!.id,
         title: titleTextController.text,
         description: descriptionTextController.text,
+        asset: '',
         generatorIDs: workoutIDs,
         categoryIDs: []);
     selectedCollection = editCollection;

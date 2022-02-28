@@ -557,7 +557,7 @@ packages:
       name: video_player_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.2"
+    version: "5.1.0"
   video_player_web:
     dependency: transitive
     description:
