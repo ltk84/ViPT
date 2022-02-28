@@ -79,4 +79,6 @@ class SVGAssetString {
   static const String paleo = '$_path/paleo.svg';
   static const String pescatarian = '$_path/pescatarian.svg';
   static const String traditional = '$_path/traditional.svg';
+  static const String timer = '$_path/timer.svg';
+  static const String fire = '$_path/fire.svg';
 }

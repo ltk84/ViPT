@@ -1,8 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/modules/workout_collection/add_workout_collection_controller.dart';
@@ -210,14 +212,15 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
             style: Theme.of(context).textTheme.headline2,
           ),
         ),
-        Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Text(
-            _controller.selectedCollection!.description.tr,
-            style: Theme.of(context).textTheme.subtitle2,
+        if (_controller.selectedCollection!.description != "")
+          Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Text(
+              _controller.selectedCollection!.description.tr,
+              style: Theme.of(context).textTheme.subtitle2,
+            ),
           ),
-        ),
       ],
     );
   }
@@ -226,10 +229,14 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(
-          Icons.access_time_filled_rounded,
-          color: AppColor.textColor,
-          size: 28,
+        ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: 25,
+            maxHeight: 25,
+          ),
+          child: SvgPicture.asset(
+            SVGAssetString.timer,
+          ),
         ),
         const SizedBox(
           width: 8,
@@ -252,10 +259,14 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
         const SizedBox(
           width: 8,
         ),
-        Icon(
-          CupertinoIcons.flame_fill,
-          color: AppColor.textColor,
-          size: 28,
+        ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: 25,
+            maxHeight: 25,
+          ),
+          child: SvgPicture.asset(
+            SVGAssetString.fire,
+          ),
         ),
         const SizedBox(
           width: 8,

@@ -1,8 +1,11 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
@@ -155,15 +158,16 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
             style: Theme.of(context).textTheme.headline2,
           ),
         ),
-        Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Text(
-            _controller.selectedCollection!.description.tr,
-            style: Theme.of(context).textTheme.subtitle2,
-            textAlign: TextAlign.center,
+        if (_controller.selectedCollection!.description != "")
+          Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Text(
+              _controller.selectedCollection!.description.tr,
+              style: Theme.of(context).textTheme.subtitle2,
+              textAlign: TextAlign.center,
+            ),
           ),
-        ),
       ],
     );
   }
@@ -172,10 +176,14 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(
-          Icons.access_time_filled_rounded,
-          color: AppColor.textColor,
-          size: 28,
+        ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: 25,
+            maxHeight: 25,
+          ),
+          child: SvgPicture.asset(
+            SVGAssetString.timer,
+          ),
         ),
         const SizedBox(
           width: 8,
@@ -190,7 +198,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
           width: 8,
         ),
         SizedBox(
-          height: 28,
+          height: 26,
           child: VerticalDivider(
             color: AppColor.textColor,
           ),
@@ -198,10 +206,14 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         const SizedBox(
           width: 8,
         ),
-        Icon(
-          CupertinoIcons.flame_fill,
-          color: AppColor.textColor,
-          size: 28,
+        ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: 25,
+            maxHeight: 25,
+          ),
+          child: SvgPicture.asset(
+            SVGAssetString.fire,
+          ),
         ),
         const SizedBox(
           width: 8,
@@ -589,9 +601,8 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
           const SizedBox(
             height: 4,
           ),
-          ..._controller.generatedWorkoutList.map((workout) {
-            int index = _controller.generatedWorkoutList.indexOf(workout);
-            Widget workoutTile = Obx(
+          ..._controller.generatedWorkoutList.map(
+            (workout) => Obx(
               () => ExerciseInCollectionTile(
                 asset: workout.thumbnail,
                 title: workout.name,
@@ -601,49 +612,8 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
                   Get.toNamed(Routes.exerciseDetail, arguments: workout);
                 },
               ),
-            );
-            if ((index + 1) %
-                        _controller.collectionSetting.value.restFrequency ==
-                    0 &&
-                _controller.generatedWorkoutList.length != index + 1) {
-              return Column(
-                children: [
-                  workoutTile,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          thickness: 1,
-                          color: AppColor.textFieldUnderlineColor
-                              .withOpacity(AppColor.subTextOpacity),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        'Nghỉ ${_controller.collectionSetting.value.restTime} giây',
-                        style: Theme.of(context).textTheme.subtitle2,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Expanded(
-                        child: Divider(
-                          thickness: 1,
-                          color: AppColor.textFieldUnderlineColor
-                              .withOpacity(AppColor.subTextOpacity),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              );
-            }
-            return workoutTile;
-          }),
+            ),
+          ),
         ],
       ),
     );
