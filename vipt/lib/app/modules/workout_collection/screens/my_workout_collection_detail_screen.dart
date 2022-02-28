@@ -9,6 +9,7 @@ import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/modules/workout_collection/add_workout_collection_controller.dart';
 import 'package:vipt/app/modules/workout_collection/screens/edit_workout_collection_screen.dart';
+import 'package:vipt/app/modules/workout_collection/widgets/collection_setting_widget.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
@@ -157,36 +158,12 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                _buildRoundProperty(context, constraints.maxHeight),
-                const SizedBox(
-                  height: 12,
+                CollectionSettingWidget(
+                  maxHeight: constraints.maxHeight,
+                  controller: _controller,
+                  showShuffleTile: true,
+                  enabled: _controller.generatedWorkoutList.isNotEmpty,
                 ),
-                _buildNumOfWorkoutPerRoundProperty(
-                    context, constraints.maxHeight),
-                const SizedBox(
-                  height: 12,
-                ),
-                _buildWarmUpProperty(context),
-                const SizedBox(
-                  height: 12,
-                ),
-                _buildShuffleProperty(context),
-                const SizedBox(
-                  height: 12,
-                ),
-                _buildExerciseTimeProperty(context, constraints.maxHeight),
-                const SizedBox(
-                  height: 12,
-                ),
-                _buildTransitionTimeProperty(context, constraints.maxHeight),
-                const SizedBox(
-                  height: 12,
-                ),
-                _buildRestTimeProperty(context, constraints.maxHeight),
-                const SizedBox(
-                  height: 12,
-                ),
-                _buildRestFrequencyProperty(context, constraints.maxHeight),
                 const SizedBox(
                   height: 24,
                 ),
