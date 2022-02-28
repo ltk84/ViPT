@@ -17,7 +17,7 @@ class WorkoutSession extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             MyCircularCountDownTimer(
-              duration: _controller.timeValue.toInt().minutes.inSeconds,
+              duration: _controller.timeValue.minutes.inSeconds,
               initialDuration: 0,
               controller: _controller.collectionTimeController,
               width: 100,
