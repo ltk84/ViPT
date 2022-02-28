@@ -466,7 +466,6 @@ class WorkoutProvider implements Firestoration<String, Workout> {
     for (var item in data) {
       await add(item);
     }
-    print('done');
   }
 
   void updateFakeData() async {

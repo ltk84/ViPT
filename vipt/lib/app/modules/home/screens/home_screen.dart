@@ -3,13 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/core/values/colors.dart';
-import 'package:vipt/app/core/values/values.dart';
-import 'package:vipt/app/data/models/workout.dart';
-import 'package:vipt/app/data/models/workout_equipment.dart';
-import 'package:vipt/app/data/providers/workout_equipment_provider.dart';
-import 'package:vipt/app/data/providers/workout_provider.dart';
-import 'package:vipt/app/data/services/cloud_storage_service.dart';
-import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/home/home_controller.dart';
 import 'package:vipt/app/modules/profile/screens/profile_screen.dart';
 
@@ -53,12 +46,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  String generateLink(String name, String type, String extenstion) {
-    return '${type}_' +
-        name.replaceAll(' ', '_').toLowerCase() +
-        '.$extenstion';
-  }
-
   List<Widget> _buildScreens() {
     return [
       Center(
@@ -67,47 +54,47 @@ class HomeScreen extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () async {
-                DataService.instance.workoutList.forEach((element) async {
-                  // final thumbnailLink =
-                  //     generateLink(element.name, 'thumbnail', 'png');
-                  // final thumbnail = await CloudStorageService.instance.storage
-                  //     .ref()
-                  //     .child(AppValue.workoutsStorageCollectionPath)
-                  //     .child(AppValue.workoutsThumbStorageCollectionPath)
-                  //     .child(thumbnailLink)
-                  //     .getDownloadURL();
+                // DataService.instance.workoutList.forEach((element) async {
+                //   // final thumbnailLink =
+                //   //     generateLink(element.name, 'thumbnail', 'png');
+                //   // final thumbnail = await CloudStorageService.instance.storage
+                //   //     .ref()
+                //   //     .child(AppValue.workoutsStorageCollectionPath)
+                //   //     .child(AppValue.workoutsThumbStorageCollectionPath)
+                //   //     .child(thumbnailLink)
+                //   //     .getDownloadURL();
 
-                  // final muscleFocusLink =
-                  //     generateLink(element.name, 'muscle_focus', 'png');
-                  // final msFocus = await CloudStorageService.instance.storage
-                  //     .ref()
-                  //     .child(AppValue.workoutsStorageCollectionPath)
-                  //     .child(AppValue.workoutsMuscleFocusStorageCollectionPath)
-                  //     .child(muscleFocusLink)
-                  //     .getDownloadURL();
+                //   // final muscleFocusLink =
+                //   //     generateLink(element.name, 'muscle_focus', 'png');
+                //   // final msFocus = await CloudStorageService.instance.storage
+                //   //     .ref()
+                //   //     .child(AppValue.workoutsStorageCollectionPath)
+                //   //     .child(AppValue.workoutsMuscleFocusStorageCollectionPath)
+                //   //     .child(muscleFocusLink)
+                //   //     .getDownloadURL();
 
-                  // final animationLink =
-                  //     generateLink(element.name, 'animation', 'mp4');
-                  // final animation = await CloudStorageService.instance.storage
-                  //     .ref()
-                  //     .child(AppValue.workoutsStorageCollectionPath)
-                  //     .child(AppValue.workoutsAnimationStorageCollectionPath)
-                  //     .child(animationLink)
-                  //     .getDownloadURL();
+                //   // final animationLink =
+                //   //     generateLink(element.name, 'animation', 'mp4');
+                //   // final animation = await CloudStorageService.instance.storage
+                //   //     .ref()
+                //   //     .child(AppValue.workoutsStorageCollectionPath)
+                //   //     .child(AppValue.workoutsAnimationStorageCollectionPath)
+                //   //     .child(animationLink)
+                //   //     .getDownloadURL();
 
-                  // await WorkoutProvider().update(
-                  //     element.id ?? '',
-                  //     Workout(element.id,
-                  //         name: element.name,
-                  //         animation: animation,
-                  //         thumbnail: thumbnail,
-                  //         hints: element.hints,
-                  //         breathing: element.breathing,
-                  //         muscleFocusAsset: msFocus,
-                  //         categoryIDs: element.categoryIDs,
-                  //         metValue: element.metValue,
-                  //         equipmentIDs: element.equipmentIDs));
-                });
+                //   // await WorkoutProvider().update(
+                //   //     element.id ?? '',
+                //   //     Workout(element.id,
+                //   //         name: element.name,
+                //   //         animation: animation,
+                //   //         thumbnail: thumbnail,
+                //   //         hints: element.hints,
+                //   //         breathing: element.breathing,
+                //   //         muscleFocusAsset: msFocus,
+                //   //         categoryIDs: element.categoryIDs,
+                //   //         metValue: element.metValue,
+                //   //         equipmentIDs: element.equipmentIDs));
+                // });
               },
               child: const Text('Fetch data'),
             ),

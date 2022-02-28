@@ -42,29 +42,36 @@ class WorkoutCollectionController extends GetxController {
   void onSelectUserCollection(WorkoutCollection collection) {
     selectedCollection = collection;
     loadWorkoutListForUserCollection();
-    maxWorkout.value = workoutList.length;
-    if (maxWorkout.value < collectionSetting.value.numOfWorkoutPerRound) {
-      collectionSetting.value.numOfWorkoutPerRound = maxWorkout.value;
-    }
+
     generateRandomList();
-    calculateCaloAndTime();
+    // calculateCaloAndTime();
   }
 
   void onSelectDefaultCollection(WorkoutCollection collection) {
     selectedCollection = collection;
     loadWorkoutListForDefaultCollection(collection.generatorIDs);
-    maxWorkout.value = workoutList.length;
-    if (maxWorkout.value < collectionSetting.value.numOfWorkoutPerRound) {
-      collectionSetting.value.numOfWorkoutPerRound = maxWorkout.value;
-    }
+
     generateRandomList();
-    calculateCaloAndTime();
+    // calculateCaloAndTime();
   }
 
   generateRandomList() {
-    workoutList.shuffle();
-    generatedWorkoutList =
-        workoutList.sublist(0, collectionSetting.value.numOfWorkoutPerRound);
+    if (workoutList.isEmpty) {
+      generatedWorkoutList = [];
+      collectionSetting.value.numOfWorkoutPerRound = 0;
+    } else {
+      maxWorkout.value = workoutList.length;
+
+      if (maxWorkout.value < collectionSetting.value.numOfWorkoutPerRound) {
+        collectionSetting.value.numOfWorkoutPerRound = maxWorkout.value;
+      }
+      workoutList.shuffle();
+
+      generatedWorkoutList =
+          workoutList.sublist(0, collectionSetting.value.numOfWorkoutPerRound);
+    }
+
+    calculateCaloAndTime();
     update();
   }
 
@@ -84,7 +91,9 @@ class WorkoutCollectionController extends GetxController {
 
     loadWorkoutListForUserCollection();
     generateRandomList();
+    // calculateCaloAndTime();
     update();
+
     await WorkoutCollectionProvider()
         .update(selectedCollection!.id ?? '', selectedCollection!);
   }
@@ -103,6 +112,9 @@ class WorkoutCollectionController extends GetxController {
       userCollections
           .removeWhere((element) => element.id == selectedCollection!.id);
       await WorkoutCollectionProvider().delete(selectedCollection!.id ?? '');
+
+      calculateCaloAndTime();
+
       update();
       Get.back();
     }
@@ -118,7 +130,7 @@ class WorkoutCollectionController extends GetxController {
       var workout = DataService.instance.workoutList
           .firstWhere((element) => element.id == id);
       workoutList.add(workout);
-      update();
+      // update();
     }
   }
 
@@ -149,8 +161,6 @@ class WorkoutCollectionController extends GetxController {
     timeValue.value = WorkoutCollectionUtils.calculateTime(
         collectionSetting: collectionSetting.value,
         workoutListLength: generatedWorkoutList.length);
-
-    print(timeValue.value);
   }
 
   void initCollectionSetting() {

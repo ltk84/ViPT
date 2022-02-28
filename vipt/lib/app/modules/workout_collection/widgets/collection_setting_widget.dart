@@ -115,7 +115,7 @@ class CollectionSettingWidget extends StatelessWidget {
           context,
           maxHeight: maxHeight,
           itemBuilder: (context, index) {
-            if (index > 0 && index <= controller.maxWorkout.value) {
+            if (index >= 0 && index <= controller.maxWorkout.value) {
               return Container(
                 alignment: Alignment.center,
                 child: Text(

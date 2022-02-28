@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
-import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/session/session_controller.dart';
 import 'package:vipt/app/modules/session/widgets/custom_timer.dart';
 
