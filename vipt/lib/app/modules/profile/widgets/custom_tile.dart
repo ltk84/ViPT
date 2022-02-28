@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:path/path.dart' as p;
+import 'package:vipt/app/global_widgets/network_image.dart';
 
 class CustomTile extends StatelessWidget {
   final String asset;
@@ -108,25 +109,26 @@ class CustomTile extends StatelessWidget {
     if (asset.isEmpty) {
       return Container();
     } else if (asset.contains('https')) {
-      return Image.network(
-        asset,
-        fit: BoxFit.cover,
-        loadingBuilder: (BuildContext context, Widget child,
-            ImageChunkEvent? loadingProgress) {
-          if (loadingProgress == null) {
-            return child;
-          }
-          return Center(
-            child: CircularProgressIndicator(
-              color: AppColor.textColor.withOpacity(AppColor.subTextOpacity),
-              value: loadingProgress.expectedTotalBytes != null
-                  ? loadingProgress.cumulativeBytesLoaded /
-                      loadingProgress.expectedTotalBytes!
-                  : null,
-            ),
-          );
-        },
-      );
+      return MyNetworkImage(url: asset);
+      // return Image.network(
+      //   asset,
+      //   fit: BoxFit.cover,
+      //   loadingBuilder: (BuildContext context, Widget child,
+      //       ImageChunkEvent? loadingProgress) {
+      //     if (loadingProgress == null) {
+      //       return child;
+      //     }
+      //     return Center(
+      //       child: CircularProgressIndicator(
+      //         color: AppColor.textColor.withOpacity(AppColor.subTextOpacity),
+      //         value: loadingProgress.expectedTotalBytes != null
+      //             ? loadingProgress.cumulativeBytesLoaded /
+      //                 loadingProgress.expectedTotalBytes!
+      //             : null,
+      //       ),
+      //     );
+      //   },
+      // );
     }
     if (p.extension(asset) == '.svg') {
       return SvgPicture.asset(asset);

@@ -9,7 +9,9 @@ import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_equipment.dart';
+import 'package:vipt/app/data/providers/workout_equipment_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
+import 'package:vipt/app/global_widgets/network_image.dart';
 
 class ExerciseDetail extends StatefulWidget {
   ExerciseDetail({Key? key}) : super(key: key);
@@ -30,7 +32,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
     _getCategories();
     _initVideoController();
     // _getMuscleFocusLink();
-    // _getEquipmentList();
+    _getEquipmentList();
     super.initState();
   }
 
@@ -42,14 +44,14 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
     super.dispose();
   }
 
-  // _getEquipmentList() async {
-  //   for (var item in workout.equipmentIDs) {
-  //     final element = await WorkoutEquipmentProvider().fetch(item);
-  //     if (!equipment.contains(element)) {
-  //       equipment.add(element);
-  //     }
-  //   }
-  // }
+  _getEquipmentList() async {
+    for (var item in workout.equipmentIDs) {
+      final element = await WorkoutEquipmentProvider().fetch(item);
+      if (!equipment.contains(element)) {
+        equipment.add(element);
+      }
+    }
+  }
 
   void _initVideoController() async {
     var link = await _getAnimationLink();
@@ -82,36 +84,6 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
   Future<dynamic> _getAnimationLink() async {
     return workout.animation;
   }
-
-  // Future<dynamic> _getMuscleFocusLink() async {
-  //   try {
-  //     final result = await CloudStorageService.instance.storage
-  //         .ref()
-  //         .child(AppValue.workoutsStorageCollectionPath)
-  //         .child(AppValue.workoutsMuscleFocusStorageCollectionPath)
-  //         .child(workout.muscleFocusAsset)
-  //         .getDownloadURL();
-
-  //     return result;
-  //   } on FirebaseException catch (_) {
-  //     return null;
-  //   }
-  // }
-
-  // Future<dynamic> _getEquipmentLink() async {
-  //   try {
-  //     if (equipment.isEmpty || equipment[0].imageLink.isEmpty) return null;
-  //     final result = await CloudStorageService.instance.storage
-  //         .ref()
-  //         .child(AppValue.equipmentStorageCollectionPath)
-  //         .child(equipment[0].imageLink)
-  //         .getDownloadURL();
-
-  //     return result;
-  //   } on FirebaseException catch (_) {
-  //     return null;
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -248,25 +220,26 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
           maxWidth: constraints.maxWidth,
           maxHeight: constraints.maxHeight * 0.5,
         ),
-        child: Image.network(
-          workout.muscleFocusAsset,
-          fit: BoxFit.cover,
-          loadingBuilder: (BuildContext context, Widget child,
-              ImageChunkEvent? loadingProgress) {
-            if (loadingProgress == null) {
-              return child;
-            }
-            return Center(
-              child: CircularProgressIndicator(
-                color: AppColor.textColor.withOpacity(AppColor.subTextOpacity),
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes!
-                    : null,
-              ),
-            );
-          },
-        ),
+        // child: Image.network(
+        //   workout.muscleFocusAsset,
+        //   fit: BoxFit.cover,
+        //   loadingBuilder: (BuildContext context, Widget child,
+        //       ImageChunkEvent? loadingProgress) {
+        //     if (loadingProgress == null) {
+        //       return child;
+        //     }
+        //     return Center(
+        //       child: CircularProgressIndicator(
+        //         color: AppColor.textColor.withOpacity(AppColor.subTextOpacity),
+        //         value: loadingProgress.expectedTotalBytes != null
+        //             ? loadingProgress.cumulativeBytesLoaded /
+        //                 loadingProgress.expectedTotalBytes!
+        //             : null,
+        //       ),
+        //     );
+        //   },
+        // ),
+        child: MyNetworkImage(url: workout.muscleFocusAsset),
       ),
     );
   }
@@ -301,25 +274,27 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
     //       return Container();
     //     });
 
-    return Image.network(
-      equipment[0].imageLink,
-      fit: BoxFit.cover,
-      loadingBuilder: (BuildContext context, Widget child,
-          ImageChunkEvent? loadingProgress) {
-        if (loadingProgress == null) {
-          return child;
-        }
-        return Center(
-          child: CircularProgressIndicator(
-            color: AppColor.textColor.withOpacity(AppColor.subTextOpacity),
-            value: loadingProgress.expectedTotalBytes != null
-                ? loadingProgress.cumulativeBytesLoaded /
-                    loadingProgress.expectedTotalBytes!
-                : null,
-          ),
-        );
-      },
-    );
+    return MyNetworkImage(url: equipment[0].imageLink);
+
+    // return Image.network(
+    //   equipment[0].imageLink,
+    //   fit: BoxFit.cover,
+    //   loadingBuilder: (BuildContext context, Widget child,
+    //       ImageChunkEvent? loadingProgress) {
+    //     if (loadingProgress == null) {
+    //       return child;
+    //     }
+    //     return Center(
+    //       child: CircularProgressIndicator(
+    //         color: AppColor.textColor.withOpacity(AppColor.subTextOpacity),
+    //         value: loadingProgress.expectedTotalBytes != null
+    //             ? loadingProgress.cumulativeBytesLoaded /
+    //                 loadingProgress.expectedTotalBytes!
+    //             : null,
+    //       ),
+    //     );
+    //   },
+    // );
   }
 
   Widget _buildMediaPlayer() {
