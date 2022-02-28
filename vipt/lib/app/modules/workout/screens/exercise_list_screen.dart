@@ -43,38 +43,6 @@ class ExerciseListScreen extends StatelessWidget {
           itemBuilder: (_, index) {
             var workout = _controller.workouts[index];
 
-            // return FutureBuilder(
-            //     future: CloudStorageService.instance.storage
-            //         .ref()
-            //         .child(AppValue.workoutsStorageCollectionPath)
-            //         .child(AppValue.workoutsThumbStorageCollectionPath)
-            //         .child(workout.thumbnail)
-            //         .getDownloadURL(),
-            //     builder: (_, snapshot) {
-            //       if (snapshot.connectionState == ConnectionState.waiting) {
-            //         return SizedBox(
-            //           width: 200.0,
-            //           height: 100.0,
-            //           child: Shimmer.fromColors(
-            //               baseColor: AppColor.textColor,
-            //               highlightColor: Theme.of(context).backgroundColor,
-            //               child: CustomTile(
-            //                 level: 2,
-            //                 asset: '',
-            //                 onPressed: () {},
-            //                 title: '',
-            //               )),
-            //         );
-            //       }
-            //       return CustomTile(
-            //         level: 2,
-            //         asset: snapshot.data as String? ?? '',
-            //         onPressed: () {
-            //           Get.toNamed(Routes.exerciseDetail, arguments: workout);
-            //         },
-            //         title: workout.name,
-            //       );
-            //     });
             return CustomTile(
               level: 2,
               asset: workout.thumbnail,

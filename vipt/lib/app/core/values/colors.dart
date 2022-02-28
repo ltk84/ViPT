@@ -14,6 +14,8 @@ class AppColor {
   static const double disabledTextOpacity = 0.35;
   static const double disabledIconOpacity = 0.25;
   static const Color buttonForegroundColor = Colors.white;
+  static const Color lightModeAccentTextColor = Colors.white;
+  static const Color darkModeAccentTextColor = Color(0xff1b1b1b);
 
   // Component color
   static const Color lightModeProgressIndicatorColor = Color(0xffe4e4e4);
@@ -50,6 +52,8 @@ class AppColor {
   static Color get listTileButtonColor => (Get.isDarkMode)
       ? darkModeListTileButtonColor
       : lightModeListTileButtonColor;
+  static Color get accentTextColor =>
+      (Get.isDarkMode) ? darkModeAccentTextColor : lightModeAccentTextColor;
   //
   // static Color get disabledTextColor => (Get.isDarkMode) ? darkTextColor.withOpacity(disabledTextOpacity) : lightTextColor.withOpacity(disabledTextOpacity);
   //

@@ -22,6 +22,7 @@ import 'package:vipt/app/modules/workout_collection/screens/add_workout_collecti
 import 'package:vipt/app/modules/workout_collection/screens/edit_workout_collection_screen.dart';
 import 'package:vipt/app/modules/workout_collection/screens/my_workout_collection_detail_screen.dart';
 import 'package:vipt/app/modules/workout_collection/screens/my_workout_collection_list_screen.dart';
+import 'package:vipt/app/modules/workout_collection/screens/preview_exercise_list.dart';
 import 'package:vipt/app/modules/workout_collection/screens/workout_collection_detail_screen.dart';
 import 'package:vipt/app/modules/workout_collection/screens/workout_collection_category_list_screen.dart';
 import 'package:vipt/app/modules/workout_collection/screens/workout_collection_list_screen.dart';
@@ -106,8 +107,13 @@ abstract class AppPages {
       page: () => AddExerciseToCollectionScreen(),
     ),
     GetPage(
-        name: Routes.workoutSession,
-        page: () => WorkoutSession(),
-        binding: SessionBinding()),
+      name: Routes.workoutSession,
+      page: () => WorkoutSession(),
+      binding: SessionBinding(),
+    ),
+    GetPage(
+      name: Routes.previewExerciseList,
+      page: () => PreviewExerciseList(),
+    ),
   ];
 }
