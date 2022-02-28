@@ -144,35 +144,36 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                   child: _buildMediaPlayer(),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.only(
-                  top: 24,
-                  bottom: 8,
+              if (equipment.isNotEmpty)
+                Container(
+                  padding: const EdgeInsets.only(
+                    top: 24,
+                    bottom: 8,
+                  ),
+                  child: Text(
+                    'Trang thiết bị/dụng cụ',
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
                 ),
-                child: Text(
-                  'Trang thiết bị/dụng cụ',
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-              ),
-              // Hình ảnh Equipment, mô phỏng bằng muscle focus
-              Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 2),
-                child: ConstrainedBox(
+              if (equipment.isNotEmpty)
+                Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: ConstrainedBox(
                     constraints: BoxConstraints(
                       maxWidth: constraints.maxWidth,
                       maxHeight: constraints.maxHeight * 0.25,
                     ),
-                    child: equipment.isNotEmpty
-                        ? _buildEquipmentList()
-                        : Container()),
-              ),
-              // Tên Equipment.
-              Text(
-                "Thiết bị",
-                style: Theme.of(context).textTheme.bodyText1,
-                textAlign: TextAlign.center,
-              ),
+                    child: _buildEquipmentList(),
+                  ),
+                ),
+              if (equipment.isNotEmpty)
+                // Tên Equipment.
+                Text(
+                  "Thiết bị",
+                  style: Theme.of(context).textTheme.bodyText1,
+                  textAlign: TextAlign.center,
+                ),
               Container(
                 padding: const EdgeInsets.only(
                   top: 24,
@@ -239,11 +240,12 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
       );
     }
     return FittedBox(
-      fit: BoxFit.contain,
+      fit: BoxFit.cover,
       child: SizedBox(
-          width: _controller!.value.size.width,
-          height: _controller!.value.size.height,
-          child: VideoPlayer(_controller as VideoPlayerController)),
+        width: _controller!.value.size.width,
+        height: _controller!.value.size.height,
+        child: VideoPlayer(_controller as VideoPlayerController),
+      ),
     );
   }
 }
