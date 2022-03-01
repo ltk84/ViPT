@@ -5,13 +5,20 @@ import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/modules/session/widgets/custom_timer.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 
+enum Activity {
+  workout,
+  rest,
+  transition,
+}
+
 class SessionController extends GetxController {
   WorkoutCollection currentCollection =
       Get.find<WorkoutCollectionController>().selectedCollection!;
   List<Workout> workoutList =
       Get.find<WorkoutCollectionController>().generatedWorkoutList;
-  Rx<int> workoutTimerIndex = 0.obs;
-  late Rx<Workout> currentWorkout;
+  int workoutTimerIndex = 0;
+  int workoutIndex = 0;
+  Workout get currentWorkout => workoutList[workoutIndex];
 
   final timeValue = Get.find<WorkoutCollectionController>().timeValue.value;
 
@@ -20,64 +27,67 @@ class SessionController extends GetxController {
 
   final collectionTimeController = MyCountDownController();
   final workoutTimeController = MyCountDownController();
+
   late int round;
 
-  late VideoPlayerController videoPlayerController;
-
   List<int> timeList = [];
+  List<Activity> activites = [];
+
+  bool get isWorkoutTurn => activites[workoutTimerIndex] == Activity.workout;
+  bool get isTransitionTurn =>
+      activites[workoutTimerIndex] == Activity.transition;
+  bool get isRestTurn => activites[workoutTimerIndex] == Activity.rest;
 
   @override
   void onInit() {
-    currentWorkout = workoutList[workoutTimerIndex.value].obs;
     round = collectionSetting.round;
 
-    initTimeList();
-    initVideoPlayer();
+    initTimeListAndActivities();
 
     super.onInit();
   }
 
-  void initVideoPlayer() {
-    var link =
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4';
-    videoPlayerController = VideoPlayerController.network(link)
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        update();
-        videoPlayerController.play();
-      });
-  }
-
-  void initTimeList() {
+  void initTimeListAndActivities() {
     int transitionTime = collectionSetting.transitionTime;
     int workoutTime = collectionSetting.exerciseTime;
     int restTime = collectionSetting.restTime;
     int restFreq = collectionSetting.restFrequency;
+
     for (int i = 0; i < workoutList.length; i++) {
       timeList.add(transitionTime);
+      activites.add(Activity.transition);
+
       timeList.add(workoutTime);
+      activites.add(Activity.workout);
+
       if ((i + 1) % restFreq == 0 && i + 1 != workoutList.length) {
         timeList.add(restTime);
+        activites.add(Activity.rest);
       }
     }
 
     int round = collectionSetting.round;
     List<int> cloneList = timeList.sublist(0);
+    List<Activity> activityClone = activites.sublist(0);
 
     for (int i = 1; i < round; i++) {
       timeList.add(restTime);
+      activites.add(Activity.rest);
       timeList.addAll(cloneList);
+      activites.addAll(activityClone);
     }
   }
 
   void onWorkoutTimerComplete() {
-    workoutTimerIndex.value++;
-    if (workoutTimerIndex.value < timeList.length) {
-      workoutTimeController.restart(
-          duration: timeList[workoutTimerIndex.value]);
+    workoutTimerIndex++;
+    if (workoutTimerIndex < timeList.length) {
+      if (isTransitionTurn) {
+        nextWorkout();
+      }
+      workoutTimeController.restart(duration: timeList[workoutTimerIndex]);
     } else {
       workoutTimeController.pause();
-      workoutTimerIndex.value = 0;
+      workoutTimerIndex = 0;
     }
   }
 
@@ -87,8 +97,21 @@ class SessionController extends GetxController {
   }
 
   void skip() {
-    pause();
-    workoutTimerIndex.value++;
+    // pause();
+    if (isWorkoutTurn || isRestTurn) {
+      calculateTimer();
+    } else {
+      calculateTimer();
+      calculateTimer();
+    }
+
+    if (isTransitionTurn) {
+      nextWorkout();
+    }
+  }
+
+  void calculateTimer() {
+    workoutTimerIndex++;
     int remainWorkoutTime = int.parse(workoutTimeController.getTime());
     List<String> timeStr = collectionTimeController.getTime().split(':');
 
@@ -98,7 +121,14 @@ class SessionController extends GetxController {
     int remainCollectionTime = currentCollectionTime - remainWorkoutTime;
 
     collectionTimeController.restart(duration: remainCollectionTime);
-    workoutTimeController.restart(duration: timeList[workoutTimerIndex.value]);
+    workoutTimeController.restart(duration: timeList[workoutTimerIndex]);
+  }
+
+  void nextWorkout() {
+    workoutIndex++;
+    if (workoutIndex == workoutList.length) {
+      workoutIndex = 0;
+    }
   }
 
   void start() {
