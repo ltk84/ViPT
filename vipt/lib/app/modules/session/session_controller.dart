@@ -15,7 +15,7 @@ class SessionController extends GetxController {
   WorkoutCollection currentCollection =
       Get.find<WorkoutCollectionController>().selectedCollection!;
   List<Workout> workoutList =
-      Get.find<WorkoutCollectionController>().generatedWorkoutList;
+      List.from(Get.find<WorkoutCollectionController>().generatedWorkoutList);
   int workoutTimerIndex = 0;
   int workoutIndex = 0;
   Workout get currentWorkout => workoutList[workoutIndex];
@@ -69,12 +69,15 @@ class SessionController extends GetxController {
     int round = collectionSetting.round;
     List<int> cloneList = timeList.sublist(0);
     List<Activity> activityClone = activites.sublist(0);
+    List<Workout> workoutClone = workoutList.sublist(0);
 
     for (int i = 1; i < round; i++) {
       timeList.add(restTime);
       activites.add(Activity.rest);
+
       timeList.addAll(cloneList);
       activites.addAll(activityClone);
+      workoutList.addAll(workoutClone);
     }
   }
 
@@ -105,6 +108,11 @@ class SessionController extends GetxController {
       calculateTimer();
     }
 
+    if (workoutTimerIndex >= timeList.length) {
+      Get.back();
+      return;
+    }
+
     if (isTransitionTurn) {
       nextWorkout();
     }
@@ -112,6 +120,11 @@ class SessionController extends GetxController {
 
   void calculateTimer() {
     workoutTimerIndex++;
+
+    if (workoutTimerIndex >= timeList.length) {
+      return;
+    }
+
     int remainWorkoutTime = int.parse(workoutTimeController.getTime());
     List<String> timeStr = collectionTimeController.getTime().split(':');
 
@@ -126,9 +139,7 @@ class SessionController extends GetxController {
 
   void nextWorkout() {
     workoutIndex++;
-    if (workoutIndex == workoutList.length) {
-      workoutIndex = 0;
-    }
+    print(workoutList[workoutIndex].animation);
   }
 
   void start() {

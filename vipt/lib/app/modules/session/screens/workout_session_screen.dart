@@ -15,6 +15,7 @@ class WorkoutSession extends StatefulWidget {
 class _WorkoutSessionState extends State<WorkoutSession> {
   final _controller = Get.find<SessionController>();
   VideoPlayerController? _videoController;
+  bool isInitVideo = false;
 
   @override
   void initState() {
@@ -30,15 +31,37 @@ class _WorkoutSessionState extends State<WorkoutSession> {
 
   void _initVideoController(String link) async {
     // var link = _controller.currentWorkout.animation;
-
-    _videoController = VideoPlayerController.network(link)
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {
-          _videoController!.setLooping(true);
-          // _videoController!.play();
+    isInitVideo = true;
+    if (_videoController == null) {
+      _videoController = VideoPlayerController.network(link)
+        ..initialize().then((_) {
+          // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+          setState(() {
+            _videoController!.setLooping(true);
+            isInitVideo = false;
+            // _videoController!.play();
+          });
         });
+    } else {
+      final oldController = _videoController;
+      WidgetsBinding.instance!.addPostFrameCallback((_) async {
+        await oldController!.dispose();
+
+        _videoController = VideoPlayerController.network(link)
+          ..initialize().then((_) {
+            // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+            setState(() {
+              _videoController!.setLooping(true);
+              isInitVideo = false;
+              // _videoController!.play();
+            });
+          });
       });
+
+      setState(() {
+        _videoController = null;
+      });
+    }
   }
 
   @override
@@ -135,9 +158,11 @@ class _WorkoutSessionState extends State<WorkoutSession> {
                     style: Theme.of(context).textTheme.button),
               ),
               ElevatedButton(
-                onPressed: () {
-                  skip();
-                },
+                onPressed: isInitVideo
+                    ? null
+                    : () {
+                        skip();
+                      },
                 child: Text('Bỏ qua'.tr,
                     style: Theme.of(context).textTheme.button),
               ),
@@ -188,6 +213,7 @@ class _WorkoutSessionState extends State<WorkoutSession> {
     _videoController!.pause();
     _controller.skip();
     setState(() {
+      // print(_videoController!.value.isInitialized);
       _initVideoController(_controller.currentWorkout.animation);
       // _videoController!.play();
     });
