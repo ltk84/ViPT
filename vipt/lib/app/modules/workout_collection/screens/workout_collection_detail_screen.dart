@@ -20,7 +20,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
 
   final _controller = Get.find<WorkoutCollectionController>();
 
-  void handleBackAction() {
+  void onLeaveScreen() {
     _controller.updateCollectionSetting();
     _controller.resetCaloAndTime();
   }
@@ -35,7 +35,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
     init();
     return WillPopScope(
       onWillPop: () async {
-        handleBackAction();
+        onLeaveScreen();
         return true;
       },
       child: Scaffold(
@@ -43,8 +43,9 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).backgroundColor,
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
+            onLeaveScreen();
             await Get.toNamed(Routes.previewExerciseList);
-            _controller.calculateCaloAndTime();
+            init();
           },
           isExtended: true,
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -78,7 +79,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
               child: Icon(Icons.arrow_back_ios_new_rounded),
             ),
             onPressed: () {
-              handleBackAction();
+              onLeaveScreen();
 
               Navigator.of(context).pop();
             },
