@@ -220,7 +220,7 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
         ),
         Obx(
           () => Text(
-            '${_controller.timeValue.value.toInt()} phút'.tr,
+            '${_controller.displayTime}'.tr,
             style: Theme.of(context).textTheme.headline6,
           ),
         ),
@@ -629,6 +629,16 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
         children: [
           Text('Danh sách bài tập'.tr,
               style: Theme.of(context).textTheme.headline3),
+          const SizedBox(
+            height: 4,
+          ),
+          Text(
+            'Danh sách này thay đổi dựa vào số bài tập mỗi vòng.'.tr,
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  color:
+                      AppColor.textColor.withOpacity(AppColor.subTextOpacity),
+                ),
+          ),
           const SizedBox(
             height: 4,
           ),

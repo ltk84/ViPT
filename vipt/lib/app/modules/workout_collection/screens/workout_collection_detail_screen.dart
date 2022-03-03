@@ -476,6 +476,16 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
           const SizedBox(
             height: 4,
           ),
+          Text(
+            'Danh sách này thay đổi dựa vào số bài tập mỗi vòng.'.tr,
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  color:
+                      AppColor.textColor.withOpacity(AppColor.subTextOpacity),
+                ),
+          ),
+          const SizedBox(
+            height: 4,
+          ),
           ..._controller.generatedWorkoutList.map(
             (workout) => Obx(
               () => ExerciseInCollectionTile(
