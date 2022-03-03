@@ -30,6 +30,14 @@ class AddWorkoutCollectionScreen extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
+        flexibleSpace: ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
+            child: Container(
+              color: Colors.transparent,
+            ),
+          ),
+        ),
         leading: IconButton(
           icon: const Hero(
             tag: 'leadingButtonAppBar',

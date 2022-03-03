@@ -21,38 +21,45 @@ class PropertyTile extends StatelessWidget {
     Color disabledColor =
         AppColor.textColor.withOpacity(AppColor.disabledTextOpacity);
 
-    return ListTile(
-      onTap: enabled ? onTap : null,
-      tileColor: AppColor.listTileButtonColor,
+    return Material(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(8),
         ),
       ),
-      leading: Icon(
-        iconData,
-        color: enabled ? AppColor.textColor : disabledColor,
-      ),
-      title: Text(
-        title,
-        style: enabled
-            ? Theme.of(context)
-                .textTheme
-                .bodyText2!
-                .copyWith(fontWeight: FontWeight.w500)
-            : Theme.of(context)
-                .textTheme
-                .bodyText2!
-                .copyWith(fontWeight: FontWeight.w500, color: disabledColor),
-      ),
-      trailing: Text(
-        trailing,
-        style: enabled
-            ? Theme.of(context).textTheme.bodyText1
-            : Theme.of(context)
-                .textTheme
-                .bodyText1!
-                .copyWith(color: disabledColor),
+      child: ListTile(
+        onTap: enabled ? onTap : null,
+        tileColor: AppColor.listTileButtonColor,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(8),
+          ),
+        ),
+        leading: Icon(
+          iconData,
+          color: enabled ? AppColor.textColor : disabledColor,
+        ),
+        title: Text(
+          title,
+          style: enabled
+              ? Theme.of(context)
+                  .textTheme
+                  .bodyText2!
+                  .copyWith(fontWeight: FontWeight.w500)
+              : Theme.of(context)
+                  .textTheme
+                  .bodyText2!
+                  .copyWith(fontWeight: FontWeight.w500, color: disabledColor),
+        ),
+        trailing: Text(
+          trailing,
+          style: enabled
+              ? Theme.of(context).textTheme.bodyText1
+              : Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(color: disabledColor),
+        ),
       ),
     );
   }
