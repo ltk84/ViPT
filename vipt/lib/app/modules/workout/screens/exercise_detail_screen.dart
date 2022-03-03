@@ -1,9 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:path/path.dart' as p;
 import 'package:video_player/video_player.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
@@ -224,81 +222,13 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
           maxWidth: constraints.maxWidth,
           maxHeight: constraints.maxHeight * 0.5,
         ),
-        // child: Image.network(
-        //   workout.muscleFocusAsset,
-        //   fit: BoxFit.cover,
-        //   loadingBuilder: (BuildContext context, Widget child,
-        //       ImageChunkEvent? loadingProgress) {
-        //     if (loadingProgress == null) {
-        //       return child;
-        //     }
-        //     return Center(
-        //       child: CircularProgressIndicator(
-        //         color: AppColor.textColor.withOpacity(AppColor.subTextOpacity),
-        //         value: loadingProgress.expectedTotalBytes != null
-        //             ? loadingProgress.cumulativeBytesLoaded /
-        //                 loadingProgress.expectedTotalBytes!
-        //             : null,
-        //       ),
-        //     );
-        //   },
-        // ),
         child: MyNetworkImage(url: workout.muscleFocusAsset),
       ),
     );
   }
 
   Widget _buildEquipmentList() {
-    // return FutureBuilder(
-    //     future: _getEquipmentLink(),
-    //     builder: (_, snapshot) {
-    //       if (snapshot.connectionState == ConnectionState.done &&
-    //           snapshot.hasData) {
-    //         return Image.network(
-    //           snapshot.data as String,
-    //           fit: BoxFit.cover,
-    //           loadingBuilder: (BuildContext context, Widget child,
-    //               ImageChunkEvent? loadingProgress) {
-    //             if (loadingProgress == null) {
-    //               return child;
-    //             }
-    //             return Center(
-    //               child: CircularProgressIndicator(
-    //                 color:
-    //                     AppColor.textColor.withOpacity(AppColor.subTextOpacity),
-    //                 value: loadingProgress.expectedTotalBytes != null
-    //                     ? loadingProgress.cumulativeBytesLoaded /
-    //                         loadingProgress.expectedTotalBytes!
-    //                     : null,
-    //               ),
-    //             );
-    //           },
-    //         );
-    //       }
-    //       return Container();
-    //     });
-
     return MyNetworkImage(url: equipment[0].imageLink);
-
-    // return Image.network(
-    //   equipment[0].imageLink,
-    //   fit: BoxFit.cover,
-    //   loadingBuilder: (BuildContext context, Widget child,
-    //       ImageChunkEvent? loadingProgress) {
-    //     if (loadingProgress == null) {
-    //       return child;
-    //     }
-    //     return Center(
-    //       child: CircularProgressIndicator(
-    //         color: AppColor.textColor.withOpacity(AppColor.subTextOpacity),
-    //         value: loadingProgress.expectedTotalBytes != null
-    //             ? loadingProgress.cumulativeBytesLoaded /
-    //                 loadingProgress.expectedTotalBytes!
-    //             : null,
-    //       ),
-    //     );
-    //   },
-    // );
   }
 
   Widget _buildMediaPlayer() {
@@ -318,13 +248,5 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
         child: VideoPlayer(_controller as VideoPlayerController),
       ),
     );
-  }
-
-  Widget _buildAsset(String asset) {
-    if (p.extension(asset) == '.svg') {
-      return SvgPicture.asset(asset);
-    } else {
-      return Image.asset(asset);
-    }
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
 
 class PropertyTile extends StatelessWidget {

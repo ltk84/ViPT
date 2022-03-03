@@ -10,6 +10,7 @@ import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/collection_setting_widget.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
+// ignore: unused_import
 import 'package:vipt/app/modules/workout_collection/widgets/property_tile.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
@@ -41,8 +42,9 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         extendBodyBehindAppBar: true,
         backgroundColor: Theme.of(context).backgroundColor,
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            Get.toNamed(Routes.previewExerciseList);
+          onPressed: () async {
+            await Get.toNamed(Routes.previewExerciseList);
+            _controller.calculateCaloAndTime();
           },
           isExtended: true,
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -65,7 +67,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
                 onPressed: () {
                   Get.toNamed(Routes.workoutSession);
                 },
-                icon: Icon(Icons.access_time_filled_sharp))
+                icon: const Icon(Icons.access_time_filled_sharp))
           ],
           centerTitle: true,
           backgroundColor: Colors.transparent,
@@ -205,114 +207,6 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRoundProperty(context, maxHeight, enabled) {
-    return PropertyTile(
-      enabled: enabled,
-      onTap: () {
-        _showSelection(
-          context,
-          maxHeight: maxHeight,
-          itemBuilder: (context, index) {
-            if (index > 0) {
-              return Container(
-                alignment: Alignment.center,
-                child: Text(
-                  index.toString(),
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-              );
-            }
-          },
-          initialValue: _controller.collectionSetting.value.round,
-          onSelectedItemChanged: (value) {
-            _controller.collectionSetting.update((val) {
-              val!.round = value;
-            });
-          },
-        );
-      },
-      title: 'Số vòng'.tr,
-      trailing: _controller.collectionSetting.value.round.toString(),
-      iconData: Icons.repeat_rounded,
-    );
-  }
-
-  Widget _buildNumOfWorkoutPerRoundProperty(context, maxHeight, enabled) {
-    return PropertyTile(
-      enabled: enabled,
-      iconData: Icons.looks_3_outlined,
-      onTap: () {
-        _showSelection(
-          context,
-          maxHeight: maxHeight,
-          itemBuilder: (context, index) {
-            if (index > 0 && index <= _controller.maxWorkout.value) {
-              return Container(
-                alignment: Alignment.center,
-                child: Text(
-                  index.toString(),
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-              );
-            }
-          },
-          initialValue:
-              _controller.collectionSetting.value.numOfWorkoutPerRound,
-          onSelectedItemChanged: (value) {
-            _controller.collectionSetting.update((val) {
-              val!.numOfWorkoutPerRound = value;
-            });
-            _controller.generateRandomList();
-          },
-        );
-      },
-      title: 'Số bài tập mỗi vòng'.tr,
-      trailing:
-          _controller.collectionSetting.value.numOfWorkoutPerRound.toString(),
-    );
-  }
-
-  Widget _buildWarmUpProperty(context, enabled) {
-    Color disabledColor =
-        AppColor.textColor.withOpacity(AppColor.disabledTextOpacity);
-
-    return Obx(
-      () => SwitchListTile(
-        activeColor: Theme.of(context).primaryColor,
-        onChanged: enabled
-            ? (bool value) {
-                _controller.collectionSetting.update((val) {
-                  val!.isStartWithWarmUp = value;
-                });
-              }
-            : null,
-        value: _controller.collectionSetting.value.isStartWithWarmUp,
-        tileColor: AppColor.listTileButtonColor,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(8),
-          ),
-        ),
-        secondary: Icon(
-          Icons.emoji_people_rounded,
-          color: enabled ? AppColor.textColor : disabledColor,
-        ),
-        title: Text(
-          'Bắt đầu với khởi động'.tr,
-          style: enabled
-              ? Theme.of(context)
-                  .textTheme
-                  .bodyText2!
-                  .copyWith(fontWeight: FontWeight.w500)
-              : Theme.of(context)
-                  .textTheme
-                  .bodyText2!
-                  .copyWith(fontWeight: FontWeight.w500, color: disabledColor),
-        ),
-      ),
-    );
-  }
-
   // Widget _buildShuffleProperty(context) {
   //   return Obx(
   //     () => SwitchListTile(
@@ -343,128 +237,6 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
   //     ),
   //   );
   // }
-
-  Widget _buildExerciseTimeProperty(context, maxHeight, enabled) {
-    return PropertyTile(
-      enabled: enabled,
-      iconData: Icons.timelapse_rounded,
-      onTap: () {
-        _showSelection(context,
-            maxHeight: maxHeight,
-            itemBuilder: (context, index) {
-              if (index > 0) {
-                return Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    '$index giây',
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                );
-              }
-            },
-            initialValue: _controller.collectionSetting.value.exerciseTime,
-            onSelectedItemChanged: (value) {
-              _controller.collectionSetting.update((val) {
-                val!.exerciseTime = value;
-              });
-            });
-      },
-      title: 'Thời gian mỗi bài'.tr,
-      trailing: '${_controller.collectionSetting.value.exerciseTime} giây'.tr,
-    );
-  }
-
-  Widget _buildTransitionTimeProperty(context, maxHeight, enabled) {
-    return PropertyTile(
-      enabled: enabled,
-      iconData: Icons.sync_rounded,
-      onTap: () {
-        _showSelection(context,
-            maxHeight: maxHeight,
-            itemBuilder: (context, index) {
-              if (index > 0) {
-                return Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    '$index giây',
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                );
-              }
-            },
-            initialValue: _controller.collectionSetting.value.transitionTime,
-            onSelectedItemChanged: (value) {
-              _controller.collectionSetting.update((val) {
-                val!.transitionTime = value;
-              });
-            });
-      },
-      title: 'Thời gian chuyển'.tr,
-      trailing: '${_controller.collectionSetting.value.transitionTime} giây'.tr,
-    );
-  }
-
-  Widget _buildRestTimeProperty(context, maxHeight, enabled) {
-    return PropertyTile(
-      enabled: enabled,
-      iconData: Icons.hourglass_top_rounded,
-      onTap: () {
-        _showSelection(context,
-            maxHeight: maxHeight,
-            itemBuilder: (context, index) {
-              if (index > 0) {
-                return Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    '$index giây',
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                );
-              }
-            },
-            initialValue: _controller.collectionSetting.value.restTime,
-            onSelectedItemChanged: (value) {
-              _controller.collectionSetting.update((val) {
-                val!.restTime = value;
-              });
-            });
-      },
-      title: 'Thời gian nghỉ'.tr,
-      trailing: '${_controller.collectionSetting.value.restTime} giây'.tr,
-    );
-  }
-
-// check check!!
-  Widget _buildRestFrequencyProperty(context, maxHeight, enabled) {
-    return PropertyTile(
-      enabled: enabled,
-      iconData: Icons.air_rounded,
-      onTap: () {
-        _showSelection(context,
-            maxHeight: maxHeight,
-            itemBuilder: (context, index) {
-              if (index > 0) {
-                return Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'sau $index bài', // chỗ này có phải check thêm điều kiện count danh sách bài tập trong collection?
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                );
-              }
-            },
-            initialValue: _controller.collectionSetting.value.restFrequency,
-            onSelectedItemChanged: (value) {
-              _controller.collectionSetting.update((val) {
-                val!.restFrequency = value;
-              });
-            });
-      },
-      title: 'Lượt nghỉ'.tr,
-      trailing:
-          'sau ${_controller.collectionSetting.value.restFrequency} bài'.tr,
-    );
-  }
 
   Widget _buildExerciseList(context) {
     return GetBuilder<WorkoutCollectionController>(
@@ -501,29 +273,6 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  _showSelection(context,
-      {required double maxHeight,
-      required Widget? Function(BuildContext, int) itemBuilder,
-      required Function(int)? onSelectedItemChanged,
-      required int initialValue}) async {
-    showCupertinoModalPopup(
-      context: context,
-      builder: (BuildContext context) {
-        return SizedBox(
-          height: maxHeight * 0.32,
-          child: CupertinoPicker.builder(
-            onSelectedItemChanged: onSelectedItemChanged,
-            backgroundColor: Colors.white,
-            itemExtent: 48,
-            scrollController:
-                FixedExtentScrollController(initialItem: initialValue),
-            itemBuilder: itemBuilder,
-          ),
-        );
-      },
     );
   }
 }
