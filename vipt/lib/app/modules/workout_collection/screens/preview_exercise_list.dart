@@ -74,12 +74,11 @@ class PreviewExerciseList extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
+      body: ListView(
         physics: const BouncingScrollPhysics(
             parent: AlwaysScrollableScrollPhysics()),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Column(
+        children: [
+          Column(
             children: [
               SizedBox(
                 height: screenSize.height * 0.15,
@@ -88,7 +87,9 @@ class PreviewExerciseList extends StatelessWidget {
               const SizedBox(
                 height: 4,
               ),
-              Expanded(
+              ConstrainedBox(
+                constraints:
+                    BoxConstraints(minHeight: screenSize.height * 0.65),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24,
@@ -101,40 +102,45 @@ class PreviewExerciseList extends StatelessWidget {
                       topRight: Radius.circular(15),
                     ),
                   ),
-                  child: Column(
-                    children: [
-                      Text(
-                        "BÀI TẬP MỖI VÒNG".tr,
-                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                      const SizedBox(
-                        height: 2,
-                      ),
-                      Text(
-                        'Số vòng: 2'.tr,
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              color: AppColor.textColor.withOpacity(
-                                AppColor.subTextOpacity,
-                              ),
-                            ),
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Divider(
-                        thickness: 1,
-                        color: AppColor.textFieldUnderlineColor,
-                      ),
-                      _buildExerciseList(context),
-                    ],
+                  child: SingleChildScrollView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        Text(
+                          "BÀI TẬP MỖI VÒNG".tr,
+                          style:
+                              Theme.of(context).textTheme.subtitle2!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                        const SizedBox(
+                          height: 2,
+                        ),
+                        Text(
+                          'Số vòng: 2'.tr,
+                          style:
+                              Theme.of(context).textTheme.bodyText1!.copyWith(
+                                    color: AppColor.textColor.withOpacity(
+                                      AppColor.subTextOpacity,
+                                    ),
+                                  ),
+                        ),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        Divider(
+                          thickness: 1,
+                          color: AppColor.textFieldUnderlineColor,
+                        ),
+                        _buildExerciseList(context),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ],
           ),
-        ),
+        ],
       ),
     );
   }
