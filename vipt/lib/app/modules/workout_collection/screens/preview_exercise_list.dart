@@ -81,20 +81,16 @@ class PreviewExerciseList extends StatelessWidget {
           Column(
             children: [
               SizedBox(
-                height: screenSize.height * 0.15,
+                height: screenSize.height * 0.10,
               ),
               _buildIntro(context),
               const SizedBox(
                 height: 4,
               ),
               ConstrainedBox(
-                constraints:
-                    BoxConstraints(minHeight: screenSize.height * 0.65),
+                constraints: BoxConstraints(minHeight: screenSize.height * 0.7),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 24,
-                  ),
+                  padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
                   decoration: BoxDecoration(
                     color: Theme.of(context).backgroundColor,
                     borderRadius: const BorderRadius.only(
@@ -132,7 +128,16 @@ class PreviewExerciseList extends StatelessWidget {
                           thickness: 1,
                           color: AppColor.textFieldUnderlineColor,
                         ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        _buildShuffleButton(context),
                         _buildExerciseList(context),
+                        SizedBox(
+                          height:
+                              Theme.of(context).textTheme.button!.fontSize! *
+                                  3.5,
+                        ),
                       ],
                     ),
                   ),
@@ -168,6 +173,38 @@ class PreviewExerciseList extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildShuffleButton(context) {
+    return Material(
+      color: Colors.transparent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(8),
+        onTap: () {},
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.shuffle_rounded,
+                color: Theme.of(context).primaryColor,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'Nhấn để xáo trộn thứ tự'.tr,
+                style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                      color: Theme.of(context).primaryColor,
+                    ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
