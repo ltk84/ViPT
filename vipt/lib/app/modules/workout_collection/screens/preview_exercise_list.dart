@@ -15,15 +15,15 @@ class PreviewExerciseList extends StatelessWidget {
 
   final _controller = Get.find<WorkoutCollectionController>();
 
-  void handleBackAction() {
-    _controller.updateCollectionSetting();
-    _controller.resetCaloAndTime();
-  }
+  // void handleBackAction() {
+  //   _controller.updateCollectionSetting();
+  //   _controller.resetCaloAndTime();
+  // }
 
-  void init() {
-    _controller.loadCollectionSetting();
-    // _workoutList = _controller.loadWorkoutList(_collection.workoutIDs);
-  }
+  // void init() {
+  //   _controller.loadCollectionSetting();
+  //   // _workoutList = _controller.loadWorkoutList(_collection.workoutIDs);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,9 @@ class PreviewExerciseList extends StatelessWidget {
       extendBodyBehindAppBar: true,
       backgroundColor: Theme.of(context).primaryColor,
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          Get.toNamed(Routes.workoutSession);
+        },
         isExtended: true,
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         shape: RoundedRectangleBorder(
@@ -61,7 +63,7 @@ class PreviewExerciseList extends StatelessWidget {
             ),
           ),
           onPressed: () {
-            handleBackAction();
+            // handleBackAction();
             Navigator.of(context).pop();
           },
         ),
