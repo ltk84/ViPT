@@ -11,6 +11,13 @@ enum Activity {
   transition,
 }
 
+enum TimerStatus {
+  play,
+  pause,
+  rest,
+  ready,
+}
+
 class SessionController extends GetxController {
   WorkoutCollection currentCollection =
       Get.find<WorkoutCollectionController>().selectedCollection!;
@@ -37,6 +44,8 @@ class SessionController extends GetxController {
   bool get isTransitionTurn =>
       activites[workoutTimerIndex] == Activity.transition;
   bool get isRestTurn => activites[workoutTimerIndex] == Activity.rest;
+
+  TimerStatus status = TimerStatus.ready;
 
   @override
   void onInit() {
@@ -81,8 +90,25 @@ class SessionController extends GetxController {
     }
   }
 
+  void changeTimerState({String action = ''}) {
+    if (action == '') {
+      if (isRestTurn) {
+        status = TimerStatus.rest;
+      } else if (isTransitionTurn) {
+        status = TimerStatus.ready;
+      }
+    } else {
+      if (action == 'pause') {
+        status = TimerStatus.pause;
+      } else if (action == 'play') {
+        status = TimerStatus.play;
+      }
+    }
+  }
+
   void onWorkoutTimerComplete() {
     workoutTimerIndex++;
+    changeTimerState();
     if (workoutTimerIndex < timeList.length) {
       if (isTransitionTurn) {
         nextWorkout();
@@ -97,6 +123,7 @@ class SessionController extends GetxController {
   void pause() {
     collectionTimeController.pause();
     workoutTimeController.pause();
+    changeTimerState(action: 'pause');
   }
 
   void skip() {
@@ -120,7 +147,7 @@ class SessionController extends GetxController {
 
   void calculateTimer() {
     workoutTimerIndex++;
-
+    changeTimerState();
     if (workoutTimerIndex >= timeList.length) {
       return;
     }
@@ -145,10 +172,12 @@ class SessionController extends GetxController {
   void start() {
     collectionTimeController.start();
     workoutTimeController.start();
+    changeTimerState(action: 'play');
   }
 
   void resume() {
     collectionTimeController.resume();
     workoutTimeController.resume();
+    changeTimerState(action: 'play');
   }
 }

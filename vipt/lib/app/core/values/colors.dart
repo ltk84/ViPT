@@ -31,6 +31,25 @@ class AppColor {
   static const Color darkModeListTileButtonColor =
       Color(0xfff8f8f8); // Chưa implement
 
+  static const Color mediaButtonColor = Color(0xffF68080);
+
+  static const Color timerRingColor = Color(0xffe4e4e4);
+
+  static const Color workoutTimerPlayingFill = Color(0xffFF675E);
+  static Color workoutTimerStopFill = const Color(0xffFF675E).withOpacity(0.24);
+  static const Color workoutTimerReadyFill = Color(0xffFFB36C);
+  static const Color workoutTimerRestFill = Color(0xffBEE15A);
+
+  static const Color workoutTimerPlayingIndicatorColor = Color(0xffCE5750);
+  static Color workoutTimerStopIndicatorColor =
+      const Color(0xffCE5750).withOpacity(0.56);
+  static const Color workoutTimerReadyIndicatorColor = Color(0xffE38415);
+  static const Color workoutTimerRestIndicatorColor = Color(0xff8ACE54);
+
+  static const Color collectionTimerFill = Color(0xffCE5750);
+  static const Color collectionTimerIndicatorColor = Color(0xffC08484);
+  static const Color collectionTimerBackgroundColor = Color(0xffEBDADA);
+
   // Extra Color field (static)
   static const Color googleButtonBackgroundColor = Colors.white;
   static const Color googleButtonForegroundColor = Color(0xFF1B1B1B);

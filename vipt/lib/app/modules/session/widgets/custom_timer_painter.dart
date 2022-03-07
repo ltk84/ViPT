@@ -13,6 +13,8 @@ class MyCustomTimerPainter extends CustomPainter {
       this.strokeWidth,
       this.strokeCap,
       this.backgroundColor,
+      this.indicatorWidth,
+      this.indicatorColor,
       this.backgroundGradient})
       : super(repaint: animation);
 
@@ -21,6 +23,8 @@ class MyCustomTimerPainter extends CustomPainter {
   final double? strokeWidth;
   final StrokeCap? strokeCap;
   final Gradient? fillGradient, ringGradient, backgroundGradient;
+  final double? indicatorWidth;
+  final Color? indicatorColor;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -31,7 +35,7 @@ class MyCustomTimerPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     Paint anotherPaint = Paint()
-      ..color = Colors.black
+      ..color = indicatorColor ?? Colors.black
       ..strokeWidth = 1
       ..strokeCap = strokeCap!
       ..style = PaintingStyle.fill;
@@ -47,7 +51,7 @@ class MyCustomTimerPainter extends CustomPainter {
         backgroundPaint.color = backgroundColor!;
       }
       canvas.drawCircle(
-          size.center(Offset.zero), size.width / 2.2, backgroundPaint);
+          size.center(Offset.zero), size.width / 2, backgroundPaint);
     }
 
     if (ringGradient != null) {
@@ -76,7 +80,7 @@ class MyCustomTimerPainter extends CustomPainter {
 
     Offset endHandler =
         radiansToCoordinates(center, -math.pi / 2 + progress, size.width / 2);
-    canvas.drawCircle(endHandler, 12, anotherPaint);
+    canvas.drawCircle(endHandler, indicatorWidth ?? 10, anotherPaint);
   }
 
   @override

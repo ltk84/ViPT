@@ -73,6 +73,10 @@ class MyCircularCountDownTimer extends StatefulWidget {
 
   final Widget? childWidget;
 
+  final double indicatorWidth;
+
+  final Color indicatorColor;
+
   MyCircularCountDownTimer(
       {required this.width,
       required this.height,
@@ -96,6 +100,8 @@ class MyCircularCountDownTimer extends StatefulWidget {
       this.isTimerTextShown = true,
       this.autoStart = true,
       this.textFormat,
+      required this.indicatorWidth,
+      required this.indicatorColor,
       this.controller})
       : assert(width != null),
         assert(height != null),
@@ -267,25 +273,49 @@ class MyCircularCountDownTimerState extends State<MyCircularCountDownTimer>
                             ringGradient: widget.ringGradient,
                             strokeWidth: widget.strokeWidth,
                             strokeCap: widget.strokeCap,
+                            indicatorWidth: widget.indicatorWidth,
+                            indicatorColor: widget.indicatorColor,
                             backgroundColor: widget.backgroundColor,
                             backgroundGradient: widget.backgroundGradient),
                       ),
                     ),
                     widget.isTimerTextShown
-                        ? Align(
-                            alignment: FractionalOffset.center,
-                            child: Text(
-                              time,
-                              style: widget.textStyle ??
-                                  TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.black,
-                                  ),
-                            ),
-                          )
+                        ? widget.childWidget != null
+                            ? Align(
+                                alignment: FractionalOffset.center,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    widget.childWidget ?? Container(),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    Text(
+                                      time,
+                                      style: widget.textStyle ??
+                                          const TextStyle(
+                                            fontSize: 16.0,
+                                            color: Colors.black,
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : Align(
+                                alignment: FractionalOffset.center,
+                                child: Text(
+                                  time,
+                                  style: widget.textStyle ??
+                                      const TextStyle(
+                                        fontSize: 16.0,
+                                        color: Colors.black,
+                                      ),
+                                ),
+                              )
                         : Align(
                             alignment: FractionalOffset.center,
-                            child: widget.childWidget ?? Container()),
+                            child: widget.childWidget ?? Container(),
+                          ),
                   ],
                 ),
               ),
