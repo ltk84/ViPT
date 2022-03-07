@@ -101,7 +101,8 @@ class _WorkoutSessionState extends State<WorkoutSession> {
             autoStart: false,
             onStart: () {},
             onComplete: () {
-              print(_controller.caloConsumed);
+              print('calo: ' + _controller.caloConsumed.toString());
+              print('time: ' + _controller.timeConsumed.toString());
             },
           ),
           MyCircularCountDownTimer(

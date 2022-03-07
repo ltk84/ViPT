@@ -36,6 +36,8 @@ class SessionController extends GetxController {
   late int round;
   // tổng calo mà người dùng tiêu thụ dựa trên tương tác của họ
   double caloConsumed = 0.0;
+  // tổng thời gian mà người dùng tập dựa trên tương tác của họ
+  double timeConsumed = 0.0;
 
   // list chứa thời gian của các phrase (transition, workout, rest) tính tất cả các round
   List<int> timeList = [];
@@ -101,6 +103,7 @@ class SessionController extends GetxController {
   // hàm khi handle workout timer hoàn thành
   void onWorkoutTimerComplete() {
     calculateCaloConsumed(timeList[workoutTimerIndex]);
+    calculateTimeConsumed(timeList[workoutTimerIndex]);
 
     workoutTimerIndex++;
     if (workoutTimerIndex < timeList.length) {
@@ -125,6 +128,7 @@ class SessionController extends GetxController {
     // pause();
     int remainWorkoutTime = int.parse(workoutTimeController.getTime());
     calculateCaloConsumed(remainWorkoutTime);
+    calculateCaloConsumed(timeList[workoutTimerIndex] - remainWorkoutTime);
 
     if (isWorkoutTurn || isRestTurn) {
       calculateTimer();
@@ -189,5 +193,9 @@ class SessionController extends GetxController {
     num bodyWeight = DataService.currentUser.currentWeight;
     caloConsumed += SessionUtils.calculateCaloOneWorkout(
         time, currentWorkout.metValue, bodyWeight);
+  }
+
+  void calculateTimeConsumed(int time) {
+    timeConsumed += time;
   }
 }
