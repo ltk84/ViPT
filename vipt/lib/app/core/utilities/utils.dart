@@ -7,16 +7,21 @@ class WorkoutCollectionUtils {
       required CollectionSetting collectionSetting,
       required num bodyWeight}) {
     double caloValue = 0;
-    workoutList
-        .map((workout) => {
-              caloValue += collectionSetting.round *
-                  ((collectionSetting.exerciseTime / 60) *
-                      workout.metValue *
-                      bodyWeight *
-                      3.5) /
-                  200
-            })
-        .toList();
+    workoutList.map((workout) {
+      // double v = collectionSetting.round *
+      //     ((collectionSetting.exerciseTime / 60) *
+      //         workout.metValue *
+      //         bodyWeight *
+      //         3.5) /
+      //     200;
+      // print(workout.name + (v / collectionSetting.round).toString());
+      caloValue += collectionSetting.round *
+          ((collectionSetting.exerciseTime / 60) *
+              workout.metValue *
+              bodyWeight *
+              3.5) /
+          200;
+    }).toList();
     return caloValue;
   }
 
@@ -39,5 +44,13 @@ class WorkoutCollectionUtils {
             restTimeValue * collectionSetting.restTime) /
         60;
     return timeValue;
+  }
+}
+
+class SessionUtils {
+  static double calculateCaloOneWorkout(
+      int time, num metValue, num bodyWeight) {
+    double caloValue = ((time / 60) * metValue * bodyWeight * 3.5) / 200;
+    return caloValue;
   }
 }

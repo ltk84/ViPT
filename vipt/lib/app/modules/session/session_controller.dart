@@ -1,7 +1,8 @@
 import 'package:get/get.dart';
-import 'package:video_player/video_player.dart';
+import 'package:vipt/app/core/utilities/utils.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
+import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/session/widgets/custom_timer.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 
@@ -16,6 +17,7 @@ class SessionController extends GetxController {
       Get.find<WorkoutCollectionController>().selectedCollection!;
   List<Workout> workoutList =
       List.from(Get.find<WorkoutCollectionController>().generatedWorkoutList);
+
   int workoutTimerIndex = 0;
   int workoutIndex = 0;
   Workout get currentWorkout => workoutList[workoutIndex];
@@ -29,6 +31,7 @@ class SessionController extends GetxController {
   final workoutTimeController = MyCountDownController();
 
   late int round;
+  double caloConsumed = 0.0;
 
   List<int> timeList = [];
   List<Activity> activites = [];
@@ -82,6 +85,8 @@ class SessionController extends GetxController {
   }
 
   void onWorkoutTimerComplete() {
+    calculateCaloConsumed(timeList[workoutTimerIndex]);
+
     workoutTimerIndex++;
     if (workoutTimerIndex < timeList.length) {
       if (isTransitionTurn) {
@@ -101,6 +106,11 @@ class SessionController extends GetxController {
 
   void skip() {
     // pause();
+    int remainWorkoutTime = int.parse(workoutTimeController.getTime());
+    calculateCaloConsumed(remainWorkoutTime);
+
+    print(caloConsumed);
+
     if (isWorkoutTurn || isRestTurn) {
       calculateTimer();
     } else {
@@ -139,7 +149,16 @@ class SessionController extends GetxController {
 
   void nextWorkout() {
     workoutIndex++;
-    print(workoutList[workoutIndex].animation);
+  }
+
+  void calculateCaloConsumed(int time) {
+    if (isTransitionTurn || isRestTurn) {
+      time = 0;
+    }
+
+    num bodyWeight = DataService.currentUser.currentWeight;
+    caloConsumed += SessionUtils.calculateCaloOneWorkout(
+        time, currentWorkout.metValue, bodyWeight);
   }
 
   void start() {

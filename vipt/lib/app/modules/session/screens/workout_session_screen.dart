@@ -100,7 +100,9 @@ class _WorkoutSessionState extends State<WorkoutSession> {
             isTimerTextShown: true,
             autoStart: false,
             onStart: () {},
-            onComplete: () {},
+            onComplete: () {
+              print(_controller.caloConsumed);
+            },
           ),
           MyCircularCountDownTimer(
             duration: _controller.timeList[0],
