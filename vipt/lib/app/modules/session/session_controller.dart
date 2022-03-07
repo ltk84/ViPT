@@ -13,29 +13,41 @@ enum Activity {
 }
 
 class SessionController extends GetxController {
+  // property
+
+  // collection hiện tại
   WorkoutCollection currentCollection =
       Get.find<WorkoutCollectionController>().selectedCollection!;
+  // workout list lấy từ generated list
   List<Workout> workoutList =
       List.from(Get.find<WorkoutCollectionController>().generatedWorkoutList);
-
-  int workoutTimerIndex = 0;
-  int workoutIndex = 0;
-  Workout get currentWorkout => workoutList[workoutIndex];
-
+  // thời gian của cả collection
   final timeValue = Get.find<WorkoutCollectionController>().timeValue.value;
-
+  // collection setting của collection
   final collectionSetting =
       Get.find<WorkoutCollectionController>().collectionSetting.value;
-
+  // lấy workout hiện tại trong session
+  Workout get currentWorkout => workoutList[workoutIndex];
+  // controller của collection timer
   final collectionTimeController = MyCountDownController();
+  // controller của workout timer
   final workoutTimeController = MyCountDownController();
-
+  // số round của collection
   late int round;
+  // tổng calo mà người dùng tiêu thụ dựa trên tương tác của họ
   double caloConsumed = 0.0;
 
+  // list chứa thời gian của các phrase (transition, workout, rest) tính tất cả các round
   List<int> timeList = [];
+  // list chứa các activity đại diện cho các phrase tính tất cả các round
   List<Activity> activites = [];
 
+  // index của timeList và activites
+  int workoutTimerIndex = 0;
+  // index của workoutList
+  int workoutIndex = 0;
+
+  // getter lấy các trạng thái hiện tại
   bool get isWorkoutTurn => activites[workoutTimerIndex] == Activity.workout;
   bool get isTransitionTurn =>
       activites[workoutTimerIndex] == Activity.transition;
@@ -45,12 +57,14 @@ class SessionController extends GetxController {
   void onInit() {
     round = collectionSetting.round;
 
-    initTimeListAndActivities();
+    initLists();
 
     super.onInit();
   }
 
-  void initTimeListAndActivities() {
+  // method
+  // hàm init cho timeList, activites, workoutList
+  void initLists() {
     int transitionTime = collectionSetting.transitionTime;
     int workoutTime = collectionSetting.exerciseTime;
     int restTime = collectionSetting.restTime;
@@ -84,6 +98,7 @@ class SessionController extends GetxController {
     }
   }
 
+  // hàm khi handle workout timer hoàn thành
   void onWorkoutTimerComplete() {
     calculateCaloConsumed(timeList[workoutTimerIndex]);
 
@@ -99,17 +114,17 @@ class SessionController extends GetxController {
     }
   }
 
+  // hàm handle việc pause
   void pause() {
     collectionTimeController.pause();
     workoutTimeController.pause();
   }
 
+  // hàm handle việc skip
   void skip() {
     // pause();
     int remainWorkoutTime = int.parse(workoutTimeController.getTime());
     calculateCaloConsumed(remainWorkoutTime);
-
-    print(caloConsumed);
 
     if (isWorkoutTurn || isRestTurn) {
       calculateTimer();
@@ -128,6 +143,19 @@ class SessionController extends GetxController {
     }
   }
 
+  // hàm handle việc start
+  void start() {
+    collectionTimeController.start();
+    workoutTimeController.start();
+  }
+
+  // hàm handle việc resume
+  void resume() {
+    collectionTimeController.resume();
+    workoutTimeController.resume();
+  }
+
+  // hàm tính toán lại timer khi xong 1 phrase hoặc skip
   void calculateTimer() {
     workoutTimerIndex++;
 
@@ -147,10 +175,12 @@ class SessionController extends GetxController {
     workoutTimeController.restart(duration: timeList[workoutTimerIndex]);
   }
 
+  // hàm chuyển sang workout tiếp theo
   void nextWorkout() {
     workoutIndex++;
   }
 
+  // hàm tính toán lượng calo user tiêu thụ dựa trên tương tác của họ
   void calculateCaloConsumed(int time) {
     if (isTransitionTurn || isRestTurn) {
       time = 0;
@@ -159,15 +189,5 @@ class SessionController extends GetxController {
     num bodyWeight = DataService.currentUser.currentWeight;
     caloConsumed += SessionUtils.calculateCaloOneWorkout(
         time, currentWorkout.metValue, bodyWeight);
-  }
-
-  void start() {
-    collectionTimeController.start();
-    workoutTimeController.start();
-  }
-
-  void resume() {
-    collectionTimeController.resume();
-    workoutTimeController.resume();
   }
 }

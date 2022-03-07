@@ -11,17 +11,31 @@ import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class WorkoutCollectionController extends GetxController {
+  // property
+  // list chứa tất cả các collection
   late List<WorkoutCollection> collections;
+  // list chứa tất cả các category của các collection
   late List<Category> collectionCategories;
+  // map chứa danh sách các cate và các collection tương ứng
   late Map<String, int> cateListAndNumCollection;
+  // collection setting của collection được chọn
   late Rx<CollectionSetting> collectionSetting;
+
+  // giá trị calo và value của collection được chọn
   Rx<double> caloValue = 0.0.obs;
   Rx<double> timeValue = 0.0.obs;
+
+  // list collection của user tự tạo
   late List<WorkoutCollection> userCollections;
 
+  // collection được chọn
   WorkoutCollection? selectedCollection;
+
+  // danh sách workout của collection được chọn
   List<Workout> workoutList = [];
+  // danh sách workout được tạo ra dựa trên collection setting từ workoutList
   List<Workout> generatedWorkoutList = [];
+  // biến ràng buộc dùng trong collectionSetting
   Rx<int> maxWorkout = 100.obs;
 
   @override
@@ -39,22 +53,24 @@ class WorkoutCollectionController extends GetxController {
     });
   }
 
+  // method
+  // hàm handle khi người dùng chọn vào collection của user tự tạo
   void onSelectUserCollection(WorkoutCollection collection) {
     selectedCollection = collection;
     loadWorkoutListForUserCollection();
 
     generateRandomList();
-    // calculateCaloAndTime();
   }
 
+  // hàm handle khi người dùng chọn vào collection có sẵn
   void onSelectDefaultCollection(WorkoutCollection collection) {
     selectedCollection = collection;
     loadWorkoutListForDefaultCollection(collection.generatorIDs);
 
     generateRandomList();
-    // calculateCaloAndTime();
   }
 
+  // hàm random ra generatedList
   generateRandomList() {
     if (workoutList.isEmpty) {
       generatedWorkoutList = [];
@@ -75,6 +91,7 @@ class WorkoutCollectionController extends GetxController {
     update();
   }
 
+  // hàm add 1 user collection
   void addUserCollection(WorkoutCollection wkCollection) async {
     userCollections.add(wkCollection);
     update();
@@ -82,6 +99,7 @@ class WorkoutCollectionController extends GetxController {
     calculateCaloAndTime();
   }
 
+  // hàm edit 1 user collection
   editUserCollection(WorkoutCollection editedCollection) async {
     selectedCollection = editedCollection;
 
@@ -98,6 +116,7 @@ class WorkoutCollectionController extends GetxController {
         .update(selectedCollection!.id ?? '', selectedCollection!);
   }
 
+  // hàm edit 1 user collection
   deleteUserCollection() async {
     final result = await showOkCancelAlertDialog(
         context: Get.context!,
@@ -120,20 +139,22 @@ class WorkoutCollectionController extends GetxController {
     }
   }
 
+  // hàm load các user collection
   void loadUserCollections() {
     userCollections = DataService.instance.userCollectionList;
   }
 
+  // hàm load workoutList của user collection
   void loadWorkoutListForUserCollection() {
     workoutList = <Workout>[].obs;
     for (var id in selectedCollection!.generatorIDs) {
       var workout = DataService.instance.workoutList
           .firstWhere((element) => element.id == id);
       workoutList.add(workout);
-      // update();
     }
   }
 
+  // hàm load workoutList của collection có sẵn
   void loadWorkoutListForDefaultCollection(List<String> cateIDs) {
     List<Workout> list = [];
     for (var id in cateIDs) {
@@ -145,11 +166,13 @@ class WorkoutCollectionController extends GetxController {
     workoutList = list;
   }
 
+  // hàm reset calo và time
   void resetCaloAndTime() {
     caloValue.value = 0;
     timeValue.value = 0;
   }
 
+  // hàm tính toán calo và time
   void calculateCaloAndTime() {
     num bodyWeight = DataService.currentUser.currentWeight;
     resetCaloAndTime();
@@ -163,33 +186,40 @@ class WorkoutCollectionController extends GetxController {
         workoutListLength: generatedWorkoutList.length);
   }
 
+  // hàm init collection setting
   void initCollectionSetting() {
     collectionSetting = CollectionSetting().obs;
   }
 
+  // hàm load collection setting
   void loadCollectionSetting() {
     collectionSetting.value = DataService.currentUser.collectionSetting;
   }
 
+  // hàm update collection setting
   Future<void> updateCollectionSetting() async {
     await WorkoutCollectionSettingProvider()
         .update('id', collectionSetting.value);
   }
 
+  // hàm load cateListAndNumCollection
   void loadCateListAndNumCollection() {
     cateListAndNumCollection = DataService.instance.cateListAndNumCollection;
   }
 
+  // hàm load category của các collection
   void loadCollectionCategories() {
     collectionCategories = DataService.instance.collectionCateList
         .where((element) => element.parentCategoryID == null)
         .toList();
   }
 
+  // hàm init list collection
   void initCollections() {
     collections = [];
   }
 
+  // hàm load list collection dựa trên cate
   void loadCollectionListBaseOnCategory(Category cate) {
     collections = DataService.instance.collectionList
         .where((collection) => collection.categoryIDs.contains(cate.id))
@@ -197,6 +227,7 @@ class WorkoutCollectionController extends GetxController {
     Get.toNamed(Routes.workoutCollectionList, arguments: cate);
   }
 
+  // hàm load list cate con dựa trên cate cha
   void loadChildCategoriesBaseOnParentCategory(String categoryID) {
     collectionCategories = DataService.instance.collectionCateList
         .where((element) => element.parentCategoryID == categoryID)
