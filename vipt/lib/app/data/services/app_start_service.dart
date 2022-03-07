@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class AppStartService {
   AppStartService._privateConstructor();
@@ -6,6 +7,6 @@ class AppStartService {
 
   initFirebase() async {
     await Firebase.initializeApp();
-    // await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
+    await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
   }
 }

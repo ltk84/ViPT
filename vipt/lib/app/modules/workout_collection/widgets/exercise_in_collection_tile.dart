@@ -19,63 +19,71 @@ class ExerciseInCollectionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
+    return Material(
+      color: Colors.transparent,
       borderRadius: const BorderRadius.all(
         Radius.circular(8),
       ),
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-        child: LayoutBuilder(builder: (context, constraints) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  // ASSET
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: constraints.maxWidth * 0.18,
-                      maxHeight: constraints.maxWidth * 0.18,
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius: const BorderRadius.all(
+          Radius.circular(8),
+        ),
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+          child: LayoutBuilder(builder: (context, constraints) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    // ASSET
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: constraints.maxWidth * 0.18,
+                        maxHeight: constraints.maxWidth * 0.18,
+                      ),
+                      child: _buildAsset(asset),
                     ),
-                    child: _buildAsset(asset),
-                  ),
-                  SizedBox(
-                    width: constraints.maxWidth * 0.05,
-                  ),
-                  SizedBox(
-                    width: constraints.maxWidth * 0.62,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // TITLE
-                        Text(
-                          title,
-                          style: Theme.of(context).textTheme.headline5,
-                        ),
-
-                        // DESCRIPTION
-                        if (description != '')
+                    SizedBox(
+                      width: constraints.maxWidth * 0.05,
+                    ),
+                    SizedBox(
+                      width: constraints.maxWidth * 0.62,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // TITLE
                           Text(
-                            description,
-                            style:
-                                Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      color: AppColor.textColor
-                                          .withOpacity(AppColor.subTextOpacity),
-                                    ),
+                            title,
+                            style: Theme.of(context).textTheme.headline5,
                           ),
-                      ],
+
+                          // DESCRIPTION
+                          if (description != '')
+                            Text(
+                              description,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(
+                                    color: AppColor.textColor
+                                        .withOpacity(AppColor.subTextOpacity),
+                                  ),
+                            ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const Icon(
-                Icons.chevron_right_rounded,
-              ),
-            ],
-          );
-        }),
+                  ],
+                ),
+                const Icon(
+                  Icons.chevron_right_rounded,
+                ),
+              ],
+            );
+          }),
+        ),
       ),
     );
   }

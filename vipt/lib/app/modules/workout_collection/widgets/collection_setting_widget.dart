@@ -144,37 +144,44 @@ class CollectionSettingWidget extends StatelessWidget {
     Color disabledColor =
         AppColor.textColor.withOpacity(AppColor.disabledTextOpacity);
 
-    return SwitchListTile(
-      activeColor: Theme.of(context).primaryColor,
-      onChanged: enabled
-          ? (bool value) {
-              controller.collectionSetting.update((val) {
-                val!.isStartWithWarmUp = value;
-              });
-            }
-          : null,
-      value: controller.collectionSetting.value.isStartWithWarmUp,
-      tileColor: AppColor.listTileButtonColor,
+    return Material(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(8),
         ),
       ),
-      secondary: Icon(
-        Icons.emoji_people_rounded,
-        color: enabled ? AppColor.textColor : disabledColor,
-      ),
-      title: Text(
-        'Bắt đầu với khởi động'.tr,
-        style: enabled
-            ? Theme.of(context)
-                .textTheme
-                .bodyText2!
-                .copyWith(fontWeight: FontWeight.w500)
-            : Theme.of(context)
-                .textTheme
-                .bodyText2!
-                .copyWith(fontWeight: FontWeight.w500, color: disabledColor),
+      child: SwitchListTile(
+        activeColor: Theme.of(context).primaryColor,
+        onChanged: enabled
+            ? (bool value) {
+                controller.collectionSetting.update((val) {
+                  val!.isStartWithWarmUp = value;
+                });
+              }
+            : null,
+        value: controller.collectionSetting.value.isStartWithWarmUp,
+        tileColor: AppColor.listTileButtonColor,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(8),
+          ),
+        ),
+        secondary: Icon(
+          Icons.emoji_people_rounded,
+          color: enabled ? AppColor.textColor : disabledColor,
+        ),
+        title: Text(
+          'Bắt đầu với khởi động'.tr,
+          style: enabled
+              ? Theme.of(context)
+                  .textTheme
+                  .bodyText2!
+                  .copyWith(fontWeight: FontWeight.w500)
+              : Theme.of(context)
+                  .textTheme
+                  .bodyText2!
+                  .copyWith(fontWeight: FontWeight.w500, color: disabledColor),
+        ),
       ),
     );
   }
@@ -183,37 +190,44 @@ class CollectionSettingWidget extends StatelessWidget {
     Color disabledColor =
         AppColor.textColor.withOpacity(AppColor.disabledTextOpacity);
 
-    return SwitchListTile(
-      activeColor: Theme.of(context).primaryColor,
-      onChanged: enabled
-          ? (bool value) {
-              controller.collectionSetting.update((val) {
-                val!.isShuffle = value;
-              });
-            }
-          : null,
-      value: controller.collectionSetting.value.isShuffle,
-      tileColor: AppColor.listTileButtonColor,
+    return Material(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(8),
         ),
       ),
-      secondary: Icon(
-        Icons.shuffle_rounded,
-        color: enabled ? AppColor.textColor : disabledColor,
-      ),
-      title: Text(
-        'Trộn ngẫu nhiên'.tr,
-        style: enabled
-            ? Theme.of(context)
-                .textTheme
-                .bodyText2!
-                .copyWith(fontWeight: FontWeight.w500)
-            : Theme.of(context)
-                .textTheme
-                .bodyText2!
-                .copyWith(fontWeight: FontWeight.w500, color: disabledColor),
+      child: SwitchListTile(
+        activeColor: Theme.of(context).primaryColor,
+        onChanged: enabled
+            ? (bool value) {
+                controller.collectionSetting.update((val) {
+                  val!.isShuffle = value;
+                });
+              }
+            : null,
+        value: controller.collectionSetting.value.isShuffle,
+        tileColor: AppColor.listTileButtonColor,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(8),
+          ),
+        ),
+        secondary: Icon(
+          Icons.shuffle_rounded,
+          color: enabled ? AppColor.textColor : disabledColor,
+        ),
+        title: Text(
+          'Trộn ngẫu nhiên'.tr,
+          style: enabled
+              ? Theme.of(context)
+                  .textTheme
+                  .bodyText2!
+                  .copyWith(fontWeight: FontWeight.w500)
+              : Theme.of(context)
+                  .textTheme
+                  .bodyText2!
+                  .copyWith(fontWeight: FontWeight.w500, color: disabledColor),
+        ),
       ),
     );
   }

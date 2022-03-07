@@ -76,26 +76,23 @@ class PreviewExerciseList extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
+      body: ListView(
         physics: const BouncingScrollPhysics(
             parent: AlwaysScrollableScrollPhysics()),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Column(
+        children: [
+          Column(
             children: [
               SizedBox(
-                height: screenSize.height * 0.15,
+                height: screenSize.height * 0.10,
               ),
               _buildIntro(context),
               const SizedBox(
                 height: 4,
               ),
-              Expanded(
+              ConstrainedBox(
+                constraints: BoxConstraints(minHeight: screenSize.height * 0.7),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 24,
-                  ),
+                  padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
                   decoration: BoxDecoration(
                     color: Theme.of(context).backgroundColor,
                     borderRadius: const BorderRadius.only(
@@ -103,40 +100,54 @@ class PreviewExerciseList extends StatelessWidget {
                       topRight: Radius.circular(15),
                     ),
                   ),
-                  child: Column(
-                    children: [
-                      Text(
-                        "BÀI TẬP MỖI VÒNG".tr,
-                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                      const SizedBox(
-                        height: 2,
-                      ),
-                      Text(
-                        'Số vòng: 2'.tr,
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              color: AppColor.textColor.withOpacity(
-                                AppColor.subTextOpacity,
-                              ),
-                            ),
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Divider(
-                        thickness: 1,
-                        color: AppColor.textFieldUnderlineColor,
-                      ),
-                      _buildExerciseList(context),
-                    ],
+                  child: SingleChildScrollView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        Text(
+                          "BÀI TẬP MỖI VÒNG".tr,
+                          style:
+                              Theme.of(context).textTheme.subtitle2!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                        const SizedBox(
+                          height: 2,
+                        ),
+                        Text(
+                          'Số vòng: 2'.tr,
+                          style:
+                              Theme.of(context).textTheme.bodyText1!.copyWith(
+                                    color: AppColor.textColor.withOpacity(
+                                      AppColor.subTextOpacity,
+                                    ),
+                                  ),
+                        ),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        Divider(
+                          thickness: 1,
+                          color: AppColor.textFieldUnderlineColor,
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        _buildShuffleButton(context),
+                        _buildExerciseList(context),
+                        SizedBox(
+                          height:
+                              Theme.of(context).textTheme.button!.fontSize! *
+                                  3.5,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ],
           ),
-        ),
+        ],
       ),
     );
   }
@@ -167,6 +178,38 @@ class PreviewExerciseList extends StatelessWidget {
     );
   }
 
+  Widget _buildShuffleButton(context) {
+    return Material(
+      color: Colors.transparent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(8),
+        onTap: () {},
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.shuffle_rounded,
+                color: Theme.of(context).primaryColor,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'Nhấn để xáo trộn thứ tự'.tr,
+                style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                      color: Theme.of(context).primaryColor,
+                    ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildExerciseList(context) {
     return GetBuilder<WorkoutCollectionController>(
       builder: (_) => Column(
@@ -175,14 +218,22 @@ class PreviewExerciseList extends StatelessWidget {
           ..._controller.generatedWorkoutList.map((workout) {
             int index = _controller.generatedWorkoutList.indexOf(workout);
             Widget workoutTile = Obx(
-              () => ExerciseInCollectionTile(
-                asset: workout.thumbnail,
-                title: workout.name,
-                description:
-                    '${_controller.collectionSetting.value.exerciseTime} giây',
-                onPressed: () {
-                  Get.toNamed(Routes.exerciseDetail, arguments: workout);
-                },
+              () => Container(
+                margin: const EdgeInsets.symmetric(
+                  vertical: 8,
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: ExerciseInCollectionTile(
+                    asset: workout.thumbnail,
+                    title: workout.name,
+                    description:
+                        '${_controller.collectionSetting.value.exerciseTime} giây',
+                    onPressed: () {
+                      Get.toNamed(Routes.exerciseDetail, arguments: workout);
+                    },
+                  ),
+                ),
               ),
             );
             if ((index + 1) %

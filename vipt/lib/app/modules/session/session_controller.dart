@@ -12,6 +12,13 @@ enum Activity {
   transition,
 }
 
+enum TimerStatus {
+  play,
+  pause,
+  rest,
+  ready,
+}
+
 class SessionController extends GetxController {
   // property
 
@@ -54,6 +61,8 @@ class SessionController extends GetxController {
   bool get isTransitionTurn =>
       activites[workoutTimerIndex] == Activity.transition;
   bool get isRestTurn => activites[workoutTimerIndex] == Activity.rest;
+
+  TimerStatus status = TimerStatus.ready;
 
   @override
   void onInit() {
@@ -100,12 +109,29 @@ class SessionController extends GetxController {
     }
   }
 
+  void changeTimerState({String action = ''}) {
+    if (action == '') {
+      if (isRestTurn) {
+        status = TimerStatus.rest;
+      } else if (isTransitionTurn) {
+        status = TimerStatus.ready;
+      }
+    } else {
+      if (action == 'pause') {
+        status = TimerStatus.pause;
+      } else if (action == 'play') {
+        status = TimerStatus.play;
+      }
+    }
+  }
+
   // hàm khi handle workout timer hoàn thành
   void onWorkoutTimerComplete() {
     calculateCaloConsumed(timeList[workoutTimerIndex]);
     calculateTimeConsumed(timeList[workoutTimerIndex]);
 
     workoutTimerIndex++;
+    changeTimerState();
     if (workoutTimerIndex < timeList.length) {
       if (isTransitionTurn) {
         nextWorkout();
@@ -121,6 +147,7 @@ class SessionController extends GetxController {
   void pause() {
     collectionTimeController.pause();
     workoutTimeController.pause();
+    changeTimerState(action: 'pause');
   }
 
   // hàm handle việc skip
@@ -162,7 +189,7 @@ class SessionController extends GetxController {
   // hàm tính toán lại timer khi xong 1 phrase hoặc skip
   void calculateTimer() {
     workoutTimerIndex++;
-
+    changeTimerState();
     if (workoutTimerIndex >= timeList.length) {
       return;
     }
@@ -198,4 +225,16 @@ class SessionController extends GetxController {
   void calculateTimeConsumed(int time) {
     timeConsumed += time;
   }
+
+  // void start() {
+  //   collectionTimeController.start();
+  //   workoutTimeController.start();
+  //   changeTimerState(action: 'play');
+  // }
+
+  // void resume() {
+  //   collectionTimeController.resume();
+  //   workoutTimeController.resume();
+  //   changeTimerState(action: 'play');
+  // }
 }

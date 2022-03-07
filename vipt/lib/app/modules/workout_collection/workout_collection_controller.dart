@@ -38,6 +38,8 @@ class WorkoutCollectionController extends GetxController {
   // biến ràng buộc dùng trong collectionSetting
   Rx<int> maxWorkout = 100.obs;
 
+  Rx<String> displayTime = ''.obs;
+
   @override
   void onInit() {
     loadCollectionCategories();
@@ -184,6 +186,10 @@ class WorkoutCollectionController extends GetxController {
     timeValue.value = WorkoutCollectionUtils.calculateTime(
         collectionSetting: collectionSetting.value,
         workoutListLength: generatedWorkoutList.length);
+
+    displayTime.value = timeValue.value < 1
+        ? '${(timeValue.value * 60).toInt()} giây'
+        : '${timeValue.value.toInt()} phút';
   }
 
   // hàm init collection setting

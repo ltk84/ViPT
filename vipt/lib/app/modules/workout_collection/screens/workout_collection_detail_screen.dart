@@ -8,6 +8,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/global_widgets/app_bar_icon_button.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/collection_setting_widget.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 // ignore: unused_import
@@ -64,61 +65,74 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         appBar: AppBar(
           actions: [
-            IconButton(
+            AppBarIconButton(
+                iconData: Icons.access_time_filled_sharp,
                 onPressed: () {
                   Get.toNamed(Routes.workoutSession);
                 },
-                icon: const Icon(Icons.access_time_filled_sharp))
+                hero: 'actionAppBarButton'),
           ],
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          leading: IconButton(
-            icon: const Hero(
-              tag: 'leadingButtonAppBar',
-              child: Icon(Icons.arrow_back_ios_new_rounded),
-            ),
-            onPressed: () {
-              onLeaveScreen();
-
-              Navigator.of(context).pop();
-            },
-          ),
-          flexibleSpace: ClipRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
-              child: Container(
-                color: Colors.transparent,
-              ),
-            ),
-          ),
+          leading: AppBarIconButton(
+              padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
+              hero: 'leadingButtonAppBar',
+              iconData: Icons.arrow_back_ios_new_rounded,
+              onPressed: () {
+                onLeaveScreen();
+                Navigator.of(context).pop();
+              }),
         ),
         body: Container(
-          padding: AppDecoration.screenPadding.copyWith(top: 8, bottom: 0),
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              alignment: Alignment.topCenter,
+              image: AssetImage(JPGAssetString.workout_1),
+              fit: BoxFit.cover,
+            ),
+          ),
           child: LayoutBuilder(builder: (context, constraints) {
             return ListView(
               physics: const BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics()),
               children: [
-                _buildIntro(context),
-                const SizedBox(
-                  height: 8,
-                ),
-                _buildIndicatorDisplay(context),
-                const SizedBox(
-                  height: 16,
-                ),
-                CollectionSettingWidget(
-                  maxHeight: constraints.maxHeight,
-                  controller: _controller,
-                  enabled: _controller.workoutList.isNotEmpty,
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                _buildExerciseList(context),
-                SizedBox(
-                  height: Theme.of(context).textTheme.button!.fontSize! * 4,
+                Container(
+                  margin: EdgeInsets.only(top: constraints.maxHeight * 0.15),
+                  padding:
+                      AppDecoration.screenPadding.copyWith(top: 24, bottom: 0),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).backgroundColor,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      _buildIntro(context),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      _buildIndicatorDisplay(context),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      CollectionSettingWidget(
+                        maxHeight: constraints.maxHeight,
+                        controller: _controller,
+                        enabled: _controller.workoutList.isNotEmpty,
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      _buildExerciseList(context),
+                      SizedBox(
+                        height:
+                            Theme.of(context).textTheme.button!.fontSize! * 4,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             );
@@ -170,7 +184,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         ),
         Obx(
           () => Text(
-            '${_controller.timeValue.value.toInt()} phút'.tr,
+            '${_controller.displayTime}'.tr,
             style: Theme.of(context).textTheme.headline6,
           ),
         ),
@@ -246,6 +260,16 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         children: [
           Text('Danh sách bài tập'.tr,
               style: Theme.of(context).textTheme.headline3),
+          const SizedBox(
+            height: 4,
+          ),
+          Text(
+            'Danh sách này thay đổi dựa vào số bài tập mỗi vòng.'.tr,
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  color:
+                      AppColor.textColor.withOpacity(AppColor.subTextOpacity),
+                ),
+          ),
           const SizedBox(
             height: 4,
           ),

@@ -156,7 +156,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
               if (equipment.isNotEmpty)
                 Container(
                   alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
                       maxWidth: constraints.maxWidth,
@@ -167,10 +167,13 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                 ),
               if (equipment.isNotEmpty)
                 // Tên Equipment.
-                Text(
-                  "Thiết bị",
-                  style: Theme.of(context).textTheme.bodyText1,
-                  textAlign: TextAlign.center,
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    equipment[0].name,
+                    style: Theme.of(context).textTheme.bodyText1,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               Container(
                 padding: const EdgeInsets.only(
