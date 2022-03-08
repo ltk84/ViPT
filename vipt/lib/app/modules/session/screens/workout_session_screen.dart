@@ -162,7 +162,8 @@ class _WorkoutSessionState extends State<WorkoutSession> {
                               child: _buildMediaPlayer(),
                             ),
                           ),
-                          ...getStatusOverlayWidgets(),
+                          Obx(() => _buildOverlayFilter()),
+                          Obx(() => _buildOverlayTitle()),
                         ],
                       ),
                     ),
@@ -344,54 +345,63 @@ class _WorkoutSessionState extends State<WorkoutSession> {
     }
   }
 
-  List<Widget> getStatusOverlayWidgets() {
-    double blurSigma;
-    String title;
-    Color? titleColor;
+  double _getBlurSigmaValue() {
+    if (_controller.status.value == TimerStatus.play) {
+      return 0;
+    } else {
+      return 5;
+    }
+  }
 
+  String _getOverlayTitle() {
     switch (_controller.status.value) {
       case TimerStatus.play:
-        blurSigma = 0;
-        title = '';
-        titleColor = null;
-        break;
+        return '';
       case TimerStatus.pause:
-        blurSigma = 5;
-        title = 'tạm dừng';
-        titleColor = AppColor.pauseStatusOverlayTitleColor;
-        break;
+        return 'tạm dừng';
       case TimerStatus.rest:
-        blurSigma = 5;
-        title = 'nghỉ';
-        titleColor = AppColor.restStatusOverlayTitleColor;
-        break;
+        return 'nghỉ';
       default:
-        blurSigma = 5;
-        title = 'sẵn sàng';
-        titleColor = AppColor.readyStatusOverlayTitleColor;
-        break;
+        return 'sẵn sàng';
     }
+  }
 
-    return [
-      Center(
-        child: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
-            child: Container(
-              color: Colors.transparent,
-            ),
+  Color? _getOverlayTitleColor() {
+    switch (_controller.status.value) {
+      case TimerStatus.play:
+        return null;
+      case TimerStatus.pause:
+        return AppColor.pauseStatusOverlayTitleColor;
+      case TimerStatus.rest:
+        return AppColor.restStatusOverlayTitleColor;
+      default:
+        return AppColor.readyStatusOverlayTitleColor;
+    }
+  }
+
+  Widget _buildOverlayFilter() {
+    return Center(
+      child: ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(
+              sigmaX: _getBlurSigmaValue(), sigmaY: _getBlurSigmaValue()),
+          child: Container(
+            color: Colors.transparent,
           ),
         ),
       ),
-      Center(
-        child: Text(
-          title,
-          style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                color: titleColor,
-              ),
-        ),
+    );
+  }
+
+  Widget _buildOverlayTitle() {
+    return Center(
+      child: Text(
+        _getOverlayTitle(),
+        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+              color: _getOverlayTitleColor(),
+            ),
       ),
-    ];
+    );
   }
 
   Widget _buildActionSection(context) {
