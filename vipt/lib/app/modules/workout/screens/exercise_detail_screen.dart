@@ -122,6 +122,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                 child: Text(
                   workout.name,
                   style: Theme.of(context).textTheme.headline2,
+                  textAlign: TextAlign.center,
                 ),
               ),
               Container(
@@ -130,6 +131,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                 child: Text(
                   categories,
                   style: Theme.of(context).textTheme.subtitle2,
+                  textAlign: TextAlign.center,
                 ),
               ),
               Container(

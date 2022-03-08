@@ -162,27 +162,7 @@ class _WorkoutSessionState extends State<WorkoutSession> {
                               child: _buildMediaPlayer(),
                             ),
                           ),
-                          Center(
-                            child: ClipRect(
-                              child: BackdropFilter(
-                                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                                child: Container(
-                                  color: Colors.transparent,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Center(
-                            child: Text(
-                              'tạm dừng',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(
-                                    color: Colors.orange,
-                                  ),
-                            ),
-                          ),
+                          ...getStatusOverlayWidgets(),
                         ],
                       ),
                     ),
@@ -274,9 +254,12 @@ class _WorkoutSessionState extends State<WorkoutSession> {
               const SizedBox(
                 width: 8,
               ),
-              Text(
-                _controller.currentWorkout.name,
-                style: Theme.of(context).textTheme.headline2,
+              Flexible(
+                child: Text(
+                  _controller.currentWorkout.name,
+                  style: Theme.of(context).textTheme.headline2,
+                  textAlign: TextAlign.center,
+                ),
               ),
               const SizedBox(
                 width: 8,
@@ -359,6 +342,56 @@ class _WorkoutSessionState extends State<WorkoutSession> {
       default:
         return AppColor.workoutTimerReadyIndicatorColor;
     }
+  }
+
+  List<Widget> getStatusOverlayWidgets() {
+    double blurSigma;
+    String title;
+    Color? titleColor;
+
+    switch (_controller.status.value) {
+      case TimerStatus.play:
+        blurSigma = 0;
+        title = '';
+        titleColor = null;
+        break;
+      case TimerStatus.pause:
+        blurSigma = 5;
+        title = 'tạm dừng';
+        titleColor = AppColor.pauseStatusOverlayTitleColor;
+        break;
+      case TimerStatus.rest:
+        blurSigma = 5;
+        title = 'nghỉ';
+        titleColor = AppColor.restStatusOverlayTitleColor;
+        break;
+      default:
+        blurSigma = 5;
+        title = 'sẵn sàng';
+        titleColor = AppColor.readyStatusOverlayTitleColor;
+        break;
+    }
+
+    return [
+      Center(
+        child: ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
+            child: Container(
+              color: Colors.transparent,
+            ),
+          ),
+        ),
+      ),
+      Center(
+        child: Text(
+          title,
+          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                color: titleColor,
+              ),
+        ),
+      ),
+    ];
   }
 
   Widget _buildActionSection(context) {

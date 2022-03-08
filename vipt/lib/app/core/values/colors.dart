@@ -50,6 +50,10 @@ class AppColor {
   static const Color collectionTimerIndicatorColor = Color(0xffC08484);
   static const Color collectionTimerBackgroundColor = Color(0xffEBDADA);
 
+  static const Color pauseStatusOverlayTitleColor = Color(0xffF44444);
+  static const Color readyStatusOverlayTitleColor = Color(0xffF48444);
+  static const Color restStatusOverlayTitleColor = Color(0xff78BC09);
+
   // Extra Color field (static)
   static const Color googleButtonBackgroundColor = Colors.white;
   static const Color googleButtonForegroundColor = Color(0xFF1B1B1B);
