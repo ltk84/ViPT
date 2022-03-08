@@ -9,6 +9,7 @@ import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/modules/session/session_controller.dart';
 import 'package:vipt/app/modules/session/widgets/custom_timer.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 class WorkoutSession extends StatefulWidget {
   WorkoutSession({Key? key}) : super(key: key);
@@ -257,7 +258,11 @@ class _WorkoutSessionState extends State<WorkoutSession> {
                 shape: const CircleBorder(),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(15),
-                  onTap: () {},
+                  onTap: () async {
+                    pause();
+                    await Get.toNamed(Routes.exerciseDetail,
+                        arguments: _controller.currentWorkout);
+                  },
                   child: const Icon(
                     Icons.info_rounded,
                     size: 20,
