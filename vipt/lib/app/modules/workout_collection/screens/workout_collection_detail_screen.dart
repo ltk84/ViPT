@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -9,8 +10,10 @@ import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/global_widgets/app_bar_icon_button.dart';
+import 'package:vipt/app/global_widgets/network_image.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/collection_setting_widget.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
+import 'package:path/path.dart' as p;
 // ignore: unused_import
 import 'package:vipt/app/modules/workout_collection/widgets/property_tile.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
@@ -84,60 +87,82 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
                 Navigator.of(context).pop();
               }),
         ),
-        body: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              alignment: Alignment.topCenter,
-              image: AssetImage(JPGAssetString.workout_1),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: LayoutBuilder(builder: (context, constraints) {
-            return ListView(
-              physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: constraints.maxHeight * 0.15),
-                  padding:
-                      AppDecoration.screenPadding.copyWith(top: 24, bottom: 0),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).backgroundColor,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      _buildIntro(context),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      _buildIndicatorDisplay(context),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      CollectionSettingWidget(
-                        maxHeight: constraints.maxHeight,
-                        controller: _controller,
-                        enabled: _controller.workoutList.isNotEmpty,
-                      ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      _buildExerciseList(context),
-                      SizedBox(
-                        height:
-                            Theme.of(context).textTheme.button!.fontSize! * 4,
-                      ),
-                    ],
+        body: CachedNetworkImage(
+            imageUrl: _controller.selectedCollection == null
+                ? ''
+                : _controller.selectedCollection!.asset,
+            fit: BoxFit.cover,
+            progressIndicatorBuilder: (context, url, loadingProgress) {
+              return Center(
+                child: CircularProgressIndicator(
+                  color:
+                      AppColor.textColor.withOpacity(AppColor.subTextOpacity),
+                  value: loadingProgress.progress,
+                ),
+              );
+            },
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+            imageBuilder: (context, imageProvider) {
+              return Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    alignment: Alignment.topCenter,
+                    image: imageProvider,
+                    fit: BoxFit.cover,
                   ),
                 ),
-              ],
-            );
-          }),
-        ),
+                child: LayoutBuilder(builder: (context, constraints) {
+                  return ListView(
+                    physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics(),
+                    ),
+                    children: [
+                      Container(
+                        margin:
+                            EdgeInsets.only(top: constraints.maxHeight * 0.15),
+                        padding: AppDecoration.screenPadding
+                            .copyWith(top: 24, bottom: 0),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).backgroundColor,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15),
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            _buildIntro(context),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            _buildIndicatorDisplay(context),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            CollectionSettingWidget(
+                              maxHeight: constraints.maxHeight,
+                              controller: _controller,
+                              enabled: _controller.workoutList.isNotEmpty,
+                            ),
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            _buildExerciseList(context),
+                            SizedBox(
+                              height: Theme.of(context)
+                                      .textTheme
+                                      .button!
+                                      .fontSize! *
+                                  4,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+              );
+            }),
       ),
     );
   }

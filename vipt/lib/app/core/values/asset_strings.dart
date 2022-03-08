@@ -31,6 +31,8 @@ class JPGAssetString {
   static const String nutrition = '$path/nutrition.jpg';
   static const String yourWorkoutCollection =
       '$path/your_workout_collection.jpg';
+  static const String userWorkoutCollection =
+      '$path/user_workout_collection.jpg';
 }
 
 class GIFAssetString {
