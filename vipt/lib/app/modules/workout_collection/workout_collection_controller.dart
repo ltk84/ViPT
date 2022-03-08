@@ -1,6 +1,8 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/utilities/utils.dart';
+import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/workout.dart';
@@ -8,6 +10,7 @@ import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/providers/workout_collection_provider.dart';
 import 'package:vipt/app/data/providers/workout_collection_setting_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
+import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class WorkoutCollectionController extends GetxController {
@@ -120,13 +123,27 @@ class WorkoutCollectionController extends GetxController {
 
   // hàm edit 1 user collection
   deleteUserCollection() async {
-    final result = await showOkCancelAlertDialog(
-        context: Get.context!,
-        title: 'Xóa bộ luyện tập',
-        message:
-            'Bạn có chắc chắn muốn xóa bộ luyện tập này? Bạn sẽ không thể hoàn tác lại thao tác này.',
-        okLabel: 'Có',
-        cancelLabel: 'Không');
+    final result = await showDialog(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return CustomConfirmationDialog(
+          label: 'Xóa bộ luyện tập',
+          content:
+              'Bạn có chắc chắn muốn xóa bộ luyện tập này? Bạn sẽ không thể hoàn tác lại thao tác này.',
+          labelCancel: 'Không',
+          labelOk: 'Có',
+          onCancel: () {
+            Navigator.of(context).pop();
+          },
+          onOk: () {
+            Navigator.of(context).pop(OkCancelResult.ok);
+          },
+          primaryButtonColor: AppColor.primaryColor,
+          buttonFactorOnMaxWidth: 0.32,
+          buttonsAlignment: MainAxisAlignment.spaceEvenly,
+        );
+      },
+    );
 
     if (result == OkCancelResult.ok) {
       if (selectedCollection!.id == null) return;
