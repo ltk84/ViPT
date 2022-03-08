@@ -124,8 +124,6 @@ class _WorkoutSessionState extends State<WorkoutSession> {
           children: [
             Expanded(
               child: Container(
-                padding:
-                    AppDecoration.screenPadding.copyWith(top: 8, bottom: 0),
                 decoration: BoxDecoration(
                   border: Border.all(
                     width: 1,
@@ -141,20 +139,50 @@ class _WorkoutSessionState extends State<WorkoutSession> {
                     const SizedBox(
                       height: 24,
                     ),
-                    _buildInfoSection(context),
+                    Padding(
+                      padding: AppDecoration.screenPadding
+                          .copyWith(top: 8, bottom: 0),
+                      child: _buildInfoSection(context),
+                    ),
                     const SizedBox(
                       height: 24,
                     ),
                     Expanded(
-                      child: Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(vertical: 2),
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: constraints.maxWidth,
+                      child: Stack(
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            padding: AppDecoration.screenPadding
+                                .copyWith(top: 2, bottom: 2),
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                maxWidth: constraints.maxWidth,
+                              ),
+                              child: _buildMediaPlayer(),
+                            ),
                           ),
-                          child: _buildMediaPlayer(),
-                        ),
+                          Center(
+                            child: ClipRect(
+                              child: BackdropFilter(
+                                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                                child: Container(
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Center(
+                            child: Text(
+                              'tạm dừng',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(
+                                    color: Colors.orange,
+                                  ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -162,98 +190,6 @@ class _WorkoutSessionState extends State<WorkoutSession> {
               ),
             ),
             _buildActionSection(context),
-            // MyCircularCountDownTimer(
-            //   duration: _controller.timeValue.minutes.inSeconds,
-            //   initialDuration: 0,
-            //   controller: _controller.collectionTimeController,
-            //   width: 100,
-            //   height: 100,
-            //   ringColor: Colors.grey,
-            //   ringGradient: null,
-            //   fillColor: Colors.purpleAccent,
-            //   fillGradient: null,
-            //   backgroundColor: Colors.orange[500],
-            //   backgroundGradient: null,
-            //   strokeWidth: 20.0,
-            //   strokeCap: StrokeCap.round,
-            //   textStyle: const TextStyle(
-            //       fontSize: 33.0,
-            //       color: Colors.white,
-            //       fontWeight: FontWeight.bold),
-            //   textFormat: MyCountdownTextFormat.MM_SS,
-            //   isReverse: true,
-            //   isReverseAnimation: false,
-            //   isTimerTextShown: true,
-            //   autoStart: false,
-            //   onStart: () {},
-            //   onComplete: () {},
-            // ),
-            // MyCircularCountDownTimer(
-            //   duration: _controller.timeList[0],
-            //   initialDuration: 0,
-            //   controller: _controller.workoutTimeController,
-            //   width: 100,
-            //   height: 100,
-            //   ringColor: Colors.grey,
-            //   ringGradient: null,
-            //   fillColor: Colors.purpleAccent,
-            //   fillGradient: null,
-            //   backgroundColor: Colors.orange[500],
-            //   backgroundGradient: null,
-            //   strokeWidth: 20.0,
-            //   strokeCap: StrokeCap.round,
-            //   textStyle: const TextStyle(
-            //       fontSize: 33.0,
-            //       color: Colors.white,
-            //       fontWeight: FontWeight.bold),
-            //   textFormat: MyCountdownTextFormat.S,
-            //   isReverse: true,
-            //   isReverseAnimation: false,
-            //   isTimerTextShown: true,
-            //   autoStart: false,
-            //   onStart: () {},
-            //   onComplete: () {
-            //     onTimerComplete();
-            //   },
-            // ),
-            // Row(
-            //   children: [
-            //     ElevatedButton(
-            //       onPressed: () {
-            //         start();
-            //       },
-            //       child: Text('Bắt đầu'.tr,
-            //           style: Theme.of(context).textTheme.button),
-            //     ),
-            //     ElevatedButton(
-            //       onPressed: () {
-            //         pause();
-            //       },
-            //       child: Text('Tạm dừng'.tr,
-            //           style: Theme.of(context).textTheme.button),
-            //     ),
-            //   ],
-            // ),
-            // Row(
-            //   children: [
-            //     ElevatedButton(
-            //       onPressed: () {
-            //         resume();
-            //       },
-            //       child: Text('Tiếp tục'.tr,
-            //           style: Theme.of(context).textTheme.button),
-            //     ),
-            //     ElevatedButton(
-            //       onPressed: isInitVideo
-            //           ? null
-            //           : () {
-            //               skip();
-            //             },
-            //       child: Text('Bỏ qua'.tr,
-            //           style: Theme.of(context).textTheme.button),
-            //     ),
-            //   ],
-            // )
           ],
         );
       }),
