@@ -126,8 +126,6 @@ class _WorkoutSessionState extends State<WorkoutSession> {
           children: [
             Expanded(
               child: Container(
-                padding:
-                    AppDecoration.screenPadding.copyWith(top: 8, bottom: 0),
                 decoration: BoxDecoration(
                   border: Border.all(
                     width: 1,
@@ -143,20 +141,31 @@ class _WorkoutSessionState extends State<WorkoutSession> {
                     const SizedBox(
                       height: 24,
                     ),
-                    _buildInfoSection(context),
+                    Padding(
+                      padding: AppDecoration.screenPadding
+                          .copyWith(top: 8, bottom: 0),
+                      child: _buildInfoSection(context),
+                    ),
                     const SizedBox(
                       height: 24,
                     ),
                     Expanded(
-                      child: Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(vertical: 2),
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: constraints.maxWidth,
+                      child: Stack(
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            padding: AppDecoration.screenPadding
+                                .copyWith(top: 2, bottom: 2),
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                maxWidth: constraints.maxWidth,
+                              ),
+                              child: _buildMediaPlayer(),
+                            ),
                           ),
-                          child: _buildMediaPlayer(),
-                        ),
+                          Obx(() => _buildOverlayFilter()),
+                          Obx(() => _buildOverlayTitle()),
+                        ],
                       ),
                     ),
                   ],
@@ -247,9 +256,12 @@ class _WorkoutSessionState extends State<WorkoutSession> {
               const SizedBox(
                 width: 8,
               ),
-              Text(
-                _controller.currentWorkout.name,
-                style: Theme.of(context).textTheme.headline2,
+              Flexible(
+                child: Text(
+                  _controller.currentWorkout.name,
+                  style: Theme.of(context).textTheme.headline2,
+                  textAlign: TextAlign.center,
+                ),
               ),
               const SizedBox(
                 width: 8,
@@ -336,6 +348,65 @@ class _WorkoutSessionState extends State<WorkoutSession> {
       default:
         return AppColor.workoutTimerReadyIndicatorColor;
     }
+  }
+
+  double _getBlurSigmaValue() {
+    if (_controller.status.value == TimerStatus.play) {
+      return 0;
+    } else {
+      return 5;
+    }
+  }
+
+  String _getOverlayTitle() {
+    switch (_controller.status.value) {
+      case TimerStatus.play:
+        return '';
+      case TimerStatus.pause:
+        return 'tạm dừng';
+      case TimerStatus.rest:
+        return 'nghỉ';
+      default:
+        return 'sẵn sàng';
+    }
+  }
+
+  Color? _getOverlayTitleColor() {
+    switch (_controller.status.value) {
+      case TimerStatus.play:
+        return null;
+      case TimerStatus.pause:
+        return AppColor.pauseStatusOverlayTitleColor;
+      case TimerStatus.rest:
+        return AppColor.restStatusOverlayTitleColor;
+      default:
+        return AppColor.readyStatusOverlayTitleColor;
+    }
+  }
+
+  Widget _buildOverlayFilter() {
+    return Center(
+      child: ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(
+              sigmaX: _getBlurSigmaValue(), sigmaY: _getBlurSigmaValue()),
+          child: Container(
+            color: Colors.transparent,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOverlayTitle() {
+    return Center(
+      child: Text(
+        _getOverlayTitle(),
+        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+              color: _getOverlayTitleColor(),
+            ),
+      ),
+    );
   }
 
   Widget _buildActionSection(context) {
