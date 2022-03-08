@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/modules/workout_collection/widgets/custom_draggable_widget.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/routes/pages.dart';
 
@@ -158,7 +159,7 @@ class PreviewExerciseList extends StatelessWidget {
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Text(
-            'Kéo thả để thay đổi thứ tự bài tập'.tr,
+            'Giữ & kéo thả để thay đổi thứ tự bài tập'.tr,
             style: Theme.of(context).textTheme.subtitle2!.copyWith(
                   color: AppColor.accentTextColor,
                 ),
@@ -234,7 +235,7 @@ class PreviewExerciseList extends StatelessWidget {
                 _controller.generatedWorkoutList.length != index + 1) {
               return Column(
                 children: [
-                  workoutTile,
+                  CustomDraggableWidget(child: workoutTile),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -272,7 +273,7 @@ class PreviewExerciseList extends StatelessWidget {
                 ],
               );
             }
-            return workoutTile;
+            return CustomDraggableWidget(child: workoutTile);
           }),
         ],
       ),
