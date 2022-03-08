@@ -356,50 +356,27 @@ class _WorkoutSessionState extends State<WorkoutSession> {
           Stack(
             alignment: Alignment.center,
             children: [
-              MyCircularCountDownTimer(
-                duration: _controller.timeList[0],
-                initialDuration: 0,
-                controller: _controller.workoutTimeController,
-                width: 104,
-                height: 104,
-                ringColor: AppColor.timerRingColor,
-                fillColor: fillColor,
-                backgroundColor: Colors.transparent,
-                strokeWidth: 8.0,
-                strokeCap: StrokeCap.round,
-                textFormat: MyCountdownTextFormat.S,
-                textStyle: Theme.of(context).textTheme.headline2,
-                isReverse: true,
-                isReverseAnimation: false,
-                autoStart: false,
-                indicatorWidth: 8,
-                indicatorColor: indicatorColor,
-                isTimerTextShown: true,
-                onStart: () {},
-                onComplete: () {
-                  onTimerComplete();
-                },
-                childWidget: _buildCollectionTimer(),
-              ),
-              SizedBox(
-                width: 88,
-                height: 88,
-                child: Material(
-                  color: Theme.of(context).backgroundColor,
-                  shape: const CircleBorder(
-                    side: BorderSide.none,
-                  ),
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    iconSize: 48,
-                    color: AppColor.mediaButtonColor,
-                    icon: const Icon(Icons.play_circle_fill_rounded),
-                    onPressed: () {
-                      resume();
-                    },
+              _buildWorkoutTimer(fillColor, context, indicatorColor),
+              if (_controller.isPause)
+                SizedBox(
+                  width: 88,
+                  height: 88,
+                  child: Material(
+                    color: Theme.of(context).backgroundColor,
+                    shape: const CircleBorder(
+                      side: BorderSide.none,
+                    ),
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      iconSize: 48,
+                      color: AppColor.mediaButtonColor,
+                      icon: const Icon(Icons.play_circle_fill_rounded),
+                      onPressed: () {
+                        resume();
+                      },
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
           IconButton(
@@ -409,22 +386,43 @@ class _WorkoutSessionState extends State<WorkoutSession> {
               SVGAssetString.skipButton,
               color: AppColor.mediaButtonColor,
             ),
-            onPressed: () {},
+            onPressed: () {
+              skip();
+            },
           ),
         ],
       ),
     );
   }
 
-  // IconButton(
-  //                     padding: EdgeInsets.zero,
-  //                     iconSize: 48,
-  //                     color: AppColor.mediaButtonColor,
-  //                     icon: const Icon(Icons.play_circle_fill_rounded),
-  //                     onPressed: () {
-  //                       resume();
-  //                     },
-  //                   )
+  MyCircularCountDownTimer _buildWorkoutTimer(
+      Color fillColor, context, Color indicatorColor) {
+    return MyCircularCountDownTimer(
+      duration: _controller.timeList[0],
+      initialDuration: 0,
+      controller: _controller.workoutTimeController,
+      width: 104,
+      height: 104,
+      ringColor: AppColor.timerRingColor,
+      fillColor: fillColor,
+      backgroundColor: Colors.transparent,
+      strokeWidth: 8.0,
+      strokeCap: StrokeCap.round,
+      textFormat: MyCountdownTextFormat.S,
+      textStyle: Theme.of(context).textTheme.headline2,
+      isReverse: true,
+      isReverseAnimation: false,
+      autoStart: false,
+      indicatorWidth: 8,
+      indicatorColor: indicatorColor,
+      isTimerTextShown: true,
+      onStart: () {},
+      onComplete: () {
+        onTimerComplete();
+      },
+      childWidget: _buildCollectionTimer(),
+    );
+  }
 
   Widget _buildCollectionTimer() {
     return MyCircularCountDownTimer(
