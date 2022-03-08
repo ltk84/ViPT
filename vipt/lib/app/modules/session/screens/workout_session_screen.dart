@@ -104,7 +104,7 @@ class _WorkoutSessionState extends State<WorkoutSession> {
             icon: Hero(
               tag: 'actionButtonAppBar',
               child: Icon(
-                Icons.settings_rounded,
+                Icons.format_list_bulleted_rounded,
                 color: AppColor.textColor,
               ),
             ),
