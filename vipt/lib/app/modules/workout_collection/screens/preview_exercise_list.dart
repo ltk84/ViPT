@@ -15,16 +15,6 @@ class PreviewExerciseList extends StatelessWidget {
 
   final _controller = Get.find<WorkoutCollectionController>();
 
-  // void handleBackAction() {
-  //   _controller.updateCollectionSetting();
-  //   _controller.resetCaloAndTime();
-  // }
-
-  // void init() {
-  //   _controller.loadCollectionSetting();
-  //   // _workoutList = _controller.loadWorkoutList(_collection.workoutIDs);
-  // }
-
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -186,7 +176,9 @@ class PreviewExerciseList extends StatelessWidget {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(8),
-        onTap: () {},
+        onTap: () {
+          _controller.generateRandomList();
+        },
         child: Padding(
           padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
           child: Row(
