@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
+import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/modules/session/session_controller.dart';
@@ -23,7 +25,6 @@ class _WorkoutSessionState extends State<WorkoutSession> {
   @override
   void initState() {
     _initVideoController(_controller.currentWorkout.animation);
-    // Future.delayed(Duration(seconds: 5), () => start());
     WidgetsBinding.instance!.addPostFrameCallback((_) => start());
     super.initState();
   }
@@ -352,72 +353,64 @@ class _WorkoutSessionState extends State<WorkoutSession> {
               pause();
             },
           ),
-          MyCircularCountDownTimer(
-            duration: _controller.timeList[0],
-            initialDuration: 0,
-            controller: _controller.workoutTimeController,
-            width: 104,
-            height: 104,
-            ringColor: AppColor.timerRingColor,
-            fillColor: fillColor,
-            backgroundColor: Colors.transparent,
-            strokeWidth: 8.0,
-            strokeCap: StrokeCap.round,
-            textFormat: MyCountdownTextFormat.S,
-            textStyle: Theme.of(context).textTheme.headline2,
-            isReverse: true,
-            isReverseAnimation: false,
-            autoStart: false,
-            indicatorWidth: 8,
-            indicatorColor: indicatorColor,
-            isTimerTextShown: true,
-            onStart: () {},
-            onComplete: () {
-              onTimerComplete();
-            },
-            childWidget: _buildCollectionTimer(),
-            // childWidget: _controller.isPlaying
-            //     ? _buildCollectionTimer()
-            //     : IconButton(
-            //         padding: EdgeInsets.zero,
-            //         iconSize: 48,
-            //         color: AppColor.mediaButtonColor,
-            //         icon: const Icon(Icons.play_circle_fill_rounded),
-            //         onPressed: () {
-            //           resume();
-            //         },
-            //       ),
-          ),
-
-          // : IconButton(
-          //     padding: EdgeInsets.zero,
-          //     iconSize: 48,
-          //     color: AppColor.mediaButtonColor,
-          //     icon: const Icon(Icons.play_circle_fill_rounded),
-          //     onPressed: () {
-          //       resume();
-          //     },
-          //   ),
-          // ),,
-
-          IconButton(
-            padding: EdgeInsets.zero,
-            iconSize: 48,
-            color: AppColor.mediaButtonColor,
-            icon: const Icon(Icons.skip_next_rounded),
-            onPressed: () {
-              skip();
-            },
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              MyCircularCountDownTimer(
+                duration: _controller.timeList[0],
+                initialDuration: 0,
+                controller: _controller.workoutTimeController,
+                width: 104,
+                height: 104,
+                ringColor: AppColor.timerRingColor,
+                fillColor: fillColor,
+                backgroundColor: Colors.transparent,
+                strokeWidth: 8.0,
+                strokeCap: StrokeCap.round,
+                textFormat: MyCountdownTextFormat.S,
+                textStyle: Theme.of(context).textTheme.headline2,
+                isReverse: true,
+                isReverseAnimation: false,
+                autoStart: false,
+                indicatorWidth: 8,
+                indicatorColor: indicatorColor,
+                isTimerTextShown: true,
+                onStart: () {},
+                onComplete: () {
+                  onTimerComplete();
+                },
+                childWidget: _buildCollectionTimer(),
+              ),
+              SizedBox(
+                width: 88,
+                height: 88,
+                child: Material(
+                  color: Theme.of(context).backgroundColor,
+                  shape: const CircleBorder(
+                    side: BorderSide.none,
+                  ),
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    iconSize: 48,
+                    color: AppColor.mediaButtonColor,
+                    icon: const Icon(Icons.play_circle_fill_rounded),
+                    onPressed: () {
+                      resume();
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
           IconButton(
             padding: EdgeInsets.zero,
             iconSize: 48,
-            color: AppColor.mediaButtonColor,
-            icon: const Icon(Icons.play_circle_fill_rounded),
-            onPressed: () {
-              resume();
-            },
-          )
+            icon: SvgPicture.asset(
+              SVGAssetString.skipButton,
+              color: AppColor.mediaButtonColor,
+            ),
+            onPressed: () {},
+          ),
         ],
       ),
     );
