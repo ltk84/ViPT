@@ -171,6 +171,8 @@ class MyCircularCountDownTimerState extends State<MyCircularCountDownTimer>
 
       widget.controller?.start();
     }
+
+    print('done');
   }
 
   String _getTime(Duration duration) {

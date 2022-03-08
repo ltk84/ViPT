@@ -62,7 +62,13 @@ class SessionController extends GetxController {
       activites[workoutTimerIndex] == Activity.transition;
   bool get isRestTurn => activites[workoutTimerIndex] == Activity.rest;
 
-  TimerStatus status = TimerStatus.ready;
+  // getter lấy các trạng thái hiện tại (khác trên)
+  bool get isPlaying => status.value == TimerStatus.play;
+  bool get isPause => status.value == TimerStatus.pause;
+  bool get isRest => status.value == TimerStatus.rest;
+  bool get isReady => status.value == TimerStatus.ready;
+
+  Rx<TimerStatus> status = TimerStatus.ready.obs;
 
   @override
   void onInit() {
@@ -112,17 +118,20 @@ class SessionController extends GetxController {
   void changeTimerState({String action = ''}) {
     if (action == '') {
       if (isRestTurn) {
-        status = TimerStatus.rest;
+        status.value = TimerStatus.rest;
       } else if (isTransitionTurn) {
-        status = TimerStatus.ready;
+        status.value = TimerStatus.ready;
+      } else if (isWorkoutTurn) {
+        status.value = TimerStatus.play;
       }
     } else {
       if (action == 'pause') {
-        status = TimerStatus.pause;
+        status.value = TimerStatus.pause;
       } else if (action == 'play') {
-        status = TimerStatus.play;
+        status.value = TimerStatus.play;
       }
     }
+    print('status: ' + status.toString());
   }
 
   // hàm khi handle workout timer hoàn thành
@@ -178,12 +187,14 @@ class SessionController extends GetxController {
   void start() {
     collectionTimeController.start();
     workoutTimeController.start();
+    changeTimerState(action: 'play');
   }
 
   // hàm handle việc resume
   void resume() {
     collectionTimeController.resume();
     workoutTimeController.resume();
+    changeTimerState(action: 'play');
   }
 
   // hàm tính toán lại timer khi xong 1 phrase hoặc skip
