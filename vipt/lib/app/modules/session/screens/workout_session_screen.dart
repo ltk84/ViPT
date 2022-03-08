@@ -391,9 +391,11 @@ class _WorkoutSessionState extends State<WorkoutSession> {
               SVGAssetString.skipButton,
               color: AppColor.mediaButtonColor,
             ),
-            onPressed: () {
-              skip();
-            },
+            onPressed: isInitVideo == true
+                ? null
+                : () {
+                    skip();
+                  },
           ),
         ],
       ),
