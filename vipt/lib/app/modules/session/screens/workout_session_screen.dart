@@ -225,14 +225,7 @@ class _WorkoutSessionState extends State<WorkoutSession> {
 
   Widget _buildMediaPlayer() {
     if (_videoController == null) {
-      return Container(
-        height: 200,
-        width: 200,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: AppColor.textFieldFill,
-        ),
-      );
+      return Container();
     }
     return SizedBox(
       width: double.infinity,
@@ -350,11 +343,19 @@ class _WorkoutSessionState extends State<WorkoutSession> {
     }
   }
 
-  double _getBlurSigmaValue() {
+  Tween<double> _getAnimationTweenOpacityValue() {
     if (_controller.status.value == TimerStatus.play) {
-      return 0;
+      return Tween<double>(begin: 1, end: 0);
     } else {
-      return 5;
+      return Tween<double>(begin: 0, end: 1);
+    }
+  }
+
+  Tween<double> _getAnimationTweenBlurValue() {
+    if (_controller.status.value == TimerStatus.play) {
+      return Tween<double>(begin: 5, end: 0);
+    } else {
+      return Tween<double>(begin: 0, end: 5);
     }
   }
 
@@ -363,11 +364,11 @@ class _WorkoutSessionState extends State<WorkoutSession> {
       case TimerStatus.play:
         return '';
       case TimerStatus.pause:
-        return 'tạm dừng';
+        return 'TẠM DỪNG';
       case TimerStatus.rest:
-        return 'nghỉ';
+        return 'NGHỈ';
       default:
-        return 'sẵn sàng';
+        return 'SẴN SÀNG';
     }
   }
 
@@ -385,28 +386,42 @@ class _WorkoutSessionState extends State<WorkoutSession> {
   }
 
   Widget _buildOverlayFilter() {
-    return Center(
-      child: ClipRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(
-              sigmaX: _getBlurSigmaValue(), sigmaY: _getBlurSigmaValue()),
-          child: Container(
-            color: Colors.transparent,
-          ),
-        ),
-      ),
-    );
+    return TweenAnimationBuilder(
+        duration: const Duration(milliseconds: 600),
+        curve: Curves.easeInOut,
+        tween: _getAnimationTweenBlurValue(),
+        builder: (_, double value, __) {
+          return Center(
+            child: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: value, sigmaY: value),
+                child: Container(
+                  color: Colors.transparent,
+                ),
+              ),
+            ),
+          );
+        });
   }
 
   Widget _buildOverlayTitle() {
-    return Center(
-      child: Text(
-        _getOverlayTitle(),
-        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-              color: _getOverlayTitleColor(),
+    return TweenAnimationBuilder(
+        duration: const Duration(milliseconds: 600),
+        curve: Curves.easeInOut,
+        tween: _getAnimationTweenOpacityValue(),
+        builder: (_, double value, __) {
+          return Opacity(
+            opacity: value,
+            child: Center(
+              child: Text(
+                _getOverlayTitle(),
+                style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                      color: _getOverlayTitleColor(),
+                    ),
+              ),
             ),
-      ),
-    );
+          );
+        });
   }
 
   Widget _buildActionSection(context) {
