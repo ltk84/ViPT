@@ -116,21 +116,19 @@ class SessionController extends GetxController {
   }
 
   void changeTimerState({String action = ''}) {
-    if (action == '') {
-      if (isRestTurn) {
-        status.value = TimerStatus.rest;
-      } else if (isTransitionTurn) {
-        status.value = TimerStatus.ready;
-      } else if (isWorkoutTurn) {
-        status.value = TimerStatus.play;
-      }
-    } else {
-      if (action == 'pause') {
-        status.value = TimerStatus.pause;
-      } else if (action == 'play') {
-        status.value = TimerStatus.play;
-      }
+    if (action == 'pause') {
+      status.value = TimerStatus.pause;
+      return;
     }
+
+    if (isRestTurn) {
+      status.value = TimerStatus.rest;
+    } else if (isTransitionTurn) {
+      status.value = TimerStatus.ready;
+    } else if (isWorkoutTurn) {
+      status.value = TimerStatus.play;
+    }
+
     print('status: ' + status.toString());
   }
 
@@ -140,6 +138,10 @@ class SessionController extends GetxController {
     calculateTimeConsumed(timeList[workoutTimerIndex]);
 
     workoutTimerIndex++;
+    if (workoutTimerIndex >= timeList.length) {
+      workoutTimerIndex--;
+      return;
+    }
     changeTimerState();
     if (workoutTimerIndex < timeList.length) {
       if (isTransitionTurn) {
@@ -161,7 +163,6 @@ class SessionController extends GetxController {
 
   // hàm handle việc skip
   void skip() {
-    // pause();
     int remainWorkoutTime = int.parse(workoutTimeController.getTime());
     calculateCaloConsumed(remainWorkoutTime);
     calculateCaloConsumed(timeList[workoutTimerIndex] - remainWorkoutTime);
@@ -174,7 +175,8 @@ class SessionController extends GetxController {
     }
 
     if (workoutTimerIndex >= timeList.length) {
-      Get.back();
+      workoutTimerIndex--;
+      // Get.back();
       return;
     }
 
@@ -219,7 +221,9 @@ class SessionController extends GetxController {
 
   // hàm chuyển sang workout tiếp theo
   void nextWorkout() {
-    workoutIndex++;
+    if (workoutIndex + 1 < workoutList.length) {
+      workoutIndex++;
+    }
   }
 
   // hàm tính toán lượng calo user tiêu thụ dựa trên tương tác của họ
