@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
 import 'package:vipt/app/modules/workout_collection/add_workout_collection_controller.dart';
-import 'package:vipt/app/modules/workout_collection/screens/add_workout_collection_screen.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
 

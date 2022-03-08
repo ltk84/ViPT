@@ -1,7 +1,8 @@
 import 'package:get/get.dart';
-import 'package:video_player/video_player.dart';
+import 'package:vipt/app/core/utilities/utils.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
+import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/session/widgets/custom_timer.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 
@@ -19,44 +20,68 @@ enum TimerStatus {
 }
 
 class SessionController extends GetxController {
+  // property
+
+  // collection hiện tại
   WorkoutCollection currentCollection =
       Get.find<WorkoutCollectionController>().selectedCollection!;
+  // workout list lấy từ generated list
   List<Workout> workoutList =
       List.from(Get.find<WorkoutCollectionController>().generatedWorkoutList);
-  int workoutTimerIndex = 0;
-  int workoutIndex = 0;
-  Workout get currentWorkout => workoutList[workoutIndex];
-
+  // thời gian của cả collection
   final timeValue = Get.find<WorkoutCollectionController>().timeValue.value;
-
+  // collection setting của collection
   final collectionSetting =
       Get.find<WorkoutCollectionController>().collectionSetting.value;
-
+  // lấy workout hiện tại trong session
+  Workout get currentWorkout => workoutList[workoutIndex];
+  // controller của collection timer
   final collectionTimeController = MyCountDownController();
+  // controller của workout timer
   final workoutTimeController = MyCountDownController();
-
+  // số round của collection
   late int round;
+  // tổng calo mà người dùng tiêu thụ dựa trên tương tác của họ
+  double caloConsumed = 0.0;
+  // tổng thời gian mà người dùng tập dựa trên tương tác của họ
+  double timeConsumed = 0.0;
 
+  // list chứa thời gian của các phrase (transition, workout, rest) tính tất cả các round
   List<int> timeList = [];
+  // list chứa các activity đại diện cho các phrase tính tất cả các round
   List<Activity> activites = [];
 
+  // index của timeList và activites
+  int workoutTimerIndex = 0;
+  // index của workoutList
+  int workoutIndex = 0;
+
+  // getter lấy các trạng thái hiện tại
   bool get isWorkoutTurn => activites[workoutTimerIndex] == Activity.workout;
   bool get isTransitionTurn =>
       activites[workoutTimerIndex] == Activity.transition;
   bool get isRestTurn => activites[workoutTimerIndex] == Activity.rest;
 
-  TimerStatus status = TimerStatus.ready;
+  // getter lấy các trạng thái hiện tại (khác trên)
+  bool get isPlaying => status.value == TimerStatus.play;
+  bool get isPause => status.value == TimerStatus.pause;
+  bool get isRest => status.value == TimerStatus.rest;
+  bool get isReady => status.value == TimerStatus.ready;
+
+  Rx<TimerStatus> status = TimerStatus.ready.obs;
 
   @override
   void onInit() {
     round = collectionSetting.round;
 
-    initTimeListAndActivities();
+    initLists();
 
     super.onInit();
   }
 
-  void initTimeListAndActivities() {
+  // method
+  // hàm init cho timeList, activites, workoutList
+  void initLists() {
     int transitionTime = collectionSetting.transitionTime;
     int workoutTime = collectionSetting.exerciseTime;
     int restTime = collectionSetting.restTime;
@@ -93,20 +118,27 @@ class SessionController extends GetxController {
   void changeTimerState({String action = ''}) {
     if (action == '') {
       if (isRestTurn) {
-        status = TimerStatus.rest;
+        status.value = TimerStatus.rest;
       } else if (isTransitionTurn) {
-        status = TimerStatus.ready;
+        status.value = TimerStatus.ready;
+      } else if (isWorkoutTurn) {
+        status.value = TimerStatus.play;
       }
     } else {
       if (action == 'pause') {
-        status = TimerStatus.pause;
+        status.value = TimerStatus.pause;
       } else if (action == 'play') {
-        status = TimerStatus.play;
+        status.value = TimerStatus.play;
       }
     }
+    print('status: ' + status.toString());
   }
 
+  // hàm khi handle workout timer hoàn thành
   void onWorkoutTimerComplete() {
+    calculateCaloConsumed(timeList[workoutTimerIndex]);
+    calculateTimeConsumed(timeList[workoutTimerIndex]);
+
     workoutTimerIndex++;
     changeTimerState();
     if (workoutTimerIndex < timeList.length) {
@@ -120,14 +152,20 @@ class SessionController extends GetxController {
     }
   }
 
+  // hàm handle việc pause
   void pause() {
     collectionTimeController.pause();
     workoutTimeController.pause();
     changeTimerState(action: 'pause');
   }
 
+  // hàm handle việc skip
   void skip() {
     // pause();
+    int remainWorkoutTime = int.parse(workoutTimeController.getTime());
+    calculateCaloConsumed(remainWorkoutTime);
+    calculateCaloConsumed(timeList[workoutTimerIndex] - remainWorkoutTime);
+
     if (isWorkoutTurn || isRestTurn) {
       calculateTimer();
     } else {
@@ -145,6 +183,21 @@ class SessionController extends GetxController {
     }
   }
 
+  // hàm handle việc start
+  void start() {
+    collectionTimeController.start();
+    workoutTimeController.start();
+    changeTimerState(action: 'play');
+  }
+
+  // hàm handle việc resume
+  void resume() {
+    collectionTimeController.resume();
+    workoutTimeController.resume();
+    changeTimerState(action: 'play');
+  }
+
+  // hàm tính toán lại timer khi xong 1 phrase hoặc skip
   void calculateTimer() {
     workoutTimerIndex++;
     changeTimerState();
@@ -164,20 +217,35 @@ class SessionController extends GetxController {
     workoutTimeController.restart(duration: timeList[workoutTimerIndex]);
   }
 
+  // hàm chuyển sang workout tiếp theo
   void nextWorkout() {
     workoutIndex++;
-    print(workoutList[workoutIndex].animation);
   }
 
-  void start() {
-    collectionTimeController.start();
-    workoutTimeController.start();
-    changeTimerState(action: 'play');
+  // hàm tính toán lượng calo user tiêu thụ dựa trên tương tác của họ
+  void calculateCaloConsumed(int time) {
+    if (isTransitionTurn || isRestTurn) {
+      time = 0;
+    }
+
+    num bodyWeight = DataService.currentUser.currentWeight;
+    caloConsumed += SessionUtils.calculateCaloOneWorkout(
+        time, currentWorkout.metValue, bodyWeight);
   }
 
-  void resume() {
-    collectionTimeController.resume();
-    workoutTimeController.resume();
-    changeTimerState(action: 'play');
+  void calculateTimeConsumed(int time) {
+    timeConsumed += time;
   }
+
+  // void start() {
+  //   collectionTimeController.start();
+  //   workoutTimeController.start();
+  //   changeTimerState(action: 'play');
+  // }
+
+  // void resume() {
+  //   collectionTimeController.resume();
+  //   workoutTimeController.resume();
+  //   changeTimerState(action: 'play');
+  // }
 }
