@@ -46,7 +46,7 @@ class _WorkoutSessionState extends State<WorkoutSession> {
           setState(() {
             _videoController!.setLooping(true);
             isInitVideo = false;
-            // _videoController!.play();
+            _videoController!.play();
           });
         });
     } else {
@@ -60,7 +60,7 @@ class _WorkoutSessionState extends State<WorkoutSession> {
             setState(() {
               _videoController!.setLooping(true);
               isInitVideo = false;
-              // _videoController!.play();
+              _videoController!.play();
             });
           });
       });
@@ -183,7 +183,8 @@ class _WorkoutSessionState extends State<WorkoutSession> {
     _videoController!.pause();
 
     _controller.onWorkoutTimerComplete();
-    if (_controller.isWorkoutTurn) {
+    // thiếu case rest turn
+    if (_controller.isWorkoutTurn || _controller.isRestTurn) {
       setState(() {
         _videoController!.play();
       });
@@ -210,8 +211,8 @@ class _WorkoutSessionState extends State<WorkoutSession> {
 
   void resume() {
     _controller.resume();
-    if (_videoController!.value.isPlaying) {
-      _videoController!.pause();
+    if (!_videoController!.value.isPlaying) {
+      _videoController!.play();
     }
   }
 
