@@ -176,7 +176,8 @@ class SessionController extends GetxController {
 
     if (workoutTimerIndex >= timeList.length) {
       workoutTimerIndex--;
-      // Get.back();
+      // TODO: chuyển sang screen thống kê
+      Get.back();
       return;
     }
 
@@ -202,10 +203,10 @@ class SessionController extends GetxController {
   // hàm tính toán lại timer khi xong 1 phrase hoặc skip
   void calculateTimer() {
     workoutTimerIndex++;
-    changeTimerState();
     if (workoutTimerIndex >= timeList.length) {
       return;
     }
+    changeTimerState();
 
     int remainWorkoutTime = int.parse(workoutTimeController.getTime());
     List<String> timeStr = collectionTimeController.getTime().split(':');
