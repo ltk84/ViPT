@@ -301,7 +301,7 @@ class _WorkoutSessionState extends State<WorkoutSession> {
                 width: 16,
               ),
               Text(
-                '3 trên 5',
+                '${_controller.workoutIndex + 1} trên ${_controller.workoutList.length}',
                 style: Theme.of(context)
                     .textTheme
                     .subtitle2!
@@ -520,7 +520,10 @@ class _WorkoutSessionState extends State<WorkoutSession> {
       isReverseAnimation: false,
       autoStart: false,
       onStart: () {},
-      onComplete: () {},
+      onComplete: () {
+        // TODO: chuyển sang screen thống kê
+        Get.back();
+      },
       indicatorColor: AppColor.collectionTimerIndicatorColor,
       indicatorWidth: 4,
     );

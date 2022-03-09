@@ -129,7 +129,7 @@ class SessionController extends GetxController {
       status.value = TimerStatus.play;
     }
 
-    print('status: ' + status.toString());
+    // print('status: ' + status.toString());
   }
 
   // hàm khi handle workout timer hoàn thành
@@ -142,16 +142,12 @@ class SessionController extends GetxController {
       workoutTimerIndex--;
       return;
     }
+
     changeTimerState();
-    if (workoutTimerIndex < timeList.length) {
-      if (isTransitionTurn) {
-        nextWorkout();
-      }
-      workoutTimeController.restart(duration: timeList[workoutTimerIndex]);
-    } else {
-      workoutTimeController.pause();
-      workoutTimerIndex = 0;
+    if (isTransitionTurn) {
+      nextWorkout();
     }
+    workoutTimeController.restart(duration: timeList[workoutTimerIndex]);
   }
 
   // hàm handle việc pause
