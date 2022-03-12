@@ -7,6 +7,8 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/services/data_service.dart';
+import 'package:vipt/app/global_widgets/editable_exercise_list_widget.dart';
+import 'package:vipt/app/global_widgets/editable_intro_collection_widget.dart';
 import 'package:vipt/app/modules/workout_collection/add_workout_collection_controller.dart';
 import 'package:vipt/app/modules/workout_collection/screens/add_exercise_to_collection_screen.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
@@ -69,40 +71,18 @@ class EditWorkoutCollectionScreen extends StatelessWidget {
             physics: const BouncingScrollPhysics(
                 parent: AlwaysScrollableScrollPhysics()),
             children: [
-              _buildIntro(context),
+              EditableIntroCollectionWidget(
+                  titleTextController: _controller.titleTextController,
+                  descriptionTextController:
+                      _controller.descriptionTextController),
               const SizedBox(
                 height: 16,
               ),
-              _buildExerciseList(context),
+              EditableExerciseListWidget(controller: _controller),
             ],
           );
         }),
       ),
-    );
-  }
-
-  Widget _buildIntro(context) {
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.center,
-          child: TextFieldWidget(
-            textEditingController: _controller.titleTextController,
-            hint: 'Nhập tên bộ luyện tập',
-            textStyle: Theme.of(context).textTheme.headline2,
-          ),
-        ),
-        Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: TextFieldWidget(
-            textEditingController: _controller.descriptionTextController,
-            hint: 'Nhập mô tả',
-            textStyle: Theme.of(context).textTheme.subtitle2,
-            underline: false,
-          ),
-        ),
-      ],
     );
   }
 

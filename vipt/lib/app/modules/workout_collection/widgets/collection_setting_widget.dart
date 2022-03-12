@@ -7,13 +7,11 @@ import 'package:vipt/app/modules/workout_collection/widgets/property_tile.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 
 class CollectionSettingWidget extends StatelessWidget {
-  final double maxHeight;
   final bool enabled;
   final WorkoutCollectionController controller;
   final bool showShuffleTile;
   const CollectionSettingWidget(
       {Key? key,
-      required this.maxHeight,
       this.enabled = true,
       this.showShuffleTile = false,
       required this.controller})
@@ -21,16 +19,18 @@ class CollectionSettingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double _maxHeight = MediaQuery.of(context).size.height;
+
     return Column(
       children: [
         Obx(
-          () => _buildRoundProperty(context),
+          () => _buildRoundProperty(context, _maxHeight),
         ),
         const SizedBox(
           height: 12,
         ),
         Obx(
-          () => _buildNumOfWorkoutPerRoundProperty(context),
+          () => _buildNumOfWorkoutPerRoundProperty(context, _maxHeight),
         ),
         const SizedBox(
           height: 12,
@@ -50,37 +50,37 @@ class CollectionSettingWidget extends StatelessWidget {
             height: 12,
           ),
         Obx(
-          () => _buildExerciseTimeProperty(context),
+          () => _buildExerciseTimeProperty(context, _maxHeight),
         ),
         const SizedBox(
           height: 12,
         ),
         Obx(
-          () => _buildTransitionTimeProperty(context),
+          () => _buildTransitionTimeProperty(context, _maxHeight),
         ),
         const SizedBox(
           height: 12,
         ),
         Obx(
-          () => _buildRestTimeProperty(context),
+          () => _buildRestTimeProperty(context, _maxHeight),
         ),
         const SizedBox(
           height: 12,
         ),
         Obx(
-          () => _buildRestFrequencyProperty(context),
+          () => _buildRestFrequencyProperty(context, _maxHeight),
         ),
       ],
     );
   }
 
-  Widget _buildRoundProperty(context) {
+  Widget _buildRoundProperty(context, _maxHeight) {
     return PropertyTile(
       enabled: enabled,
       onTap: () {
         _showSelection(
           context,
-          maxHeight: maxHeight,
+          maxHeight: _maxHeight,
           itemBuilder: (context, index) {
             if (index > 0) {
               return Container(
@@ -106,14 +106,14 @@ class CollectionSettingWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildNumOfWorkoutPerRoundProperty(context) {
+  Widget _buildNumOfWorkoutPerRoundProperty(context, _maxHeight) {
     return PropertyTile(
       enabled: enabled,
       iconData: Icons.looks_3_outlined,
       onTap: () {
         _showSelection(
           context,
-          maxHeight: maxHeight,
+          maxHeight: _maxHeight,
           itemBuilder: (context, index) {
             if (index >= 0 && index <= controller.maxWorkout.value) {
               return Container(
@@ -232,13 +232,13 @@ class CollectionSettingWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildExerciseTimeProperty(context) {
+  Widget _buildExerciseTimeProperty(context, _maxHeight) {
     return PropertyTile(
       enabled: enabled,
       iconData: Icons.timelapse_rounded,
       onTap: () {
         _showSelection(context,
-            maxHeight: maxHeight,
+            maxHeight: _maxHeight,
             itemBuilder: (context, index) {
               if (index > 0) {
                 return Container(
@@ -262,13 +262,13 @@ class CollectionSettingWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildTransitionTimeProperty(context) {
+  Widget _buildTransitionTimeProperty(context, _maxHeight) {
     return PropertyTile(
       enabled: enabled,
       iconData: Icons.sync_rounded,
       onTap: () {
         _showSelection(context,
-            maxHeight: maxHeight,
+            maxHeight: _maxHeight,
             itemBuilder: (context, index) {
               if (index > 0) {
                 return Container(
@@ -292,13 +292,13 @@ class CollectionSettingWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildRestTimeProperty(context) {
+  Widget _buildRestTimeProperty(context, _maxHeight) {
     return PropertyTile(
       enabled: enabled,
       iconData: Icons.hourglass_top_rounded,
       onTap: () {
         _showSelection(context,
-            maxHeight: maxHeight,
+            maxHeight: _maxHeight,
             itemBuilder: (context, index) {
               if (index > 0) {
                 return Container(
@@ -323,13 +323,13 @@ class CollectionSettingWidget extends StatelessWidget {
   }
 
 // check check!!
-  Widget _buildRestFrequencyProperty(context) {
+  Widget _buildRestFrequencyProperty(context, _maxHeight) {
     return PropertyTile(
       enabled: enabled,
       iconData: Icons.air_rounded,
       onTap: () {
         _showSelection(context,
-            maxHeight: maxHeight,
+            maxHeight: _maxHeight,
             itemBuilder: (context, index) {
               if (index > 0) {
                 return Container(
