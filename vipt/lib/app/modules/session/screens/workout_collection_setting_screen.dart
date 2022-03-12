@@ -45,36 +45,7 @@ class WorkoutCollectionSettingScreen extends StatelessWidget {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Theme.of(context).backgroundColor,
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () async {
-            onLeaveScreen();
-            await Get.toNamed(Routes.previewExerciseList);
-            init();
-          },
-          isExtended: true,
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          label: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.75,
-            child: Text(
-              'Bắt đầu luyện tập'.tr,
-              style: Theme.of(context).textTheme.button,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         appBar: AppBar(
-          actions: [
-            AppBarIconButton(
-                iconData: Icons.access_time_filled_sharp,
-                onPressed: () {
-                  Get.toNamed(Routes.workoutSession);
-                },
-                hero: 'actionAppBarButton'),
-          ],
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,

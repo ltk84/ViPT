@@ -45,25 +45,6 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.transparent,
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            Get.toNamed(Routes.previewExerciseList);
-          },
-          isExtended: true,
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          label: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.75,
-            child: Text(
-              'Bắt đầu luyện tập'.tr,
-              style: Theme.of(context).textTheme.button,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.transparent,
@@ -76,29 +57,6 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
                 handleBackAction();
                 Navigator.of(context).pop();
               }),
-          actions: [
-            AppBarIconButton(
-                padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
-                hero: 'actionButtonAppBar1',
-                iconData: Icons.delete_rounded,
-                onPressed: () {
-                  handleDeleteAction();
-                }),
-            // này phải check thêm xem collection này là custom hay default.
-            AppBarIconButton(
-                padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
-                hero: 'actionButtonAppBar2',
-                iconData: Icons.settings_rounded,
-                onPressed: () async {
-                  final result =
-                      await Get.toNamed(Routes.editWorkoutCollection);
-                  if (result != null) {
-                    await _controller.editUserCollection(result);
-                    init();
-                    _controller.calculateCaloAndTime();
-                  }
-                }),
-          ],
         ),
         body: AssetImageBackgroundContainer(
           imageURL: JPGAssetString.userWorkoutCollection,
