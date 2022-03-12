@@ -43,7 +43,7 @@ class WorkoutCollectionUtils {
                     collectionSetting.transitionTime) +
             restTimeValue * collectionSetting.restTime) /
         60;
-    return timeValue;
+    return timeValue < 0 ? 0 : timeValue;
   }
 }
 

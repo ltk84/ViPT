@@ -16,6 +16,8 @@ class AppColor {
   static const Color buttonForegroundColor = Colors.white;
   static const Color lightModeAccentTextColor = Colors.white;
   static const Color darkModeAccentTextColor = Color(0xff1b1b1b);
+  static Color lightModeShadowColor = Colors.black.withOpacity(0.1);
+  static Color darkModeShadowColor = Colors.white.withOpacity(0.1);
 
   // Component color
   static const Color lightModeProgressIndicatorColor = Color(0xffe4e4e4);
@@ -59,6 +61,7 @@ class AppColor {
   static const Color googleButtonForegroundColor = Color(0xFF1B1B1B);
   static const Color facebookButtonBackgroundColor = Color(0xff1877F2);
   static const Color facebookButtonForegroundColor = Colors.white;
+  static const Color resumeActionConfirmationAlertColor = Color(0xff78BC09);
 
   // static Color get backgroundColor => (Get.isDarkMode) ? darkBackgroundColor : lightBackgroundColor;
   //
@@ -77,6 +80,8 @@ class AppColor {
       : lightModeListTileButtonColor;
   static Color get accentTextColor =>
       (Get.isDarkMode) ? darkModeAccentTextColor : lightModeAccentTextColor;
+  static Color get shadowColor =>
+      (Get.isDarkMode) ? darkModeShadowColor : lightModeShadowColor;
   //
   // static Color get disabledTextColor => (Get.isDarkMode) ? darkTextColor.withOpacity(disabledTextOpacity) : lightTextColor.withOpacity(disabledTextOpacity);
   //

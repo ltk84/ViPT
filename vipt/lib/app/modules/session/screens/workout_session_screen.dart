@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -7,6 +8,7 @@ import 'package:video_player/video_player.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
 import 'package:vipt/app/modules/session/session_controller.dart';
 import 'package:vipt/app/modules/session/widgets/custom_timer.dart';
 import 'package:vipt/app/routes/pages.dart';
@@ -87,9 +89,7 @@ class _WorkoutSessionState extends State<WorkoutSession> {
               color: AppColor.textColor,
             ),
           ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+          onPressed: stopSession,
         ),
         title: Hero(
           tag: 'titleAppBar',
@@ -104,11 +104,11 @@ class _WorkoutSessionState extends State<WorkoutSession> {
             icon: Hero(
               tag: 'actionButtonAppBar',
               child: Icon(
-                Icons.settings_rounded,
+                Icons.format_list_bulleted_rounded,
                 color: AppColor.textColor,
               ),
             ),
-            onPressed: () async {},
+            onPressed: () {},
           ),
         ],
         flexibleSpace: ClipRect(
@@ -226,14 +226,7 @@ class _WorkoutSessionState extends State<WorkoutSession> {
 
   Widget _buildMediaPlayer() {
     if (_videoController == null) {
-      return Container(
-        height: 200,
-        width: 200,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: AppColor.textFieldFill,
-        ),
-      );
+      return Container();
     }
     return SizedBox(
       width: double.infinity,
@@ -351,11 +344,19 @@ class _WorkoutSessionState extends State<WorkoutSession> {
     }
   }
 
-  double _getBlurSigmaValue() {
+  Tween<double> _getAnimationTweenOpacityValue() {
     if (_controller.status.value == TimerStatus.play) {
-      return 0;
+      return Tween<double>(begin: 1, end: 0);
     } else {
-      return 5;
+      return Tween<double>(begin: 0, end: 1);
+    }
+  }
+
+  Tween<double> _getAnimationTweenBlurValue() {
+    if (_controller.status.value == TimerStatus.play) {
+      return Tween<double>(begin: 5, end: 0);
+    } else {
+      return Tween<double>(begin: 0, end: 5);
     }
   }
 
@@ -364,11 +365,11 @@ class _WorkoutSessionState extends State<WorkoutSession> {
       case TimerStatus.play:
         return '';
       case TimerStatus.pause:
-        return 'tạm dừng';
+        return 'TẠM DỪNG';
       case TimerStatus.rest:
-        return 'nghỉ';
+        return 'NGHỈ';
       default:
-        return 'sẵn sàng';
+        return 'SẴN SÀNG';
     }
   }
 
@@ -386,28 +387,42 @@ class _WorkoutSessionState extends State<WorkoutSession> {
   }
 
   Widget _buildOverlayFilter() {
-    return Center(
-      child: ClipRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(
-              sigmaX: _getBlurSigmaValue(), sigmaY: _getBlurSigmaValue()),
-          child: Container(
-            color: Colors.transparent,
-          ),
-        ),
-      ),
-    );
+    return TweenAnimationBuilder(
+        duration: const Duration(milliseconds: 600),
+        curve: Curves.easeInOut,
+        tween: _getAnimationTweenBlurValue(),
+        builder: (_, double value, __) {
+          return Center(
+            child: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: value, sigmaY: value),
+                child: Container(
+                  color: Colors.transparent,
+                ),
+              ),
+            ),
+          );
+        });
   }
 
   Widget _buildOverlayTitle() {
-    return Center(
-      child: Text(
-        _getOverlayTitle(),
-        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-              color: _getOverlayTitleColor(),
+    return TweenAnimationBuilder(
+        duration: const Duration(milliseconds: 600),
+        curve: Curves.easeInOut,
+        tween: _getAnimationTweenOpacityValue(),
+        builder: (_, double value, __) {
+          return Opacity(
+            opacity: value,
+            child: Center(
+              child: Text(
+                _getOverlayTitle(),
+                style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                      color: _getOverlayTitleColor(),
+                    ),
+              ),
             ),
-      ),
-    );
+          );
+        });
   }
 
   Widget _buildActionSection(context) {
@@ -421,15 +436,25 @@ class _WorkoutSessionState extends State<WorkoutSession> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          IconButton(
-            padding: EdgeInsets.zero,
-            iconSize: 48,
-            color: AppColor.mediaButtonColor,
-            icon: const Icon(Icons.pause_circle_filled_rounded),
-            onPressed: () {
-              pause();
-            },
-          ),
+          _controller.status.value == TimerStatus.pause
+              ? IconButton(
+                  padding: EdgeInsets.zero,
+                  iconSize: 48,
+                  icon: SvgPicture.asset(
+                    SVGAssetString.stopButton,
+                    color: AppColor.mediaButtonColor,
+                  ),
+                  onPressed: stopSession,
+                )
+              : IconButton(
+                  padding: EdgeInsets.zero,
+                  iconSize: 48,
+                  color: AppColor.mediaButtonColor,
+                  icon: const Icon(Icons.pause_circle_filled_rounded),
+                  onPressed: () {
+                    pause();
+                  },
+                ),
           Stack(
             alignment: Alignment.center,
             children: [
@@ -528,5 +553,29 @@ class _WorkoutSessionState extends State<WorkoutSession> {
       indicatorColor: AppColor.collectionTimerIndicatorColor,
       indicatorWidth: 4,
     );
+  }
+
+  void stopSession() async {
+    final result = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomConfirmationDialog(
+          label: 'Kết thúc luyện tập?',
+          content: 'Tiến trình sẽ không được lưu lại',
+          labelCancel: 'Kết thúc',
+          labelOk: 'Tiếp tục luyện tập',
+          onCancel: () {
+            Navigator.of(context).pop('stop');
+          },
+          onOk: () {
+            Navigator.of(context).pop();
+          },
+        );
+      },
+    );
+
+    if (result == 'stop') {
+      Navigator.of(context).pop();
+    }
   }
 }

@@ -29,6 +29,10 @@ class JPGAssetString {
   static const String workout_2 = '$path/workout_2.jpg';
   static const String meal = '$path/meal.jpg';
   static const String nutrition = '$path/nutrition.jpg';
+  static const String yourWorkoutCollection =
+      '$path/your_workout_collection.jpg';
+  static const String userWorkoutCollection =
+      '$path/user_workout_collection.jpg';
 }
 
 class GIFAssetString {
@@ -82,4 +86,5 @@ class SVGAssetString {
   static const String timer = '$_path/timer.svg';
   static const String fire = '$_path/fire.svg';
   static const String skipButton = '$_path/skip_button.svg';
+  static const String stopButton = '$_path/stop_button.svg';
 }

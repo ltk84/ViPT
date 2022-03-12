@@ -104,7 +104,7 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
           decoration: const BoxDecoration(
             image: DecorationImage(
               alignment: Alignment.topCenter,
-              image: AssetImage(JPGAssetString.workout_1),
+              image: AssetImage(JPGAssetString.userWorkoutCollection),
               fit: BoxFit.cover,
             ),
           ),
