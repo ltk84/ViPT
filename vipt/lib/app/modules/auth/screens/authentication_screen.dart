@@ -14,6 +14,8 @@ class AuthenticationScreen extends StatelessWidget {
   final _currentPageNotifier = ValueNotifier<int>(0);
   final _controller = Get.find<AuthenticationController>();
 
+  AuthenticationScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

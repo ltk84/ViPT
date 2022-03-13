@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:vipt/app/core/values/colors.dart';
-import 'package:vipt/app/core/values/values.dart';
-import 'package:vipt/app/data/services/cloud_storage_service.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/workout_collection/add_workout_collection_controller.dart';
 import 'package:vipt/app/modules/workout_collection/screens/add_exercise_to_collection_screen.dart';

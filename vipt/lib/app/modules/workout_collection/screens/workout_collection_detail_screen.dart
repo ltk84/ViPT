@@ -1,25 +1,15 @@
 import 'dart:ui';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:vipt/app/core/values/asset_strings.dart';
-import 'package:vipt/app/core/values/colors.dart';
-import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/global_widgets/app_bar_icon_button.dart';
 import 'package:vipt/app/global_widgets/exercise_list_widget.dart';
 import 'package:vipt/app/global_widgets/network_image_background_container.dart';
 import 'package:vipt/app/global_widgets/indicator_display_widget.dart';
 import 'package:vipt/app/global_widgets/intro_collection_widget.dart';
-import 'package:vipt/app/global_widgets/network_image.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/collection_setting_widget.dart';
-import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
-import 'package:path/path.dart' as p;
-// ignore: unused_import
-import 'package:vipt/app/modules/workout_collection/widgets/property_tile.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
 
@@ -52,8 +42,8 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
             onLeaveScreen();
-            await Get.toNamed(Routes.previewExerciseList);
             init();
+            Get.toNamed(Routes.previewExerciseList);
           },
           isExtended: true,
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

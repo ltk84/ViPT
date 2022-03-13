@@ -66,7 +66,7 @@ abstract class AppPages {
     ),
     GetPage(
       name: Routes.exerciseDetail,
-      page: () => ExerciseDetail(),
+      page: () => const ExerciseDetail(),
     ),
     GetPage(
       name: Routes.workoutCollectionCategory,
@@ -91,7 +91,7 @@ abstract class AppPages {
     ),
     GetPage(
       name: Routes.library,
-      page: () => LibraryScreen(),
+      page: () => const LibraryScreen(),
     ),
     GetPage(
       name: Routes.addWorkoutCollection,
@@ -109,7 +109,7 @@ abstract class AppPages {
     ),
     GetPage(
       name: Routes.workoutSession,
-      page: () => WorkoutSession(),
+      page: () => WorkoutSessionScreen(),
       binding: SessionBinding(),
     ),
     GetPage(

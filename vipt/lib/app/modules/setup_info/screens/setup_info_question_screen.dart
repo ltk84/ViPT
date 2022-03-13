@@ -68,12 +68,9 @@ Widget _buildQuestion(context) {
 
 Widget _buildQuestionLayout(context, QuestionLayoutType layoutType) {
   return Flexible(
-    child: Container(
-      //padding: const EdgeInsets.symmetric(horizontal: 40),
-      child: GetBuilder<SetupInfoController>(
-          builder: (controller) =>
-              _handleLayoutSelection(context, layoutType, controller)),
-    ),
+    child: GetBuilder<SetupInfoController>(
+        builder: (controller) =>
+            _handleLayoutSelection(context, layoutType, controller)),
   );
 }
 

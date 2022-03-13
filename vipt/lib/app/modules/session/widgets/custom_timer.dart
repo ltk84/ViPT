@@ -103,12 +103,7 @@ class MyCircularCountDownTimer extends StatefulWidget {
       required this.indicatorWidth,
       required this.indicatorColor,
       this.controller})
-      : assert(width != null),
-        assert(height != null),
-        assert(duration != null),
-        assert(initialDuration <= duration),
-        assert(fillColor != null),
-        assert(ringColor != null),
+      : assert(initialDuration <= duration),
         super(key: key);
 
   @override

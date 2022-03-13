@@ -12,14 +12,14 @@ import 'package:vipt/app/modules/session/session_controller.dart';
 import 'package:vipt/app/modules/session/widgets/custom_timer.dart';
 import 'package:vipt/app/routes/pages.dart';
 
-class WorkoutSession extends StatefulWidget {
-  WorkoutSession({Key? key}) : super(key: key);
+class WorkoutSessionScreen extends StatefulWidget {
+  WorkoutSessionScreen({Key? key}) : super(key: key);
 
   @override
-  State<WorkoutSession> createState() => _WorkoutSessionState();
+  State<WorkoutSessionScreen> createState() => _WorkoutSessionScreenState();
 }
 
-class _WorkoutSessionState extends State<WorkoutSession> {
+class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
   final _controller = Get.find<SessionController>();
   VideoPlayerController? _videoController;
   bool isInitVideo = false;
@@ -88,7 +88,8 @@ class _WorkoutSessionState extends State<WorkoutSession> {
               color: AppColor.textColor,
             ),
           ),
-          onPressed: stopSession,
+          // onPressed: () => stopSession(),
+          onPressed: () => Get.back(),
         ),
         title: Hero(
           tag: 'titleAppBar',
@@ -570,7 +571,7 @@ class _WorkoutSessionState extends State<WorkoutSession> {
             Navigator.of(context).pop('stop');
           },
           onOk: () {
-            Navigator.of(context).pop();
+            Get.back();
           },
         );
       },

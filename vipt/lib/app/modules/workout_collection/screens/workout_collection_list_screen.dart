@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';

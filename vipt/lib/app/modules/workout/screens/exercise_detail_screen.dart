@@ -12,7 +12,7 @@ import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/global_widgets/network_image.dart';
 
 class ExerciseDetail extends StatefulWidget {
-  ExerciseDetail({Key? key}) : super(key: key);
+  const ExerciseDetail({Key? key}) : super(key: key);
 
   @override
   State<ExerciseDetail> createState() => _ExerciseDetailState();

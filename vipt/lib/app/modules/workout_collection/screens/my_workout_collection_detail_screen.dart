@@ -130,12 +130,12 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
               const SizedBox(
                 height: 24,
               ),
-              Obx(() {
-                return ExerciseListWidget(
+              GetBuilder<WorkoutCollectionController>(
+                builder: (_) => ExerciseListWidget(
                     workoutList: _controller.generatedWorkoutList,
                     displayExerciseTime:
-                        '${_controller.collectionSetting.value.exerciseTime} giây');
-              }),
+                        '${_controller.collectionSetting.value.exerciseTime} giây'),
+              ),
               SizedBox(
                 height: Theme.of(context).textTheme.button!.fontSize! * 4,
               ),

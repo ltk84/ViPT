@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,9 +8,7 @@ import 'package:vipt/app/global_widgets/asset_image_background_container.dart';
 import 'package:vipt/app/global_widgets/exercise_list_widget.dart';
 import 'package:vipt/app/global_widgets/indicator_display_widget.dart';
 import 'package:vipt/app/global_widgets/intro_collection_widget.dart';
-import 'package:vipt/app/modules/workout_collection/widgets/collection_setting_widget.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
-import 'package:vipt/app/routes/pages.dart';
 
 class MyWorkoutCollectionDetailScreen extends StatelessWidget {
   MyWorkoutCollectionDetailScreen({Key? key}) : super(key: key);

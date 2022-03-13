@@ -4,10 +4,10 @@ import 'package:vipt/app/core/values/colors.dart';
 class PropertyTile extends StatelessWidget {
   final bool enabled;
   final Function() onTap;
-  String title;
-  String trailing;
-  IconData iconData;
-  PropertyTile({
+  final String title;
+  final String trailing;
+  final IconData iconData;
+  const PropertyTile({
     Key? key,
     this.enabled = true,
     required this.onTap,
