@@ -34,6 +34,9 @@ class WorkoutCollectionController extends GetxController {
   // collection được chọn
   WorkoutCollection? selectedCollection;
 
+  // biến để phân biệt user collection hay default collection
+  late bool isDefaultCollection;
+
   // danh sách workout của collection được chọn
   List<Workout> workoutList = [];
   // danh sách workout được tạo ra dựa trên collection setting từ workoutList
@@ -63,7 +66,7 @@ class WorkoutCollectionController extends GetxController {
   void onSelectUserCollection(WorkoutCollection collection) {
     selectedCollection = collection;
     loadWorkoutListForUserCollection();
-
+    isDefaultCollection = false;
     generateRandomList();
   }
 
@@ -71,7 +74,7 @@ class WorkoutCollectionController extends GetxController {
   void onSelectDefaultCollection(WorkoutCollection collection) {
     selectedCollection = collection;
     loadWorkoutListForDefaultCollection(collection.generatorIDs);
-
+    isDefaultCollection = true;
     generateRandomList();
   }
 

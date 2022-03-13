@@ -33,6 +33,9 @@ class SessionController extends GetxController {
   // collection setting của collection
   final collectionSetting =
       Get.find<WorkoutCollectionController>().collectionSetting.value;
+  // biến phân biệt user collection vs default collection
+  final isDefaultCollection =
+      Get.find<WorkoutCollectionController>().isDefaultCollection;
   // lấy workout hiện tại trong session
   Workout get currentWorkout => workoutList[workoutIndex];
   // controller của collection timer

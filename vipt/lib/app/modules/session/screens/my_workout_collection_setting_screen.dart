@@ -10,8 +10,8 @@ import 'package:vipt/app/global_widgets/indicator_display_widget.dart';
 import 'package:vipt/app/global_widgets/intro_collection_widget.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 
-class MyWorkoutCollectionDetailScreen extends StatelessWidget {
-  MyWorkoutCollectionDetailScreen({Key? key}) : super(key: key);
+class MyWorkoutCollectionSettingScreen extends StatelessWidget {
+  MyWorkoutCollectionSettingScreen({Key? key}) : super(key: key);
 
   final _controller = Get.find<WorkoutCollectionController>();
 

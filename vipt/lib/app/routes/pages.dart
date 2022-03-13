@@ -5,6 +5,7 @@ import 'package:vipt/app/modules/error/screens/error_screen.dart';
 import 'package:vipt/app/modules/home/home_binding.dart';
 import 'package:vipt/app/modules/home/screens/home_screen.dart';
 import 'package:vipt/app/modules/profile/screens/library_screen.dart';
+import 'package:vipt/app/modules/session/screens/my_workout_collection_setting_screen.dart';
 import 'package:vipt/app/modules/session/screens/workout_collection_setting_screen.dart';
 import 'package:vipt/app/modules/session/screens/workout_session_screen.dart';
 import 'package:vipt/app/modules/session/session_binding.dart';
@@ -109,7 +110,7 @@ abstract class AppPages {
     ),
     GetPage(
       name: Routes.workoutSession,
-      page: () => WorkoutSessionScreen(),
+      page: () => const WorkoutSessionScreen(),
       binding: SessionBinding(),
     ),
     GetPage(
@@ -119,6 +120,10 @@ abstract class AppPages {
     GetPage(
       name: Routes.workoutCollectionSetting,
       page: () => WorkoutCollectionSettingScreen(),
+    ),
+    GetPage(
+      name: Routes.myWorkoutCollectionSetting,
+      page: () => MyWorkoutCollectionSettingScreen(),
     ),
   ];
 }

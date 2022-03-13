@@ -13,7 +13,7 @@ import 'package:vipt/app/modules/session/widgets/custom_timer.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class WorkoutSessionScreen extends StatefulWidget {
-  WorkoutSessionScreen({Key? key}) : super(key: key);
+  const WorkoutSessionScreen({Key? key}) : super(key: key);
 
   @override
   State<WorkoutSessionScreen> createState() => _WorkoutSessionScreenState();
@@ -88,8 +88,7 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
               color: AppColor.textColor,
             ),
           ),
-          // onPressed: () => stopSession(),
-          onPressed: () => Get.back(),
+          onPressed: stopSession,
         ),
         title: Hero(
           tag: 'titleAppBar',
@@ -110,7 +109,11 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
             ),
             onPressed: () {
               pause();
-              Get.toNamed(Routes.workoutCollectionSetting);
+              if (_controller.isDefaultCollection) {
+                Get.toNamed(Routes.workoutCollectionSetting);
+              } else {
+                Get.toNamed(Routes.myWorkoutCollectionSetting);
+              }
             },
           ),
         ],
