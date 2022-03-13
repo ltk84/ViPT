@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -108,7 +107,10 @@ class _WorkoutSessionState extends State<WorkoutSession> {
                 color: AppColor.textColor,
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              pause();
+              Get.toNamed(Routes.workoutCollectionSetting);
+            },
           ),
         ],
         flexibleSpace: ClipRect(

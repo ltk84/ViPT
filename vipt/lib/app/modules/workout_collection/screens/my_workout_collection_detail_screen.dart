@@ -1,15 +1,15 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
-import 'package:vipt/app/core/values/colors.dart';
-import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/global_widgets/app_bar_icon_button.dart';
+import 'package:vipt/app/global_widgets/asset_image_background_container.dart';
+import 'package:vipt/app/global_widgets/exercise_list_widget.dart';
+import 'package:vipt/app/global_widgets/indicator_display_widget.dart';
+import 'package:vipt/app/global_widgets/intro_collection_widget.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/collection_setting_widget.dart';
-import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
 
@@ -100,180 +100,48 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
                 }),
           ],
         ),
-        body: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              alignment: Alignment.topCenter,
-              image: AssetImage(JPGAssetString.userWorkoutCollection),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: LayoutBuilder(builder: (context, constraints) {
-            return ListView(
-              physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: constraints.maxHeight * 0.15),
-                  padding:
-                      AppDecoration.screenPadding.copyWith(top: 24, bottom: 0),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).backgroundColor,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      _buildIntro(context),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      _buildIndicatorDisplay(context),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      GetBuilder<WorkoutCollectionController>(
-                        builder: (_) => CollectionSettingWidget(
-                          maxHeight: constraints.maxHeight,
-                          controller: _controller,
-                          showShuffleTile: true,
-                          enabled: _controller.workoutList.isNotEmpty,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      _buildExerciseList(context),
-                      SizedBox(
-                        height:
-                            Theme.of(context).textTheme.button!.fontSize! * 4,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            );
-          }),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildIntro(context) {
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.center,
-          child: Text(
-            _controller.selectedCollection!.title.tr,
-            style: Theme.of(context).textTheme.headline2,
-          ),
-        ),
-        if (_controller.selectedCollection!.description != "")
-          Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Text(
-              _controller.selectedCollection!.description.tr,
-              style: Theme.of(context).textTheme.subtitle2,
-            ),
-          ),
-      ],
-    );
-  }
-
-  Widget _buildIndicatorDisplay(context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: 25,
-            maxHeight: 25,
-          ),
-          child: SvgPicture.asset(
-            SVGAssetString.timer,
-          ),
-        ),
-        const SizedBox(
-          width: 8,
-        ),
-        Obx(
-          () => Text(
-            '${_controller.displayTime}'.tr,
-            style: Theme.of(context).textTheme.headline6,
-          ),
-        ),
-        const SizedBox(
-          width: 8,
-        ),
-        SizedBox(
-          height: 28,
-          child: VerticalDivider(
-            color: AppColor.textColor,
-          ),
-        ),
-        const SizedBox(
-          width: 8,
-        ),
-        ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: 25,
-            maxHeight: 25,
-          ),
-          child: SvgPicture.asset(
-            SVGAssetString.fire,
-          ),
-        ),
-        const SizedBox(
-          width: 8,
-        ),
-        Obx(
-          () => Text(
-            '${_controller.caloValue.value.toInt()} calo'.tr,
-            style: Theme.of(context).textTheme.headline6,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildExerciseList(context) {
-    return GetBuilder<WorkoutCollectionController>(
-      builder: (_) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Danh sách bài tập'.tr,
-              style: Theme.of(context).textTheme.headline3),
-          const SizedBox(
-            height: 4,
-          ),
-          Text(
-            'Danh sách này thay đổi dựa vào số bài tập mỗi vòng.'.tr,
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                  color:
-                      AppColor.textColor.withOpacity(AppColor.subTextOpacity),
-                ),
-          ),
-          const SizedBox(
-            height: 4,
-          ),
-          ..._controller.generatedWorkoutList.map(
-            (workout) => Obx(
-              () => ExerciseInCollectionTile(
-                asset: workout.thumbnail,
-                title: workout.name,
-                description:
-                    '${_controller.collectionSetting.value.exerciseTime} giây',
-                onPressed: () {
-                  Get.toNamed(Routes.exerciseDetail, arguments: workout);
-                },
+        body: AssetImageBackgroundContainer(
+          imageURL: JPGAssetString.userWorkoutCollection,
+          child: Column(
+            children: [
+              IntroCollectionWidget(
+                  title: _controller.selectedCollection!.title.tr,
+                  description: _controller.selectedCollection!.description.tr),
+              const SizedBox(
+                height: 8,
               ),
-            ),
+              Obx(() {
+                return IndicatorDisplayWidget(
+                  displayTime: '${_controller.displayTime}'.tr,
+                  displayCaloValue:
+                      '${_controller.caloValue.value.toInt()} calo'.tr,
+                );
+              }),
+              const SizedBox(
+                height: 16,
+              ),
+              GetBuilder<WorkoutCollectionController>(
+                builder: (_) => CollectionSettingWidget(
+                  controller: _controller,
+                  showShuffleTile: true,
+                  enabled: _controller.workoutList.isNotEmpty,
+                ),
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              Obx(() {
+                return ExerciseListWidget(
+                    workoutList: _controller.generatedWorkoutList,
+                    displayExerciseTime:
+                        '${_controller.collectionSetting.value.exerciseTime} giây');
+              }),
+              SizedBox(
+                height: Theme.of(context).textTheme.button!.fontSize! * 4,
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
