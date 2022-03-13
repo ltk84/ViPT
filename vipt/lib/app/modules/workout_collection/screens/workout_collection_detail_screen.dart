@@ -41,8 +41,8 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).backgroundColor,
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
-            onLeaveScreen();
-            init();
+            // onLeaveScreen();
+            // init();
             Get.toNamed(Routes.previewExerciseList);
           },
           isExtended: true,
