@@ -7,7 +7,6 @@ import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/data/providers/workout_category_provider.dart';
 import 'package:vipt/app/data/providers/workout_collection_category_provider.dart';
 import 'package:vipt/app/data/providers/workout_collection_provider.dart';
-import 'package:vipt/app/data/providers/workout_equipment_provider.dart';
 import 'package:vipt/app/data/providers/workout_provider.dart';
 import 'package:vipt/app/data/services/auth_service.dart';
 
@@ -16,6 +15,7 @@ class DataService {
 
   static final DataService instance = DataService._privateConstructor();
   static late ViPTUser currentUser;
+
   static late List<Workout> _workoutList = [];
   static late List<Category> _workoutCateList = [];
   static late Map<String, int> _cateListAndNumWorkout;
@@ -24,14 +24,11 @@ class DataService {
   static late List<WorkoutCollection> _collectionList = [];
   static late List<WorkoutCollection> _userCollectionList = [];
 
-  static List<WorkoutEquipment> workoutEquipList = [];
-
   final _userProvider = UserProvider();
   final _workoutProvider = WorkoutProvider();
   final _workoutCategoryProvider = WorkoutCategoryProvider();
   final _collectionCategoryProvider = WorkoutCollectionCategoryProvider();
   final _collectionProvider = WorkoutCollectionProvider();
-  final _workoutEquipmentProvider = WorkoutEquipmentProvider();
 
   List<Workout> get workoutList => [..._workoutList];
   List<Category> get workoutCateList => [..._workoutCateList];
@@ -61,10 +58,6 @@ class DataService {
 
   loadWorkoutCategory() async {
     _workoutCateList = await _workoutCategoryProvider.fetchAll();
-  }
-
-  loadWorkoutEquipment() async {
-    workoutEquipList = await _workoutEquipmentProvider.fetchAll();
   }
 
   bool checkIfWorkoutCategoryHasChild(Category cate) {
