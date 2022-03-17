@@ -2,7 +2,6 @@ import 'package:vipt/app/data/models/vipt_user.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
-import 'package:vipt/app/data/models/workout_equipment.dart';
 import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/data/providers/workout_category_provider.dart';
 import 'package:vipt/app/data/providers/workout_collection_category_provider.dart';
@@ -19,10 +18,11 @@ class DataService {
   static late List<Workout> _workoutList = [];
   static late List<Category> _workoutCateList = [];
   static late Map<String, int> _cateListAndNumWorkout;
-  static late Map<String, int> _cateListAndNumCollection;
+
   static late List<Category> _collectionCateList = [];
   static late List<WorkoutCollection> _collectionList = [];
   static late List<WorkoutCollection> _userCollectionList = [];
+  static late Map<String, int> _cateListAndNumCollection;
 
   final _userProvider = UserProvider();
   final _workoutProvider = WorkoutProvider();
