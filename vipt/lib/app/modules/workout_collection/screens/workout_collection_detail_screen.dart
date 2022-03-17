@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/global_widgets/app_bar_icon_button.dart';
 import 'package:vipt/app/global_widgets/exercise_list_widget.dart';
 import 'package:vipt/app/global_widgets/network_image_background_container.dart';
@@ -39,23 +40,30 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Theme.of(context).backgroundColor,
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () async {
-            // onLeaveScreen();
-            // init();
-            Get.toNamed(Routes.previewExerciseList);
-          },
-          isExtended: true,
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          label: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.75,
-            child: Text(
-              'Bắt đầu luyện tập'.tr,
-              style: Theme.of(context).textTheme.button,
-              textAlign: TextAlign.center,
+        floatingActionButton: GetBuilder<WorkoutCollectionController>(
+          builder: (_) => FloatingActionButton.extended(
+            backgroundColor: _controller.generatedWorkoutList.isEmpty
+                ? AppColor.disableButtonColor
+                : Theme.of(context).primaryColor,
+            onPressed: _controller.generatedWorkoutList.isEmpty
+                ? null
+                : () async {
+                    // onLeaveScreen();
+                    // init();
+                    Get.toNamed(Routes.previewExerciseList);
+                  },
+            isExtended: true,
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            label: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.75,
+              child: Text(
+                'Bắt đầu luyện tập'.tr,
+                style: Theme.of(context).textTheme.button,
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ),

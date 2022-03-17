@@ -18,6 +18,7 @@ class AppColor {
   static const Color darkModeAccentTextColor = Color(0xff1b1b1b);
   static Color lightModeShadowColor = Colors.black.withOpacity(0.1);
   static Color darkModeShadowColor = Colors.white.withOpacity(0.1);
+  static Color disableButtonColor = Colors.grey;
 
   // Component color
   static const Color lightModeProgressIndicatorColor = Color(0xffe4e4e4);
