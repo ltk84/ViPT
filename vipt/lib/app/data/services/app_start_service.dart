@@ -7,6 +7,6 @@ class AppStartService {
 
   initFirebase() async {
     await Firebase.initializeApp();
-    await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
+    //await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
   }
 }

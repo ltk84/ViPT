@@ -5,6 +5,7 @@ import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/session/widgets/custom_timer.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 enum Activity {
   workout,
@@ -176,7 +177,8 @@ class SessionController extends GetxController {
     if (workoutTimerIndex >= timeList.length) {
       workoutTimerIndex--;
       // TODO: chuyển sang screen thống kê
-      Get.back();
+      handleCompleteSession();
+      //Get.back();
       return;
     }
 
@@ -239,6 +241,10 @@ class SessionController extends GetxController {
 
   void calculateTimeConsumed(int time) {
     timeConsumed += time;
+  }
+
+  void handleCompleteSession() {
+    Get.toNamed(Routes.completeSession);
   }
 
   // void start() {

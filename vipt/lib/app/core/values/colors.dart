@@ -20,6 +20,22 @@ class AppColor {
   static Color darkModeShadowColor = Colors.white.withOpacity(0.1);
   static Color disableButtonColor = Colors.grey;
 
+  // Complete session gradient colors
+  static Color completeSessionSecondaryFilterColor =
+      const Color(0xff91E39A).withOpacity(0.63);
+  static Color completeSessionFilterColor =
+      const Color(0xff00C734).withOpacity(0.49);
+  static Gradient completeSessionGradient = LinearGradient(
+    begin: const Alignment(0.0, -1.0),
+    end: const Alignment(0.0, 0.6),
+    colors: [
+      Colors.white.withOpacity(0.80),
+      Colors.white.withOpacity(0.79),
+      Colors.white.withOpacity(0.58),
+      Colors.white.withOpacity(0.0),
+    ],
+  );
+
   // Component color
   static const Color lightModeProgressIndicatorColor = Color(0xffe4e4e4);
   static const Color darkModeProgressIndicatorColor =

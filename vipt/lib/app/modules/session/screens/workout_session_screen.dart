@@ -554,7 +554,8 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
       onStart: () {},
       onComplete: () {
         // TODO: chuyển sang screen thống kê
-        Get.back();
+        _controller.handleCompleteSession();
+        //Get.back();
       },
       indicatorColor: AppColor.collectionTimerIndicatorColor,
       indicatorWidth: 4,

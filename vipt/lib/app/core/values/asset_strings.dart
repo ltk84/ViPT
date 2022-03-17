@@ -87,4 +87,5 @@ class SVGAssetString {
   static const String fire = '$_path/fire.svg';
   static const String skipButton = '$_path/skip_button.svg';
   static const String stopButton = '$_path/stop_button.svg';
+  static const String yoga_2 = '$_path/yoga_2.svg';
 }
