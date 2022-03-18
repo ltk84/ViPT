@@ -8,50 +8,18 @@ import 'package:vipt/app/routes/pages.dart';
 
 class WorkoutController extends GetxController {
   late List<Workout> workouts;
-  late List<Category> workoutCategories;
-  late Map<String, int> cateListAndNumWorkout;
+  late List<WorkoutCategory> workoutCategories;
+  // late Map<String, int> cateListAndNumWorkout;
   late WorkoutCategory workoutTree;
 
   @override
   void onInit() async {
     super.onInit();
+    initWorkoutTree();
     initWorkoutCategories();
     initWorkoutList();
-    initCateListAndNumWorkout();
-    initWorkoutTree();
+    // initCateListAndNumWorkout();
   }
-
-  // void initWorkoutTree() {
-  //   workoutTree = WorkoutCategory();
-
-  //   List<WorkoutCategory> branchList = [];
-
-  //   for (var item in DataService.instance.workoutCateList) {
-  //     if (item.isRootCategory()) {
-  //       branchList.add(WorkoutCategory.fromCategory(item));
-  //     }
-  //   }
-
-  //   for (var item in branchList) {
-  //     for (var cateInDS in DataService.instance.workoutCateList) {
-  //       if (cateInDS.parentCategoryID == item.id) {
-  //         item.add(WorkoutCategory.fromCategory(cateInDS));
-  //       }
-  //     }
-
-  //     for (var wk in DataService.instance.workoutList) {
-  //       if (wk.categoryIDs.contains(item.id)) {
-  //         item.add(wk);
-  //       }
-  //     }
-  //   }
-
-  //   for (var item in branchList) {
-  //     workoutTree.add(item);
-  //   }
-
-  //   print(workoutTree.countLeaf());
-  // }
 
   void initWorkoutTree() {
     Map map = {
@@ -84,26 +52,45 @@ class WorkoutController extends GetxController {
   }
 
   void initWorkoutCategories() {
-    workoutCategories = DataService.instance.workoutCateList
-        .where((element) => element.parentCategoryID == null)
-        .toList();
+    // workoutCategories = DataService.instance.workoutCateList
+    //     .where((element) => element.parentCategoryID == null)
+    //     .toList();
+
+    workoutCategories = workoutTree.getList();
   }
 
-  void initCateListAndNumWorkout() {
-    cateListAndNumWorkout = DataService.instance.cateListAndNumWorkout;
-  }
+  // void initCateListAndNumWorkout() {
+  //   cateListAndNumWorkout = DataService.instance.cateListAndNumWorkout;
+  // }
 
   void loadWorkoutListBaseOnCategory(Category cate) {
     workouts = DataService.instance.workoutList
         .where((workout) => workout.categoryIDs.contains(cate.id))
         .toList();
+
+    workouts = workoutTree
+        .searchWorkoutCategory(cate.id ?? '', workoutTree.list)!
+        .getList();
     Get.toNamed(Routes.exerciseList, arguments: cate);
   }
 
   void loadChildCategoriesBaseOnParentCategory(String categoryID) {
-    workoutCategories = DataService.instance.workoutCateList
-        .where((element) => element.parentCategoryID == categoryID)
-        .toList();
+    // workoutCategories = DataService.instance.workoutCateList
+    //     .where((element) => element.parentCategoryID == categoryID)
+    //     .toList();
+
+    workoutCategories = workoutTree
+        .searchWorkoutCategory(categoryID, workoutTree.list)!
+        .getList();
     Get.toNamed(Routes.workoutCategory, preventDuplicates: false);
+  }
+
+  void loadContent(Component comp) {
+    var cate = comp as WorkoutCategory;
+    if (cate.hasChildIsCate()) {
+      loadChildCategoriesBaseOnParentCategory(cate.id ?? '');
+    } else {
+      loadWorkoutListBaseOnCategory(cate);
+    }
   }
 }

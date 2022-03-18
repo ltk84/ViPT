@@ -59,4 +59,9 @@ class Workout extends BaseModel implements Component {
   int countLeaf() {
     return 1;
   }
+
+  @override
+  bool isComposite() {
+    return false;
+  }
 }

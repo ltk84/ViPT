@@ -17,6 +17,18 @@ class WorkoutCategory extends Category implements Component {
     list.add(cate);
   }
 
+  getList() {
+    if (list.isEmpty) {
+      return [];
+    }
+
+    if (list[0].isComposite()) {
+      return List<WorkoutCategory>.from(list);
+    }
+
+    return List<Workout>.from(list);
+  }
+
   WorkoutCategory? searchWorkoutCategory(String id, List<Component> list) {
     for (var item in list) {
       if (item is WorkoutCategory) {
@@ -39,5 +51,10 @@ class WorkoutCategory extends Category implements Component {
       sum += item.countLeaf();
     }
     return sum;
+  }
+
+  @override
+  bool isComposite() {
+    return true;
   }
 }

@@ -47,11 +47,12 @@ class CategoryListScreen extends StatelessWidget {
               level: 1,
               asset: '${JPGAssetString.path}/${cate.asset}',
               onPressed: () {
-                _navigateToSuitableScreen(cate);
+                // _navigateToSuitableScreen(cate);
+                _controller.loadContent(cate);
               },
               title: cate.name,
               description:
-                  '${_controller.cateListAndNumWorkout[cate.id]} bài tập',
+                  '${_controller.workoutCategories[index].countLeaf()} bài tập',
             );
           },
           separatorBuilder: (_, index) {
@@ -63,12 +64,12 @@ class CategoryListScreen extends StatelessWidget {
     );
   }
 
-  void _navigateToSuitableScreen(Category cate) {
-    if (cate.isRootCategory() &&
-        DataService.instance.checkIfWorkoutCategoryHasChild(cate)) {
-      _controller.loadChildCategoriesBaseOnParentCategory(cate.id ?? '');
-    } else {
-      _controller.loadWorkoutListBaseOnCategory(cate);
-    }
-  }
+  // void _navigateToSuitableScreen(Category cate) {
+  //   if (cate.isRootCategory() &&
+  //       DataService.instance.checkIfWorkoutCategoryHasChild(cate)) {
+  //     _controller.loadChildCategoriesBaseOnParentCategory(cate.id ?? '');
+  //   } else {
+  //     _controller.loadWorkoutListBaseOnCategory(cate);
+  //   }
+  // }
 }
