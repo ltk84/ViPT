@@ -1,6 +1,7 @@
 import 'package:vipt/app/data/models/base_model.dart';
+import 'package:vipt/app/data/models/component.dart';
 
-class Workout extends BaseModel {
+class Workout extends BaseModel implements Component {
   final String name;
   final String animation;
   final String thumbnail;
@@ -52,5 +53,10 @@ class Workout extends BaseModel {
       metValue: map['metValue'] ?? 0,
       equipmentIDs: List<String>.from(map['equipmentIDs']),
     );
+  }
+
+  @override
+  int countLeaf() {
+    return 1;
   }
 }
