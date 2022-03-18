@@ -21,14 +21,18 @@ class WorkoutController extends GetxController {
     // initCateListAndNumWorkout();
   }
 
+  // hàm khởi tạo cây workout
   void initWorkoutTree() {
+    // map giữ các workout category
     Map map = {
       for (var e in DataService.instance.workoutCateList)
         e.id: WorkoutCategory.fromCategory(e)
     };
 
+    // khởi tạo gốc cây
     workoutTree = WorkoutCategory();
 
+    // thiết lập các node của cây là các workout category
     for (var item in DataService.instance.workoutCateList) {
       if (item.isRootCategory()) {
         workoutTree.add(map[item.id]);
@@ -38,6 +42,7 @@ class WorkoutController extends GetxController {
       }
     }
 
+    // thêm các workout vào các workout category phù hợp
     for (var item in DataService.instance.workoutList) {
       for (var cateID in item.categoryIDs) {
         WorkoutCategory? wkCate =
