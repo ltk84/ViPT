@@ -17,12 +17,11 @@ class DataService {
 
   static late List<Workout> _workoutList = [];
   static late List<Category> _workoutCateList = [];
-  static late Map<String, int> _cateListAndNumWorkout;
-
+  // static late Map<String, int> _cateListAndNumWorkout;
+  static late Map<String, int> _cateListAndNumCollection;
   static late List<Category> _collectionCateList = [];
   static late List<WorkoutCollection> _collectionList = [];
   static late List<WorkoutCollection> _userCollectionList = [];
-  static late Map<String, int> _cateListAndNumCollection;
 
   final _userProvider = UserProvider();
   final _workoutProvider = WorkoutProvider();
@@ -32,7 +31,7 @@ class DataService {
 
   List<Workout> get workoutList => [..._workoutList];
   List<Category> get workoutCateList => [..._workoutCateList];
-  Map<String, int> get cateListAndNumWorkout => _cateListAndNumWorkout;
+  // Map<String, int> get cateListAndNumWorkout => _cateListAndNumWorkout;
   Map<String, int> get cateListAndNumCollection => _cateListAndNumCollection;
   List<WorkoutCollection> get collectionList => [..._collectionList];
   List<WorkoutCollection> get userCollectionList => _userCollectionList;
@@ -74,14 +73,14 @@ class DataService {
     return false;
   }
 
-  initCateListAndNumWorkout() async {
-    _cateListAndNumWorkout = {};
-    for (var item in DataService.instance.workoutCateList) {
-      String cateID = item.id as String;
-      _cateListAndNumWorkout[cateID] = countNumberOfChildBaseOnCateID(
-          cate: item, parentList: workoutCateList, childList: workoutList);
-    }
-  }
+  // initCateListAndNumWorkout() async {
+  //   _cateListAndNumWorkout = {};
+  //   for (var item in DataService.instance.workoutCateList) {
+  //     String cateID = item.id as String;
+  //     _cateListAndNumWorkout[cateID] = countNumberOfChildBaseOnCateID(
+  //         cate: item, parentList: workoutCateList, childList: workoutList);
+  //   }
+  // }
 
   initCateListAndNumCollection() async {
     _cateListAndNumCollection = {};
