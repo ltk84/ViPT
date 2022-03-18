@@ -48,6 +48,8 @@ class SessionController extends GetxController {
   double caloConsumed = 0.0;
   // tổng thời gian mà người dùng tập dựa trên tương tác của họ
   double timeConsumed = 0.0;
+  // số bài tập hoàn thành
+  int completedWorkout = 0;
 
   // list chứa thời gian của các phrase (transition, workout, rest) tính tất cả các round
   List<int> timeList = [];
@@ -131,14 +133,14 @@ class SessionController extends GetxController {
     } else if (isWorkoutTurn) {
       status.value = TimerStatus.play;
     }
-
-    // print('status: ' + status.toString());
   }
 
   // hàm khi handle workout timer hoàn thành
   void onWorkoutTimerComplete() {
     calculateCaloConsumed(timeList[workoutTimerIndex]);
     calculateTimeConsumed(timeList[workoutTimerIndex]);
+
+    completedWorkout++;
 
     workoutTimerIndex++;
     if (workoutTimerIndex >= timeList.length) {
