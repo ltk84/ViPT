@@ -21,6 +21,7 @@ class PNGAssetString {
   static const String fitness_1 = '$_path/fitness_1.png';
   static const String nutrition_1 = '$_path/nutrition_1.png';
   static const String nutrition_2 = '$_path/nutrition_2.png';
+  static const String jackfruitPotatoStew = '$_path/jackfruit_potato_stew.png';
 }
 
 class JPGAssetString {
@@ -88,4 +89,5 @@ class SVGAssetString {
   static const String skipButton = '$_path/skip_button.svg';
   static const String stopButton = '$_path/stop_button.svg';
   static const String yoga_2 = '$_path/yoga_2.svg';
+  static const String dish = '$_path/dish.svg';
 }

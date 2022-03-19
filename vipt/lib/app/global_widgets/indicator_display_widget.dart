@@ -6,9 +6,13 @@ import 'package:vipt/app/core/values/colors.dart';
 class IndicatorDisplayWidget extends StatelessWidget {
   final String displayTime;
   final String displayCaloValue;
+  final bool onlyTime;
 
   const IndicatorDisplayWidget(
-      {Key? key, required this.displayTime, required this.displayCaloValue})
+      {Key? key,
+      required this.displayTime,
+      this.displayCaloValue = '',
+      this.onlyTime = false})
       : super(key: key);
 
   @override
@@ -32,34 +36,40 @@ class IndicatorDisplayWidget extends StatelessWidget {
           displayTime,
           style: Theme.of(context).textTheme.headline6,
         ),
-        const SizedBox(
-          width: 8,
-        ),
-        SizedBox(
-          height: 28,
-          child: VerticalDivider(
-            color: AppColor.textColor,
+        if (!onlyTime)
+          const SizedBox(
+            width: 8,
           ),
-        ),
-        const SizedBox(
-          width: 8,
-        ),
-        ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: 25,
-            maxHeight: 25,
+        if (!onlyTime)
+          SizedBox(
+            height: 28,
+            child: VerticalDivider(
+              color: AppColor.textColor,
+            ),
           ),
-          child: SvgPicture.asset(
-            SVGAssetString.fire,
+        if (!onlyTime)
+          const SizedBox(
+            width: 8,
           ),
-        ),
-        const SizedBox(
-          width: 8,
-        ),
-        Text(
-          displayCaloValue,
-          style: Theme.of(context).textTheme.headline6,
-        ),
+        if (!onlyTime)
+          ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 25,
+              maxHeight: 25,
+            ),
+            child: SvgPicture.asset(
+              SVGAssetString.fire,
+            ),
+          ),
+        if (!onlyTime)
+          const SizedBox(
+            width: 8,
+          ),
+        if (!onlyTime)
+          Text(
+            displayCaloValue,
+            style: Theme.of(context).textTheme.headline6,
+          ),
       ],
     );
   }
