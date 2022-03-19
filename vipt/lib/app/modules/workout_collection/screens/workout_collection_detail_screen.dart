@@ -69,14 +69,14 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         appBar: AppBar(
-          actions: [
-            AppBarIconButton(
-                iconData: Icons.access_time_filled_sharp,
-                onPressed: () {
-                  Get.toNamed(Routes.workoutSession);
-                },
-                hero: 'actionAppBarButton'),
-          ],
+          // actions: [
+          //   AppBarIconButton(
+          //       iconData: Icons.access_time_filled_sharp,
+          //       onPressed: () {
+          //         Get.toNamed(Routes.workoutSession);
+          //       },
+          //       hero: 'actionAppBarButton'),
+          // ],
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,
