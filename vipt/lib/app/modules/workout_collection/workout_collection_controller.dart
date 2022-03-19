@@ -22,7 +22,7 @@ class WorkoutCollectionController extends GetxController {
   // map chứa danh sách các cate và các collection tương ứng
   late Map<String, int> cateListAndNumCollection;
   // collection setting của collection được chọn
-  late Rx<CollectionSetting> collectionSetting;
+  Rx<CollectionSetting> collectionSetting = CollectionSetting().obs;
 
   // giá trị calo và value của collection được chọn
   Rx<double> caloValue = 0.0.obs;
@@ -50,7 +50,7 @@ class WorkoutCollectionController extends GetxController {
   void onInit() {
     loadCollectionCategories();
     loadCateListAndNumCollection();
-    initCollectionSetting();
+
     loadUserCollections();
     loadCollectionSetting();
     selectedCollection = null;
@@ -210,11 +210,6 @@ class WorkoutCollectionController extends GetxController {
     displayTime.value = timeValue.value < 1
         ? '${(timeValue.value * 60).toInt()} giây'
         : '${timeValue.value.toInt()} phút';
-  }
-
-  // hàm init collection setting
-  void initCollectionSetting() {
-    collectionSetting = CollectionSetting().obs;
   }
 
   // hàm load collection setting

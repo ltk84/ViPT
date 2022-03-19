@@ -2,12 +2,10 @@ import 'package:vipt/app/data/models/vipt_user.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
-import 'package:vipt/app/data/models/workout_equipment.dart';
 import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/data/providers/workout_category_provider.dart';
 import 'package:vipt/app/data/providers/workout_collection_category_provider.dart';
 import 'package:vipt/app/data/providers/workout_collection_provider.dart';
-import 'package:vipt/app/data/providers/workout_equipment_provider.dart';
 import 'package:vipt/app/data/providers/workout_provider.dart';
 import 'package:vipt/app/data/services/auth_service.dart';
 
@@ -16,26 +14,24 @@ class DataService {
 
   static final DataService instance = DataService._privateConstructor();
   static late ViPTUser currentUser;
+
   static late List<Workout> _workoutList = [];
   static late List<Category> _workoutCateList = [];
-  static late Map<String, int> _cateListAndNumWorkout;
+  // static late Map<String, int> _cateListAndNumWorkout;
   static late Map<String, int> _cateListAndNumCollection;
   static late List<Category> _collectionCateList = [];
   static late List<WorkoutCollection> _collectionList = [];
   static late List<WorkoutCollection> _userCollectionList = [];
-
-  static List<WorkoutEquipment> workoutEquipList = [];
 
   final _userProvider = UserProvider();
   final _workoutProvider = WorkoutProvider();
   final _workoutCategoryProvider = WorkoutCategoryProvider();
   final _collectionCategoryProvider = WorkoutCollectionCategoryProvider();
   final _collectionProvider = WorkoutCollectionProvider();
-  final _workoutEquipmentProvider = WorkoutEquipmentProvider();
 
   List<Workout> get workoutList => [..._workoutList];
   List<Category> get workoutCateList => [..._workoutCateList];
-  Map<String, int> get cateListAndNumWorkout => _cateListAndNumWorkout;
+  // Map<String, int> get cateListAndNumWorkout => _cateListAndNumWorkout;
   Map<String, int> get cateListAndNumCollection => _cateListAndNumCollection;
   List<WorkoutCollection> get collectionList => [..._collectionList];
   List<WorkoutCollection> get userCollectionList => _userCollectionList;
@@ -63,10 +59,6 @@ class DataService {
     _workoutCateList = await _workoutCategoryProvider.fetchAll();
   }
 
-  loadWorkoutEquipment() async {
-    workoutEquipList = await _workoutEquipmentProvider.fetchAll();
-  }
-
   bool checkIfWorkoutCategoryHasChild(Category cate) {
     for (var item in workoutCateList) {
       if (item.parentCategoryID == cate.id) return true;
@@ -81,14 +73,14 @@ class DataService {
     return false;
   }
 
-  initCateListAndNumWorkout() async {
-    _cateListAndNumWorkout = {};
-    for (var item in DataService.instance.workoutCateList) {
-      String cateID = item.id as String;
-      _cateListAndNumWorkout[cateID] = countNumberOfChildBaseOnCateID(
-          cate: item, parentList: workoutCateList, childList: workoutList);
-    }
-  }
+  // initCateListAndNumWorkout() async {
+  //   _cateListAndNumWorkout = {};
+  //   for (var item in DataService.instance.workoutCateList) {
+  //     String cateID = item.id as String;
+  //     _cateListAndNumWorkout[cateID] = countNumberOfChildBaseOnCateID(
+  //         cate: item, parentList: workoutCateList, childList: workoutList);
+  //   }
+  // }
 
   initCateListAndNumCollection() async {
     _cateListAndNumCollection = {};

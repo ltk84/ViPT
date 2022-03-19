@@ -1,4 +1,5 @@
 import 'package:vipt/app/data/models/base_model.dart';
+import 'package:vipt/app/data/services/data_service.dart';
 
 class Category extends BaseModel {
   final String name;
@@ -28,6 +29,13 @@ class Category extends BaseModel {
       asset: data['asset'],
       parentCategoryID: data['parentCategoryID'],
     );
+  }
+
+  bool hasChildIsCate() {
+    for (var item in DataService.instance.workoutCateList) {
+      if (item.parentCategoryID == id) return true;
+    }
+    return false;
   }
 
   bool isRootCategory() => parentCategoryID == null;

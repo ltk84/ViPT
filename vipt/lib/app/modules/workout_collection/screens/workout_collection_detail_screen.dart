@@ -50,6 +50,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
                 : () async {
                     // onLeaveScreen();
                     // init();
+                    await _controller.updateCollectionSetting();
                     Get.toNamed(Routes.previewExerciseList);
                   },
             isExtended: true,
