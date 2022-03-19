@@ -62,7 +62,7 @@ class LibraryScreen extends StatelessWidget {
           CustomTile(
             asset: JPGAssetString.meal,
             onPressed: () {
-              Get.toNamed(Routes.dishDetail);
+              Get.toNamed(Routes.dishCategory);
             },
             title: 'Món ăn',
             description: 'Tra cứu thông tin chi tiết của một món ăn cụ thể',
