@@ -63,7 +63,7 @@ class WorkoutCollectionCategoryListScreen extends StatelessWidget {
               },
               title: cate.name.tr,
               description:
-                  '${_controller.cateListAndNumCollection[cate.id]} bộ bài tập',
+                  '${_controller.collectionCategories[index - 1].countLeaf()} bộ bài tập',
             );
           },
           separatorBuilder: (_, index) => const Divider(

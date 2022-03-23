@@ -17,7 +17,7 @@ class HomeController extends GetxController {
     // await DataService.instance.initCateListAndNumWorkout();
     await DataService.instance.loadCollectionCategoryList();
     await DataService.instance.loadCollectionList();
-    await DataService.instance.initCateListAndNumCollection();
+    // await DataService.instance.initCateListAndNumCollection();
     await DataService.instance.loadUserCollectionList();
 
     super.onInit();

@@ -46,7 +46,7 @@ class WorkoutController extends GetxController {
     for (var item in DataService.instance.workoutList) {
       for (var cateID in item.categoryIDs) {
         WorkoutCategory? wkCate =
-            workoutTree.searchWorkoutCategory(cateID, workoutTree.list);
+            workoutTree.searchComponent(cateID, workoutTree.components);
         wkCate!.add(item);
       }
     }
@@ -69,12 +69,12 @@ class WorkoutController extends GetxController {
   // }
 
   void loadWorkoutListBaseOnCategory(Category cate) {
-    workouts = DataService.instance.workoutList
-        .where((workout) => workout.categoryIDs.contains(cate.id))
-        .toList();
+    // workouts = DataService.instance.workoutList
+    //     .where((workout) => workout.categoryIDs.contains(cate.id))
+    //     .toList();
 
     workouts = workoutTree
-        .searchWorkoutCategory(cate.id ?? '', workoutTree.list)!
+        .searchComponent(cate.id ?? '', workoutTree.components)!
         .getList();
     Get.toNamed(Routes.exerciseList, arguments: cate);
   }
@@ -85,7 +85,7 @@ class WorkoutController extends GetxController {
     //     .toList();
 
     workoutCategories = workoutTree
-        .searchWorkoutCategory(categoryID, workoutTree.list)!
+        .searchComponent(categoryID, workoutTree.components)!
         .getList();
     Get.toNamed(Routes.workoutCategory, preventDuplicates: false);
   }
