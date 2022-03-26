@@ -1,31 +1,42 @@
+import 'dart:convert';
+
 import 'package:vipt/app/data/models/base_model.dart';
 
 class Ingredient extends BaseModel {
   final String name;
-  final num amount;
+  final num kcal;
+  final num fat;
+  final num carbs;
+  final num protein;
 
   Ingredient({
     required String id,
     required this.name,
-    required this.amount,
+    required this.kcal,
+    required this.fat,
+    required this.carbs,
+    required this.protein,
   }) : super(id);
 
   @override
   Map<String, dynamic> toMap() {
     return {
       'name': name,
-      'amount': amount,
+      'kcal': kcal,
+      'fat': fat,
+      'carbs': carbs,
+      'protein': protein,
     };
   }
 
-  factory Ingredient.fromMap(String id, Map<String, dynamic> map) {
+  factory Ingredient.fromMap(String? id, Map<String, dynamic> map) {
     return Ingredient(
-      id: id,
+      id: id ?? '',
       name: map['name'] ?? '',
-      amount: map['amount'] ?? 0,
+      kcal: map['kcal'] ?? 0,
+      fat: map['fat'] ?? 0,
+      carbs: map['carbs'] ?? 0,
+      protein: map['protein'] ?? 0,
     );
   }
-
-  @override
-  String toString() => 'Ingredient(name: $name, amount: $amount)';
 }

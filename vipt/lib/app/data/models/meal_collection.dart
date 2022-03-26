@@ -5,13 +5,15 @@ class MealCollection extends BaseModel {
   final String description;
   final String note;
   final String asset;
+  final Map<int, String> dateToMeal;
 
   MealCollection(
       {required String id,
       required this.title,
       required this.description,
       required this.note,
-      required this.asset})
+      required this.asset,
+      required this.dateToMeal})
       : super(id);
 
   @override
@@ -21,6 +23,7 @@ class MealCollection extends BaseModel {
       'description': description,
       'note': note,
       'asset': asset,
+      'dateToMeal': dateToMeal,
     };
   }
 
@@ -31,6 +34,7 @@ class MealCollection extends BaseModel {
       description: map['description'] ?? '',
       note: map['note'] ?? '',
       asset: map['asset'] ?? '',
+      dateToMeal: map['dateToMeal'],
     );
   }
 }
