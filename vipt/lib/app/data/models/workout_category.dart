@@ -3,7 +3,7 @@ import 'package:vipt/app/data/models/component.dart';
 import 'package:vipt/app/data/models/workout.dart';
 
 class WorkoutCategory extends Category implements Component {
-  List<Component> list = [];
+  List<Component> components = [];
 
   WorkoutCategory() : super('', name: '', asset: '', parentCategoryID: '');
 
@@ -14,30 +14,30 @@ class WorkoutCategory extends Category implements Component {
             parentCategoryID: category.parentCategoryID);
 
   void add(Component cate) {
-    list.add(cate);
+    components.add(cate);
   }
 
   getList() {
-    if (list.isEmpty) {
+    if (components.isEmpty) {
       return [];
     }
 
-    if (list[0].isComposite()) {
-      return List<WorkoutCategory>.from(list);
+    if (components[0].isComposite()) {
+      return List<WorkoutCategory>.from(components);
     }
 
-    return List<Workout>.from(list);
+    return List<Workout>.from(components);
   }
 
-  WorkoutCategory? searchWorkoutCategory(String id, List<Component> list) {
+  WorkoutCategory? searchComponent(String id, List<Component> list) {
     for (var item in list) {
       if (item is WorkoutCategory) {
         if (item.id == id) {
           return item;
         }
 
-        if (item.list.isNotEmpty) {
-          WorkoutCategory? result = searchWorkoutCategory(id, item.list);
+        if (item.components.isNotEmpty) {
+          WorkoutCategory? result = searchComponent(id, item.components);
           if (result != null) return result;
         }
       }
@@ -47,7 +47,7 @@ class WorkoutCategory extends Category implements Component {
   @override
   int countLeaf() {
     int sum = 0;
-    for (var item in list) {
+    for (var item in components) {
       sum += item.countLeaf();
     }
     return sum;

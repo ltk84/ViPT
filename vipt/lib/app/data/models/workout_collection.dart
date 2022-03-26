@@ -1,7 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:vipt/app/data/models/base_model.dart';
+import 'package:vipt/app/data/models/component.dart';
 
-class WorkoutCollection extends BaseModel {
+class WorkoutCollection extends BaseModel implements Component {
   final String title;
   final String description;
   final String asset;
@@ -63,5 +64,15 @@ class WorkoutCollection extends BaseModel {
         asset.hashCode ^
         generatorIDs.hashCode ^
         categoryIDs.hashCode;
+  }
+
+  @override
+  int countLeaf() {
+    return 1;
+  }
+
+  @override
+  bool isComposite() {
+    return false;
   }
 }

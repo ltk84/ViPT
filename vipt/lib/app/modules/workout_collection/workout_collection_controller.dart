@@ -5,8 +5,10 @@ import 'package:vipt/app/core/utilities/utils.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
+import 'package:vipt/app/data/models/component.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
+import 'package:vipt/app/data/models/workout_collection_category.dart';
 import 'package:vipt/app/data/providers/workout_collection_provider.dart';
 import 'package:vipt/app/data/providers/workout_collection_setting_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
@@ -18,11 +20,13 @@ class WorkoutCollectionController extends GetxController {
   // list chứa tất cả các collection
   late List<WorkoutCollection> collections;
   // list chứa tất cả các category của các collection
-  late List<Category> collectionCategories;
+  late List<WorkoutCollectionCategory> collectionCategories;
   // map chứa danh sách các cate và các collection tương ứng
-  late Map<String, int> cateListAndNumCollection;
+  // late Map<String, int> cateListAndNumCollection;
   // collection setting của collection được chọn
   Rx<CollectionSetting> collectionSetting = CollectionSetting().obs;
+
+  late WorkoutCollectionCategory workoutCollectionTree;
 
   // giá trị calo và value của collection được chọn
   Rx<double> caloValue = 0.0.obs;
@@ -48,9 +52,10 @@ class WorkoutCollectionController extends GetxController {
 
   @override
   void onInit() {
+    initWorkoutCollectionTree();
     loadCollectionCategories();
-    loadCateListAndNumCollection();
-
+    // loadCateListAndNumCollection();
+    // initCollectionSetting();
     loadUserCollections();
     loadCollectionSetting();
     selectedCollection = null;
@@ -68,6 +73,38 @@ class WorkoutCollectionController extends GetxController {
     loadWorkoutListForUserCollection();
     isDefaultCollection = false;
     generateRandomList();
+  }
+
+  void initWorkoutCollectionTree() {
+    // map giữ các workout category
+    Map map = {
+      for (var e in DataService.instance.collectionCateList)
+        e.id: WorkoutCollectionCategory.fromCategory(e)
+    };
+
+    // khởi tạo gốc cây
+    workoutCollectionTree = WorkoutCollectionCategory();
+
+    // thiết lập các node của cây là các workout category
+    for (var item in DataService.instance.collectionCateList) {
+      if (item.isRootCategory()) {
+        workoutCollectionTree.add(map[item.id]);
+      } else {
+        WorkoutCollectionCategory parentCate = map[item.parentCategoryID];
+        parentCate.add(WorkoutCollectionCategory.fromCategory(item));
+      }
+    }
+
+    // thêm các workout vào các workout category phù hợp
+    for (var item in DataService.instance.collectionList) {
+      for (var cateID in item.categoryIDs) {
+        WorkoutCollectionCategory? wkCate = workoutCollectionTree
+            .searchComponent(cateID, workoutCollectionTree.components);
+        if (wkCate != null) {
+          wkCate.add(item);
+        }
+      }
+    }
   }
 
   // hàm handle khi người dùng chọn vào collection có sẵn
@@ -223,16 +260,18 @@ class WorkoutCollectionController extends GetxController {
         .update('id', collectionSetting.value);
   }
 
-  // hàm load cateListAndNumCollection
-  void loadCateListAndNumCollection() {
-    cateListAndNumCollection = DataService.instance.cateListAndNumCollection;
-  }
+  // // hàm load cateListAndNumCollection
+  // void loadCateListAndNumCollection() {
+  //   cateListAndNumCollection = DataService.instance.cateListAndNumCollection;
+  // }
 
   // hàm load category của các collection
   void loadCollectionCategories() {
-    collectionCategories = DataService.instance.collectionCateList
-        .where((element) => element.parentCategoryID == null)
-        .toList();
+    // collectionCategories = DataService.instance.collectionCateList
+    //     .where((element) => element.parentCategoryID == null)
+    //     .toList();
+
+    collectionCategories = workoutCollectionTree.getList();
   }
 
   // hàm init list collection
@@ -242,17 +281,25 @@ class WorkoutCollectionController extends GetxController {
 
   // hàm load list collection dựa trên cate
   void loadCollectionListBaseOnCategory(Category cate) {
-    collections = DataService.instance.collectionList
-        .where((collection) => collection.categoryIDs.contains(cate.id))
-        .toList();
+    // collections = DataService.instance.collectionList
+    //     .where((collection) => collection.categoryIDs.contains(cate.id))
+    //     .toList();
+
+    collections = workoutCollectionTree
+        .searchComponent(cate.id ?? '', workoutCollectionTree.components)!
+        .getList();
     Get.toNamed(Routes.workoutCollectionList, arguments: cate);
   }
 
   // hàm load list cate con dựa trên cate cha
   void loadChildCategoriesBaseOnParentCategory(String categoryID) {
-    collectionCategories = DataService.instance.collectionCateList
-        .where((element) => element.parentCategoryID == categoryID)
-        .toList();
+    // collectionCategories = DataService.instance.collectionCateList
+    //     .where((element) => element.parentCategoryID == categoryID)
+    //     .toList();
+
+    collectionCategories = workoutCollectionTree
+        .searchComponent(categoryID, workoutCollectionTree.components)!
+        .getList();
     Get.toNamed(Routes.workoutCollectionCategory, preventDuplicates: false);
   }
 }

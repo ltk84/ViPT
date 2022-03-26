@@ -18,7 +18,7 @@ class DataService {
   static late List<Workout> _workoutList = [];
   static late List<Category> _workoutCateList = [];
   // static late Map<String, int> _cateListAndNumWorkout;
-  static late Map<String, int> _cateListAndNumCollection;
+  // static late Map<String, int> _cateListAndNumCollection;
   static late List<Category> _collectionCateList = [];
   static late List<WorkoutCollection> _collectionList = [];
   static late List<WorkoutCollection> _userCollectionList = [];
@@ -32,7 +32,7 @@ class DataService {
   List<Workout> get workoutList => [..._workoutList];
   List<Category> get workoutCateList => [..._workoutCateList];
   // Map<String, int> get cateListAndNumWorkout => _cateListAndNumWorkout;
-  Map<String, int> get cateListAndNumCollection => _cateListAndNumCollection;
+  // Map<String, int> get cateListAndNumCollection => _cateListAndNumCollection;
   List<WorkoutCollection> get collectionList => [..._collectionList];
   List<WorkoutCollection> get userCollectionList => _userCollectionList;
   List<Category> get collectionCateList => [..._collectionCateList];
@@ -82,52 +82,52 @@ class DataService {
   //   }
   // }
 
-  initCateListAndNumCollection() async {
-    _cateListAndNumCollection = {};
-    for (var item in DataService.instance.collectionCateList) {
-      String cateID = item.id as String;
-      _cateListAndNumCollection[cateID] = countNumberOfChildBaseOnCateID(
-          cate: item,
-          parentList: collectionCateList,
-          childList: collectionList);
-    }
-  }
+  // initCateListAndNumCollection() async {
+  //   _cateListAndNumCollection = {};
+  //   for (var item in DataService.instance.collectionCateList) {
+  //     String cateID = item.id as String;
+  //     _cateListAndNumCollection[cateID] = countNumberOfChildBaseOnCateID(
+  //         cate: item,
+  //         parentList: collectionCateList,
+  //         childList: collectionList);
+  //   }
+  // }
 
-  int countNumberOfChildBaseOnCateID(
-      {required Category cate,
-      required List<dynamic> parentList,
-      required List<dynamic> childList}) {
-    int num = 0;
-    List<String> childCateID = [];
+  // int countNumberOfChildBaseOnCateID(
+  //     {required Category cate,
+  //     required List<dynamic> parentList,
+  //     required List<dynamic> childList}) {
+  //   int num = 0;
+  //   List<String> childCateID = [];
 
-    bool isRootCate = cate.isRootCategory();
+  //   bool isRootCate = cate.isRootCategory();
 
-    if (isRootCate) {
-      for (var c in parentList) {
-        if (c.parentCategoryID == cate.id) {
-          childCateID.add(c.id ?? '');
-        }
-      }
+  //   if (isRootCate) {
+  //     for (var c in parentList) {
+  //       if (c.parentCategoryID == cate.id) {
+  //         childCateID.add(c.id ?? '');
+  //       }
+  //     }
 
-      if (childCateID.isNotEmpty) {
-        for (var child in childCateID) {
-          for (var wk in childList) {
-            num = num + (wk.categoryIDs.contains(child) ? 1 : 0);
-          }
-        }
-      } else {
-        for (var wk in childList) {
-          num = num + (wk.categoryIDs.contains(cate.id) ? 1 : 0);
-        }
-      }
-    } else {
-      for (var wk in childList) {
-        num = num + (wk.categoryIDs.contains(cate.id) ? 1 : 0);
-      }
-    }
+  //     if (childCateID.isNotEmpty) {
+  //       for (var child in childCateID) {
+  //         for (var wk in childList) {
+  //           num = num + (wk.categoryIDs.contains(child) ? 1 : 0);
+  //         }
+  //       }
+  //     } else {
+  //       for (var wk in childList) {
+  //         num = num + (wk.categoryIDs.contains(cate.id) ? 1 : 0);
+  //       }
+  //     }
+  //   } else {
+  //     for (var wk in childList) {
+  //       num = num + (wk.categoryIDs.contains(cate.id) ? 1 : 0);
+  //     }
+  //   }
 
-    return num;
-  }
+  //   return num;
+  // }
 
   loadCollectionCategoryList() async {
     _collectionCateList = await _collectionCategoryProvider.fetchAll();
