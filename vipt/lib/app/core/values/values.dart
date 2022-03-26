@@ -558,10 +558,14 @@ class AppQuiz {
 
 class AppValue {
   // firestore
+  // authentication
   static const usersPath = 'users';
 
+  // workout module
   static const workoutsPath = 'workouts';
   static const workoutCategoriesPath = 'workoutCategories';
+
+  // workout collection module
   static const workoutCollectionCategoriesPath = 'workoutCollectionCategories';
   static const workoutEquipmentCollectionPath = 'workoutEquipment';
   static const workoutCollectionsPath = 'workoutCollections';
@@ -569,12 +573,19 @@ class AppValue {
   static const collectionOfSingleUserPath = 'collections';
   static const equipmentCollectionPath = 'equipment';
 
+  // meal module
+  static const mealIngredientsPath = 'mealIngredients';
+  static const mealsPath = 'meals';
+  static const mealCategories = 'mealCategories';
+
+  // meal collection module
+  static const mealCollections = 'mealCollections';
+
   // storage
   static const workoutsStorageCollectionPath = 'workouts';
   static const workoutsThumbStorageCollectionPath = 'thumbnails';
   static const workoutsAnimationStorageCollectionPath = 'animations';
   static const workoutsMuscleFocusStorageCollectionPath = 'muscle_focus';
-
   static const workoutCollectionsStorageCollectionPath = 'workoutCollections';
   static const categoriesCollectionsStorageCollectionPath = 'categories';
   static const collectioncategoriesCollectionsStorageCollectionPath =
