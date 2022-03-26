@@ -1,7 +1,10 @@
+import 'package:vipt/app/data/models/ingredient.dart';
+import 'package:vipt/app/data/models/meal.dart';
 import 'package:vipt/app/data/models/vipt_user.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
+import 'package:vipt/app/data/providers/meal_provider.dart';
 import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/data/providers/workout_category_provider.dart';
 import 'package:vipt/app/data/providers/workout_collection_category_provider.dart';
@@ -22,12 +25,14 @@ class DataService {
   static late List<Category> _collectionCateList = [];
   static late List<WorkoutCollection> _collectionList = [];
   static late List<WorkoutCollection> _userCollectionList = [];
+  static late List<Meal> _mealList = [];
 
   final _userProvider = UserProvider();
   final _workoutProvider = WorkoutProvider();
   final _workoutCategoryProvider = WorkoutCategoryProvider();
   final _collectionCategoryProvider = WorkoutCollectionCategoryProvider();
   final _collectionProvider = WorkoutCollectionProvider();
+  final _mealProvider = MealProvider();
 
   List<Workout> get workoutList => [..._workoutList];
   List<Category> get workoutCateList => [..._workoutCateList];
@@ -36,6 +41,11 @@ class DataService {
   List<WorkoutCollection> get collectionList => [..._collectionList];
   List<WorkoutCollection> get userCollectionList => _userCollectionList;
   List<Category> get collectionCateList => [..._collectionCateList];
+  List<Meal> get mealList => [..._mealList];
+
+  loadMealList() async {
+    _mealList = await _mealProvider.fetchAll();
+  }
 
   loadUserCollectionList() async {
     _userCollectionList = await _collectionProvider.fetchAllUserCollection();
