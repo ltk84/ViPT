@@ -4,7 +4,11 @@ import 'package:vipt/app/modules/auth/screens/authentication_screen.dart';
 import 'package:vipt/app/modules/error/screens/error_screen.dart';
 import 'package:vipt/app/modules/home/home_binding.dart';
 import 'package:vipt/app/modules/home/screens/home_screen.dart';
+import 'package:vipt/app/modules/nutrition/screens/dish_category_list_screen.dart';
+import 'package:vipt/app/modules/nutrition/screens/dish_detail_screen.dart';
+import 'package:vipt/app/modules/nutrition/screens/dish_list_screen.dart';
 import 'package:vipt/app/modules/profile/screens/library_screen.dart';
+import 'package:vipt/app/modules/session/screens/complete_session_screen.dart';
 import 'package:vipt/app/modules/session/screens/my_workout_collection_setting_screen.dart';
 import 'package:vipt/app/modules/session/screens/workout_collection_setting_screen.dart';
 import 'package:vipt/app/modules/session/screens/workout_session_screen.dart';
@@ -124,6 +128,22 @@ abstract class AppPages {
     GetPage(
       name: Routes.myWorkoutCollectionSetting,
       page: () => MyWorkoutCollectionSettingScreen(),
+    ),
+    GetPage(
+      name: Routes.completeSession,
+      page: () => CompleteSessionScreen(),
+    ),
+    GetPage(
+      name: Routes.dishDetail,
+      page: () => DishDetailScreen(),
+    ),
+    GetPage(
+      name: Routes.dishCategory,
+      page: () => DishCategoryListScreen(),
+    ),
+    GetPage(
+      name: Routes.dishList,
+      page: () => DishListScreen(),
     ),
   ];
 }

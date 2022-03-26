@@ -10,6 +10,9 @@ class AppColor {
   static const Color lightModeTextColor = Color(0xFF1B1B1B);
   static const Color darkModeBackgroundColor = Color(0xFF1B1B1B);
   static const Color darkModeTextColor = Colors.white;
+  static const Color lightSecondaryBackgroudColor = Color(0xffeeeeee);
+  static const Color darkSecondaryBackgroudColor = Color(0xffeeeeee);
+
   static const double subTextOpacity = 0.5;
   static const double disabledTextOpacity = 0.35;
   static const double disabledIconOpacity = 0.25;
@@ -18,6 +21,28 @@ class AppColor {
   static const Color darkModeAccentTextColor = Color(0xff1b1b1b);
   static Color lightModeShadowColor = Colors.black.withOpacity(0.1);
   static Color darkModeShadowColor = Colors.white.withOpacity(0.1);
+  static Color disableButtonColor = Colors.grey;
+
+  // Cube colors
+  static const Color carbCubeColor = Color(0xff2CCCAF);
+  static const Color proteinCubeColor = Color(0xffF49B69);
+  static const Color fatCubeColor = Color(0xff908677);
+
+  // Complete session gradient colors
+  static Color completeSessionSecondaryFilterColor =
+      const Color(0xff91E39A).withOpacity(0.63);
+  static Color completeSessionFilterColor =
+      const Color(0xff00C734).withOpacity(0.49);
+  static Gradient completeSessionGradient = LinearGradient(
+    begin: const Alignment(0.0, -1.0),
+    end: const Alignment(0.0, 0.6),
+    colors: [
+      Colors.white.withOpacity(0.80),
+      Colors.white.withOpacity(0.79),
+      Colors.white.withOpacity(0.58),
+      Colors.white.withOpacity(0.0),
+    ],
+  );
 
   // Component color
   static const Color lightModeProgressIndicatorColor = Color(0xffe4e4e4);
@@ -82,6 +107,9 @@ class AppColor {
       (Get.isDarkMode) ? darkModeAccentTextColor : lightModeAccentTextColor;
   static Color get shadowColor =>
       (Get.isDarkMode) ? darkModeShadowColor : lightModeShadowColor;
+  static Color get secondaryBackgroudColor => (Get.isDarkMode)
+      ? darkSecondaryBackgroudColor
+      : lightSecondaryBackgroudColor;
   //
   // static Color get disabledTextColor => (Get.isDarkMode) ? darkTextColor.withOpacity(disabledTextOpacity) : lightTextColor.withOpacity(disabledTextOpacity);
   //

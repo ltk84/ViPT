@@ -57,34 +57,39 @@ class MyWorkoutCollectionSettingScreen extends StatelessWidget {
         ),
         body: AssetImageBackgroundContainer(
           imageURL: JPGAssetString.userWorkoutCollection,
-          child: Column(
-            children: [
-              IntroCollectionWidget(
-                  title: _controller.selectedCollection!.title.tr,
-                  description: _controller.selectedCollection!.description.tr),
-              const SizedBox(
-                height: 8,
-              ),
-              Obx(() {
-                return IndicatorDisplayWidget(
-                  displayTime: '${_controller.displayTime}'.tr,
-                  displayCaloValue:
-                      '${_controller.caloValue.value.toInt()} calo'.tr,
-                );
-              }),
-              const SizedBox(
-                height: 24,
-              ),
-              Obx(() {
-                return ExerciseListWidget(
-                    workoutList: _controller.generatedWorkoutList,
-                    displayExerciseTime:
-                        '${_controller.collectionSetting.value.exerciseTime} giây');
-              }),
-              SizedBox(
-                height: Theme.of(context).textTheme.button!.fontSize! * 4,
-              ),
-            ],
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: Get.size.height * 0.7),
+            child: Column(
+              children: [
+                IntroCollectionWidget(
+                    title: _controller.selectedCollection!.title.tr,
+                    description:
+                        _controller.selectedCollection!.description.tr),
+                const SizedBox(
+                  height: 8,
+                ),
+                Obx(() {
+                  return IndicatorDisplayWidget(
+                    displayTime: '${_controller.displayTime}'.tr,
+                    displayCaloValue:
+                        '${_controller.caloValue.value.toInt()} calo'.tr,
+                  );
+                }),
+                const SizedBox(
+                  height: 24,
+                ),
+                Obx(() {
+                  return ExerciseListWidget(
+                      displayDescription: false,
+                      workoutList: _controller.generatedWorkoutList,
+                      displayExerciseTime:
+                          '${_controller.collectionSetting.value.exerciseTime} giây');
+                }),
+                SizedBox(
+                  height: Theme.of(context).textTheme.button!.fontSize! * 4,
+                ),
+              ],
+            ),
           ),
         ),
       ),
