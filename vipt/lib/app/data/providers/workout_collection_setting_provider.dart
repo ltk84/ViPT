@@ -34,4 +34,10 @@ class WorkoutCollectionSettingProvider
     await _userDoc.update({'collectionSetting': obj.toMap()});
     return obj;
   }
+
+  @override
+  Future<List<CollectionSetting>> fetchAll() {
+    // TODO: implement fetchAll
+    throw UnimplementedError();
+  }
 }

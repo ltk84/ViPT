@@ -160,4 +160,10 @@ class WorkoutCollectionProvider
 
     return list;
   }
+
+  @override
+  Future<List<WorkoutCollection>> fetchAll() {
+    // TODO: implement fetchAll
+    throw UnimplementedError();
+  }
 }

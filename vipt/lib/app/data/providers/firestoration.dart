@@ -6,4 +6,5 @@ abstract class Firestoration<T, E> {
   Future<E> add(E obj);
   Future<E> update(T id, E obj);
   Future<T> delete(T id);
+  Future<List<E>> fetchAll();
 }

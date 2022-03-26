@@ -36,4 +36,10 @@ class UserProvider implements Firestoration<String, ViPTUser> {
     var doc = await _firestore.collection(collectionPath).doc(uid).get();
     return doc.exists;
   }
+
+  @override
+  Future<List<ViPTUser>> fetchAll() {
+    // TODO: implement fetchAll
+    throw UnimplementedError();
+  }
 }
