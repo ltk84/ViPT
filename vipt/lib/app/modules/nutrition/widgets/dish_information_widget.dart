@@ -4,12 +4,15 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/data/models/meal.dart';
 import 'package:vipt/app/global_widgets/indicator_display_widget.dart';
 import 'package:vipt/app/global_widgets/info_cube_widget.dart';
 import 'package:vipt/app/global_widgets/intro_collection_widget.dart';
 
 class DishInformationWidget extends StatelessWidget {
-  const DishInformationWidget({Key? key}) : super(key: key);
+  const DishInformationWidget({Key? key, required this.meal}) : super(key: key);
+
+  final Meal meal;
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +25,12 @@ class DishInformationWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          IntroCollectionWidget(
-              title: "Mít hầm khoai tây".tr, description: 'Ăn chay'),
+          IntroCollectionWidget(title: meal.name.tr, description: 'Ăn chay'),
           const SizedBox(
             height: 8,
           ),
-          const IndicatorDisplayWidget(
-            displayTime: '45 phút',
+          IndicatorDisplayWidget(
+            displayTime: '${meal.cookTime} phút',
             onlyTime: true,
           ),
           const SizedBox(

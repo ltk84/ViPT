@@ -1,6 +1,7 @@
 import 'package:vipt/app/data/models/base_model.dart';
+import 'package:vipt/app/data/models/component.dart';
 
-class Meal extends BaseModel {
+class Meal extends BaseModel implements Component {
   final String name;
   final String asset;
   final int cookTime;
@@ -39,5 +40,15 @@ class Meal extends BaseModel {
       steps: List<String>.from(map['steps']),
       categoryIDs: List<String>.from(map['categoryIDs']),
     );
+  }
+
+  @override
+  int countLeaf() {
+    return 1;
+  }
+
+  @override
+  bool isComposite() {
+    return false;
   }
 }

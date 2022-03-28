@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
+import 'package:vipt/app/data/models/category.dart';
+import 'package:vipt/app/modules/nutrition/nutrition_controller.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class DishListScreen extends StatelessWidget {
-  const DishListScreen({Key? key}) : super(key: key);
+  DishListScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.find<NutritionController>();
+  final Category cate = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -37,31 +42,22 @@ class DishListScreen extends StatelessWidget {
         physics: const BouncingScrollPhysics(
             parent: AlwaysScrollableScrollPhysics()),
         itemBuilder: (_, index) {
-          // var workout = _controller.workouts[index];
-
-          // return CustomTile(
-          //   level: 2,
-          //   asset: workout.thumbnail,
-          //   onPressed: () {
-          //     Get.toNamed(Routes.exerciseDetail, arguments: workout);
-          //   },
-          //   title: workout.name,
-          // );
+          final meal = _controller.meals[index];
           return CustomTile(
             level: 2,
             asset: PNGAssetString.jackfruitPotatoStew,
             onPressed: () {
-              Get.toNamed(Routes.dishDetail);
+              Get.toNamed(Routes.dishDetail, arguments: meal);
             },
-            title: 'Jackfruit Potato Stew',
-            description: '100 kcal',
+            title: meal.name,
+            description: 'not yet kcal',
           );
         },
         separatorBuilder: (_, index) => const Divider(
           indent: 24,
         ),
         //itemCount: _controller.workouts.length),
-        itemCount: 10,
+        itemCount: _controller.meals.length,
       ),
     );
   }

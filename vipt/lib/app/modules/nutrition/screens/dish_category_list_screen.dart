@@ -40,26 +40,15 @@ class DishCategoryListScreen extends StatelessWidget {
         physics: const BouncingScrollPhysics(
             parent: AlwaysScrollableScrollPhysics()),
         itemBuilder: (_, index) {
-          //final cate = _controller.workoutCategories[index];
-          // return CustomTile(
-          //   level: 1,
-          //   asset: '${JPGAssetString.path}/${cate.asset}',
-          //   onPressed: () {
-          //     // _navigateToSuitableScreen(cate);
-          //     _controller.loadContent(cate);
-          //   },
-          //   title: cate.name,
-          //   description:
-          //       '${_controller.workoutCategories[index].countLeaf()} bài tập',
-          // );
+          final mealCate = _controller.mealCategories[index];
           return CustomTile(
             level: 1,
             asset: PNGAssetString.jackfruitPotatoStew,
             onPressed: () {
-              Get.toNamed(Routes.dishList);
+              _controller.loadContent(mealCate);
             },
-            title: 'Ăn chay $index',
-            description: '${index * 10} món ăn',
+            title: mealCate.name,
+            description: '${mealCate.countLeaf()} món ăn',
           );
         },
         separatorBuilder: (_, index) {
@@ -68,7 +57,7 @@ class DishCategoryListScreen extends StatelessWidget {
           );
         },
         //itemCount: _controller.workoutCategories.length,
-        itemCount: 10,
+        itemCount: _controller.mealCategories.length,
       ),
     );
   }

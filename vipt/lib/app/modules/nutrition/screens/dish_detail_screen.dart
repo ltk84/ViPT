@@ -2,13 +2,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/data/models/meal.dart';
 import 'package:vipt/app/global_widgets/app_bar_icon_button.dart';
+import 'package:vipt/app/modules/nutrition/nutrition_controller.dart';
 import 'package:vipt/app/modules/nutrition/widgets/dish_information_widget.dart';
 import 'package:vipt/app/modules/nutrition/widgets/dish_ingredients_widget.dart';
 import 'package:vipt/app/modules/nutrition/widgets/dish_instructions_widget.dart';
 
 class DishDetailScreen extends StatelessWidget {
-  const DishDetailScreen({Key? key}) : super(key: key);
+  DishDetailScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.find<NutritionController>();
+  final Meal meal = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +43,7 @@ class DishDetailScreen extends StatelessWidget {
             ),
             SliverList(
               delegate: SliverChildListDelegate([
-                const DishInformationWidget(),
+                DishInformationWidget(meal: meal),
                 const SizedBox(
                   height: 24,
                 ),
