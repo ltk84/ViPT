@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
+import 'package:vipt/app/modules/nutrition/nutrition_controller.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class DishCategoryListScreen extends StatelessWidget {
-  const DishCategoryListScreen({Key? key}) : super(key: key);
+  DishCategoryListScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.find<NutritionController>();
 
   @override
   Widget build(BuildContext context) {
