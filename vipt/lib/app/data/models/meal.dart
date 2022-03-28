@@ -8,6 +8,7 @@ class Meal extends BaseModel implements Component {
   final Map<String, String> ingreIDToAmount;
   final List<String> steps;
   final List<String> categoryIDs;
+
   Meal({
     required String id,
     required this.name,

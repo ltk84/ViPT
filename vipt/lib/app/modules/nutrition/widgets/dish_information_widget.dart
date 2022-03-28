@@ -4,15 +4,15 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
-import 'package:vipt/app/data/models/meal.dart';
+import 'package:vipt/app/data/models/meal_nutrition.dart';
 import 'package:vipt/app/global_widgets/indicator_display_widget.dart';
 import 'package:vipt/app/global_widgets/info_cube_widget.dart';
 import 'package:vipt/app/global_widgets/intro_collection_widget.dart';
 
 class DishInformationWidget extends StatelessWidget {
-  const DishInformationWidget({Key? key, required this.meal}) : super(key: key);
-
-  final Meal meal;
+  const DishInformationWidget({Key? key, required this.mealNutrition})
+      : super(key: key);
+  final MealNutrition mealNutrition;
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +25,13 @@ class DishInformationWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          IntroCollectionWidget(title: meal.name.tr, description: 'Ăn chay'),
+          IntroCollectionWidget(
+              title: mealNutrition.meal.name.tr, description: 'Ăn chay'),
           const SizedBox(
             height: 8,
           ),
           IndicatorDisplayWidget(
-            displayTime: '${meal.cookTime} phút',
+            displayTime: '${mealNutrition.meal.cookTime} phút',
             onlyTime: true,
           ),
           const SizedBox(
@@ -46,7 +47,8 @@ class DishInformationWidget extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          _buildIntakeCaloriesDisplay(context, '100'),
+          _buildIntakeCaloriesDisplay(
+              context, mealNutrition.calories.toString()),
           const SizedBox(
             height: 16,
           ),
@@ -60,37 +62,41 @@ class DishInformationWidget extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          _buildNutritionFacts(context),
+          _buildNutritionFacts(context,
+              protein: mealNutrition.protein,
+              carbs: mealNutrition.carbs,
+              fat: mealNutrition.fat),
         ],
       ),
     );
   }
 
-  Widget _buildNutritionFacts(context) {
+  Widget _buildNutritionFacts(context,
+      {required num carbs, required num protein, required num fat}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
+      children: [
         InfoCubeWidget(
-          title: '50g',
+          title: '${carbs}g',
           subtitle: 'Carbs',
           color: AppColor.carbCubeColor,
           textColor: AppColor.buttonForegroundColor,
         ),
-        SizedBox(
+        const SizedBox(
           width: 24,
         ),
         InfoCubeWidget(
-          title: '50g',
-          subtitle: 'Carbs',
+          title: '${protein}g',
+          subtitle: 'Protein',
           color: AppColor.proteinCubeColor,
           textColor: AppColor.buttonForegroundColor,
         ),
-        SizedBox(
+        const SizedBox(
           width: 24,
         ),
         InfoCubeWidget(
-          title: '50g',
-          subtitle: 'Carbs',
+          title: '${fat}g',
+          subtitle: 'Fat',
           color: AppColor.fatCubeColor,
           textColor: AppColor.buttonForegroundColor,
         ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/meal.dart';
+import 'package:vipt/app/data/models/meal_nutrition.dart';
 import 'package:vipt/app/global_widgets/app_bar_icon_button.dart';
 import 'package:vipt/app/modules/nutrition/nutrition_controller.dart';
 import 'package:vipt/app/modules/nutrition/widgets/dish_information_widget.dart';
@@ -14,9 +15,11 @@ class DishDetailScreen extends StatelessWidget {
 
   final _controller = Get.find<NutritionController>();
   final Meal meal = Get.arguments;
+  late final MealNutrition nutrition;
 
   @override
   Widget build(BuildContext context) {
+    nutrition = MealNutrition(meal: meal);
     return Scaffold(
       backgroundColor: AppColor.secondaryBackgroudColor,
       body: SafeArea(
@@ -43,7 +46,12 @@ class DishDetailScreen extends StatelessWidget {
             ),
             SliverList(
               delegate: SliverChildListDelegate([
-                DishInformationWidget(meal: meal),
+                FutureBuilder(
+                    future: nutrition.getIngredients(),
+                    builder: (_, snapshot) {
+                      nutrition.initNutrition();
+                      return DishInformationWidget(mealNutrition: nutrition);
+                    }),
                 const SizedBox(
                   height: 24,
                 ),
