@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/data/fake_data.dart';
 import 'package:vipt/app/data/models/meal.dart';
 import 'package:vipt/app/data/providers/firestoration.dart';
 
@@ -12,6 +13,12 @@ class MealProvider implements Firestoration<String, Meal> {
         .add(obj.toMap())
         .then((value) => obj.id = value.id);
     return obj;
+  }
+
+  addFakeDate() async {
+    for (var meal in mealFakeData) {
+      await add(meal);
+    }
   }
 
   @override

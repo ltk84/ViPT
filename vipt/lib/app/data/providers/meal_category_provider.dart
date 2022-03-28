@@ -1,1 +1,62 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/data/fake_data.dart';
+import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/providers/firestoration.dart';
+
+class MealCategoryProvider implements Firestoration<String, Category> {
+  final _firestore = FirebaseFirestore.instance;
+
+  @override
+  Future<Category> add(Category obj) async {
+    await _firestore
+        .collection(collectionPath)
+        .add(obj.toMap())
+        .then((value) => obj.id = value.id);
+    return obj;
+  }
+
+  addFakeData() {
+    for (var cate in mealCatefakeData) {
+      add(cate);
+    }
+
+    log('done motherfucker');
+  }
+
+  @override
+  String get collectionPath => AppValue.mealCategories;
+
+  @override
+  Future<String> delete(String id) {
+    // TODO: implement delete
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Category> fetch(String id) {
+    // TODO: implement fetch
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Category>> fetchAll() async {
+    QuerySnapshot<Map<String, dynamic>> raw =
+        await _firestore.collection(collectionPath).get();
+
+    List<Category> list = [];
+    for (var element in raw.docs) {
+      list.add(Category.fromMap(element.id, element.data()));
+    }
+
+    return list;
+  }
+
+  @override
+  Future<Category> update(String id, Category obj) {
+    // TODO: implement update
+    throw UnimplementedError();
+  }
+}

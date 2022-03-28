@@ -29,6 +29,7 @@ class WorkoutCategoryProvider implements Firestoration<String, Category> {
     return Category.fromMap(raw.id, raw.data() ?? {});
   }
 
+  @override
   Future<List<Category>> fetchAll() async {
     QuerySnapshot<Map<String, dynamic>> raw =
         await _firestore.collection(collectionPath).get();
