@@ -3,7 +3,7 @@ import 'package:vipt/app/core/values/colors.dart';
 
 class DishIngredientsWidget extends StatelessWidget {
   final bool showTitle;
-  final List<Map<String, String>> ingredients;
+  final Map<String, String> ingredients;
 
   const DishIngredientsWidget(
       {Key? key, this.showTitle = true, required this.ingredients})
@@ -44,8 +44,8 @@ class DishIngredientsWidget extends StatelessWidget {
       rows.add(
         _buildIngredientRow(
           context,
-          title: ingredients[i].keys.toString(),
-          amount: ingredients[i].values.toString(),
+          title: ingredients.keys.elementAt(i).toString(),
+          amount: ingredients.values.elementAt(i).toString(),
         ),
       );
       rows.add(

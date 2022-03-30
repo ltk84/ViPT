@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/data/models/category.dart';
+import 'package:vipt/app/data/models/meal_nutrition.dart';
 import 'package:vipt/app/modules/nutrition/nutrition_controller.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
 import 'package:vipt/app/routes/pages.dart';
@@ -43,15 +44,24 @@ class DishListScreen extends StatelessWidget {
             parent: AlwaysScrollableScrollPhysics()),
         itemBuilder: (_, index) {
           final meal = _controller.meals[index];
-          return CustomTile(
-            level: 2,
-            asset: PNGAssetString.jackfruitPotatoStew,
-            onPressed: () {
-              Get.toNamed(Routes.dishDetail, arguments: meal);
-            },
-            title: meal.name,
-            description: 'not yet kcal',
-          );
+          final nutrition = MealNutrition(meal: meal);
+          return FutureBuilder(
+              future: nutrition.getIngredients(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  // thay bang loading screen
+                  return Container();
+                }
+                return CustomTile(
+                  level: 2,
+                  asset: PNGAssetString.jackfruitPotatoStew,
+                  onPressed: () {
+                    Get.toNamed(Routes.dishDetail, arguments: nutrition);
+                  },
+                  title: meal.name,
+                  description: '${nutrition.calories} kcal',
+                );
+              });
         },
         separatorBuilder: (_, index) => const Divider(
           indent: 24,

@@ -5,7 +5,6 @@ import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/meal.dart';
 import 'package:vipt/app/data/models/meal_nutrition.dart';
 import 'package:vipt/app/global_widgets/app_bar_icon_button.dart';
-import 'package:vipt/app/modules/nutrition/nutrition_controller.dart';
 import 'package:vipt/app/modules/nutrition/widgets/dish_information_widget.dart';
 import 'package:vipt/app/modules/nutrition/widgets/dish_ingredients_widget.dart';
 import 'package:vipt/app/modules/nutrition/widgets/dish_instructions_widget.dart';
@@ -13,13 +12,12 @@ import 'package:vipt/app/modules/nutrition/widgets/dish_instructions_widget.dart
 class DishDetailScreen extends StatelessWidget {
   DishDetailScreen({Key? key}) : super(key: key);
 
-  final _controller = Get.find<NutritionController>();
-  final Meal meal = Get.arguments;
-  late final MealNutrition nutrition;
+  // final _controller = Get.find<NutritionController>();
+
+  final MealNutrition nutrition = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
-    nutrition = MealNutrition(meal: meal);
     return Scaffold(
       backgroundColor: AppColor.secondaryBackgroudColor,
       body: SafeArea(
@@ -46,32 +44,26 @@ class DishDetailScreen extends StatelessWidget {
             ),
             SliverList(
               delegate: SliverChildListDelegate([
-                FutureBuilder(
-                    future: nutrition.getIngredients(),
-                    builder: (_, snapshot) {
-                      nutrition.initNutrition();
-                      return DishInformationWidget(mealNutrition: nutrition);
-                    }),
+                DishInformationWidget(mealNutrition: nutrition),
                 const SizedBox(
                   height: 24,
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: DishIngredientsWidget(ingredients: [
-                    {'Khoai tây': '300g'},
-                    {'Sốt cà chua': '600ml'},
-                  ]),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: DishIngredientsWidget(
+                    ingredients: {
+                      for (var item in nutrition.ingredients)
+                        item.name: nutrition.meal.ingreIDToAmount[item.id] ?? ''
+                    },
+                  ),
                 ),
                 const SizedBox(
                   height: 24,
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: DishInstructionsWidget(instructions: [
-                    'Aliquam semper venenatis ornare.',
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et lacinia sapien. Phasellus lobortis gravida quam sit amet facilisis. Praesent id nisi accumsan, fringilla sapien vel, iaculis mi.',
-                    'Suspendisse posuere, lacus eu dignissim malesuada, eros magna faucibus massa, sed dapibus mi risus et nulla. Vivamus eu finibus nisi, a consectetur mi. Nunc condimentum interdum ipsum, ut iaculis neque mollis eu. Vivamus fermentum odio sem, at blandit eros semper ut.',
-                  ]),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: DishInstructionsWidget(
+                      instructions: nutrition.meal.steps),
                 ),
               ]),
             ),

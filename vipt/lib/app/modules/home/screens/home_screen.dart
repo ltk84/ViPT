@@ -60,7 +60,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () async {
-                await MealProvider().addFakeDate();
+                // await MealProvider().addFakeDate();
               },
               child: const Text('Fetch data'),
             ),
