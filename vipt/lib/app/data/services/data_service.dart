@@ -49,10 +49,12 @@ class DataService {
   List<Meal> get mealList => [..._mealList];
 
   loadMealCategoryList() async {
+    if (_mealCategories.isNotEmpty) return;
     _mealCategories = await _mealCategoryProvider.fetchAll();
   }
 
   loadMealList() async {
+    if (_mealList.isNotEmpty) return;
     _mealList = await _mealProvider.fetchAll();
   }
 
@@ -71,26 +73,28 @@ class DataService {
   }
 
   loadWorkoutList() async {
+    if (_workoutList.isNotEmpty) return;
     _workoutList = await _workoutProvider.fetchAll();
   }
 
   loadWorkoutCategory() async {
+    if (_workoutCateList.isNotEmpty) return;
     _workoutCateList = await _workoutCategoryProvider.fetchAll();
   }
 
-  bool checkIfWorkoutCategoryHasChild(Category cate) {
-    for (var item in workoutCateList) {
-      if (item.parentCategoryID == cate.id) return true;
-    }
-    return false;
-  }
+  // bool checkIfWorkoutCategoryHasChild(Category cate) {
+  //   for (var item in workoutCateList) {
+  //     if (item.parentCategoryID == cate.id) return true;
+  //   }
+  //   return false;
+  // }
 
-  bool checkIfCollectionCategoryHasChild(Category cate) {
-    for (var item in collectionCateList) {
-      if (item.parentCategoryID == cate.id) return true;
-    }
-    return false;
-  }
+  // bool checkIfCollectionCategoryHasChild(Category cate) {
+  //   for (var item in collectionCateList) {
+  //     if (item.parentCategoryID == cate.id) return true;
+  //   }
+  //   return false;
+  // }
 
   // initCateListAndNumWorkout() async {
   //   _cateListAndNumWorkout = {};
@@ -149,10 +153,12 @@ class DataService {
   // }
 
   loadCollectionCategoryList() async {
+    if (_collectionCateList.isNotEmpty) return;
     _collectionCateList = await _collectionCategoryProvider.fetchAll();
   }
 
   loadCollectionList() async {
+    if (_collectionList.isNotEmpty) return;
     _collectionList = await _collectionProvider.fetchAllDefaultCollection();
   }
 }

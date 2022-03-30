@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/home/home_controller.dart';
-import 'package:vipt/app/modules/profile/screens/library_screen.dart';
+import 'package:vipt/app/modules/library/screens/library_screen.dart';
 import 'package:vipt/app/modules/profile/screens/profile_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -69,7 +69,7 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       Container(),
-      const LibraryScreen(),
+      LibraryScreen(),
       // Container(),
       const ProfileScreen(),
     ];

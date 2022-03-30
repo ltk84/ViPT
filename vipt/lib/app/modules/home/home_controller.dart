@@ -4,6 +4,7 @@ import 'package:vipt/app/data/models/vipt_user.dart';
 import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/data/services/auth_service.dart';
 import 'package:vipt/app/data/services/data_service.dart';
+import 'package:vipt/app/modules/library/library_controller.dart';
 import 'package:vipt/app/modules/profile/profile_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
 
@@ -12,20 +13,12 @@ class HomeController extends GetxController {
   Future<void> onInit() async {
     _initControllerForTabs();
     await DataService.instance.loadUserData();
-    await DataService.instance.loadWorkoutCategory();
-    await DataService.instance.loadWorkoutList();
-    // await DataService.instance.initCateListAndNumWorkout();
-    await DataService.instance.loadCollectionCategoryList();
-    await DataService.instance.loadCollectionList();
-    // await DataService.instance.initCateListAndNumCollection();
-    await DataService.instance.loadUserCollectionList();
-    await DataService.instance.loadMealCategoryList();
-    await DataService.instance.loadMealList();
 
     super.onInit();
   }
 
   void _initControllerForTabs() {
+    Get.lazyPut(() => LibraryController());
     Get.lazyPut(() => ProfileController());
   }
 

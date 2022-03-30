@@ -8,7 +8,7 @@ import 'package:vipt/app/modules/nutrition/nutrition_binding.dart';
 import 'package:vipt/app/modules/nutrition/screens/dish_category_list_screen.dart';
 import 'package:vipt/app/modules/nutrition/screens/dish_detail_screen.dart';
 import 'package:vipt/app/modules/nutrition/screens/dish_list_screen.dart';
-import 'package:vipt/app/modules/profile/screens/library_screen.dart';
+import 'package:vipt/app/modules/library/screens/library_screen.dart';
 import 'package:vipt/app/modules/session/screens/complete_session_screen.dart';
 import 'package:vipt/app/modules/session/screens/my_workout_collection_setting_screen.dart';
 import 'package:vipt/app/modules/session/screens/workout_collection_setting_screen.dart';
@@ -97,7 +97,7 @@ abstract class AppPages {
     ),
     GetPage(
       name: Routes.library,
-      page: () => const LibraryScreen(),
+      page: () => LibraryScreen(),
     ),
     GetPage(
       name: Routes.addWorkoutCollection,
