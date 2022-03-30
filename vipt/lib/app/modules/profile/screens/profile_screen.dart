@@ -31,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        Get.toNamed(Routes.library);
+                        // Get.toNamed(Routes.library);
                       },
                     ),
                   ],

@@ -16,15 +16,6 @@ class LibraryScreen extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.5,
-        leading: IconButton(
-          icon: const Hero(
-            tag: 'leadingButtonAppBar',
-            child: Icon(Icons.arrow_back_ios_new_rounded),
-          ),
-          onPressed: () {
-            Get.back();
-          },
-        ),
         title: Hero(
           tag: 'titleAppBar',
           child: Text(
