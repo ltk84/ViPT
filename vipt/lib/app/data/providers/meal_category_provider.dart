@@ -18,14 +18,6 @@ class MealCategoryProvider implements Firestoration<String, Category> {
     return obj;
   }
 
-  addFakeData() {
-    for (var cate in mealCatefakeData) {
-      add(cate);
-    }
-
-    log('done motherfucker');
-  }
-
   @override
   String get collectionPath => AppValue.mealCategories;
 

@@ -47,8 +47,7 @@ class DishInformationWidget extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          _buildIntakeCaloriesDisplay(
-              context, mealNutrition.calories.toString()),
+          _buildIntakeCaloriesDisplay(context, mealNutrition.calories),
           const SizedBox(
             height: 16,
           ),
@@ -77,7 +76,7 @@ class DishInformationWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         InfoCubeWidget(
-          title: '${carbs}g',
+          title: '${carbs.toStringAsFixed(2)}g',
           subtitle: 'Carbs',
           color: AppColor.carbCubeColor,
           textColor: AppColor.buttonForegroundColor,
@@ -86,7 +85,7 @@ class DishInformationWidget extends StatelessWidget {
           width: 24,
         ),
         InfoCubeWidget(
-          title: '${protein}g',
+          title: '${protein.toStringAsFixed(2)}g',
           subtitle: 'Protein',
           color: AppColor.proteinCubeColor,
           textColor: AppColor.buttonForegroundColor,
@@ -95,7 +94,7 @@ class DishInformationWidget extends StatelessWidget {
           width: 24,
         ),
         InfoCubeWidget(
-          title: '${fat}g',
+          title: '${fat.toStringAsFixed(2)}g',
           subtitle: 'Fat',
           color: AppColor.fatCubeColor,
           textColor: AppColor.buttonForegroundColor,
@@ -104,7 +103,7 @@ class DishInformationWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildIntakeCaloriesDisplay(context, String amount) {
+  Widget _buildIntakeCaloriesDisplay(context, num amount) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -123,7 +122,7 @@ class DishInformationWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.headline5,
             ),
             Text(
-              '$amount kcal',
+              '${amount.toStringAsFixed(2)} kcal',
               style: Theme.of(context).textTheme.subtitle1,
             ),
           ],

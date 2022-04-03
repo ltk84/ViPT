@@ -38,7 +38,7 @@ class MealNutrition {
       if (regMatch != null) {
         int pos = regMatch.start;
         final amount =
-            int.parse(meal.ingreIDToAmount[ingre.id]!.substring(0, pos + 1));
+            num.parse(meal.ingreIDToAmount[ingre.id]!.substring(0, pos + 1));
         calories += (ingre.kcal * amount / 100);
         carbs += (ingre.carbs * amount / 100);
         fat += (ingre.fat * amount / 100);

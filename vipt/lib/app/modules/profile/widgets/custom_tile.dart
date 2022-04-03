@@ -110,25 +110,6 @@ class CustomTile extends StatelessWidget {
       return Container();
     } else if (asset.contains('https')) {
       return MyNetworkImage(url: asset);
-      // return Image.network(
-      //   asset,
-      //   fit: BoxFit.cover,
-      //   loadingBuilder: (BuildContext context, Widget child,
-      //       ImageChunkEvent? loadingProgress) {
-      //     if (loadingProgress == null) {
-      //       return child;
-      //     }
-      //     return Center(
-      //       child: CircularProgressIndicator(
-      //         color: AppColor.textColor.withOpacity(AppColor.subTextOpacity),
-      //         value: loadingProgress.expectedTotalBytes != null
-      //             ? loadingProgress.cumulativeBytesLoaded /
-      //                 loadingProgress.expectedTotalBytes!
-      //             : null,
-      //       ),
-      //     );
-      //   },
-      // );
     }
     if (p.extension(asset) == '.svg') {
       return SvgPicture.asset(asset);

@@ -33,8 +33,7 @@ class DishListScreen extends StatelessWidget {
         title: Hero(
           tag: 'titleAppBar',
           child: Text(
-            //cate.name,
-            'Ăn chay',
+            cate.name.tr,
             style: Theme.of(context).textTheme.headline3,
           ),
         ),
@@ -54,7 +53,7 @@ class DishListScreen extends StatelessWidget {
                 }
                 return CustomTile(
                   level: 2,
-                  asset: PNGAssetString.jackfruitPotatoStew,
+                  asset: nutrition.meal.asset,
                   onPressed: () {
                     Get.toNamed(Routes.dishDetail, arguments: nutrition);
                   },
