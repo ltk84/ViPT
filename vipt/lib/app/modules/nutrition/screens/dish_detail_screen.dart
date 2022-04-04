@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
-import 'package:vipt/app/data/models/meal.dart';
 import 'package:vipt/app/data/models/meal_nutrition.dart';
 import 'package:vipt/app/global_widgets/app_bar_icon_button.dart';
 import 'package:vipt/app/modules/nutrition/widgets/dish_information_widget.dart';
@@ -77,8 +76,7 @@ class DishDetailScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(36.0),
       child: CachedNetworkImage(
-        imageUrl:
-            'https://drive.google.com/uc?export=view&id=1IADpSHhDQ6vGcPAOSiwjigh72CI3LIb7',
+        imageUrl: nutrition.meal.asset,
         fit: BoxFit.fitHeight,
         progressIndicatorBuilder: (context, url, loadingProgress) {
           return Center(
