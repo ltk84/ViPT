@@ -64,7 +64,7 @@ class MyWorkoutCollectionListScreen extends StatelessWidget {
             itemBuilder: (_, index) {
               var collection = _controller.userCollections[index];
               return CustomTile(
-                level: 2,
+                type: 2,
                 asset: JPGAssetString.userWorkoutCollection,
                 onPressed: () {
                   _controller.onSelectUserCollection(collection);

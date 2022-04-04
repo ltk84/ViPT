@@ -1,27 +1,30 @@
 class PNGAssetString {
-  static const String _path = 'assets/images';
-  static const String logo = '$_path/logo.png';
-  static const String work = '$_path/work.png';
-  static const String office = '$_path/office.png';
-  static const String home = '$_path/home.png';
-  static const String walking = '$_path/walking.png';
-  static const String ectomorph = '$_path/ectomorph.png';
-  static const String mesomorph = '$_path/mesomorph.png';
-  static const String endomorph = '$_path/endomorph.png';
-  static const String chicken = '$_path/chicken.png';
-  static const String egg = '$_path/egg.png';
-  static const String nuts = '$_path/nuts.png';
-  static const String olives = '$_path/olives.png';
-  static const String peanutButter = '$_path/peanut_butter.png';
-  static const String tofu = '$_path/tofu.png';
-  static const String yogurt = '$_path/yogurt.png';
-  static const String cottageCheese = '$_path/cottage_cheese.png';
-  static const String workout_1 = '$_path/workout_1.png';
-  static const String workout_2 = '$_path/workout_2.png';
-  static const String fitness_1 = '$_path/fitness_1.png';
-  static const String nutrition_1 = '$_path/nutrition_1.png';
-  static const String nutrition_2 = '$_path/nutrition_2.png';
-  static const String jackfruitPotatoStew = '$_path/jackfruit_potato_stew.png';
+  static const String path = 'assets/images';
+  static const String logo = '$path/logo.png';
+  static const String work = '$path/work.png';
+  static const String office = '$path/office.png';
+  static const String home = '$path/home.png';
+  static const String walking = '$path/walking.png';
+  static const String ectomorph = '$path/ectomorph.png';
+  static const String mesomorph = '$path/mesomorph.png';
+  static const String endomorph = '$path/endomorph.png';
+  static const String chicken = '$path/chicken.png';
+  static const String egg = '$path/egg.png';
+  static const String nuts = '$path/nuts.png';
+  static const String olives = '$path/olives.png';
+  static const String peanutButter = '$path/peanut_butter.png';
+  static const String tofu = '$path/tofu.png';
+  static const String yogurt = '$path/yogurt.png';
+  static const String cottageCheese = '$path/cottage_cheese.png';
+  static const String workout_1 = '$path/workout_1.png';
+  static const String workout_2 = '$path/workout_2.png';
+  static const String fitness_1 = '$path/fitness_1.png';
+  static const String nutrition_1 = '$path/nutrition_1.png';
+  static const String nutrition_2 = '$path/nutrition_2.png';
+  static const String jackfruitPotatoStew = '$path/jackfruit_potato_stew.png';
+  static const String breakfast = '$path/breakfast.png';
+  static const String lunch = '$path/lunch.png';
+  static const String snack = '$path/snack.png';
 }
 
 class JPGAssetString {

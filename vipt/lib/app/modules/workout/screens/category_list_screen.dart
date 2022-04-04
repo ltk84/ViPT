@@ -42,7 +42,7 @@ class CategoryListScreen extends StatelessWidget {
           itemBuilder: (_, index) {
             final cate = _controller.workoutCategories[index];
             return CustomTile(
-              level: 1,
+              type: 1,
               asset: '${JPGAssetString.path}/${cate.asset}',
               onPressed: () {
                 // _navigateToSuitableScreen(cate);

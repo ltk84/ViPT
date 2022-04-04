@@ -42,7 +42,7 @@ class WorkoutCollectionListScreen extends StatelessWidget {
           itemBuilder: (_, index) {
             var collection = _controller.collections[index];
             return CustomTile(
-              level: 2,
+              type: 2,
               asset: collection.asset,
               onPressed: () {
                 // _controller.onSelectUserCollection(collection);

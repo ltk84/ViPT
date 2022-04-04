@@ -43,7 +43,7 @@ class WorkoutCollectionCategoryListScreen extends StatelessWidget {
             if (index == 0) {
               return GetBuilder<WorkoutCollectionController>(
                 builder: (_) => CustomTile(
-                  level: 1,
+                  type: 1,
                   asset: JPGAssetString.yourWorkoutCollection,
                   onPressed: () {
                     Get.toNamed(Routes.myWorkoutCollectionList);
@@ -56,7 +56,7 @@ class WorkoutCollectionCategoryListScreen extends StatelessWidget {
             }
             final cate = _controller.collectionCategories[index - 1];
             return CustomTile(
-              level: 1,
+              type: 1,
               asset: '${JPGAssetString.path}/${cate.asset}',
               onPressed: () {
                 _controller.loadCollectionListBaseOnCategory(cate);

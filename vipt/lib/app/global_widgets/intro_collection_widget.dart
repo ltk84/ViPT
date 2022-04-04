@@ -16,6 +16,7 @@ class IntroCollectionWidget extends StatelessWidget {
           child: Text(
             title,
             style: Theme.of(context).textTheme.headline2,
+            textAlign: TextAlign.center,
           ),
         ),
         if (description != "")

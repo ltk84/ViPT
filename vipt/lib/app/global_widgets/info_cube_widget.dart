@@ -19,32 +19,34 @@ class InfoCubeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Text(
-            title,
-            style: Theme.of(context)
-                .textTheme
-                .headline5!
-                .copyWith(color: textColor),
-          ),
-          Text(
-            subtitle,
-            style: Theme.of(context)
-                .textTheme
-                .subtitle1!
-                .copyWith(color: textColor),
-          ),
-        ],
+    return FittedBox(
+      child: Container(
+        width: width,
+        height: height,
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text(
+              title,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5!
+                  .copyWith(color: textColor),
+            ),
+            Text(
+              subtitle,
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1!
+                  .copyWith(color: textColor),
+            ),
+          ],
+        ),
       ),
     );
   }

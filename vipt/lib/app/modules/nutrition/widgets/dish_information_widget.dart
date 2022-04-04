@@ -76,7 +76,7 @@ class DishInformationWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         InfoCubeWidget(
-          title: '${carbs.toStringAsFixed(2)}g',
+          title: '${carbs.toStringAsFixed(0)}g',
           subtitle: 'Carbs',
           color: AppColor.carbCubeColor,
           textColor: AppColor.buttonForegroundColor,
@@ -85,7 +85,7 @@ class DishInformationWidget extends StatelessWidget {
           width: 24,
         ),
         InfoCubeWidget(
-          title: '${protein.toStringAsFixed(2)}g',
+          title: '${protein.toStringAsFixed(0)}g',
           subtitle: 'Protein',
           color: AppColor.proteinCubeColor,
           textColor: AppColor.buttonForegroundColor,
@@ -94,7 +94,7 @@ class DishInformationWidget extends StatelessWidget {
           width: 24,
         ),
         InfoCubeWidget(
-          title: '${fat.toStringAsFixed(2)}g',
+          title: '${fat.toStringAsFixed(0)}g',
           subtitle: 'Fat',
           color: AppColor.fatCubeColor,
           textColor: AppColor.buttonForegroundColor,
@@ -122,7 +122,7 @@ class DishInformationWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.headline5,
             ),
             Text(
-              '${amount.toStringAsFixed(2)} kcal',
+              '${amount.toStringAsFixed(0)} kcal',
               style: Theme.of(context).textTheme.subtitle1,
             ),
           ],

@@ -44,7 +44,7 @@ class ExerciseListScreen extends StatelessWidget {
             var workout = _controller.workouts[index];
 
             return CustomTile(
-              level: 2,
+              type: 2,
               asset: workout.thumbnail,
               onPressed: () {
                 Get.toNamed(Routes.exerciseDetail, arguments: workout);

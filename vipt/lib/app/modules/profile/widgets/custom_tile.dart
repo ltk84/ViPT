@@ -9,23 +9,23 @@ class CustomTile extends StatelessWidget {
   final String title;
   final String description;
   final Function() onPressed;
-  final int level;
+  final int type;
   const CustomTile(
       {Key? key,
       required this.asset,
       required this.title,
       this.description = '',
       required this.onPressed,
-      this.level = 0})
+      this.type = 0})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double assetWidth = _getAssetWidth(level);
-    double assetHeight = _getAssetHeight(level);
-    double gapWidthFactor = _getGapWidthFactor(level);
-    double textFieldWidthFactor = _getTextFieldWidthFactor(level);
-    TextStyle? titleStyle = _getTitleStyle(context, level);
+    double assetWidth = _getAssetWidth(type);
+    double assetHeight = _getAssetHeight(type);
+    double gapWidthFactor = _getGapWidthFactor(type);
+    double textFieldWidthFactor = _getTextFieldWidthFactor(type);
+    TextStyle? titleStyle = _getTitleStyle(context, type);
 
     return InkWell(
       onTap: onPressed,
@@ -40,7 +40,7 @@ class CustomTile extends StatelessWidget {
             children: [
               Row(
                 crossAxisAlignment: description != ''
-                    ? CrossAxisAlignment.start
+                    ? CrossAxisAlignment.center
                     : CrossAxisAlignment.center,
                 children: [
                   // ASSET
@@ -50,8 +50,10 @@ class CustomTile extends StatelessWidget {
                       height: assetHeight,
                       width: assetWidth,
                       decoration: BoxDecoration(
-                        color: AppColor.textFieldFill
-                            .withOpacity(AppColor.subTextOpacity),
+                        color: type != 3
+                            ? AppColor.textFieldFill
+                                .withOpacity(AppColor.subTextOpacity)
+                            : Colors.transparent,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: _buildAsset(asset),
@@ -66,10 +68,10 @@ class CustomTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (description != '')
-                          const SizedBox(
-                            height: 18,
-                          ),
+                        // if (description != '')
+                        //   const SizedBox(
+                        //     height: 18,
+                        //   ),
                         // TITLE
                         Text(
                           title,
@@ -126,6 +128,8 @@ class CustomTile extends StatelessWidget {
         return 0.04;
       case 2:
         return 0.04;
+      case 3:
+        return 0.04;
       default:
         return 0.04;
     }
@@ -148,6 +152,8 @@ class CustomTile extends StatelessWidget {
         return 110;
       case 2:
         return 100;
+      case 3:
+        return 100;
       default:
         return 128;
     }
@@ -161,6 +167,8 @@ class CustomTile extends StatelessWidget {
         return 130;
       case 2:
         return 80;
+      case 3:
+        return 100;
       default:
         return 150;
     }
@@ -173,6 +181,8 @@ class CustomTile extends StatelessWidget {
       case 1:
         return Theme.of(context).textTheme.headline3;
       case 2:
+        return Theme.of(context).textTheme.headline4;
+      case 3:
         return Theme.of(context).textTheme.headline4;
       default:
         return Theme.of(context).textTheme.headline3;

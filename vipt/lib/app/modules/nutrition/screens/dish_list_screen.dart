@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
+import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/meal_nutrition.dart';
 import 'package:vipt/app/modules/nutrition/nutrition_controller.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
+import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class DishListScreen extends StatelessWidget {
@@ -48,17 +51,30 @@ class DishListScreen extends StatelessWidget {
               future: nutrition.getIngredients(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState != ConnectionState.done) {
-                  // thay bang loading screen
-                  return Container();
+                  return SizedBox(
+                    width: 200.0,
+                    height: 100.0,
+                    child: Shimmer.fromColors(
+                      baseColor: AppColor.textColor,
+                      highlightColor: AppColor.textColor,
+                      child: CustomTile(
+                        type: 3,
+                        asset: '',
+                        title: '',
+                        description: ' ',
+                        onPressed: () {},
+                      ),
+                    ),
+                  );
                 }
                 return CustomTile(
-                  level: 2,
+                  type: 3,
                   asset: nutrition.meal.asset,
                   onPressed: () {
                     Get.toNamed(Routes.dishDetail, arguments: nutrition);
                   },
                   title: meal.name,
-                  description: '${nutrition.calories} kcal',
+                  description: '${nutrition.calories.toInt()} kcal',
                 );
               });
         },

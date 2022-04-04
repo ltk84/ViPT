@@ -42,8 +42,8 @@ class DishCategoryListScreen extends StatelessWidget {
         itemBuilder: (_, index) {
           final mealCate = _controller.mealCategories[index];
           return CustomTile(
-            level: 1,
-            asset: PNGAssetString.jackfruitPotatoStew,
+            type: 1,
+            asset: '${PNGAssetString.path}/${mealCate.asset}',
             onPressed: () {
               _controller.loadContent(mealCate);
             },
