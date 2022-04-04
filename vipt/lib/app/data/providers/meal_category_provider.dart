@@ -28,9 +28,9 @@ class MealCategoryProvider implements Firestoration<String, Category> {
   }
 
   @override
-  Future<Category> fetch(String id) {
-    // TODO: implement fetch
-    throw UnimplementedError();
+  Future<Category> fetch(String id) async {
+    final raw = await _firestore.collection(collectionPath).doc(id).get();
+    return Category.fromMap(raw.id, raw.data() ?? {});
   }
 
   @override

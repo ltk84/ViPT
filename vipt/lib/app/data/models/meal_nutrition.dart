@@ -1,9 +1,12 @@
+import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/ingredient.dart';
 import 'package:vipt/app/data/models/meal.dart';
 import 'package:vipt/app/data/providers/ingredient_provider.dart';
+import 'package:vipt/app/data/providers/meal_category_provider.dart';
 
 class MealNutrition {
   final Meal meal;
+  late final List<String> mealCate;
   MealNutrition({required this.meal});
 
   num calories = 0;
@@ -20,7 +23,22 @@ class MealNutrition {
       ingredients.add(e);
     }
 
+    await fetchCategory();
     initNutrition();
+  }
+
+  fetchCategory() async {
+    mealCate = [];
+    for (var cateID in meal.categoryIDs) {
+      final cate = await MealCategoryProvider().fetch(cateID);
+      mealCate.add(cate.name);
+    }
+  }
+
+  String getMealCate() {
+    String result = mealCate.toString();
+    result = result.substring(1, result.length - 1);
+    return result;
   }
 
   void resetNutrition() {

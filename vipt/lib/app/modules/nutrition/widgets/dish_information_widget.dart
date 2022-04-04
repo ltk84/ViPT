@@ -26,7 +26,8 @@ class DishInformationWidget extends StatelessWidget {
       child: Column(
         children: [
           IntroCollectionWidget(
-              title: mealNutrition.meal.name.tr, description: 'Ăn chay'),
+              title: mealNutrition.meal.name.tr,
+              description: mealNutrition.getMealCate()),
           const SizedBox(
             height: 8,
           ),
