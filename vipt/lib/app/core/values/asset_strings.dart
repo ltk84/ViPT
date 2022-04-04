@@ -93,4 +93,5 @@ class SVGAssetString {
   static const String stopButton = '$_path/stop_button.svg';
   static const String yoga_2 = '$_path/yoga_2.svg';
   static const String dish = '$_path/dish.svg';
+  static const String calendar = '$_path/calendar.svg';
 }

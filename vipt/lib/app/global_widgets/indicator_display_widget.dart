@@ -7,12 +7,14 @@ class IndicatorDisplayWidget extends StatelessWidget {
   final String displayTime;
   final String displayCaloValue;
   final bool onlyTime;
+  final bool dateTime;
 
   const IndicatorDisplayWidget(
       {Key? key,
       required this.displayTime,
       this.displayCaloValue = '',
-      this.onlyTime = false})
+      this.onlyTime = false,
+      this.dateTime = false})
       : super(key: key);
 
   @override
@@ -26,7 +28,7 @@ class IndicatorDisplayWidget extends StatelessWidget {
             maxHeight: 25,
           ),
           child: SvgPicture.asset(
-            SVGAssetString.timer,
+            dateTime ? SVGAssetString.calendar : SVGAssetString.timer,
           ),
         ),
         const SizedBox(

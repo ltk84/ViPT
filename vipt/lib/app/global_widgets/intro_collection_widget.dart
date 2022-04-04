@@ -22,7 +22,7 @@ class IntroCollectionWidget extends StatelessWidget {
         if (description != "")
           Container(
             alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
             child: Text(
               description,
               style: Theme.of(context).textTheme.subtitle2,

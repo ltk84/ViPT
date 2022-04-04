@@ -4,16 +4,18 @@ import 'package:vipt/app/core/values/colors.dart';
 
 class MyNetworkImage extends StatelessWidget {
   final String url;
+  final BoxFit fit;
   const MyNetworkImage({
     Key? key,
     required this.url,
+    this.fit = BoxFit.cover,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: url,
-      fit: BoxFit.cover,
+      fit: fit,
       progressIndicatorBuilder: (context, url, loadingProgress) {
         return Center(
           child: CircularProgressIndicator(

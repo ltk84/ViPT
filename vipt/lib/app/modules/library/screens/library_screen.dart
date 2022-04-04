@@ -66,7 +66,9 @@ class LibraryScreen extends StatelessWidget {
           ),
           CustomTile(
             asset: JPGAssetString.nutrition,
-            onPressed: () {},
+            onPressed: () {
+              Get.toNamed(Routes.mealPlanList);
+            },
             title: 'Bộ dinh dưỡng',
             description: 'Tra cứu các bộ sưu tập gồm nhiều món ăn',
           ),

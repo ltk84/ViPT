@@ -9,6 +9,8 @@ import 'package:vipt/app/modules/nutrition/screens/dish_category_list_screen.dar
 import 'package:vipt/app/modules/nutrition/screens/dish_detail_screen.dart';
 import 'package:vipt/app/modules/nutrition/screens/dish_list_screen.dart';
 import 'package:vipt/app/modules/library/screens/library_screen.dart';
+import 'package:vipt/app/modules/nutrition_collection/screens/meal_plan_detail_screen.dart';
+import 'package:vipt/app/modules/nutrition_collection/screens/meal_plan_list_screen.dart';
 import 'package:vipt/app/modules/session/screens/complete_session_screen.dart';
 import 'package:vipt/app/modules/session/screens/my_workout_collection_setting_screen.dart';
 import 'package:vipt/app/modules/session/screens/workout_collection_setting_screen.dart';
@@ -146,6 +148,14 @@ abstract class AppPages {
     GetPage(
       name: Routes.dishList,
       page: () => DishListScreen(),
+    ),
+    GetPage(
+      name: Routes.mealPlanList,
+      page: () => MealPlanListScreen(),
+    ),
+    GetPage(
+      name: Routes.mealPlanDetail,
+      page: () => MealPlanDetailScreen(),
     ),
   ];
 }
