@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
-import 'package:vipt/app/data/models/meal.dart';
+import 'package:vipt/app/data/models/meal_collection.dart';
 import 'package:vipt/app/global_widgets/app_bar_icon_button.dart';
 import 'package:vipt/app/modules/nutrition_collection/widgets/meal_plan_dishes_widget.dart';
 import 'package:vipt/app/modules/nutrition_collection/widgets/meal_plan_information_widget.dart';
@@ -12,6 +12,7 @@ class MealPlanDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final MealCollection mealPlan = Get.arguments;
     return Scaffold(
       backgroundColor: AppColor.secondaryBackgroudColor,
       body: SafeArea(
@@ -38,55 +39,23 @@ class MealPlanDetailScreen extends StatelessWidget {
             ),
             SliverList(
               delegate: SliverChildListDelegate([
-                MealPlanInformationWidget(),
-                const SizedBox(
-                  height: 24,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: MealPlanDishesWidget(
-                    day: 1,
-                    dishes: [
-                      Meal(
-                          asset:
-                              'https://drive.google.com/uc?export=view&id=1IADpSHhDQ6vGcPAOSiwjigh72CI3LIb7',
-                          categoryIDs: [],
-                          cookTime: 15,
-                          id: '',
-                          ingreIDToAmount: {},
-                          name: 'Tên meal plan',
-                          steps: []),
-                      Meal(
-                          asset:
-                              'https://drive.google.com/uc?export=view&id=1IADpSHhDQ6vGcPAOSiwjigh72CI3LIb7',
-                          categoryIDs: [],
-                          cookTime: 15,
-                          id: '',
-                          ingreIDToAmount: {},
-                          name: 'Tên meal plan',
-                          steps: []),
-                    ],
-                  ),
+                MealPlanInformationWidget(
+                  mealPlan: mealPlan,
                 ),
                 const SizedBox(
                   height: 24,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: MealPlanDishesWidget(
-                    day: 2,
-                    dishes: [
-                      Meal(
-                          asset:
-                              'https://drive.google.com/uc?export=view&id=1IADpSHhDQ6vGcPAOSiwjigh72CI3LIb7',
-                          categoryIDs: [],
-                          cookTime: 15,
-                          id: '',
-                          ingreIDToAmount: {},
-                          name: 'Tên meal plan',
-                          steps: []),
-                    ],
-                  ),
+                ...mealPlan.dateToMeal.entries.map((entry) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: MealPlanDishesWidget(
+                      day: entry.key,
+                      dishes: entry.value,
+                    ),
+                  );
+                }).toList(),
+                const SizedBox(
+                  height: 24,
                 ),
               ]),
             ),

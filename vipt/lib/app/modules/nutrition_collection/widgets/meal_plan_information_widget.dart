@@ -3,12 +3,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/data/models/meal_collection.dart';
 import 'package:vipt/app/global_widgets/indicator_display_widget.dart';
 import 'package:vipt/app/global_widgets/info_cube_widget.dart';
 import 'package:vipt/app/global_widgets/intro_collection_widget.dart';
 
 class MealPlanInformationWidget extends StatelessWidget {
-  const MealPlanInformationWidget({Key? key}) : super(key: key);
+  final MealCollection mealPlan;
+  const MealPlanInformationWidget({Key? key, required this.mealPlan})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +24,12 @@ class MealPlanInformationWidget extends StatelessWidget {
       child: Column(
         children: [
           IntroCollectionWidget(
-              title: 'Tên meal plan',
-              description:
-                  'Các bữa ăn trong chế độ này chỉ bao gồm các thành phần từ rau củ quả.'),
+              title: mealPlan.title, description: mealPlan.description),
           const SizedBox(
             height: 8,
           ),
           IndicatorDisplayWidget(
-            displayTime: '7 ngày',
+            displayTime: '${mealPlan.dateToMeal.length} ngày',
             onlyTime: true,
             dateTime: true,
           ),

@@ -1,11 +1,12 @@
 import 'package:vipt/app/data/models/base_model.dart';
+import 'package:vipt/app/data/models/meal.dart';
 
 class MealCollection extends BaseModel {
   final String title;
   final String description;
   final String note;
   final String asset;
-  final Map<int, String> dateToMeal;
+  final Map<int, List<Meal>> dateToMeal;
 
   MealCollection(
       {required String id,
