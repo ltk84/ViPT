@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/meal.dart';
+import 'package:vipt/app/data/models/meal_nutrition.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 class MealPlanDishesWidget extends StatelessWidget {
-  final List<Meal> dishes;
+  final List<MealNutrition> dishes;
   final int day;
 
   const MealPlanDishesWidget(
@@ -51,7 +54,7 @@ class MealPlanDishesWidget extends StatelessWidget {
     return rows;
   }
 
-  TableRow _buildDishesRow(context, {required Meal dish}) {
+  TableRow _buildDishesRow(context, {required MealNutrition dish}) {
     return TableRow(children: [
       TableCell(
         child: Container(
@@ -62,9 +65,11 @@ class MealPlanDishesWidget extends StatelessWidget {
           ),
           child: CustomTile(
             type: 3,
-            asset: dish.asset,
-            onPressed: () {},
-            title: dish.name,
+            asset: dish.meal.asset,
+            onPressed: () {
+              Get.toNamed(Routes.dishDetail, arguments: dish);
+            },
+            title: dish.meal.name,
             description: '1000 kcal',
           ),
         ),

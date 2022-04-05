@@ -12,11 +12,36 @@ class NutritionCollectionController extends GetxController {
 
   late MealCollection currentCollection;
 
+  num averageCalories = 0;
+  num averageCarbs = 0;
+  num averageProtein = 0;
+  num averageFat = 0;
+
   setCurrentCollection(MealCollection mealCollection) {
     currentCollection = mealCollection;
   }
 
-  calculateTotalCalo() {}
+  initNutritionInfor() {
+    averageCalories = 0;
+    averageCarbs = 0;
+    averageProtein = 0;
+    averageFat = 0;
+  }
+
+  calculateNutritionInfor() {
+    initNutritionInfor();
+    for (var meal in currentMealList) {
+      averageCalories += meal.calories;
+      averageCarbs += meal.carbs;
+      averageProtein += meal.protein;
+      averageFat += meal.fat;
+    }
+
+    averageCalories /= currentCollection.dateToMealID.length;
+    averageCarbs /= currentCollection.dateToMealID.length;
+    averageProtein /= currentCollection.dateToMealID.length;
+    averageFat /= currentCollection.dateToMealID.length;
+  }
 
   fetchMealNutritionList() async {
     currentMealList.clear();
@@ -32,13 +57,10 @@ class NutritionCollectionController extends GetxController {
   }
 
   getMealListByDay(int dayId) {
-    List<Meal> mealList = [];
-    for (var item in currentMealList) {
-      if (currentCollection.dateToMealID[dayId]!.contains(item.meal.id) ==
-          true) {
-        mealList.add(item.meal);
-      }
-    }
-    return mealList;
+    return currentMealList
+        .where((element) =>
+            currentCollection.dateToMealID[dayId]!.contains(element.meal.id) ==
+            true)
+        .toList();
   }
 }

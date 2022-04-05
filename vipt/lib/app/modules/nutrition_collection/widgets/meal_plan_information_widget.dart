@@ -10,8 +10,18 @@ import 'package:vipt/app/global_widgets/intro_collection_widget.dart';
 
 class MealPlanInformationWidget extends StatelessWidget {
   final MealCollection mealPlan;
-  const MealPlanInformationWidget({Key? key, required this.mealPlan})
-      : super(key: key);
+  final num averageCalories;
+  final num averageProtein;
+  final num averageFat;
+  final num averageCarbs;
+  const MealPlanInformationWidget({
+    Key? key,
+    required this.mealPlan,
+    required this.averageCalories,
+    required this.averageProtein,
+    required this.averageFat,
+    required this.averageCarbs,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +56,7 @@ class MealPlanInformationWidget extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          _buildIntakeCaloriesDisplay(context, 1500),
+          _buildIntakeCaloriesDisplay(context, averageCalories),
           const SizedBox(
             height: 16,
           ),
@@ -60,7 +70,8 @@ class MealPlanInformationWidget extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          _buildNutritionFacts(context, protein: 100, carbs: 800, fat: 30),
+          _buildNutritionFacts(context,
+              protein: averageProtein, carbs: averageCarbs, fat: averageFat),
         ],
       ),
     );
