@@ -4,15 +4,19 @@ import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/meal_collection.dart';
 import 'package:vipt/app/global_widgets/app_bar_icon_button.dart';
+import 'package:vipt/app/modules/nutrition_collection/nutrition_collection_controller.dart';
 import 'package:vipt/app/modules/nutrition_collection/widgets/meal_plan_dishes_widget.dart';
 import 'package:vipt/app/modules/nutrition_collection/widgets/meal_plan_information_widget.dart';
 
 class MealPlanDetailScreen extends StatelessWidget {
-  const MealPlanDetailScreen({Key? key}) : super(key: key);
+  MealPlanDetailScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.find<NutritionCollectionController>();
 
   @override
   Widget build(BuildContext context) {
     final MealCollection mealPlan = Get.arguments;
+    _controller.setCurrentCollection(mealPlan);
     return Scaffold(
       backgroundColor: AppColor.secondaryBackgroudColor,
       body: SafeArea(
@@ -37,28 +41,33 @@ class MealPlanDetailScreen extends StatelessWidget {
                 background: _buildImage(),
               ),
             ),
-            SliverList(
-              delegate: SliverChildListDelegate([
-                MealPlanInformationWidget(
-                  mealPlan: mealPlan,
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                ...mealPlan.dateToMeal.entries.map((entry) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: MealPlanDishesWidget(
-                      day: entry.key,
-                      dishes: entry.value,
-                    ),
+            FutureBuilder(
+                future: _controller.fetchMealNutritionList(),
+                builder: (context, snapshot) {
+                  return SliverList(
+                    delegate: SliverChildListDelegate([
+                      MealPlanInformationWidget(
+                        mealPlan: mealPlan,
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      if (snapshot.connectionState == ConnectionState.done)
+                        ...mealPlan.dateToMealID.entries.map((entry) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: MealPlanDishesWidget(
+                              day: entry.key,
+                              dishes: _controller.getMealListByDay(entry.key),
+                            ),
+                          );
+                        }).toList(),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                    ]),
                   );
-                }).toList(),
-                const SizedBox(
-                  height: 24,
-                ),
-              ]),
-            ),
+                }),
           ],
         ),
       ),

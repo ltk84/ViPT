@@ -29,7 +29,7 @@ class MealPlanInformationWidget extends StatelessWidget {
             height: 8,
           ),
           IndicatorDisplayWidget(
-            displayTime: '${mealPlan.dateToMeal.length} ngày',
+            displayTime: '${mealPlan.dateToMealID.length} ngày',
             onlyTime: true,
             dateTime: true,
           ),

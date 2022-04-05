@@ -6,7 +6,7 @@ class MealCollection extends BaseModel {
   final String description;
   final String note;
   final String asset;
-  final Map<int, List<Meal>> dateToMeal;
+  final Map<int, List<String>> dateToMealID;
 
   MealCollection(
       {required String id,
@@ -14,7 +14,7 @@ class MealCollection extends BaseModel {
       required this.description,
       required this.note,
       required this.asset,
-      required this.dateToMeal})
+      required this.dateToMealID})
       : super(id);
 
   @override
@@ -24,7 +24,7 @@ class MealCollection extends BaseModel {
       'description': description,
       'note': note,
       'asset': asset,
-      'dateToMeal': dateToMeal,
+      'dateToMeal': dateToMealID,
     };
   }
 
@@ -35,7 +35,7 @@ class MealCollection extends BaseModel {
       description: map['description'] ?? '',
       note: map['note'] ?? '',
       asset: map['asset'] ?? '',
-      dateToMeal: map['dateToMeal'],
+      dateToMealID: map['dateToMeal'],
     );
   }
 }

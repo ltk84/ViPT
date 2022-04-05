@@ -1,59 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:vipt/app/data/models/meal.dart';
 import 'package:vipt/app/data/models/meal_collection.dart';
+import 'package:vipt/app/modules/nutrition_collection/nutrition_collection_controller.dart';
 import 'package:vipt/app/modules/nutrition_collection/widgets/meal_plan_tile.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class MealPlanListScreen extends StatelessWidget {
-  const MealPlanListScreen({Key? key}) : super(key: key);
+  MealPlanListScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.find<NutritionCollectionController>();
 
   @override
   Widget build(BuildContext context) {
-    List<MealCollection> mealCollections = [
-      MealCollection(
-          id: '0',
-          title: 'Ăn chay',
-          description:
-              'Các bữa ăn trong chế độ này chỉ bao gồm các thành phần từ rau củ quả.',
-          note: '',
-          asset:
-              'https://drive.google.com/uc?export=view&id=1IADpSHhDQ6vGcPAOSiwjigh72CI3LIb7',
-          dateToMeal: {
-            1: [
-              Meal(
-                  id: '0',
-                  name: 'Cứt',
-                  asset:
-                      'https://drive.google.com/uc?export=view&id=1IADpSHhDQ6vGcPAOSiwjigh72CI3LIb7',
-                  cookTime: 15,
-                  ingreIDToAmount: {},
-                  steps: [],
-                  categoryIDs: []),
-              Meal(
-                  id: '0',
-                  name: 'Cứt2',
-                  asset:
-                      'https://drive.google.com/uc?export=view&id=1IADpSHhDQ6vGcPAOSiwjigh72CI3LIb7',
-                  cookTime: 15,
-                  ingreIDToAmount: {},
-                  steps: [],
-                  categoryIDs: []),
-            ],
-            2: [
-              Meal(
-                  id: '0',
-                  name: 'Cứt3',
-                  asset:
-                      'https://drive.google.com/uc?export=view&id=1IADpSHhDQ6vGcPAOSiwjigh72CI3LIb7',
-                  cookTime: 15,
-                  ingreIDToAmount: {},
-                  steps: [],
-                  categoryIDs: []),
-            ]
-          }),
-    ];
+    List<MealCollection> mealCollections = _controller.mealCollectionList;
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
@@ -93,7 +53,7 @@ class MealPlanListScreen extends StatelessWidget {
                       'https://drive.google.com/uc?export=view&id=1IADpSHhDQ6vGcPAOSiwjigh72CI3LIb7',
                   title: mealCollections[index].title,
                   description:
-                      '${mealCollections[index].dateToMeal.length} ngày'.tr,
+                      '${mealCollections[index].dateToMealID.length} ngày'.tr,
                 ),
                 const Divider(
                   indent: 24,
