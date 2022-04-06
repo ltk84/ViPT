@@ -7,7 +7,9 @@ import 'package:vipt/app/data/fake_data.dart';
 import 'package:vipt/app/data/models/ingredient.dart';
 import 'package:vipt/app/data/providers/ingredient_provider.dart';
 import 'package:vipt/app/data/providers/meal_category_provider.dart';
+import 'package:vipt/app/data/providers/meal_collection_provider.dart';
 import 'package:vipt/app/data/providers/meal_provider.dart';
+import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/home/home_controller.dart';
 import 'package:vipt/app/modules/library/screens/library_screen.dart';
 import 'package:vipt/app/modules/profile/screens/profile_screen.dart';
@@ -60,10 +62,12 @@ class HomeScreen extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () async {
-                // for (var item in mealFakeData) {
-                //   await MealProvider().add(item);
+                // for (var meal in mealCollectionFakeData) {
+                //   await MealCollectionProvider().add(meal);
                 // }
-                // print('done');
+
+                // print(
+                //     DataService.instance.mealCollectionList.first.dateToMealID);
               },
               child: const Text('Fetch data'),
             ),

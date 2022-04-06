@@ -49,6 +49,16 @@ class MealProvider implements Firestoration<String, Meal> {
     return list;
   }
 
+  Future<String> fetchByName(String name) async {
+    String result = "";
+    await _firestore
+        .collection(collectionPath)
+        .where('name', isEqualTo: name)
+        .get()
+        .then((value) => result = value.docs.first.id);
+    return result;
+  }
+
   @override
   Future<Meal> update(String id, Meal obj) {
     // TODO: implement update

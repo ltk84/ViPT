@@ -66,17 +66,22 @@ class MealPlanDetailScreen extends StatelessWidget {
                         height: 24,
                       ),
                       ...mealPlan.dateToMealID.entries.map((entry) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: MealPlanDishesWidget(
-                            day: entry.key,
-                            dishes: _controller.getMealListByDay(entry.key),
-                          ),
+                        return Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: MealPlanDishesWidget(
+                                day: entry.key,
+                                dishes: _controller.getMealListByDay(entry.key),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 24,
+                            ),
+                          ],
                         );
                       }).toList(),
-                      const SizedBox(
-                        height: 24,
-                      ),
                     ]),
                   )
                 ],
@@ -90,8 +95,7 @@ class MealPlanDetailScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(36.0),
       child: CachedNetworkImage(
-        imageUrl:
-            'https://drive.google.com/uc?export=view&id=1IADpSHhDQ6vGcPAOSiwjigh72CI3LIb7',
+        imageUrl: _controller.currentCollection.asset,
         fit: BoxFit.fitHeight,
         progressIndicatorBuilder: (context, url, loadingProgress) {
           return Center(

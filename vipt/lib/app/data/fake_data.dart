@@ -652,15 +652,50 @@ List<Meal> mealFakeData = [
 
 List<MealCollection> mealCollectionFakeData = [
   MealCollection(
-      id: '',
-      title: 'Hanh Phuc Moi',
-      description: 'Son Tung MTP',
-      note: 'Gat le thuong dau, neu chung ta khong con nhau',
-      asset: 'asset',
+      id: 'id',
+      title: 'Chế độ ăn chay',
+      description:
+          'Các bữa ăn trong chế độ này chỉ bao gồm các thành phần từ rau củ quả',
+      note: '',
+      asset:
+          'https://firebasestorage.googleapis.com/v0/b/vipt-506b2.appspot.com/o/meals%2Fasset_apple_sauce_oatmeal.png?alt=media&token=b45c78e7-661e-4b15-8014-e9a7646fefbc',
       dateToMealID: {
-        1: ['1DetdV0aBdc0bKUwwBJI', '2Gwk2It4zOc4jX3yLBwm'],
-        2: ['2QaYcqExXrqpvFU3zUZa', '34FDcYAGH35ekoMqVwIq']
-      }),
+        '1': [
+          '1DetdV0aBdc0bKUwwBJI',
+          '34FDcYAGH35ekoMqVwIq',
+          'G78TQTXSPqzOSfec3Mtq'
+        ],
+        '2': [
+          'fKHtFA11NRrlFqyiVtYw',
+          '5imTOJhfDZjnpXaMDx1h',
+          'jPqulEPfcnnXbHECyqWE'
+        ],
+        '3': [
+          'wb2bcgdS94dQ0vW7bJgg',
+          'THZHSMlngurDdf3uSaUO',
+          '2QaYcqExXrqpvFU3zUZa'
+        ],
+        '4': [
+          'z7rCHpCG44U9yBsy93oy',
+          '2Gwk2It4zOc4jX3yLBwm',
+          'eZxaqCWrIvCG1zQ78WFH'
+        ],
+        '5': [
+          'xD4utO7qlt8s2KNzsElo',
+          'Hsv5226mtuparyJf8kQf',
+          'BVDYscKPLlN5TQHl9qXC'
+        ],
+        '6': [
+          'HWKSiEXC5cwJDIc9hSKL',
+          '8Vczv4IXKAnKw2OqJbKb',
+          'CSrZfELb9FKSNuxHDSqE'
+        ],
+        '7': [
+          'bqhxoEzSKMUfH8ww1TNW',
+          'IMzDiGqkduxoEQdXu2Bf',
+          'fTvnLeg1HIVBf9mf3P41'
+        ]
+      })
 ];
 
 // void addFakeData() async {

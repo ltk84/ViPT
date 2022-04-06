@@ -1,12 +1,13 @@
+import 'dart:convert';
+
 import 'package:vipt/app/data/models/base_model.dart';
-import 'package:vipt/app/data/models/meal.dart';
 
 class MealCollection extends BaseModel {
   final String title;
   final String description;
   final String note;
   final String asset;
-  final Map<int, List<String>> dateToMealID;
+  final Map<String, List<String>> dateToMealID;
 
   MealCollection(
       {required String id,
@@ -24,18 +25,23 @@ class MealCollection extends BaseModel {
       'description': description,
       'note': note,
       'asset': asset,
-      'dateToMeal': dateToMealID,
+      'dateToMealID': dateToMealID,
     };
   }
 
   factory MealCollection.fromMap(String id, Map<String, dynamic> map) {
+    Map<String, List<String>> dateToMealID = {
+      for (var data in (map['dateToMealID'] as Map<String, dynamic>).entries)
+        data.key: List<String>.from(data.value)
+    };
+
     return MealCollection(
       id: id,
       title: map['title'] ?? '',
       description: map['description'] ?? '',
       note: map['note'] ?? '',
       asset: map['asset'] ?? '',
-      dateToMealID: map['dateToMeal'],
+      dateToMealID: dateToMealID,
     );
   }
 }

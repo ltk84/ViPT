@@ -1,11 +1,13 @@
 import 'package:vipt/app/data/models/ingredient.dart';
 import 'package:vipt/app/data/models/meal.dart';
 import 'package:vipt/app/data/models/meal_category.dart';
+import 'package:vipt/app/data/models/meal_collection.dart';
 import 'package:vipt/app/data/models/vipt_user.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/providers/meal_category_provider.dart';
+import 'package:vipt/app/data/providers/meal_collection_provider.dart';
 import 'package:vipt/app/data/providers/meal_provider.dart';
 import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/data/providers/workout_category_provider.dart';
@@ -22,13 +24,12 @@ class DataService {
 
   static late List<Workout> _workoutList = [];
   static late List<Category> _workoutCateList = [];
-  // static late Map<String, int> _cateListAndNumWorkout;
-  // static late Map<String, int> _cateListAndNumCollection;
   static late List<Category> _collectionCateList = [];
   static late List<WorkoutCollection> _collectionList = [];
   static late List<WorkoutCollection> _userCollectionList = [];
   static late List<Category> _mealCategories = [];
   static late List<Meal> _mealList = [];
+  static late List<MealCollection> _mealCollectionList = [];
 
   final _userProvider = UserProvider();
   final _workoutProvider = WorkoutProvider();
@@ -37,16 +38,21 @@ class DataService {
   final _collectionProvider = WorkoutCollectionProvider();
   final _mealCategoryProvider = MealCategoryProvider();
   final _mealProvider = MealProvider();
+  final _mealCollectionProvider = MealCollectionProvider();
 
   List<Workout> get workoutList => [..._workoutList];
   List<Category> get workoutCateList => [..._workoutCateList];
-  // Map<String, int> get cateListAndNumWorkout => _cateListAndNumWorkout;
-  // Map<String, int> get cateListAndNumCollection => _cateListAndNumCollection;
   List<WorkoutCollection> get collectionList => [..._collectionList];
   List<WorkoutCollection> get userCollectionList => _userCollectionList;
   List<Category> get collectionCateList => [..._collectionCateList];
   List<Category> get mealCategoryList => [..._mealCategories];
   List<Meal> get mealList => [..._mealList];
+  List<MealCollection> get mealCollectionList => [..._mealCollectionList];
+
+  loadMealCollectionList() async {
+    if (_mealCollectionList.isNotEmpty) return;
+    _mealCollectionList = await _mealCollectionProvider.fetchAll();
+  }
 
   loadMealCategoryList() async {
     if (_mealCategories.isNotEmpty) return;
@@ -81,76 +87,6 @@ class DataService {
     if (_workoutCateList.isNotEmpty) return;
     _workoutCateList = await _workoutCategoryProvider.fetchAll();
   }
-
-  // bool checkIfWorkoutCategoryHasChild(Category cate) {
-  //   for (var item in workoutCateList) {
-  //     if (item.parentCategoryID == cate.id) return true;
-  //   }
-  //   return false;
-  // }
-
-  // bool checkIfCollectionCategoryHasChild(Category cate) {
-  //   for (var item in collectionCateList) {
-  //     if (item.parentCategoryID == cate.id) return true;
-  //   }
-  //   return false;
-  // }
-
-  // initCateListAndNumWorkout() async {
-  //   _cateListAndNumWorkout = {};
-  //   for (var item in DataService.instance.workoutCateList) {
-  //     String cateID = item.id as String;
-  //     _cateListAndNumWorkout[cateID] = countNumberOfChildBaseOnCateID(
-  //         cate: item, parentList: workoutCateList, childList: workoutList);
-  //   }
-  // }
-
-  // initCateListAndNumCollection() async {
-  //   _cateListAndNumCollection = {};
-  //   for (var item in DataService.instance.collectionCateList) {
-  //     String cateID = item.id as String;
-  //     _cateListAndNumCollection[cateID] = countNumberOfChildBaseOnCateID(
-  //         cate: item,
-  //         parentList: collectionCateList,
-  //         childList: collectionList);
-  //   }
-  // }
-
-  // int countNumberOfChildBaseOnCateID(
-  //     {required Category cate,
-  //     required List<dynamic> parentList,
-  //     required List<dynamic> childList}) {
-  //   int num = 0;
-  //   List<String> childCateID = [];
-
-  //   bool isRootCate = cate.isRootCategory();
-
-  //   if (isRootCate) {
-  //     for (var c in parentList) {
-  //       if (c.parentCategoryID == cate.id) {
-  //         childCateID.add(c.id ?? '');
-  //       }
-  //     }
-
-  //     if (childCateID.isNotEmpty) {
-  //       for (var child in childCateID) {
-  //         for (var wk in childList) {
-  //           num = num + (wk.categoryIDs.contains(child) ? 1 : 0);
-  //         }
-  //       }
-  //     } else {
-  //       for (var wk in childList) {
-  //         num = num + (wk.categoryIDs.contains(cate.id) ? 1 : 0);
-  //       }
-  //     }
-  //   } else {
-  //     for (var wk in childList) {
-  //       num = num + (wk.categoryIDs.contains(cate.id) ? 1 : 0);
-  //     }
-  //   }
-
-  //   return num;
-  // }
 
   loadCollectionCategoryList() async {
     if (_collectionCateList.isNotEmpty) return;

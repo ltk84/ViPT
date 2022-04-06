@@ -8,7 +8,7 @@ import 'package:vipt/app/routes/pages.dart';
 
 class MealPlanDishesWidget extends StatelessWidget {
   final List<MealNutrition> dishes;
-  final int day;
+  final String day;
 
   const MealPlanDishesWidget(
       {Key? key, required this.dishes, required this.day})
@@ -70,7 +70,7 @@ class MealPlanDishesWidget extends StatelessWidget {
               Get.toNamed(Routes.dishDetail, arguments: dish);
             },
             title: dish.meal.name,
-            description: '1000 kcal',
+            description: '${dish.calories.toStringAsFixed(0)} kcal',
           ),
         ),
       ),

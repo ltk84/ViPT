@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
-import 'package:vipt/app/data/fake_data.dart';
-import 'package:vipt/app/data/models/meal.dart';
 import 'package:vipt/app/data/models/meal_collection.dart';
 import 'package:vipt/app/data/models/meal_nutrition.dart';
 import 'package:vipt/app/data/providers/meal_provider.dart';
+import 'package:vipt/app/data/services/data_service.dart';
 
 class NutritionCollectionController extends GetxController {
-  List<MealCollection> mealCollectionList = mealCollectionFakeData;
+  List<MealCollection> mealCollectionList =
+      DataService.instance.mealCollectionList;
   // meal list cua collection dang duoc chon
   List<MealNutrition> currentMealList = [];
 
@@ -56,7 +56,7 @@ class NutritionCollectionController extends GetxController {
     }
   }
 
-  getMealListByDay(int dayId) {
+  getMealListByDay(String dayId) {
     return currentMealList
         .where((element) =>
             currentCollection.dateToMealID[dayId]!.contains(element.meal.id) ==
