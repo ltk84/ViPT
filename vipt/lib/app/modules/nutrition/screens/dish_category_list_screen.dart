@@ -4,7 +4,6 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/modules/nutrition/nutrition_controller.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
-import 'package:vipt/app/routes/pages.dart';
 
 class DishCategoryListScreen extends StatelessWidget {
   DishCategoryListScreen({Key? key}) : super(key: key);

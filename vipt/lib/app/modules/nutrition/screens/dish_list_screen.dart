@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/meal_nutrition.dart';
 import 'package:vipt/app/modules/nutrition/nutrition_controller.dart';
 import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
-import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class DishListScreen extends StatelessWidget {

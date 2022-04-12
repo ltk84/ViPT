@@ -1,6 +1,4 @@
-import 'package:vipt/app/data/models/ingredient.dart';
 import 'package:vipt/app/data/models/meal.dart';
-import 'package:vipt/app/data/models/meal_category.dart';
 import 'package:vipt/app/data/models/meal_collection.dart';
 import 'package:vipt/app/data/models/vipt_user.dart';
 import 'package:vipt/app/data/models/workout.dart';

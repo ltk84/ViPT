@@ -5,7 +5,6 @@ import 'package:vipt/app/core/utilities/utils.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
-import 'package:vipt/app/data/models/component.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/models/workout_collection_category.dart';

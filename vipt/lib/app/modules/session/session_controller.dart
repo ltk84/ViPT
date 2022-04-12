@@ -178,7 +178,6 @@ class SessionController extends GetxController {
 
     if (workoutTimerIndex >= timeList.length) {
       workoutTimerIndex--;
-      // TODO: chuyển sang screen thống kê
       handleCompleteSession();
       //Get.back();
       return;

@@ -1,4 +1,3 @@
-import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/ingredient.dart';
 import 'package:vipt/app/data/models/meal.dart';
 import 'package:vipt/app/data/providers/ingredient_provider.dart';

@@ -553,7 +553,6 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
       autoStart: false,
       onStart: () {},
       onComplete: () {
-        // TODO: chuyển sang screen thống kê
         _controller.handleCompleteSession();
         //Get.back();
       },
