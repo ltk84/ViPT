@@ -120,43 +120,6 @@ class DailyNutritionScreen extends StatelessWidget {
           ),
         ],
       ),
-      // body: ListView(
-      //   physics: const BouncingScrollPhysics(
-      //       parent: AlwaysScrollableScrollPhysics()),
-      //   children: [
-      //     Column(
-      //       children: [
-      //         SizedBox(
-      //           height: screenSize.height * 0.10,
-      //         ),
-      //         const SizedBox(
-      //           height: 4,
-      //         ),
-      //         ConstrainedBox(
-      //           constraints: BoxConstraints(
-      //               minHeight: screenSize.height * 0.7,
-      //               minWidth: screenSize.width),
-      //           child: Container(
-      //             padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-      //             decoration: BoxDecoration(
-      //               color: Theme.of(context).backgroundColor,
-      //               borderRadius: const BorderRadius.only(
-      //                 topLeft: Radius.circular(15),
-      //                 topRight: Radius.circular(15),
-      //               ),
-      //             ),
-      //             child: SingleChildScrollView(
-      //               physics: const NeverScrollableScrollPhysics(),
-      //               child: Column(
-      //                 children: [],
-      //               ),
-      //             ),
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ],
-      // ),
     );
   }
 
@@ -277,7 +240,7 @@ class DailyNutritionScreen extends StatelessWidget {
       useRootNavigator: false,
       //isScrollControlled: true,
       //backgroundColor: Colors.transparent,
-      barrierColor: Colors.black12,
+      barrierColor: Colors.black38,
       //elevation: 0.0,
       context: context,
       builder: (BuildContext context) {

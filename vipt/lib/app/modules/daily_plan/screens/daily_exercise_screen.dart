@@ -4,15 +4,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
+import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 
 class DailyExerciseScreen extends StatelessWidget {
   const DailyExerciseScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double bodyHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight -
+        kBottomNavigationBarHeight;
     List<String> tabs = [
       'Dinh dưỡng',
       'Luyện tập',
@@ -99,57 +106,56 @@ class DailyExerciseScreen extends StatelessWidget {
           parent: AlwaysScrollableScrollPhysics(),
         ),
         children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height -
-                MediaQuery.of(context).padding.top -
-                kToolbarHeight -
-                kBottomNavigationBarHeight,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildInfo(context),
-              ],
-            ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(minHeight: bodyHeight * 0.35),
+                child: _buildInfo(context),
+              ),
+              ConstrainedBox(
+                constraints: BoxConstraints(minHeight: bodyHeight * 0.65),
+                child: Container(
+                  width: double.maxFinite,
+                  padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).backgroundColor,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                    ),
+                  ),
+                  child: SingleChildScrollView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        Text(
+                          "LUYỆN TẬP".tr,
+                          style:
+                              Theme.of(context).textTheme.subtitle2!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        Divider(
+                          thickness: 1,
+                          color: AppColor.textFieldUnderlineColor,
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        ..._buildCollectionList([]),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
-      // body: ListView(
-      //   physics: const BouncingScrollPhysics(
-      //       parent: AlwaysScrollableScrollPhysics()),
-      //   children: [
-      //     Column(
-      //       children: [
-      //         SizedBox(
-      //           height: screenSize.height * 0.10,
-      //         ),
-      //         const SizedBox(
-      //           height: 4,
-      //         ),
-      //         ConstrainedBox(
-      //           constraints: BoxConstraints(
-      //               minHeight: screenSize.height * 0.7,
-      //               minWidth: screenSize.width),
-      //           child: Container(
-      //             padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-      //             decoration: BoxDecoration(
-      //               color: Theme.of(context).backgroundColor,
-      //               borderRadius: const BorderRadius.only(
-      //                 topLeft: Radius.circular(15),
-      //                 topRight: Radius.circular(15),
-      //               ),
-      //             ),
-      //             child: SingleChildScrollView(
-      //               physics: const NeverScrollableScrollPhysics(),
-      //               child: Column(
-      //                 children: [],
-      //               ),
-      //             ),
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ],
-      // ),
     );
   }
 
@@ -182,6 +188,19 @@ class DailyExerciseScreen extends StatelessWidget {
     );
   }
 
+  _buildCollectionList(List<WorkoutCollection> workoutCollectionList) {
+    return workoutCollectionList
+        .map((collection) => Container(
+              margin: const EdgeInsets.symmetric(vertical: 8),
+              child: ExerciseInCollectionTile(
+                  asset: collection.asset,
+                  title: collection.title,
+                  description: 'Category name',
+                  onPressed: () {}),
+            ))
+        .toList();
+  }
+
   _showSelection(context,
       {required List<String> items,
       required Function(int)? onSelectedItemChanged,
@@ -190,7 +209,7 @@ class DailyExerciseScreen extends StatelessWidget {
       useRootNavigator: false,
       //isScrollControlled: true,
       //backgroundColor: Colors.transparent,
-      barrierColor: Colors.black12,
+      barrierColor: Colors.black38,
       //elevation: 0.0,
       context: context,
       builder: (BuildContext context) {
