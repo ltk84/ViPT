@@ -25,6 +25,7 @@ class AppColor {
 
   // Daily Plan colors
   static const Color nutriBackgroundColor = Color(0xff42C988);
+  static const Color exerciseBackgroundColor = Color(0xffF44336);
 
   // Cube colors
   static const Color carbCubeColor = Color(0xff2CCCAF);

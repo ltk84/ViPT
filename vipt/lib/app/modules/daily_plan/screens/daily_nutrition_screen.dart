@@ -44,7 +44,7 @@ class DailyNutritionScreen extends StatelessWidget {
                 width: 8,
               ),
               Text(
-                'Dinh dưỡng'.tr,
+                tabs[0].tr,
                 style: Theme.of(context).textTheme.headline4!.copyWith(
                       color: AppColor.accentTextColor,
                     ),
@@ -111,7 +111,7 @@ class DailyNutritionScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildInfo(),
+                _buildInfo(context),
                 _buildNutritionFacts(),
                 _buildActionButton(),
                 _buildActionDescription(context),
@@ -160,22 +160,30 @@ class DailyNutritionScreen extends StatelessWidget {
     );
   }
 
-  _buildInfo() {
+  _buildInfo(context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: const [
-        VerticalInfoWidget(
-          title: '2074',
-          subtitle: 'hấp thụ',
+      children: [
+        SizedBox(
+          width: screenWidth * 0.25,
+          child: const VerticalInfoWidget(
+            title: '2074',
+            subtitle: 'hấp thụ',
+          ),
         ),
         GoalProgressIndicator(
+          radius: screenWidth * 0.5,
           title: '1460',
           subtitle: 'calories',
           progressValue: 0.5,
         ),
-        VerticalInfoWidget(
-          title: '614',
-          subtitle: 'tiêu hao',
+        SizedBox(
+          width: screenWidth * 0.25,
+          child: const VerticalInfoWidget(
+            title: '614',
+            subtitle: 'tiêu hao',
+          ),
         ),
       ],
     );

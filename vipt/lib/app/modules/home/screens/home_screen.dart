@@ -10,6 +10,7 @@ import 'package:vipt/app/data/providers/meal_category_provider.dart';
 import 'package:vipt/app/data/providers/meal_collection_provider.dart';
 import 'package:vipt/app/data/providers/meal_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
+import 'package:vipt/app/modules/daily_plan/screens/daily_exercise_screen.dart';
 import 'package:vipt/app/modules/daily_plan/screens/daily_nutrition_screen.dart';
 import 'package:vipt/app/modules/home/home_controller.dart';
 import 'package:vipt/app/modules/library/screens/library_screen.dart';
@@ -81,7 +82,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      const DailyNutritionScreen(),
+      const DailyExerciseScreen(),
       LibraryScreen(),
       // Container(),
       const ProfileScreen(),
