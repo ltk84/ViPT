@@ -22,7 +22,7 @@ class DailyNutritionScreen extends StatelessWidget {
       'Luyện tập',
       'Nước',
       'Bước chân',
-      'Fasting,'
+      'Fasting',
     ];
 
     return Scaffold(
@@ -129,20 +129,20 @@ class DailyNutritionScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         SizedBox(
-          width: screenWidth * 0.25,
+          width: screenWidth * 0.3,
           child: const VerticalInfoWidget(
             title: '2074',
             subtitle: 'hấp thụ',
           ),
         ),
         GoalProgressIndicator(
-          radius: screenWidth * 0.5,
+          radius: screenWidth * 0.3,
           title: '1460',
           subtitle: 'calories',
           progressValue: 0.5,
         ),
         SizedBox(
-          width: screenWidth * 0.25,
+          width: screenWidth * 0.3,
           child: const VerticalInfoWidget(
             title: '614',
             subtitle: 'tiêu hao',
@@ -221,7 +221,7 @@ class DailyNutritionScreen extends StatelessWidget {
 
   _buildActionDescription(context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+      padding: const EdgeInsets.fromLTRB(36, 0, 36, 24),
       child: Text(
         'Chạm vào trái tim xanh để cập nhật lượng thức ăn đã ăn.',
         style: Theme.of(context).textTheme.bodyText1!.copyWith(

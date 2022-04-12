@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
@@ -25,7 +24,7 @@ class DailyExerciseScreen extends StatelessWidget {
       'Luyện tập',
       'Nước',
       'Bước chân',
-      'Fasting,'
+      'Fasting',
     ];
 
     return Scaffold(
