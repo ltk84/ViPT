@@ -9,9 +9,10 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
+import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
 
-class DailyWaterScreen extends StatelessWidget {
-  const DailyWaterScreen({Key? key}) : super(key: key);
+class DailyStepScreen extends StatelessWidget {
+  const DailyStepScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class DailyWaterScreen extends StatelessWidget {
 
     return Scaffold(
       //extendBodyBehindAppBar: true,
-      backgroundColor: AppColor.waterBackgroundColor,
+      backgroundColor: AppColor.stepTrackingBackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -33,7 +34,7 @@ class DailyWaterScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           onTap: () async {
             _showSelection(context,
-                items: tabs, value: 2, onSelectedItemChanged: (value) {});
+                items: tabs, value: 3, onSelectedItemChanged: (value) {});
           },
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -42,7 +43,7 @@ class DailyWaterScreen extends StatelessWidget {
                 width: 8,
               ),
               Text(
-                tabs[2].tr,
+                tabs[3].tr,
                 style: Theme.of(context).textTheme.headline4!.copyWith(
                       color: AppColor.accentTextColor,
                     ),
@@ -110,48 +111,62 @@ class DailyWaterScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildInfo(context),
-                _buildActionButton(),
-                _buildActionDescription(context),
               ],
             ),
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Colors.white,
+        onPressed: () {},
+        isExtended: true,
+        elevation: 1,
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        label: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.75,
+          child: Text(
+            'Dừng theo dõi bước chân'.tr,
+            style: Theme.of(context)
+                .textTheme
+                .button!
+                .copyWith(color: AppColor.stepTrackingBackgroundColor),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
   _buildInfo(context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    return GoalProgressIndicator(
-      radius: screenWidth * 0.36,
-      title: '2000',
-      subtitle: 'ml',
-      progressValue: 0.5,
-    );
-  }
-
-  _buildActionButton() {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 24,
-      ),
-      child: ScaleTap(
-        onPressed: () {},
-        child: SvgPicture.asset(SVGAssetString.dropWater),
-      ),
-    );
-  }
-
-  _buildActionDescription(context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(36, 0, 36, 24),
-      child: Text(
-        'Chạm vào giọt nước để cập nhật lượng nước đã uống.',
-        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-              color: AppColor.accentTextColor,
-            ),
-        textAlign: TextAlign.center,
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        SizedBox(
+          width: screenWidth * 0.3,
+          child: const VerticalInfoWidget(
+            title: '12,000',
+            subtitle: 'm',
+          ),
+        ),
+        GoalProgressIndicator(
+          radius: screenWidth * 0.36,
+          title: '15,000',
+          subtitle: 'bước chân',
+          progressValue: 0.5,
+        ),
+        SizedBox(
+          width: screenWidth * 0.3,
+          child: const VerticalInfoWidget(
+            title: '60',
+            subtitle: 'phút',
+          ),
+        ),
+      ],
     );
   }
 
