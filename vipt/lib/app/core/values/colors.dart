@@ -23,6 +23,9 @@ class AppColor {
   static Color darkModeShadowColor = Colors.white.withOpacity(0.1);
   static Color disableButtonColor = Colors.grey;
 
+  // Daily Plan colors
+  static const Color nutriBackgroundColor = Color(0xff42C988);
+
   // Cube colors
   static const Color carbCubeColor = Color(0xff2CCCAF);
   static const Color proteinCubeColor = Color(0xffF49B69);

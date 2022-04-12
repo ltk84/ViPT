@@ -94,4 +94,8 @@ class SVGAssetString {
   static const String yoga_2 = '$_path/yoga_2.svg';
   static const String dish = '$_path/dish.svg';
   static const String calendar = '$_path/calendar.svg';
+  static const String nutritionHeart = '$_path/nutrition_heart.svg';
+  static const String carb = '$_path/carb.svg';
+  static const String protein = '$_path/protein.svg';
+  static const String fat = '$_path/fat.svg';
 }

@@ -7,15 +7,19 @@ class InfoCubeWidget extends StatelessWidget {
   final double width;
   final double height;
   final Color textColor;
-  const InfoCubeWidget(
-      {Key? key,
-      this.color = Colors.grey,
-      this.title = '',
-      this.subtitle = '',
-      this.width = 80,
-      this.height = 75,
-      this.textColor = Colors.black})
-      : super(key: key);
+  final Color? borderColor;
+  final BoxShape? shape;
+  const InfoCubeWidget({
+    Key? key,
+    this.color = Colors.grey,
+    this.title = '',
+    this.subtitle = '',
+    this.width = 80,
+    this.height = 75,
+    this.textColor = Colors.black,
+    this.borderColor,
+    this.shape,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +29,19 @@ class InfoCubeWidget extends StatelessWidget {
         height: height,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
+          border: borderColor == null
+              ? null
+              : Border.all(
+                  color: borderColor!,
+                  width: 5,
+                ),
           color: color,
-          borderRadius: BorderRadius.circular(5),
+          borderRadius:
+              shape == BoxShape.circle ? null : BorderRadius.circular(5),
+          shape: shape ?? BoxShape.rectangle,
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
               title,
