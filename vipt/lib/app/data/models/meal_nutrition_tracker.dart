@@ -1,8 +1,8 @@
 import 'package:vipt/app/data/models/tracker.dart';
 
 class MealNutritionTracker extends Tracker {
-  num intakeCalories;
-  num outtakeCalories;
+  int intakeCalories;
+  int outtakeCalories;
   late num diffCalories;
 
   MealNutritionTracker({
@@ -14,7 +14,7 @@ class MealNutritionTracker extends Tracker {
     diffCalories = intakeCalories - outtakeCalories;
   }
 
-  void updateIntake(num intake) {
+  void updateIntake(int intake) {
     intakeCalories = intake;
     diffCalories = intakeCalories - outtakeCalories;
   }

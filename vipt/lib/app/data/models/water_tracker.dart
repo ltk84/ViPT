@@ -1,7 +1,7 @@
 import 'package:vipt/app/data/models/tracker.dart';
 
 class WaterTracker extends Tracker {
-  num waterVolume;
+  int waterVolume;
 
   WaterTracker({int? id, required DateTime date, required this.waterVolume})
       : super(id: id, date: date);
@@ -9,7 +9,7 @@ class WaterTracker extends Tracker {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
-      'date': super.date,
+      'date': super.date.toString(),
       'waterVolume': waterVolume,
     };
 
@@ -24,6 +24,6 @@ class WaterTracker extends Tracker {
     return WaterTracker(
         id: map['id'] ?? 0,
         waterVolume: map['waterVolume'] ?? 0,
-        date: map['date'] ?? DateTime.now());
+        date: DateTime.parse(map['date']));
   }
 }

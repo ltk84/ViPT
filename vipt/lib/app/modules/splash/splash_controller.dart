@@ -9,7 +9,7 @@ class SplashController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await AppStartService.instance.initFirebase();
+    await AppStartService.instance.initService();
     await Future.delayed(const Duration(seconds: 3), () {});
     _navigateToNextScreen();
   }

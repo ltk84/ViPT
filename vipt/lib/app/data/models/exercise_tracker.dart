@@ -1,9 +1,9 @@
 import 'package:vipt/app/data/models/tracker.dart';
 
 class ExerciseTracker extends Tracker {
-  num outtakeCalories;
+  int outtakeCalories;
   int sessionNumber;
-  num totalTime;
+  int totalTime;
 
   ExerciseTracker({
     int? id,

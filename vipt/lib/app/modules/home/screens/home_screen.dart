@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/core/values/colors.dart';
-import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
-import 'package:vipt/app/data/models/tracker.dart';
+import 'package:vipt/app/data/models/water_tracker.dart';
+import 'package:vipt/app/data/providers/water_track_provider.dart';
 import 'package:vipt/app/modules/daily_plan/screens/daily_step_screen.dart';
 import 'package:vipt/app/modules/home/home_controller.dart';
 import 'package:vipt/app/modules/library/screens/library_screen.dart';
@@ -57,7 +57,16 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
-              onPressed: () async {},
+              onPressed: () async {
+                WaterTracker wt =
+                    WaterTracker(date: DateTime.now(), waterVolume: 30);
+
+                // await WaterTrackProvider().add(wt);
+
+                await WaterTrackProvider()
+                    .fetchAll()
+                    .then((value) => print(value[0].id));
+              },
               child: const Text('Fetch data'),
             ),
             TextButton(

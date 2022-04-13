@@ -7,7 +7,7 @@ import 'app/routes/pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  AppStartService.instance.initFirebase();
+  AppStartService.instance.initService();
   runApp(const MyApp());
 }
 
