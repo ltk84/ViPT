@@ -34,7 +34,7 @@ class DailyFastingScreen extends StatelessWidget {
         title: InkWell(
           borderRadius: BorderRadius.circular(8),
           onTap: () async {
-            _showSelection(context,
+            _showTabSelection(context,
                 items: tabs, value: 4, onSelectedItemChanged: (value) {});
           },
           child: Row(
@@ -91,7 +91,7 @@ class DailyFastingScreen extends StatelessWidget {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FloatingActionTile(
+          FloatingPropertyTile(
               title: 'Thời gian bắt đầu',
               value: '8:48',
               iconData: Icons.timer,
@@ -99,7 +99,7 @@ class DailyFastingScreen extends StatelessWidget {
           const SizedBox(
             height: 14,
           ),
-          FloatingActionTile(
+          FloatingPropertyTile(
               title: 'Kiểu fasting',
               value: '12 tiếng fasting',
               iconData: Icons.category_outlined,
@@ -185,7 +185,7 @@ class DailyFastingScreen extends StatelessWidget {
     );
   }
 
-  _showSelection(context,
+  _showTabSelection(context,
       {required List<String> items,
       required Function(int)? onSelectedItemChanged,
       required int value}) async {

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:vipt/app/core/values/colors.dart';
 
-class FloatingActionTile extends StatelessWidget {
+class FloatingPropertyTile extends StatelessWidget {
   final String title;
   final String value;
   final IconData iconData;
   final Function() onPressed;
 
-  const FloatingActionTile(
+  const FloatingPropertyTile(
       {Key? key,
       required this.title,
       required this.value,

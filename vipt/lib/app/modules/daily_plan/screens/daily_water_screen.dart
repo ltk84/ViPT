@@ -32,7 +32,7 @@ class DailyWaterScreen extends StatelessWidget {
         title: InkWell(
           borderRadius: BorderRadius.circular(8),
           onTap: () async {
-            _showSelection(context,
+            _showTabSelection(context,
                 items: tabs, value: 2, onSelectedItemChanged: (value) {});
           },
           child: Row(
@@ -155,7 +155,7 @@ class DailyWaterScreen extends StatelessWidget {
     );
   }
 
-  _showSelection(context,
+  _showTabSelection(context,
       {required List<String> items,
       required Function(int)? onSelectedItemChanged,
       required int value}) async {
