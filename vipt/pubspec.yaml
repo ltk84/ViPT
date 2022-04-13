@@ -59,6 +59,7 @@ dependencies:
   circular_countdown_timer: ^0.2.0
   cached_network_image: ^3.2.0
   flutter_scale_tap: ^1.0.5
+  sqflite: ^2.0.2
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,7 @@
 abstract class Tracker {
+  final int? id;
   final DateTime date;
-  void updateToDB();
+  Map<String, dynamic> toMap();
 
-  Tracker(this.date);
+  Tracker({this.id, required this.date});
 }

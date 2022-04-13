@@ -6,10 +6,11 @@ class MealNutritionTracker extends Tracker {
   late num diffCalories;
 
   MealNutritionTracker({
+    int? id,
     required DateTime date,
     required this.intakeCalories,
     required this.outtakeCalories,
-  }) : super(date) {
+  }) : super(id: id, date: date) {
     diffCalories = intakeCalories - outtakeCalories;
   }
 
@@ -19,7 +20,26 @@ class MealNutritionTracker extends Tracker {
   }
 
   @override
-  void updateToDB() {
-    // TODO: implement updateToDB
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = {
+      'date': super.date,
+      'intakeCalories': intakeCalories,
+      'outtakeCalories': outtakeCalories,
+    };
+
+    if (super.id != null) {
+      map['id'] = super.id;
+    }
+
+    return map;
+  }
+
+  factory MealNutritionTracker.fromMap(Map<String, dynamic> map) {
+    return MealNutritionTracker(
+      id: map['id'],
+      date: map['date'],
+      intakeCalories: map['intakeCalories'] ?? 0,
+      outtakeCalories: map['outtakeCalories'] ?? 0,
+    );
   }
 }
