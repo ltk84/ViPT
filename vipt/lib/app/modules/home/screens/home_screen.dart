@@ -15,6 +15,7 @@ import 'package:vipt/app/modules/daily_plan/screens/daily_fasting_screen.dart';
 import 'package:vipt/app/modules/daily_plan/screens/daily_nutrition_screen.dart';
 import 'package:vipt/app/modules/daily_plan/screens/daily_step_screen.dart';
 import 'package:vipt/app/modules/daily_plan/screens/daily_water_screen.dart';
+import 'package:vipt/app/modules/daily_plan/screens/water_history_screen.dart';
 import 'package:vipt/app/modules/home/home_controller.dart';
 import 'package:vipt/app/modules/library/screens/library_screen.dart';
 import 'package:vipt/app/modules/profile/screens/profile_screen.dart';
@@ -85,7 +86,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      const DailyFastingScreen(),
+      const DailyNutritionScreen(),
       LibraryScreen(),
       // Container(),
       const ProfileScreen(),

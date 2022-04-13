@@ -45,7 +45,9 @@ class HistoryTile extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: Theme.of(context).textTheme.headline4,
+                      style: Theme.of(context).textTheme.button!.copyWith(
+                            color: AppColor.textColor,
+                          ),
                     ),
                     const SizedBox(
                       height: 2,

@@ -18,25 +18,25 @@ class NutritionHistoryScreen extends StatelessWidget {
     List<Map<String, String>> nutritionHistory = [
       {
         'name': 'Thịt bò',
-        'description': '100g - 260kcal',
+        'description': '260 kcal',
         'date': '11/04/2022',
         'time': '10:00',
       },
       {
         'name': 'Thịt heo',
-        'description': '157g - 300kcal',
+        'description': '300 kcal',
         'date': '12/04/2022',
         'time': '12:30',
       },
       {
         'name': 'Táo',
-        'description': '5g - 35kcal',
+        'description': '35 kcal',
         'date': '05/05/2022',
         'time': '16:30',
       },
       {
         'name': 'Chuối',
-        'description': '6g - 38kcal',
+        'description': '38 kcal',
         'date': '03/04/2022',
         'time': '18:30',
       }
