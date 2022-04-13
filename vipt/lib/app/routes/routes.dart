@@ -30,4 +30,5 @@ abstract class Routes {
   static const mealPlanList = '/mealPlanList';
   static const mealPlanDetail = '/mealPlanDetail';
   static const nutritionHistory = '/nutritionHistory';
+  static const waterHistory = '/waternHistory';
 }

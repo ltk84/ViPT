@@ -7,7 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/global_widgets/info_cube_widget.dart';
-import 'package:vipt/app/modules/daily_plan/widgets/nutrition_history_tile.dart';
+import 'package:vipt/app/modules/daily_plan/widgets/history_tile.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
 
 class NutritionHistoryScreen extends StatelessWidget {
@@ -18,7 +18,7 @@ class NutritionHistoryScreen extends StatelessWidget {
     List<Map<String, String>> nutritionHistory = [
       {
         'name': 'Thịt bò',
-        'description': '100 - 260kcal',
+        'description': '100g - 260kcal',
         'date': '11/04/2022',
         'time': '10:00',
       },
@@ -76,7 +76,7 @@ class NutritionHistoryScreen extends StatelessWidget {
               _buildInfo(context),
               _buildNutritionFacts(),
               _buildHistoryList(context, nutritionHistory),
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
             ],
@@ -205,7 +205,7 @@ class NutritionHistoryScreen extends StatelessWidget {
           ...nutritionHistory.map((log) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
-              child: NutritionHistoryTile(
+              child: HistoryTile(
                 title: log['name'] ?? '',
                 description: log['description'] ?? '',
                 date: log['date'] ?? '',

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:vipt/app/core/values/colors.dart';
 
-class NutritionHistoryTile extends StatelessWidget {
+class HistoryTile extends StatelessWidget {
   final String title;
   final String description;
   final String date;
   final String time;
 
-  const NutritionHistoryTile(
+  const HistoryTile(
       {Key? key,
       required this.title,
       required this.description,

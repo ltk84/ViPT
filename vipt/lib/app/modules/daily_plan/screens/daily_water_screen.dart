@@ -9,6 +9,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 class DailyWaterScreen extends StatelessWidget {
   const DailyWaterScreen({Key? key}) : super(key: key);
@@ -109,7 +110,12 @@ class DailyWaterScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildInfo(context),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(Routes.waterHistory);
+                  },
+                  child: _buildInfo(context),
+                ),
                 _buildActionButton(),
                 _buildActionDescription(context),
               ],
@@ -122,11 +128,14 @@ class DailyWaterScreen extends StatelessWidget {
 
   _buildInfo(context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    return GoalProgressIndicator(
-      radius: screenWidth * 0.36,
-      title: '2000',
-      subtitle: 'ml',
-      progressValue: 0.5,
+    return Hero(
+      tag: 'waterIntakeWidget',
+      child: GoalProgressIndicator(
+        radius: screenWidth * 0.36,
+        title: '2000',
+        subtitle: 'ml',
+        progressValue: 0.5,
+      ),
     );
   }
 
