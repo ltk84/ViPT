@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/meal_collection.dart';
 import 'package:vipt/app/global_widgets/app_bar_icon_button.dart';
@@ -9,7 +8,6 @@ import 'package:vipt/app/modules/loading/screens/loading_screen.dart';
 import 'package:vipt/app/modules/nutrition_collection/nutrition_collection_controller.dart';
 import 'package:vipt/app/modules/nutrition_collection/widgets/meal_plan_dishes_widget.dart';
 import 'package:vipt/app/modules/nutrition_collection/widgets/meal_plan_information_widget.dart';
-import 'package:vipt/app/modules/profile/widgets/custom_tile.dart';
 
 class MealPlanDetailScreen extends StatelessWidget {
   MealPlanDetailScreen({Key? key}) : super(key: key);

@@ -106,7 +106,8 @@ class PreviewExerciseList extends StatelessWidget {
                           height: 2,
                         ),
                         Text(
-                          'Số vòng: 2'.tr,
+                          'Số vòng: ${_controller.collectionSetting.value.round}'
+                              .tr,
                           style:
                               Theme.of(context).textTheme.bodyText1!.copyWith(
                                     color: AppColor.textColor.withOpacity(

@@ -22,7 +22,7 @@ class DailyNutritionScreen extends StatelessWidget {
       'Luyện tập',
       'Nước',
       'Bước chân',
-      'Fasting,'
+      'Fasting',
     ];
 
     return Scaffold(
@@ -44,7 +44,7 @@ class DailyNutritionScreen extends StatelessWidget {
                 width: 8,
               ),
               Text(
-                'Dinh dưỡng'.tr,
+                tabs[0].tr,
                 style: Theme.of(context).textTheme.headline4!.copyWith(
                       color: AppColor.accentTextColor,
                     ),
@@ -111,7 +111,7 @@ class DailyNutritionScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildInfo(),
+                _buildInfo(context),
                 _buildNutritionFacts(),
                 _buildActionButton(),
                 _buildActionDescription(context),
@@ -120,62 +120,33 @@ class DailyNutritionScreen extends StatelessWidget {
           ),
         ],
       ),
-      // body: ListView(
-      //   physics: const BouncingScrollPhysics(
-      //       parent: AlwaysScrollableScrollPhysics()),
-      //   children: [
-      //     Column(
-      //       children: [
-      //         SizedBox(
-      //           height: screenSize.height * 0.10,
-      //         ),
-      //         const SizedBox(
-      //           height: 4,
-      //         ),
-      //         ConstrainedBox(
-      //           constraints: BoxConstraints(
-      //               minHeight: screenSize.height * 0.7,
-      //               minWidth: screenSize.width),
-      //           child: Container(
-      //             padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-      //             decoration: BoxDecoration(
-      //               color: Theme.of(context).backgroundColor,
-      //               borderRadius: const BorderRadius.only(
-      //                 topLeft: Radius.circular(15),
-      //                 topRight: Radius.circular(15),
-      //               ),
-      //             ),
-      //             child: SingleChildScrollView(
-      //               physics: const NeverScrollableScrollPhysics(),
-      //               child: Column(
-      //                 children: [],
-      //               ),
-      //             ),
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ],
-      // ),
     );
   }
 
-  _buildInfo() {
+  _buildInfo(context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: const [
-        VerticalInfoWidget(
-          title: '2074',
-          subtitle: 'hấp thụ',
+      children: [
+        SizedBox(
+          width: screenWidth * 0.3,
+          child: const VerticalInfoWidget(
+            title: '2074',
+            subtitle: 'hấp thụ',
+          ),
         ),
         GoalProgressIndicator(
+          radius: screenWidth * 0.3,
           title: '1460',
           subtitle: 'calories',
           progressValue: 0.5,
         ),
-        VerticalInfoWidget(
-          title: '614',
-          subtitle: 'tiêu hao',
+        SizedBox(
+          width: screenWidth * 0.3,
+          child: const VerticalInfoWidget(
+            title: '614',
+            subtitle: 'tiêu hao',
+          ),
         ),
       ],
     );
@@ -250,7 +221,7 @@ class DailyNutritionScreen extends StatelessWidget {
 
   _buildActionDescription(context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+      padding: const EdgeInsets.fromLTRB(36, 0, 36, 24),
       child: Text(
         'Chạm vào trái tim xanh để cập nhật lượng thức ăn đã ăn.',
         style: Theme.of(context).textTheme.bodyText1!.copyWith(
@@ -269,7 +240,7 @@ class DailyNutritionScreen extends StatelessWidget {
       useRootNavigator: false,
       //isScrollControlled: true,
       //backgroundColor: Colors.transparent,
-      barrierColor: Colors.black12,
+      barrierColor: Colors.black38,
       //elevation: 0.0,
       context: context,
       builder: (BuildContext context) {
