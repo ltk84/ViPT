@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:vipt/app/core/values/colors.dart';
 
-class InputAmountDialog extends StatelessWidget {
+class InputAmountDialog extends StatefulWidget {
   final String title;
-  final String valueString;
+  final String unit;
   final int value;
   final int min;
   final int max;
-  final Function()? onConfirm;
-  final Function(double)? onValueChanged;
   final Color? confirmButtonColor;
   final Color? sliderActiveColor;
   final Color? sliderInactiveColor;
@@ -17,17 +15,30 @@ class InputAmountDialog extends StatelessWidget {
   const InputAmountDialog(
       {Key? key,
       this.title = '',
-      this.valueString = '0ml',
+      this.unit = 'g',
       this.value = 0,
       this.min = 0,
       this.max = 3000,
-      this.onConfirm,
-      this.onValueChanged,
       this.confirmButtonColor,
       this.sliderActiveColor,
       this.sliderInactiveColor,
       this.confirmButtonText = 'Xác nhận'})
       : super(key: key);
+
+  @override
+  State<InputAmountDialog> createState() => _InputAmountDialogState();
+}
+
+class _InputAmountDialogState extends State<InputAmountDialog> {
+  int _value = 1;
+  String _unit = 'g';
+
+  @override
+  void initState() {
+    _value = widget.value;
+    _unit = widget.unit;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +70,7 @@ class InputAmountDialog extends StatelessWidget {
               ],
             ),
             Text(
-              title,
+              widget.title,
               style: Theme.of(context).textTheme.button!.copyWith(
                     color: AppColor.textColor,
                   ),
@@ -69,7 +80,7 @@ class InputAmountDialog extends StatelessWidget {
               height: 2,
             ),
             Text(
-              valueString,
+              '$_value$_unit',
               style: Theme.of(context).textTheme.bodyText1!.copyWith(
                     color:
                         AppColor.textColor.withOpacity(AppColor.subTextOpacity),
@@ -80,12 +91,16 @@ class InputAmountDialog extends StatelessWidget {
               height: 16,
             ),
             Slider(
-              value: 200,
-              onChanged: onValueChanged,
+              value: _value.toDouble(),
+              onChanged: (value) {
+                setState(() {
+                  _value = value.toInt();
+                });
+              },
               min: 1,
               max: 3000,
-              activeColor: sliderActiveColor,
-              inactiveColor: sliderInactiveColor,
+              activeColor: widget.sliderActiveColor,
+              inactiveColor: widget.sliderInactiveColor,
               thumbColor: AppColor.accentTextColor,
             ),
             const SizedBox(
@@ -95,10 +110,12 @@ class InputAmountDialog extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Material(
                 borderRadius: BorderRadius.circular(5),
-                color: confirmButtonColor,
+                color: widget.confirmButtonColor,
                 child: InkWell(
                   borderRadius: BorderRadius.circular(5),
-                  onTap: onConfirm,
+                  onTap: () {
+                    Navigator.of(context).pop(_value);
+                  },
                   child: Container(
                     width: double.infinity,
                     padding:
@@ -107,7 +124,7 @@ class InputAmountDialog extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Text(
-                      confirmButtonText,
+                      widget.confirmButtonText,
                       style: Theme.of(context).textTheme.button,
                       textAlign: TextAlign.center,
                     ),

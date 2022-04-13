@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/modules/daily_plan/widgets/input_amount_dialog.dart';
 
 class DishIngredientsWidget extends StatelessWidget {
   final bool showTitle;
   final Map<String, String> ingredients;
+  final Color? tileColor;
+  final bool enableEdittingAmount;
 
-  const DishIngredientsWidget(
-      {Key? key, this.showTitle = true, required this.ingredients})
-      : super(key: key);
+  const DishIngredientsWidget({
+    Key? key,
+    this.showTitle = true,
+    required this.ingredients,
+    this.tileColor,
+    this.enableEdittingAmount = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +49,36 @@ class DishIngredientsWidget extends StatelessWidget {
     List<TableRow> rows = [];
     for (int i = 0; i < ingredients.length; i++) {
       rows.add(
-        _buildIngredientRow(
-          context,
-          title: ingredients.keys.elementAt(i).toString(),
-          amount: ingredients.values.elementAt(i).toString(),
-        ),
+        _buildIngredientRow(context,
+            title: ingredients.keys.elementAt(i).toString(),
+            amount: ingredients.values.elementAt(i).toString(),
+            onAmountPressed: enableEdittingAmount
+                ? () async {
+                    final result = await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputAmountDialog(
+                          title:
+                              'Khối lượng ${ingredients.keys.elementAt(i).toLowerCase()}',
+                          unit: ingredients.values
+                              .elementAt(i)
+                              .replaceAll(RegExp(r"[0-9]"), ""),
+                          value: int.tryParse(ingredients.values
+                                  .elementAt(i)
+                                  .replaceAll(RegExp(r"\D"), "")) ??
+                              0,
+                          confirmButtonColor: AppColor.nutriBackgroundColor,
+                          confirmButtonText: 'Xác nhận',
+                          sliderActiveColor: AppColor.nutriDarkBackgroundColor,
+                          sliderInactiveColor:
+                              AppColor.nutriBackgroundColor.withOpacity(
+                            AppColor.subTextOpacity,
+                          ),
+                        );
+                      },
+                    );
+                  }
+                : null),
       );
       rows.add(
         _buildEmptyRow(),
@@ -55,14 +87,18 @@ class DishIngredientsWidget extends StatelessWidget {
     return rows;
   }
 
-  TableRow _buildIngredientRow(context,
-      {required String title, required String amount}) {
+  TableRow _buildIngredientRow(
+    context, {
+    required String title,
+    required String amount,
+    void Function()? onAmountPressed,
+  }) {
     return TableRow(children: [
       TableCell(
         child: Container(
           padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
-            color: Theme.of(context).backgroundColor,
+            color: tileColor ?? Theme.of(context).backgroundColor,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Text(
@@ -76,16 +112,20 @@ class DishIngredientsWidget extends StatelessWidget {
       ),
       TableCell(
         verticalAlignment: TableCellVerticalAlignment.fill,
-        child: Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(18),
-          decoration: BoxDecoration(
-            color: Theme.of(context).backgroundColor,
+        child: Material(
+          color: tileColor ?? Theme.of(context).backgroundColor,
+          borderRadius: BorderRadius.circular(10),
+          child: InkWell(
+            onTap: onAmountPressed,
             borderRadius: BorderRadius.circular(10),
-          ),
-          child: Text(
-            amount,
-            style: Theme.of(context).textTheme.caption,
+            child: Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(18),
+              child: Text(
+                amount,
+                style: Theme.of(context).textTheme.caption,
+              ),
+            ),
           ),
         ),
       ),

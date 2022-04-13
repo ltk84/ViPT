@@ -25,14 +25,16 @@ class AppColor {
 
   // Daily Plan colors
   static const Color nutriBackgroundColor = Color(0xff42C988);
+  static const Color nutriDarkBackgroundColor = Color(0xff1E7200);
   static const Color exerciseBackgroundColor = Color(0xffF44336);
   static const Color waterBackgroundColor = Color(0xff437DEC);
   static const Color waterDarkBackgroundColor = Color(0xff3468CC);
   static const Color stepTrackingBackgroundColor = Color(0xff864BD0);
-  static const Color stepTrackingDarkBackgroundColor = Color(0xff7200E3);
+  static const Color stepTrackingDarkBackgroundColor = Color(0xff7602D1);
   static const Color fastingBackgroundColor = Color(0xffDD6D1C);
   static const Color fastingLightBackgroundColor = Color(0xffFF961B);
   static const Color fastingLightSecondaryBackgroundColor = Color(0xffFFDBB0);
+  static const Color ingredientTileColor = Color(0xffF2F1F1);
 
   // Cube colors
   static const Color carbCubeColor = Color(0xff2CCCAF);

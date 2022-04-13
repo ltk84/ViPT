@@ -151,10 +151,8 @@ class DailyWaterScreen extends StatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return InputAmountDialog(
-                onConfirm: () {},
-                onValueChanged: (value) {},
                 title: 'Nước',
-                valueString: '200ml',
+                unit: 'ml',
                 value: 200,
                 confirmButtonColor: AppColor.waterBackgroundColor,
                 confirmButtonText: 'Thêm',

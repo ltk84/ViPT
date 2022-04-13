@@ -9,6 +9,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/global_widgets/info_cube_widget.dart';
+import 'package:vipt/app/modules/daily_plan/screens/add_food_screen.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
 import 'package:vipt/app/routes/pages.dart';
@@ -223,7 +224,20 @@ class DailyNutritionScreen extends StatelessWidget {
         top: 24,
       ),
       child: ScaleTap(
-        onPressed: () {},
+        onPressed: () {
+          Get.bottomSheet(
+            Container(
+              margin: const EdgeInsets.only(top: 48),
+              child: const ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.0),
+                    topRight: Radius.circular(10.0),
+                  ),
+                  child: AddFoodScreen()),
+            ),
+            isScrollControlled: true,
+          );
+        },
         child: SvgPicture.asset(
           SVGAssetString.nutritionHeart,
         ),

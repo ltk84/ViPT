@@ -10,6 +10,7 @@ class MultipleChoiceCard extends StatelessWidget {
   final String asset;
   final bool isSelected;
   final Function onSelected;
+  final Color? selectedColor;
 
   const MultipleChoiceCard({
     Key? key,
@@ -18,6 +19,7 @@ class MultipleChoiceCard extends StatelessWidget {
     this.asset = '',
     required this.isSelected,
     required this.onSelected,
+    this.selectedColor,
   }) : super(key: key);
 
   @override
@@ -26,7 +28,7 @@ class MultipleChoiceCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         side: isSelected
             ? BorderSide(
-                color: Theme.of(context).primaryColor,
+                color: selectedColor ?? Theme.of(context).primaryColor,
                 width: 1.2,
               )
             : BorderSide.none,
@@ -53,7 +55,8 @@ class MultipleChoiceCard extends StatelessWidget {
                     trailing: isSelected
                         ? Icon(
                             Icons.check_circle,
-                            color: Theme.of(context).primaryColor,
+                            color:
+                                selectedColor ?? Theme.of(context).primaryColor,
                           )
                         : const Icon(
                             Icons.radio_button_unchecked_outlined,

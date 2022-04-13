@@ -117,7 +117,7 @@ class DailyStepScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColor.stepTrackingDarkBackgroundColor,
         onPressed: () {},
         isExtended: true,
         elevation: 1,
@@ -128,11 +128,11 @@ class DailyStepScreen extends StatelessWidget {
         label: SizedBox(
           width: MediaQuery.of(context).size.width * 0.75,
           child: Text(
-            'Dừng theo dõi bước chân'.tr,
+            'Bật theo dõi bước chân'.tr,
             style: Theme.of(context)
                 .textTheme
                 .button!
-                .copyWith(color: AppColor.stepTrackingBackgroundColor),
+                .copyWith(color: AppColor.accentTextColor),
             textAlign: TextAlign.center,
           ),
         ),
