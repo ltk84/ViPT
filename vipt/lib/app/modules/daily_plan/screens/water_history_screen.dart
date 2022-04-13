@@ -5,6 +5,7 @@ import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/history_tile.dart';
+import 'package:vipt/app/modules/daily_plan/widgets/input_amount_dialog.dart';
 
 class WaterHistoryScreen extends StatelessWidget {
   const WaterHistoryScreen({Key? key}) : super(key: key);
@@ -78,7 +79,7 @@ class WaterHistoryScreen extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: _buildActionButton(),
+      floatingActionButton: _buildActionButton(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
@@ -139,13 +140,32 @@ class WaterHistoryScreen extends StatelessWidget {
     );
   }
 
-  _buildActionButton() {
+  _buildActionButton(context) {
     return Padding(
       padding: const EdgeInsets.only(
         top: 24,
       ),
       child: ScaleTap(
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return InputAmountDialog(
+                onConfirm: () {},
+                onValueChanged: (value) {},
+                title: 'Nước',
+                valueString: '200ml',
+                value: 200,
+                confirmButtonColor: AppColor.waterBackgroundColor,
+                confirmButtonText: 'Thêm',
+                sliderActiveColor: AppColor.waterDarkBackgroundColor,
+                sliderInactiveColor: AppColor.waterBackgroundColor.withOpacity(
+                  AppColor.subTextOpacity,
+                ),
+              );
+            },
+          );
+        },
         child: SvgPicture.asset(
           SVGAssetString.dropWater,
           width: 70,
