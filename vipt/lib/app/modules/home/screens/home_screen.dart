@@ -85,7 +85,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      const DailyFastingScreen(),
+      const DailyNutritionScreen(),
       LibraryScreen(),
       // Container(),
       const ProfileScreen(),

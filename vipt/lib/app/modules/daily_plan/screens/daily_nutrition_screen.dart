@@ -11,6 +11,7 @@ import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/global_widgets/info_cube_widget.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 class DailyNutritionScreen extends StatelessWidget {
   const DailyNutritionScreen({Key? key}) : super(key: key);
@@ -111,7 +112,12 @@ class DailyNutritionScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildInfo(context),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(Routes.nutritionHistory);
+                  },
+                  child: _buildInfo(context),
+                ),
                 _buildNutritionFacts(),
                 _buildActionButton(),
                 _buildActionDescription(context),
@@ -128,11 +134,14 @@ class DailyNutritionScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        SizedBox(
-          width: screenWidth * 0.3,
-          child: const VerticalInfoWidget(
-            title: '2074',
-            subtitle: 'hấp thụ',
+        Hero(
+          tag: 'caloriesIntakeWidget',
+          child: SizedBox(
+            width: screenWidth * 0.3,
+            child: const VerticalInfoWidget(
+              title: '2074',
+              subtitle: 'hấp thụ',
+            ),
           ),
         ),
         GoalProgressIndicator(
@@ -153,55 +162,58 @@ class DailyNutritionScreen extends StatelessWidget {
   }
 
   _buildNutritionFacts() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: const [
-        FittedBox(
-          child: SizedBox(
-            height: 80,
-            child: InfoCubeWidget(
-              width: 90,
-              height: 90,
-              title: '100g',
-              subtitle: 'Carbs',
-              color: AppColor.carbCubeColor,
-              textColor: AppColor.buttonForegroundColor,
-              borderColor: AppColor.buttonForegroundColor,
-              shape: BoxShape.circle,
+    return Hero(
+      tag: 'nutritionFactWidget',
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: const [
+          FittedBox(
+            child: SizedBox(
+              height: 80,
+              child: InfoCubeWidget(
+                width: 90,
+                height: 90,
+                title: '100g',
+                subtitle: 'Carbs',
+                color: AppColor.carbCubeColor,
+                textColor: AppColor.buttonForegroundColor,
+                borderColor: AppColor.buttonForegroundColor,
+                shape: BoxShape.circle,
+              ),
             ),
           ),
-        ),
-        FittedBox(
-          child: SizedBox(
-            height: 80,
-            child: InfoCubeWidget(
-              width: 90,
-              height: 90,
-              title: '100g',
-              subtitle: 'Protein',
-              color: AppColor.proteinCubeColor,
-              textColor: AppColor.buttonForegroundColor,
-              borderColor: AppColor.buttonForegroundColor,
-              shape: BoxShape.circle,
+          FittedBox(
+            child: SizedBox(
+              height: 80,
+              child: InfoCubeWidget(
+                width: 90,
+                height: 90,
+                title: '100g',
+                subtitle: 'Protein',
+                color: AppColor.proteinCubeColor,
+                textColor: AppColor.buttonForegroundColor,
+                borderColor: AppColor.buttonForegroundColor,
+                shape: BoxShape.circle,
+              ),
             ),
           ),
-        ),
-        FittedBox(
-          child: SizedBox(
-            height: 80,
-            child: InfoCubeWidget(
-              width: 90,
-              height: 90,
-              title: '100g',
-              subtitle: 'Fat',
-              color: AppColor.fatCubeColor,
-              textColor: AppColor.buttonForegroundColor,
-              borderColor: AppColor.buttonForegroundColor,
-              shape: BoxShape.circle,
+          FittedBox(
+            child: SizedBox(
+              height: 80,
+              child: InfoCubeWidget(
+                width: 90,
+                height: 90,
+                title: '100g',
+                subtitle: 'Fat',
+                color: AppColor.fatCubeColor,
+                textColor: AppColor.buttonForegroundColor,
+                borderColor: AppColor.buttonForegroundColor,
+                shape: BoxShape.circle,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
