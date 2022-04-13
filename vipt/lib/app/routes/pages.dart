@@ -1,6 +1,7 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:vipt/app/modules/auth/authentication_binding.dart';
 import 'package:vipt/app/modules/auth/screens/authentication_screen.dart';
+import 'package:vipt/app/modules/daily_plan/screens/body_status_screen.dart';
 import 'package:vipt/app/modules/daily_plan/screens/nutrition_history_screen.dart';
 import 'package:vipt/app/modules/daily_plan/screens/water_history_screen.dart';
 import 'package:vipt/app/modules/error/screens/error_screen.dart';
@@ -168,6 +169,10 @@ abstract class AppPages {
     GetPage(
       name: Routes.waterHistory,
       page: () => const WaterHistoryScreen(),
+    ),
+    GetPage(
+      name: Routes.bodyStatus,
+      page: () => const BodyStatusScreen(),
     ),
   ];
 }

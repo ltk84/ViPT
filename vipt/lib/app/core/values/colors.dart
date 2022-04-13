@@ -31,6 +31,7 @@ class AppColor {
   static const Color stepTrackingDarkBackgroundColor = Color(0xff7200E3);
   static const Color fastingBackgroundColor = Color(0xffDD6D1C);
   static const Color fastingLightBackgroundColor = Color(0xffFF961B);
+  static const Color fastingLightSecondaryBackgroundColor = Color(0xffFFDBB0);
 
   // Cube colors
   static const Color carbCubeColor = Color(0xff2CCCAF);

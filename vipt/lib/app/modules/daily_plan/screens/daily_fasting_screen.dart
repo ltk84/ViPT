@@ -11,6 +11,7 @@ import 'package:vipt/app/modules/daily_plan/widgets/floating_property_tile.dart'
 import 'package:vipt/app/modules/daily_plan/widgets/icon_info_widget.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
 import 'package:vipt/app/modules/session/widgets/custom_timer.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 class DailyFastingScreen extends StatelessWidget {
   const DailyFastingScreen({Key? key}) : super(key: key);
@@ -79,7 +80,9 @@ class DailyFastingScreen extends StatelessWidget {
                   height: 24,
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Get.toNamed(Routes.bodyStatus);
+                  },
                   borderRadius: BorderRadius.circular(5),
                   child: _buildBodyTypeWidget(),
                 )
@@ -92,22 +95,61 @@ class DailyFastingScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingPropertyTile(
-              title: 'Thời gian bắt đầu',
-              value: '8:48',
-              iconData: Icons.timer,
-              onPressed: () {}),
+            title: 'Thời gian bắt đầu',
+            value: '8:48',
+            iconData: Icons.timer,
+            onPressed: () {
+              _showSelection(
+                context,
+                maxHeight: MediaQuery.of(context).size.height,
+                itemBuilder: (context, index) {
+                  if (index > 0) {
+                    return Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        index.toString(),
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                    );
+                  }
+                },
+                initialValue: 0,
+                onSelectedItemChanged: (value) {},
+              );
+            },
+          ),
           const SizedBox(
             height: 14,
           ),
           FloatingPropertyTile(
-              title: 'Kiểu fasting',
-              value: '12 tiếng fasting',
-              iconData: Icons.category_outlined,
-              onPressed: () {}),
+            title: 'Kiểu fasting',
+            value: '12 giờ không ăn',
+            iconData: Icons.category_outlined,
+            onPressed: () {
+              _showSelection(
+                context,
+                maxHeight: MediaQuery.of(context).size.height,
+                itemBuilder: (context, index) {
+                  if (index >= 0 && index < 12) {
+                    return Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        '${12 + index} giờ không ăn - ${12 - index} giờ ăn',
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                    );
+                  }
+                },
+                initialValue: 0,
+                onSelectedItemChanged: (value) {},
+              );
+            },
+          ),
           const SizedBox(
             height: 24,
           ),
           FloatingActionButton.extended(
+            heroTag: 'mainActionButton',
             backgroundColor: AppColor.fastingLightBackgroundColor,
             onPressed: () {},
             isExtended: true,
@@ -182,6 +224,29 @@ class DailyFastingScreen extends StatelessWidget {
         ),
         title: 'Trạng thái cơ thể',
       ),
+    );
+  }
+
+  _showSelection(context,
+      {required double maxHeight,
+      required Widget? Function(BuildContext, int) itemBuilder,
+      required Function(int)? onSelectedItemChanged,
+      required int initialValue}) async {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: maxHeight * 0.32,
+          child: CupertinoPicker.builder(
+            onSelectedItemChanged: onSelectedItemChanged,
+            backgroundColor: Colors.white,
+            itemExtent: 48,
+            scrollController:
+                FixedExtentScrollController(initialItem: initialValue),
+            itemBuilder: itemBuilder,
+          ),
+        );
+      },
     );
   }
 

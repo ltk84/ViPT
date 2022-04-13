@@ -97,4 +97,20 @@ class SVGAssetString {
   static const String nutritionHeart = '$_path/nutrition_heart.svg';
   static const String dropWater = '$_path/drop_water.svg';
   static const String bodyStatus = '$_path/body_status.svg';
+  static const String autophagy = '$_path/autophagy.svg';
+  static const String bloodSugarFalls = '$_path/blood_sugar_falls.svg';
+  static const String bloodSugarRises = '$_path/blood_sugar_rises.svg';
+  static const String bloodSugarStabilizes =
+      '$_path/blood_sugar_stabilizes.svg';
+  static const String ketosis = '$_path/ketosis.svg';
+  static const String metabolism = '$_path/metabolism.svg';
+  static const String selectedAutophagy = '$_path/selected_autophagy.svg';
+  static const String selectedBloodSugarFalls =
+      '$_path/selected_blood_sugar_falls.svg';
+  static const String selectedBloodSugarRises =
+      '$_path/selected_blood_sugar_rises.svg';
+  static const String selectedBloodSugarStabilizes =
+      '$_path/selected_blood_sugar_stabilizes.svg';
+  static const String selectedKetosis = '$_path/selected_ketosis.svg';
+  static const String selectedMetabolism = '$_path/selected_metabolism.svg';
 }

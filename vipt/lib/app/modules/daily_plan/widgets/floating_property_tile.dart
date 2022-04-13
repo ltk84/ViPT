@@ -18,6 +18,7 @@ class FloatingPropertyTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
+      heroTag: title,
       backgroundColor: Colors.white,
       onPressed: onPressed,
       isExtended: true,
