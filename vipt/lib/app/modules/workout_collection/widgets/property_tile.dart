@@ -7,6 +7,8 @@ class PropertyTile extends StatelessWidget {
   final String title;
   final String trailing;
   final IconData iconData;
+  final Color? foregroundColor;
+  final Color? backgroundColor;
   const PropertyTile({
     Key? key,
     this.enabled = true,
@@ -14,6 +16,8 @@ class PropertyTile extends StatelessWidget {
     required this.title,
     required this.trailing,
     required this.iconData,
+    this.foregroundColor,
+    this.backgroundColor,
   }) : super(key: key);
 
   @override
@@ -29,7 +33,7 @@ class PropertyTile extends StatelessWidget {
       ),
       child: ListTile(
         onTap: enabled ? onTap : null,
-        tileColor: AppColor.listTileButtonColor,
+        tileColor: backgroundColor ?? AppColor.listTileButtonColor,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(8),
@@ -37,7 +41,8 @@ class PropertyTile extends StatelessWidget {
         ),
         leading: Icon(
           iconData,
-          color: enabled ? AppColor.textColor : disabledColor,
+          color:
+              !enabled ? disabledColor : foregroundColor ?? AppColor.textColor,
         ),
         title: Text(
           title,
@@ -45,7 +50,7 @@ class PropertyTile extends StatelessWidget {
               ? Theme.of(context)
                   .textTheme
                   .bodyText2!
-                  .copyWith(fontWeight: FontWeight.w500)
+                  .copyWith(fontWeight: FontWeight.w500, color: foregroundColor)
               : Theme.of(context)
                   .textTheme
                   .bodyText2!
@@ -54,7 +59,10 @@ class PropertyTile extends StatelessWidget {
         trailing: Text(
           trailing,
           style: enabled
-              ? Theme.of(context).textTheme.bodyText1
+              ? Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(color: foregroundColor)
               : Theme.of(context)
                   .textTheme
                   .bodyText1!

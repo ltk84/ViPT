@@ -96,4 +96,5 @@ class SVGAssetString {
   static const String calendar = '$_path/calendar.svg';
   static const String nutritionHeart = '$_path/nutrition_heart.svg';
   static const String dropWater = '$_path/drop_water.svg';
+  static const String bodyStatus = '$_path/body_status.svg';
 }

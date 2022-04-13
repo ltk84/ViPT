@@ -28,7 +28,9 @@ class AppColor {
   static const Color exerciseBackgroundColor = Color(0xffF44336);
   static const Color waterBackgroundColor = Color(0xff437DEC);
   static const Color stepTrackingBackgroundColor = Color(0xff864BD0);
+  static const Color stepTrackingDarkBackgroundColor = Color(0xff7200E3);
   static const Color fastingBackgroundColor = Color(0xffDD6D1C);
+  static const Color fastingLightBackgroundColor = Color(0xffFF961B);
 
   // Cube colors
   static const Color carbCubeColor = Color(0xff2CCCAF);

@@ -11,6 +11,7 @@ import 'package:vipt/app/data/providers/meal_collection_provider.dart';
 import 'package:vipt/app/data/providers/meal_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/daily_plan/screens/daily_exercise_screen.dart';
+import 'package:vipt/app/modules/daily_plan/screens/daily_fasting_screen.dart';
 import 'package:vipt/app/modules/daily_plan/screens/daily_nutrition_screen.dart';
 import 'package:vipt/app/modules/daily_plan/screens/daily_step_screen.dart';
 import 'package:vipt/app/modules/daily_plan/screens/daily_water_screen.dart';
@@ -84,7 +85,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      const DailyStepScreen(),
+      const DailyFastingScreen(),
       LibraryScreen(),
       // Container(),
       const ProfileScreen(),
