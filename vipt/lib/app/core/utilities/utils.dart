@@ -8,13 +8,6 @@ class WorkoutCollectionUtils {
       required num bodyWeight}) {
     double caloValue = 0;
     workoutList.map((workout) {
-      // double v = collectionSetting.round *
-      //     ((collectionSetting.exerciseTime / 60) *
-      //         workout.metValue *
-      //         bodyWeight *
-      //         3.5) /
-      //     200;
-      // print(workout.name + (v / collectionSetting.round).toString());
       caloValue += collectionSetting.round *
           ((collectionSetting.exerciseTime / 60) *
               workout.metValue *

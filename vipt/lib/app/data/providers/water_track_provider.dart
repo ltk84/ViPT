@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/water_tracker.dart';
 import 'package:vipt/app/data/providers/database_provider.dart';
 import 'package:vipt/app/data/providers/sqflite_helper.dart';
@@ -25,6 +27,16 @@ class WaterTrackProvider implements SqfliteHelper<int, WaterTracker> {
   }
 
   @override
+  Future<WaterTracker?> fetchByDate(DateTime dateTime) async {
+    final db = await DatabaseProvider.database;
+    String date = DateUtils.dateOnly(dateTime).toString();
+    final List<Map<String, dynamic>> maps =
+        await db!.query(tableName, where: 'date = ?', whereArgs: [date]);
+    if (maps.isEmpty) return null;
+    return WaterTracker.fromMap(maps[0]);
+  }
+
+  @override
   Future<List<WaterTracker>> fetchAll() async {
     final db = await DatabaseProvider.database;
     final List<Map<String, dynamic>> maps = await db!.query(tableName);
@@ -40,5 +52,5 @@ class WaterTrackProvider implements SqfliteHelper<int, WaterTracker> {
   }
 
   @override
-  String tableName = 'WaterTrackRecord';
+  String tableName = AppValue.waterTrackTable;
 }

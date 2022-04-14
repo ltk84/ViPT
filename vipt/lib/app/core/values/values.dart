@@ -591,4 +591,9 @@ class AppValue {
   static const collectioncategoriesCollectionsStorageCollectionPath =
       'collectionCategories';
   static const equipmentStorageCollectionPath = 'equipment';
+
+  // sqflite
+  static const waterTrackTable = 'WaterTrackRecord';
+  static const exerciseTrackTable = 'ExerciseTrackRecord';
+  static const mealNutritionTrackTable = 'MealNutriTrackRecord';
 }

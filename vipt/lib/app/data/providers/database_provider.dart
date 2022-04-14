@@ -1,5 +1,6 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:vipt/app/core/values/values.dart';
 
 class DatabaseProvider {
   DatabaseProvider._();
@@ -27,14 +28,14 @@ class DatabaseProvider {
 
   static _createDB(Database db) async {
     db.execute('''
-      CREATE TABLE WaterTrackRecord(
+      CREATE TABLE ${AppValue.waterTrackTable}(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         date TEXT,
         waterVolume INTEGER)
     ''');
 
     db.execute(''' 
-    CREATE TABLE ExerciseTrackRecord(
+    CREATE TABLE ${AppValue.exerciseTrackTable}(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         date TEXT,
         outtakeCalories INTEGER,
@@ -43,7 +44,7 @@ class DatabaseProvider {
     ''');
 
     db.execute('''
-      CREATE TABLE MealNutriTrackRecord(
+      CREATE TABLE ${AppValue.mealNutritionTrackTable}(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         date TEXT,
         intakeCalories INTEGER,

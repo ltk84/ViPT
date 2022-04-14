@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:vipt/app/data/models/tracker.dart';
 
 class ExerciseTracker extends Tracker {
@@ -16,7 +17,7 @@ class ExerciseTracker extends Tracker {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
-      'date': super.date,
+      'date': DateUtils.dateOnly(date).toString(),
       'outtakeCalories': outtakeCalories,
       'sessionNumber': sessionNumber,
       'totalTime': totalTime,
@@ -32,7 +33,7 @@ class ExerciseTracker extends Tracker {
   factory ExerciseTracker.fromMap(Map<String, dynamic> map) {
     return ExerciseTracker(
       id: map['id'],
-      date: map['date'],
+      date: DateTime.parse(map['date']),
       outtakeCalories: map['outtakeCalories'] ?? 0,
       sessionNumber: map['sessionNumber']?.toInt() ?? 0,
       totalTime: map['totalTime'] ?? 0,

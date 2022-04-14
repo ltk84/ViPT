@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:vipt/app/data/models/tracker.dart';
 
 class WaterTracker extends Tracker {
@@ -9,7 +10,7 @@ class WaterTracker extends Tracker {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
-      'date': super.date.toString(),
+      'date': DateUtils.dateOnly(date).toString(),
       'waterVolume': waterVolume,
     };
 
@@ -26,4 +27,8 @@ class WaterTracker extends Tracker {
         waterVolume: map['waterVolume'] ?? 0,
         date: DateTime.parse(map['date']));
   }
+
+  @override
+  String toString() =>
+      'WaterTracker(id: ${super.id} date: ${super.date} waterVolume: $waterVolume)';
 }

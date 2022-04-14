@@ -57,16 +57,7 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
-              onPressed: () async {
-                WaterTracker wt =
-                    WaterTracker(date: DateTime.now(), waterVolume: 30);
-
-                // await WaterTrackProvider().add(wt);
-
-                await WaterTrackProvider()
-                    .fetchAll()
-                    .then((value) => print(value[0].id));
-              },
+              onPressed: () async {},
               child: const Text('Fetch data'),
             ),
             TextButton(
