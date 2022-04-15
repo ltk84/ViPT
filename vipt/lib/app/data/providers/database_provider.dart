@@ -50,5 +50,15 @@ class DatabaseProvider {
         intakeCalories INTEGER,
         outtakeCalories INTEGER)
     ''');
+
+    db.execute('''
+      CREATE TABLE ${AppValue.localMealTable}(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        calories REAL,
+        carbs REAL,
+        protein REAL,
+        fat REAL)
+    ''');
   }
 }
