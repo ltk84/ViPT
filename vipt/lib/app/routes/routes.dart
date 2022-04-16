@@ -29,4 +29,9 @@ abstract class Routes {
   static const dishList = '/dishList';
   static const mealPlanList = '/mealPlanList';
   static const mealPlanDetail = '/mealPlanDetail';
+  static const nutritionHistory = '/nutritionHistory';
+  static const waterHistory = '/waterHistory';
+  static const bodyStatus = '/bodyStatus';
+  static const logFood = '/logFood';
+  static const addIngredientToFood = '/addIngredientToFood';
 }

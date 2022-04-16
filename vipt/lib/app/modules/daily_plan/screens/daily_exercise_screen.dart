@@ -36,7 +36,7 @@ class DailyExerciseScreen extends StatelessWidget {
         title: InkWell(
           borderRadius: BorderRadius.circular(8),
           onTap: () async {
-            _showSelection(context,
+            _showTabSelection(context,
                 items: tabs, value: 1, onSelectedItemChanged: (value) {});
           },
           child: Row(
@@ -200,7 +200,7 @@ class DailyExerciseScreen extends StatelessWidget {
         .toList();
   }
 
-  _showSelection(context,
+  _showTabSelection(context,
       {required List<String> items,
       required Function(int)? onSelectedItemChanged,
       required int value}) async {

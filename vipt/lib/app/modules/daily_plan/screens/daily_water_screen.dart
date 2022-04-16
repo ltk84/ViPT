@@ -9,6 +9,8 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
+import 'package:vipt/app/modules/daily_plan/widgets/input_amount_dialog.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 class DailyWaterScreen extends StatelessWidget {
   const DailyWaterScreen({Key? key}) : super(key: key);
@@ -32,7 +34,7 @@ class DailyWaterScreen extends StatelessWidget {
         title: InkWell(
           borderRadius: BorderRadius.circular(8),
           onTap: () async {
-            _showSelection(context,
+            _showTabSelection(context,
                 items: tabs, value: 2, onSelectedItemChanged: (value) {});
           },
           child: Row(
@@ -109,8 +111,13 @@ class DailyWaterScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildInfo(context),
-                _buildActionButton(),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(Routes.waterHistory);
+                  },
+                  child: _buildInfo(context),
+                ),
+                _buildActionButton(context),
                 _buildActionDescription(context),
               ],
             ),
@@ -122,21 +129,41 @@ class DailyWaterScreen extends StatelessWidget {
 
   _buildInfo(context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    return GoalProgressIndicator(
-      radius: screenWidth * 0.36,
-      title: '2000',
-      subtitle: 'ml',
-      progressValue: 0.5,
+    return Hero(
+      tag: 'waterIntakeWidget',
+      child: GoalProgressIndicator(
+        radius: screenWidth * 0.36,
+        title: '2000',
+        subtitle: 'ml',
+        progressValue: 0.5,
+      ),
     );
   }
 
-  _buildActionButton() {
+  _buildActionButton(context) {
     return Padding(
       padding: const EdgeInsets.only(
         top: 24,
       ),
       child: ScaleTap(
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return InputAmountDialog(
+                title: 'Nước',
+                unit: 'ml',
+                value: 200,
+                confirmButtonColor: AppColor.waterBackgroundColor,
+                confirmButtonText: 'Thêm',
+                sliderActiveColor: AppColor.waterDarkBackgroundColor,
+                sliderInactiveColor: AppColor.waterBackgroundColor.withOpacity(
+                  AppColor.subTextOpacity,
+                ),
+              );
+            },
+          );
+        },
         child: SvgPicture.asset(SVGAssetString.dropWater),
       ),
     );
@@ -155,7 +182,7 @@ class DailyWaterScreen extends StatelessWidget {
     );
   }
 
-  _showSelection(context,
+  _showTabSelection(context,
       {required List<String> items,
       required Function(int)? onSelectedItemChanged,
       required int value}) async {

@@ -9,8 +9,10 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/global_widgets/info_cube_widget.dart';
+import 'package:vipt/app/modules/daily_plan/screens/add_food_screen.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 class DailyNutritionScreen extends StatelessWidget {
   const DailyNutritionScreen({Key? key}) : super(key: key);
@@ -34,7 +36,7 @@ class DailyNutritionScreen extends StatelessWidget {
         title: InkWell(
           borderRadius: BorderRadius.circular(8),
           onTap: () async {
-            _showSelection(context,
+            _showTabSelection(context,
                 items: tabs, value: 0, onSelectedItemChanged: (value) {});
           },
           child: Row(
@@ -111,7 +113,12 @@ class DailyNutritionScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildInfo(context),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(Routes.nutritionHistory);
+                  },
+                  child: _buildInfo(context),
+                ),
                 _buildNutritionFacts(),
                 _buildActionButton(),
                 _buildActionDescription(context),
@@ -128,11 +135,14 @@ class DailyNutritionScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        SizedBox(
-          width: screenWidth * 0.3,
-          child: const VerticalInfoWidget(
-            title: '2074',
-            subtitle: 'hấp thụ',
+        Hero(
+          tag: 'caloriesIntakeWidget',
+          child: SizedBox(
+            width: screenWidth * 0.3,
+            child: const VerticalInfoWidget(
+              title: '2074',
+              subtitle: 'hấp thụ',
+            ),
           ),
         ),
         GoalProgressIndicator(
@@ -153,55 +163,58 @@ class DailyNutritionScreen extends StatelessWidget {
   }
 
   _buildNutritionFacts() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: const [
-        FittedBox(
-          child: SizedBox(
-            height: 80,
-            child: InfoCubeWidget(
-              width: 90,
-              height: 90,
-              title: '100g',
-              subtitle: 'Carbs',
-              color: AppColor.carbCubeColor,
-              textColor: AppColor.buttonForegroundColor,
-              borderColor: AppColor.buttonForegroundColor,
-              shape: BoxShape.circle,
+    return Hero(
+      tag: 'nutritionFactWidget',
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: const [
+          FittedBox(
+            child: SizedBox(
+              height: 80,
+              child: InfoCubeWidget(
+                width: 90,
+                height: 90,
+                title: '100g',
+                subtitle: 'Carbs',
+                color: AppColor.carbCubeColor,
+                textColor: AppColor.buttonForegroundColor,
+                borderColor: AppColor.buttonForegroundColor,
+                shape: BoxShape.circle,
+              ),
             ),
           ),
-        ),
-        FittedBox(
-          child: SizedBox(
-            height: 80,
-            child: InfoCubeWidget(
-              width: 90,
-              height: 90,
-              title: '100g',
-              subtitle: 'Protein',
-              color: AppColor.proteinCubeColor,
-              textColor: AppColor.buttonForegroundColor,
-              borderColor: AppColor.buttonForegroundColor,
-              shape: BoxShape.circle,
+          FittedBox(
+            child: SizedBox(
+              height: 80,
+              child: InfoCubeWidget(
+                width: 90,
+                height: 90,
+                title: '100g',
+                subtitle: 'Protein',
+                color: AppColor.proteinCubeColor,
+                textColor: AppColor.buttonForegroundColor,
+                borderColor: AppColor.buttonForegroundColor,
+                shape: BoxShape.circle,
+              ),
             ),
           ),
-        ),
-        FittedBox(
-          child: SizedBox(
-            height: 80,
-            child: InfoCubeWidget(
-              width: 90,
-              height: 90,
-              title: '100g',
-              subtitle: 'Fat',
-              color: AppColor.fatCubeColor,
-              textColor: AppColor.buttonForegroundColor,
-              borderColor: AppColor.buttonForegroundColor,
-              shape: BoxShape.circle,
+          FittedBox(
+            child: SizedBox(
+              height: 80,
+              child: InfoCubeWidget(
+                width: 90,
+                height: 90,
+                title: '100g',
+                subtitle: 'Fat',
+                color: AppColor.fatCubeColor,
+                textColor: AppColor.buttonForegroundColor,
+                borderColor: AppColor.buttonForegroundColor,
+                shape: BoxShape.circle,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -211,7 +224,20 @@ class DailyNutritionScreen extends StatelessWidget {
         top: 24,
       ),
       child: ScaleTap(
-        onPressed: () {},
+        onPressed: () {
+          Get.bottomSheet(
+            Container(
+              margin: const EdgeInsets.only(top: 48),
+              child: const ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.0),
+                    topRight: Radius.circular(10.0),
+                  ),
+                  child: AddFoodScreen()),
+            ),
+            isScrollControlled: true,
+          );
+        },
         child: SvgPicture.asset(
           SVGAssetString.nutritionHeart,
         ),
@@ -232,7 +258,7 @@ class DailyNutritionScreen extends StatelessWidget {
     );
   }
 
-  _showSelection(context,
+  _showTabSelection(context,
       {required List<String> items,
       required Function(int)? onSelectedItemChanged,
       required int value}) async {
