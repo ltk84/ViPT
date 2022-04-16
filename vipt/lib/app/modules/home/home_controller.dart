@@ -4,6 +4,7 @@ import 'package:vipt/app/data/models/vipt_user.dart';
 import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/data/services/auth_service.dart';
 import 'package:vipt/app/data/services/data_service.dart';
+import 'package:vipt/app/modules/daily_plan/daily_plan_controller.dart';
 import 'package:vipt/app/modules/library/library_controller.dart';
 import 'package:vipt/app/modules/profile/profile_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
@@ -20,6 +21,7 @@ class HomeController extends GetxController {
   void _initControllerForTabs() {
     Get.lazyPut(() => LibraryController());
     Get.lazyPut(() => ProfileController());
+    Get.lazyPut(() => DailyPlanController());
   }
 
   final PersistentTabController tabController =

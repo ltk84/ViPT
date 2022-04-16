@@ -9,13 +9,16 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/global_widgets/info_cube_widget.dart';
+import 'package:vipt/app/modules/daily_plan/daily_nutrition_controller.dart';
 import 'package:vipt/app/modules/daily_plan/screens/add_food_screen.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class DailyNutritionScreen extends StatelessWidget {
-  const DailyNutritionScreen({Key? key}) : super(key: key);
+  DailyNutritionScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.put(DailyNutritionController());
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +39,10 @@ class DailyNutritionScreen extends StatelessWidget {
         title: InkWell(
           borderRadius: BorderRadius.circular(8),
           onTap: () async {
-            _showTabSelection(context,
-                items: tabs, value: 0, onSelectedItemChanged: (value) {});
+            _showTabSelection(context, items: tabs, value: 0,
+                onSelectedItemChanged: (value) {
+              print(value);
+            });
           },
           child: Row(
             mainAxisSize: MainAxisSize.min,

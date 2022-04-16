@@ -6,12 +6,15 @@ import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
+import 'package:vipt/app/modules/daily_plan/daily_exercise_controller.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 
 class DailyExerciseScreen extends StatelessWidget {
-  const DailyExerciseScreen({Key? key}) : super(key: key);
+  DailyExerciseScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.put(DailyExerciseController());
 
   @override
   Widget build(BuildContext context) {
