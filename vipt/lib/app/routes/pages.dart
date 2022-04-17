@@ -170,7 +170,7 @@ abstract class AppPages {
     ),
     GetPage(
       name: Routes.waterHistory,
-      page: () => const WaterHistoryScreen(),
+      page: () => WaterHistoryScreen(),
     ),
     GetPage(
       name: Routes.bodyStatus,

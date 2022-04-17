@@ -1,10 +1,6 @@
 import 'package:get/get.dart';
+import 'package:vipt/app/modules/daily_plan/tracker_controller.dart';
 
 import 'daily_plan_controller.dart';
 
-class DailyStepController extends GetxController {
-  final _parentController = Get.find<DailyPlanController>();
-  void changeTab(int value) {
-    _parentController.changeTab(value);
-  }
-}
+class DailyStepController extends GetxController with TrackerController {}

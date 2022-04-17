@@ -22,7 +22,7 @@ class MealNutritionTracker extends Tracker {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
-      'date': super.date,
+      'date': super.date.toString(),
       'intakeCalories': intakeCalories,
       'outtakeCalories': outtakeCalories,
     };

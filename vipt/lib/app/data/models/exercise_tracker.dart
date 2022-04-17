@@ -17,7 +17,7 @@ class ExerciseTracker extends Tracker {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
-      'date': DateUtils.dateOnly(date).toString(),
+      'date': super.date.toString(),
       'outtakeCalories': outtakeCalories,
       'sessionNumber': sessionNumber,
       'totalTime': totalTime,

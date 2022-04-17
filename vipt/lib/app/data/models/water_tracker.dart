@@ -10,7 +10,7 @@ class WaterTracker extends Tracker {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
-      'date': DateUtils.dateOnly(date).toString(),
+      'date': date.toString(),
       'waterVolume': waterVolume,
     };
 

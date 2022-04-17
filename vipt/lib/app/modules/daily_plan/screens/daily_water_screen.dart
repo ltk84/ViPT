@@ -142,7 +142,7 @@ class DailyWaterScreen extends StatelessWidget {
       tag: 'waterIntakeWidget',
       child: GoalProgressIndicator(
         radius: screenWidth * 0.36,
-        title: '2000',
+        title: _controller.waterVolume.toString(),
         subtitle: 'ml',
         progressValue: 0.5,
       ),

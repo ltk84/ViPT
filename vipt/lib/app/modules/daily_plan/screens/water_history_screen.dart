@@ -1,44 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_scale_tap/flutter_scale_tap.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/data/models/water_tracker.dart';
+import 'package:vipt/app/modules/daily_plan/daily_water_controller.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/history_tile.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/input_amount_dialog.dart';
 
 class WaterHistoryScreen extends StatelessWidget {
-  const WaterHistoryScreen({Key? key}) : super(key: key);
+  WaterHistoryScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.find<DailyWaterController>();
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, String>> waterHistory = [
-      {
-        'name': 'Nước',
-        'description': '200ml',
-        'date': '11/04/2022',
-        'time': '10:00',
-      },
-      {
-        'name': 'Nước',
-        'description': '250ml',
-        'date': '12/04/2022',
-        'time': '12:30',
-      },
-      {
-        'name': 'Nước',
-        'description': '300ml',
-        'date': '05/05/2022',
-        'time': '16:30',
-      },
-      {
-        'name': 'Nước',
-        'description': '500ml',
-        'date': '03/04/2022',
-        'time': '18:30',
-      }
-    ];
-
     return Scaffold(
       backgroundColor: AppColor.waterBackgroundColor,
       appBar: AppBar(
@@ -70,8 +48,8 @@ class WaterHistoryScreen extends StatelessWidget {
         children: [
           Column(
             children: [
-              _buildInfo(context),
-              _buildHistoryList(context, waterHistory),
+              _buildInfo(context, _controller.waterVolume),
+              _buildHistoryList(context, _controller.tracks),
               const SizedBox(
                 height: 50,
               ),
@@ -84,7 +62,7 @@ class WaterHistoryScreen extends StatelessWidget {
     );
   }
 
-  _buildInfo(context) {
+  _buildInfo(context, int volume) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24),
@@ -92,7 +70,7 @@ class WaterHistoryScreen extends StatelessWidget {
         tag: 'waterIntakeWidget',
         child: GoalProgressIndicator(
           radius: screenWidth * 0.36,
-          title: '2000',
+          title: volume.toString(),
           subtitle: 'ml',
           progressValue: 0.5,
         ),
@@ -100,7 +78,7 @@ class WaterHistoryScreen extends StatelessWidget {
     );
   }
 
-  _buildHistoryList(context, List<Map<String, String>> waterHistory) {
+  _buildHistoryList(context, List<WaterTracker> waterHistory) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 24,
@@ -128,10 +106,10 @@ class WaterHistoryScreen extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: HistoryTile(
-                title: log['name'] ?? '',
-                description: log['description'] ?? '',
-                date: log['date'] ?? '',
-                time: log['time'] ?? '',
+                title: 'Nước',
+                description: log.waterVolume.toString() + 'ml',
+                date: '${log.date.day}/${log.date.month}/${log.date.year}',
+                time: '${log.date.hour}:${log.date.minute}',
               ),
             );
           }).toList(),
