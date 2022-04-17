@@ -8,12 +8,15 @@ import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/modules/daily_plan/daily_water_controller.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/input_amount_dialog.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class DailyWaterScreen extends StatelessWidget {
-  const DailyWaterScreen({Key? key}) : super(key: key);
+  DailyWaterScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.put(DailyWaterController());
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +37,14 @@ class DailyWaterScreen extends StatelessWidget {
         title: InkWell(
           borderRadius: BorderRadius.circular(8),
           onTap: () async {
-            _showTabSelection(context,
-                items: tabs, value: 2, onSelectedItemChanged: (value) {});
+            int? newIndex;
+            await _showTabSelection(context, items: tabs, value: 2,
+                onSelectedItemChanged: (value) {
+              newIndex = value;
+            });
+            if (newIndex != null) {
+              _controller.changeTab(newIndex ?? 0);
+            }
           },
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -186,7 +195,7 @@ class DailyWaterScreen extends StatelessWidget {
       {required List<String> items,
       required Function(int)? onSelectedItemChanged,
       required int value}) async {
-    showDialog(
+    await showDialog(
       useRootNavigator: false,
       //isScrollControlled: true,
       //backgroundColor: Colors.transparent,

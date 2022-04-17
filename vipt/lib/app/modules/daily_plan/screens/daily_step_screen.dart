@@ -8,8 +8,12 @@ import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
 
+import '../daily_step_controller.dart';
+
 class DailyStepScreen extends StatelessWidget {
-  const DailyStepScreen({Key? key}) : super(key: key);
+  DailyStepScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.put(DailyStepController());
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +34,14 @@ class DailyStepScreen extends StatelessWidget {
         title: InkWell(
           borderRadius: BorderRadius.circular(8),
           onTap: () async {
-            _showTabSelection(context,
-                items: tabs, value: 3, onSelectedItemChanged: (value) {});
+            int? newIndex;
+            await _showTabSelection(context, items: tabs, value: 3,
+                onSelectedItemChanged: (value) {
+              newIndex = value;
+            });
+            if (newIndex != null) {
+              _controller.changeTab(newIndex ?? 0);
+            }
           },
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -171,7 +181,7 @@ class DailyStepScreen extends StatelessWidget {
       {required List<String> items,
       required Function(int)? onSelectedItemChanged,
       required int value}) async {
-    showDialog(
+    await showDialog(
       useRootNavigator: false,
       //isScrollControlled: true,
       //backgroundColor: Colors.transparent,

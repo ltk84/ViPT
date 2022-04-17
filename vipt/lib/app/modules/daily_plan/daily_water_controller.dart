@@ -1,3 +1,10 @@
 import 'package:get/get.dart';
 
-class DailyWaterController extends GetxController {}
+import 'daily_plan_controller.dart';
+
+class DailyWaterController extends GetxController {
+  final _parentController = Get.find<DailyPlanController>();
+  void changeTab(int value) {
+    _parentController.changeTab(value);
+  }
+}

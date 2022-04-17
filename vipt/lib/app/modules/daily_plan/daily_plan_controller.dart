@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/modules/daily_plan/daily_nutrition_controller.dart';
+import 'package:vipt/app/modules/daily_plan/daily_water_controller.dart';
 import 'package:vipt/app/modules/daily_plan/screens/daily_exercise_screen.dart';
 import 'package:vipt/app/modules/daily_plan/screens/daily_fasting_screen.dart';
 import 'package:vipt/app/modules/daily_plan/screens/daily_nutrition_screen.dart';
@@ -8,12 +9,15 @@ import 'package:vipt/app/modules/daily_plan/screens/daily_step_screen.dart';
 import 'package:vipt/app/modules/daily_plan/screens/daily_water_screen.dart';
 
 import 'daily_exercise_controller.dart';
+import 'daily_fasting_controller.dart';
+import 'daily_step_controller.dart';
 
 class DailyPlanController extends GetxController {
   Rx<int> currentTab = 0.obs;
 
   void changeTab(int newTabIndex) {
     int currentIndex = currentTab.value;
+    if (currentIndex == newTabIndex) return;
     switch (currentIndex) {
       case 0:
         Get.delete<DailyNutritionController>();
@@ -22,10 +26,13 @@ class DailyPlanController extends GetxController {
         Get.delete<DailyExerciseController>();
         break;
       case 2:
+        Get.delete<DailyWaterController>();
         break;
       case 3:
+        Get.delete<DailyStepController>();
         break;
       case 4:
+        Get.delete<DailyFastingController>();
         break;
       default:
         break;
