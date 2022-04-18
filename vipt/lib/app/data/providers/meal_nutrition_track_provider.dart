@@ -41,13 +41,14 @@ class MealNutritionTrackProvider
   }
 
   @override
-  Future<MealNutritionTracker?> fetchByDate(DateTime dateTime) async {
+  Future<List<MealNutritionTracker>> fetchByDate(DateTime dateTime) async {
     final db = await DatabaseProvider.database;
     String date = DateUtils.dateOnly(dateTime).toString();
     final List<Map<String, dynamic>> maps =
         await db!.query(tableName, where: 'date = ?', whereArgs: [date]);
-    if (maps.isEmpty) return null;
-    return MealNutritionTracker.fromMap(maps[0]);
+    if (maps.isEmpty) return [];
+    return List.generate(
+        maps.length, (index) => MealNutritionTracker.fromMap(maps[index]));
   }
 
   @override

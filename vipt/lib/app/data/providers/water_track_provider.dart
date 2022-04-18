@@ -27,13 +27,18 @@ class WaterTrackProvider implements SqfliteHelper<int, WaterTracker> {
   }
 
   @override
-  Future<WaterTracker?> fetchByDate(DateTime dateTime) async {
+  Future<List<WaterTracker>> fetchByDate(DateTime dateTime) async {
     final db = await DatabaseProvider.database;
-    String date = DateUtils.dateOnly(dateTime).toString();
-    final List<Map<String, dynamic>> maps =
-        await db!.query(tableName, where: 'date = ?', whereArgs: [date]);
-    if (maps.isEmpty) return null;
-    return WaterTracker.fromMap(maps[0]);
+    final String begin =
+        DateTime(dateTime.year, dateTime.month, dateTime.day).toString();
+    final String end = DateTime(
+            dateTime.year, dateTime.month, dateTime.day, 23, 59, 59, 59, 59)
+        .toString();
+    final List<Map<String, dynamic>> maps = await db!.query(tableName,
+        where: 'date >= ? and date <= ?', whereArgs: [begin, end]);
+    if (maps.isEmpty) return [];
+    return List.generate(
+        maps.length, (index) => WaterTracker.fromMap(maps[index]));
   }
 
   @override

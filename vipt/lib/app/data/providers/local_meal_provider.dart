@@ -39,7 +39,7 @@ class LocalMealProvider implements SqfliteHelper<int, LocalMeal> {
   }
 
   @override
-  Future<LocalMeal?> fetchByDate(DateTime dateTime) async {
+  Future<List<LocalMeal>> fetchByDate(DateTime dateTime) async {
     // TODO: implement fetchByDate
     throw UnimplementedError();
   }

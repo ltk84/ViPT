@@ -75,9 +75,13 @@ class DailyWaterScreen extends StatelessWidget {
               var dateTime = await showDatePicker(
                   locale: const Locale("vi", "VI"),
                   context: context,
-                  initialDate: DateTime.now(),
+                  initialDate: _controller.date,
                   firstDate: DateTime(1970),
-                  lastDate: DateTime.now().add(const Duration(days: 1)));
+                  lastDate: DateTime.now());
+
+              if (dateTime != null) {
+                await _controller.updateTracksByDate(dateTime);
+              }
             },
             child: Row(
               children: [
@@ -175,7 +179,7 @@ class DailyWaterScreen extends StatelessWidget {
             },
           );
           if (result != null) {
-            controller.addWaterVolume(result);
+            await controller.addWaterVolume(result);
           }
         },
         child: SvgPicture.asset(SVGAssetString.dropWater),

@@ -73,7 +73,7 @@ class WaterHistoryScreen extends StatelessWidget {
             radius: screenWidth * 0.36,
             title: c.waterVolume.toString(),
             subtitle: 'ml',
-            progressValue: 0.5,
+            progressValue: 1,
           ),
         ),
       ),
@@ -149,7 +149,7 @@ class WaterHistoryScreen extends StatelessWidget {
             },
           );
           if (result != null) {
-            c.addWaterVolume(result);
+            await c.addWaterVolume(result);
           }
         },
         child: SvgPicture.asset(
