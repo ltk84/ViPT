@@ -13,15 +13,27 @@ class DailyWaterController extends GetxController with TrackerController {
     WaterTracker(
         date: DateTime.now().add(const Duration(hours: 3)), waterVolume: 30),
   ];
-  int waterVolume = 0;
+  Rx<int> waterVolume = 0.obs;
   late DateTime date;
 
   @override
   void onInit() {
     super.onInit();
     date = tracks.first.date;
-    tracks.map((e) => waterVolume += e.waterVolume).toList();
+    tracks.map((e) => waterVolume.value += e.waterVolume).toList();
   }
 
-  addWaterVolume(int volume) {}
+  addWaterVolume(int volume) {
+    waterVolume.value += volume;
+    tracks.add(WaterTracker(date: DateTime.now(), waterVolume: volume));
+    update();
+    // TODO: update len db
+  }
+
+  deleteWaterVolume(WaterTracker wt) {
+    waterVolume.value -= wt.waterVolume;
+    tracks.remove(wt);
+    update();
+    // TODO: update len db
+  }
 }

@@ -6,14 +6,16 @@ class HistoryTile extends StatelessWidget {
   final String description;
   final String date;
   final String time;
+  final Function()? action;
 
-  const HistoryTile(
-      {Key? key,
-      required this.title,
-      required this.description,
-      required this.date,
-      required this.time})
-      : super(key: key);
+  const HistoryTile({
+    Key? key,
+    required this.title,
+    required this.description,
+    required this.date,
+    required this.time,
+    required this.action,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +92,7 @@ class HistoryTile extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               borderRadius: BorderRadius.circular(24),
-              onTap: () {},
+              onTap: action,
               child: const SizedBox(
                 width: 36,
                 height: 36,

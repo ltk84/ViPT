@@ -48,8 +48,8 @@ class WaterHistoryScreen extends StatelessWidget {
         children: [
           Column(
             children: [
-              _buildInfo(context, _controller.waterVolume),
-              _buildHistoryList(context, _controller.tracks),
+              _buildInfo(context, _controller),
+              _buildHistoryList(context),
               const SizedBox(
                 height: 50,
               ),
@@ -57,75 +57,82 @@ class WaterHistoryScreen extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: _buildActionButton(context),
+      floatingActionButton: _buildActionButton(context, _controller),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
-  _buildInfo(context, int volume) {
+  _buildInfo(context, DailyWaterController c) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24),
       child: Hero(
         tag: 'waterIntakeWidget',
-        child: GoalProgressIndicator(
-          radius: screenWidth * 0.36,
-          title: volume.toString(),
-          subtitle: 'ml',
-          progressValue: 0.5,
+        child: Obx(
+          () => GoalProgressIndicator(
+            radius: screenWidth * 0.36,
+            title: c.waterVolume.toString(),
+            subtitle: 'ml',
+            progressValue: 0.5,
+          ),
         ),
       ),
     );
   }
 
-  _buildHistoryList(context, List<WaterTracker> waterHistory) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 24,
-        horizontal: 36,
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 4),
-            child: Row(
-              children: [
-                Text(
-                  'Lịch sử',
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
-                        color: AppColor.accentTextColor,
-                      ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 4,
-          ),
-          ...waterHistory.map((log) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: HistoryTile(
-                title: 'Nước',
-                description: log.waterVolume.toString() + 'ml',
-                date: '${log.date.day}/${log.date.month}/${log.date.year}',
-                time: '${log.date.hour}:${log.date.minute}',
+  _buildHistoryList(context) {
+    return GetBuilder<DailyWaterController>(builder: (c) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 24,
+          horizontal: 36,
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 4),
+              child: Row(
+                children: [
+                  Text(
+                    'Lịch sử',
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                          color: AppColor.accentTextColor,
+                        ),
+                  ),
+                ],
               ),
-            );
-          }).toList(),
-        ],
-      ),
-    );
+            ),
+            const SizedBox(
+              height: 4,
+            ),
+            ...c.tracks.map((log) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: HistoryTile(
+                  title: 'Nước',
+                  description: log.waterVolume.toString() + 'ml',
+                  date: '${log.date.day}/${log.date.month}/${log.date.year}',
+                  time: '${log.date.hour}:${log.date.minute}',
+                  action: () {
+                    c.deleteWaterVolume(log);
+                  },
+                ),
+              );
+            }).toList(),
+          ],
+        ),
+      );
+    });
   }
 
-  _buildActionButton(context) {
+  _buildActionButton(context, DailyWaterController c) {
     return Padding(
       padding: const EdgeInsets.only(
         top: 24,
       ),
       child: ScaleTap(
-        onPressed: () {
-          showDialog(
+        onPressed: () async {
+          final result = await showDialog(
             context: context,
             builder: (BuildContext context) {
               return InputAmountDialog(
@@ -141,6 +148,9 @@ class WaterHistoryScreen extends StatelessWidget {
               );
             },
           );
+          if (result != null) {
+            c.addWaterVolume(result);
+          }
         },
         child: SvgPicture.asset(
           SVGAssetString.dropWater,

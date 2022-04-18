@@ -208,6 +208,7 @@ class NutritionHistoryScreen extends StatelessWidget {
                 description: log['description'] ?? '',
                 date: log['date'] ?? '',
                 time: log['time'] ?? '',
+                action: () {},
               ),
             );
           }).toList(),

@@ -126,7 +126,7 @@ class DailyWaterScreen extends StatelessWidget {
                   },
                   child: _buildInfo(context),
                 ),
-                _buildActionButton(context),
+                _buildActionButton(context, _controller),
                 _buildActionDescription(context),
               ],
             ),
@@ -140,23 +140,25 @@ class DailyWaterScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     return Hero(
       tag: 'waterIntakeWidget',
-      child: GoalProgressIndicator(
-        radius: screenWidth * 0.36,
-        title: _controller.waterVolume.toString(),
-        subtitle: 'ml',
-        progressValue: 0.5,
+      child: Obx(
+        () => GoalProgressIndicator(
+          radius: screenWidth * 0.36,
+          title: _controller.waterVolume.toString(),
+          subtitle: 'ml',
+          progressValue: 0.5,
+        ),
       ),
     );
   }
 
-  _buildActionButton(context) {
+  _buildActionButton(context, DailyWaterController controller) {
     return Padding(
       padding: const EdgeInsets.only(
         top: 24,
       ),
       child: ScaleTap(
-        onPressed: () {
-          showDialog(
+        onPressed: () async {
+          final result = await showDialog(
             context: context,
             builder: (BuildContext context) {
               return InputAmountDialog(
@@ -172,6 +174,9 @@ class DailyWaterScreen extends StatelessWidget {
               );
             },
           );
+          if (result != null) {
+            controller.addWaterVolume(result);
+          }
         },
         child: SvgPicture.asset(SVGAssetString.dropWater),
       ),
