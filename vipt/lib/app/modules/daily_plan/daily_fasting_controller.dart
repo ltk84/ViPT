@@ -3,4 +3,10 @@ import 'package:vipt/app/modules/daily_plan/tracker_controller.dart';
 
 import 'daily_plan_controller.dart';
 
-class DailyFastingController extends GetxController with TrackerController {}
+class DailyFastingController extends GetxController with TrackerController {
+  @override
+  fetchTracksByDate(DateTime date) {
+    // TODO: implement fetchTracksByDate
+    throw UnimplementedError();
+  }
+}

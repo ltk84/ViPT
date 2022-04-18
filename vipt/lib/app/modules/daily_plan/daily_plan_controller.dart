@@ -13,7 +13,7 @@ import 'daily_fasting_controller.dart';
 import 'daily_step_controller.dart';
 
 class DailyPlanController extends GetxController {
-  Rx<int> currentTab = 2.obs;
+  Rx<int> currentTab = 1.obs;
 
   void changeTab(int newTabIndex) {
     int currentIndex = currentTab.value;

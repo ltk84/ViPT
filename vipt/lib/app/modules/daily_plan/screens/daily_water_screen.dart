@@ -80,7 +80,7 @@ class DailyWaterScreen extends StatelessWidget {
                   lastDate: DateTime.now());
 
               if (dateTime != null) {
-                await _controller.updateTracksByDate(dateTime);
+                await _controller.fetchTracksByDate(dateTime);
               }
             },
             child: Row(
@@ -179,7 +179,7 @@ class DailyWaterScreen extends StatelessWidget {
             },
           );
           if (result != null) {
-            await controller.addWaterVolume(result);
+            await controller.addTrack(result);
           }
         },
         child: SvgPicture.asset(SVGAssetString.dropWater),

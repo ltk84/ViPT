@@ -6,16 +6,6 @@ import 'package:vipt/app/modules/daily_plan/tracker_controller.dart';
 
 class DailyWaterController extends GetxController with TrackerController {
   final _provider = WaterTrackProvider();
-
-  // late List<WaterTracker> tracks = [
-  //   WaterTracker(date: DateTime.now(), waterVolume: 20),
-  //   WaterTracker(
-  //       date: DateTime.now().add(const Duration(hours: 1)), waterVolume: 50),
-  //   WaterTracker(
-  //       date: DateTime.now().add(const Duration(hours: 2)), waterVolume: 20),
-  //   WaterTracker(
-  //       date: DateTime.now().add(const Duration(hours: 3)), waterVolume: 30),
-  // ];
   late List<WaterTracker> tracks;
   Rx<int> waterVolume = 0.obs;
   late DateTime date;
@@ -23,10 +13,10 @@ class DailyWaterController extends GetxController with TrackerController {
   @override
   void onInit() async {
     super.onInit();
-    await updateTracksByDate(DateTime.now());
+    await fetchTracksByDate(DateTime.now());
   }
 
-  updateTracksByDate(DateTime date) async {
+  fetchTracksByDate(DateTime date) async {
     this.date = date;
     tracks = await _provider.fetchByDate(date);
     waterVolume.value = 0;
@@ -34,7 +24,7 @@ class DailyWaterController extends GetxController with TrackerController {
     update();
   }
 
-  addWaterVolume(int volume) async {
+  addTrack(int volume) async {
     waterVolume.value += volume;
     WaterTracker wt = WaterTracker(
         date: DateUtils.isSameDay(date, DateTime.now()) ? DateTime.now() : date,
@@ -44,7 +34,7 @@ class DailyWaterController extends GetxController with TrackerController {
     update();
   }
 
-  deleteWaterVolume(WaterTracker wt) async {
+  deleteTrack(WaterTracker wt) async {
     waterVolume.value -= wt.waterVolume;
     tracks.remove(wt);
     await _provider.delete(wt.id ?? 0);

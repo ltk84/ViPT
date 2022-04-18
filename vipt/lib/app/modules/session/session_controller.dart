@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 import 'package:vipt/app/core/utilities/utils.dart';
+import 'package:vipt/app/data/models/exercise_tracker.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
+import 'package:vipt/app/data/providers/exercise_track_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/session/widgets/custom_timer.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
@@ -244,19 +246,14 @@ class SessionController extends GetxController {
     timeConsumed += time;
   }
 
-  void handleCompleteSession() {
+  void handleCompleteSession() async {
+    // TODO: quyet dinh lam tron len hay lam tron xuong
+    ExerciseTracker et = ExerciseTracker(
+        date: DateTime.now(),
+        outtakeCalories: caloConsumed.ceil(),
+        sessionNumber: 1,
+        totalTime: timeConsumed.ceil());
+    await ExerciseTrackProvider().add(et);
     Get.toNamed(Routes.completeSession);
   }
-
-  // void start() {
-  //   collectionTimeController.start();
-  //   workoutTimeController.start();
-  //   changeTimerState(action: 'play');
-  // }
-
-  // void resume() {
-  //   collectionTimeController.resume();
-  //   workoutTimeController.resume();
-  //   changeTimerState(action: 'play');
-  // }
 }

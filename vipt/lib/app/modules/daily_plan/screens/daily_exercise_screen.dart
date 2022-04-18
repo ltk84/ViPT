@@ -77,9 +77,12 @@ class DailyExerciseScreen extends StatelessWidget {
               var dateTime = await showDatePicker(
                   locale: const Locale("vi", "VI"),
                   context: context,
-                  initialDate: DateTime.now(),
+                  initialDate: _controller.date,
                   firstDate: DateTime(1970),
-                  lastDate: DateTime.now().add(const Duration(days: 1)));
+                  lastDate: DateTime.now());
+              if (dateTime != null) {
+                _controller.fetchTracksByDate(dateTime);
+              }
             },
             child: Row(
               children: [
@@ -119,7 +122,7 @@ class DailyExerciseScreen extends StatelessWidget {
             children: [
               ConstrainedBox(
                 constraints: BoxConstraints(minHeight: bodyHeight * 0.35),
-                child: _buildInfo(context),
+                child: _buildInfo(context, _controller),
               ),
               ConstrainedBox(
                 constraints: BoxConstraints(minHeight: bodyHeight * 0.65),
@@ -167,32 +170,34 @@ class DailyExerciseScreen extends StatelessWidget {
     );
   }
 
-  _buildInfo(context) {
+  _buildInfo(context, DailyExerciseController controller) {
     final screenWidth = MediaQuery.of(context).size.width;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        SizedBox(
-          width: screenWidth * 0.3,
-          child: const VerticalInfoWidget(
-            title: '2',
-            subtitle: 'phiên tập',
+    return Obx(
+      () => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          SizedBox(
+            width: screenWidth * 0.3,
+            child: VerticalInfoWidget(
+              title: controller.sessions.value.toString(),
+              subtitle: 'phiên tập',
+            ),
           ),
-        ),
-        GoalProgressIndicator(
-          radius: screenWidth * 0.3,
-          title: '150',
-          subtitle: 'calories tiêu hao',
-          progressValue: 0.5,
-        ),
-        SizedBox(
-          width: screenWidth * 0.3,
-          child: const VerticalInfoWidget(
-            title: '60',
-            subtitle: 'phút',
+          GoalProgressIndicator(
+            radius: screenWidth * 0.3,
+            title: controller.calories.value.toString(),
+            subtitle: 'calories tiêu hao',
+            progressValue: 0.5,
           ),
-        ),
-      ],
+          SizedBox(
+            width: screenWidth * 0.3,
+            child: VerticalInfoWidget(
+              title: controller.time.value.toString(),
+              subtitle: 'phút',
+            ),
+          ),
+        ],
+      ),
     );
   }
 

@@ -114,7 +114,7 @@ class WaterHistoryScreen extends StatelessWidget {
                   date: '${log.date.day}/${log.date.month}/${log.date.year}',
                   time: '${log.date.hour}:${log.date.minute}',
                   action: () {
-                    c.deleteWaterVolume(log);
+                    c.deleteTrack(log);
                   },
                 ),
               );
@@ -149,7 +149,7 @@ class WaterHistoryScreen extends StatelessWidget {
             },
           );
           if (result != null) {
-            await c.addWaterVolume(result);
+            await c.addTrack(result);
           }
         },
         child: SvgPicture.asset(

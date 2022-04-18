@@ -7,4 +7,6 @@ abstract class TrackerController {
   void changeTab(int value) {
     _parentController.changeTab(value);
   }
+
+  fetchTracksByDate(DateTime date);
 }
