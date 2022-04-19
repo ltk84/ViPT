@@ -47,9 +47,7 @@ class WorkoutCollectionListScreen extends StatelessWidget {
               onPressed: () {
                 // _controller.onSelectUserCollection(collection);
                 _controller.onSelectDefaultCollection(collection);
-                Get.toNamed(
-                  Routes.workoutCollectionDetail,
-                );
+                Get.toNamed(Routes.workoutCollectionDetail);
               },
               title: collection.title,
             );

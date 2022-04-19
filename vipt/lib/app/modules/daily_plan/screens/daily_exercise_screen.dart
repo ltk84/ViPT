@@ -5,11 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
+import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/daily_plan/daily_exercise_controller.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
+import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 class DailyExerciseScreen extends StatelessWidget {
   DailyExerciseScreen({Key? key}) : super(key: key);
@@ -157,7 +161,8 @@ class DailyExerciseScreen extends StatelessWidget {
                         const SizedBox(
                           height: 8,
                         ),
-                        ..._buildCollectionList([]),
+                        ..._buildCollectionList(
+                            DataService.instance.collectionList),
                       ],
                     ),
                   ),
@@ -202,16 +207,27 @@ class DailyExerciseScreen extends StatelessWidget {
   }
 
   _buildCollectionList(List<WorkoutCollection> workoutCollectionList) {
-    return workoutCollectionList
-        .map((collection) => Container(
-              margin: const EdgeInsets.symmetric(vertical: 8),
-              child: ExerciseInCollectionTile(
-                  asset: collection.asset,
-                  title: collection.title,
-                  description: 'Category name',
-                  onPressed: () {}),
-            ))
-        .toList();
+    return workoutCollectionList.map((collection) {
+      String cateList = DataService.instance.collectionCateList
+          .where((item) => collection.categoryIDs.contains(item.id))
+          .map((e) => e.name)
+          .toString()
+          .replaceAll(RegExp(r'\(|\)'), '');
+      return Container(
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        child: ExerciseInCollectionTile(
+            asset: collection.asset,
+            title: collection.title,
+            description: cateList,
+            onPressed: () async {
+              final _collectionController =
+                  Get.put(WorkoutCollectionController());
+              _collectionController.onSelectDefaultCollection(collection);
+              await Get.toNamed(Routes.workoutCollectionDetail);
+              Get.delete<WorkoutCollectionController>();
+            }),
+      );
+    }).toList();
   }
 
   _showTabSelection(context,

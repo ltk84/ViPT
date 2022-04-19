@@ -26,7 +26,6 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
 
   void init() {
     _controller.loadCollectionSetting();
-    // _workoutList = _controller.loadWorkoutList(_collection.workoutIDs);
   }
 
   @override
@@ -48,8 +47,6 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
             onPressed: _controller.generatedWorkoutList.isEmpty
                 ? null
                 : () async {
-                    // onLeaveScreen();
-                    // init();
                     await _controller.updateCollectionSetting();
                     Get.toNamed(Routes.previewExerciseList);
                   },
@@ -70,14 +67,6 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         appBar: AppBar(
-          // actions: [
-          //   AppBarIconButton(
-          //       iconData: Icons.access_time_filled_sharp,
-          //       onPressed: () {
-          //         Get.toNamed(Routes.workoutSession);
-          //       },
-          //       hero: 'actionAppBarButton'),
-          // ],
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,
