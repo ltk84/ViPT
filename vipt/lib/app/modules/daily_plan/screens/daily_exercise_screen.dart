@@ -7,6 +7,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/modules/daily_plan/daily_exercise_controller.dart';
+import 'package:vipt/app/modules/daily_plan/widgets/collection_tab_holder.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
@@ -157,7 +158,7 @@ class DailyExerciseScreen extends StatelessWidget {
                         const SizedBox(
                           height: 8,
                         ),
-                        ..._buildCollectionList([]),
+                        const CollectionTabHolder(),
                       ],
                     ),
                   ),
@@ -199,19 +200,6 @@ class DailyExerciseScreen extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  _buildCollectionList(List<WorkoutCollection> workoutCollectionList) {
-    return workoutCollectionList
-        .map((collection) => Container(
-              margin: const EdgeInsets.symmetric(vertical: 8),
-              child: ExerciseInCollectionTile(
-                  asset: collection.asset,
-                  title: collection.title,
-                  description: 'Category name',
-                  onPressed: () {}),
-            ))
-        .toList();
   }
 
   _showTabSelection(context,
