@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:vipt/app/data/models/tracker.dart';
 
 class WaterTracker extends Tracker {

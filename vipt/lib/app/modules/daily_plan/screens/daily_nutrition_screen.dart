@@ -77,9 +77,12 @@ class DailyNutritionScreen extends StatelessWidget {
               var dateTime = await showDatePicker(
                   locale: const Locale("vi", "VI"),
                   context: context,
-                  initialDate: DateTime.now(),
+                  initialDate: _controller.date,
                   firstDate: DateTime(1970),
-                  lastDate: DateTime.now().add(const Duration(days: 1)));
+                  lastDate: DateTime.now());
+              if (dateTime != null) {
+                await _controller.fetchTracksByDate(dateTime);
+              }
             },
             child: Row(
               children: [
@@ -122,13 +125,23 @@ class DailyNutritionScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                InkWell(
-                  onTap: () {
-                    Get.toNamed(Routes.nutritionHistory);
-                  },
-                  child: _buildInfo(context),
+                Obx(
+                  () => InkWell(
+                    onTap: () {
+                      Get.toNamed(Routes.nutritionHistory);
+                    },
+                    child: _buildInfo(
+                      context,
+                      intake: _controller.intakeCalo.value,
+                      outtake: _controller.outtakeCalo.value,
+                      diff: _controller.diffCalo.value,
+                    ),
+                  ),
                 ),
-                _buildNutritionFacts(),
+                Obx(() => _buildNutritionFacts(
+                    carbs: _controller.carbs.value,
+                    protein: _controller.protein.value,
+                    fat: _controller.fat.value)),
                 _buildActionButton(),
                 _buildActionDescription(context),
               ],
@@ -139,7 +152,7 @@ class DailyNutritionScreen extends StatelessWidget {
     );
   }
 
-  _buildInfo(context) {
+  _buildInfo(context, {int intake = 0, int outtake = 0, int diff = 0}) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -148,22 +161,22 @@ class DailyNutritionScreen extends StatelessWidget {
           tag: 'caloriesIntakeWidget',
           child: SizedBox(
             width: screenWidth * 0.3,
-            child: const VerticalInfoWidget(
-              title: '2074',
+            child: VerticalInfoWidget(
+              title: intake.toString(),
               subtitle: 'hấp thụ',
             ),
           ),
         ),
         GoalProgressIndicator(
           radius: screenWidth * 0.3,
-          title: '1460',
+          title: diff.toString(),
           subtitle: 'calories',
           progressValue: 0.5,
         ),
         SizedBox(
           width: screenWidth * 0.3,
-          child: const VerticalInfoWidget(
-            title: '614',
+          child: VerticalInfoWidget(
+            title: outtake.toString(),
             subtitle: 'tiêu hao',
           ),
         ),
@@ -171,19 +184,19 @@ class DailyNutritionScreen extends StatelessWidget {
     );
   }
 
-  _buildNutritionFacts() {
+  _buildNutritionFacts({int carbs = 0, int protein = 0, int fat = 0}) {
     return Hero(
       tag: 'nutritionFactWidget',
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: const [
+        children: [
           FittedBox(
             child: SizedBox(
               height: 80,
               child: InfoCubeWidget(
                 width: 90,
                 height: 90,
-                title: '100g',
+                title: carbs.toString(),
                 subtitle: 'Carbs',
                 color: AppColor.carbCubeColor,
                 textColor: AppColor.buttonForegroundColor,
@@ -198,7 +211,7 @@ class DailyNutritionScreen extends StatelessWidget {
               child: InfoCubeWidget(
                 width: 90,
                 height: 90,
-                title: '100g',
+                title: protein.toString(),
                 subtitle: 'Protein',
                 color: AppColor.proteinCubeColor,
                 textColor: AppColor.buttonForegroundColor,
@@ -213,7 +226,7 @@ class DailyNutritionScreen extends StatelessWidget {
               child: InfoCubeWidget(
                 width: 90,
                 height: 90,
-                title: '100g',
+                title: fat.toString(),
                 subtitle: 'Fat',
                 color: AppColor.fatCubeColor,
                 textColor: AppColor.buttonForegroundColor,

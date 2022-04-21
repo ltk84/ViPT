@@ -6,9 +6,7 @@ import 'package:vipt/app/modules/daily_plan/tracker_controller.dart';
 
 class DailyWaterController extends GetxController with TrackerController {
   final _provider = WaterTrackProvider();
-  late List<WaterTracker> tracks;
   Rx<int> waterVolume = 0.obs;
-  late DateTime date;
 
   @override
   void onInit() async {
@@ -16,11 +14,15 @@ class DailyWaterController extends GetxController with TrackerController {
     await fetchTracksByDate(DateTime.now());
   }
 
+  @override
   fetchTracksByDate(DateTime date) async {
     this.date = date;
     tracks = await _provider.fetchByDate(date);
     waterVolume.value = 0;
-    tracks.map((e) => waterVolume.value += e.waterVolume).toList();
+    tracks.map((e) {
+      e = e as WaterTracker;
+      waterVolume.value += e.waterVolume;
+    }).toList();
     update();
   }
 

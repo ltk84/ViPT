@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
-import 'package:vipt/app/global_widgets/editable_exercise_list_widget.dart';
 import 'package:vipt/app/global_widgets/editable_intro_collection_widget.dart';
 import 'package:vipt/app/global_widgets/info_cube_widget.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/editable_ingredient_list_widget.dart';

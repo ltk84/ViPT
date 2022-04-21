@@ -2,14 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scale_tap/flutter_scale_tap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/global_widgets/info_cube_widget.dart';
+import 'package:vipt/app/modules/daily_plan/daily_nutrition_controller.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/history_tile.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
 
 class NutritionHistoryScreen extends StatelessWidget {
-  const NutritionHistoryScreen({Key? key}) : super(key: key);
+  NutritionHistoryScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.find<DailyNutritionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +75,13 @@ class NutritionHistoryScreen extends StatelessWidget {
         children: [
           Column(
             children: [
-              _buildInfo(context),
-              _buildNutritionFacts(),
+              Obx(() =>
+                  _buildInfo(context, intake: _controller.intakeCalo.value)),
+              Obx(() => _buildNutritionFacts(
+                    carbs: _controller.carbs.value,
+                    fat: _controller.fat.value,
+                    protein: _controller.protein.value,
+                  )),
               _buildHistoryList(context, nutritionHistory),
               const SizedBox(
                 height: 50,
@@ -86,7 +95,7 @@ class NutritionHistoryScreen extends StatelessWidget {
     );
   }
 
-  _buildInfo(context) {
+  _buildInfo(context, {int intake = 0}) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24),
@@ -106,8 +115,8 @@ class NutritionHistoryScreen extends StatelessWidget {
             ),
             SizedBox(
               width: screenWidth * 0.3,
-              child: const VerticalInfoWidget(
-                title: '2074',
+              child: VerticalInfoWidget(
+                title: intake.toString(),
                 subtitle: 'calories hấp thụ',
               ),
             ),
@@ -117,21 +126,21 @@ class NutritionHistoryScreen extends StatelessWidget {
     );
   }
 
-  _buildNutritionFacts() {
+  _buildNutritionFacts({int carbs = 0, int protein = 0, int fat = 0}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Hero(
         tag: 'nutritionFactWidget',
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: const [
+          children: [
             FittedBox(
               child: SizedBox(
                 height: 80,
                 child: InfoCubeWidget(
                   width: 90,
                   height: 90,
-                  title: '100g',
+                  title: carbs.toString(),
                   subtitle: 'Carbs',
                   color: AppColor.carbCubeColor,
                   textColor: AppColor.buttonForegroundColor,
@@ -146,7 +155,7 @@ class NutritionHistoryScreen extends StatelessWidget {
                 child: InfoCubeWidget(
                   width: 90,
                   height: 90,
-                  title: '100g',
+                  title: protein.toString(),
                   subtitle: 'Protein',
                   color: AppColor.proteinCubeColor,
                   textColor: AppColor.buttonForegroundColor,
@@ -161,7 +170,7 @@ class NutritionHistoryScreen extends StatelessWidget {
                 child: InfoCubeWidget(
                   width: 90,
                   height: 90,
-                  title: '100g',
+                  title: fat.toString(),
                   subtitle: 'Fat',
                   color: AppColor.fatCubeColor,
                   textColor: AppColor.buttonForegroundColor,

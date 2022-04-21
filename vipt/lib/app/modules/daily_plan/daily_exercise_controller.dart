@@ -5,11 +5,9 @@ import 'package:vipt/app/modules/daily_plan/tracker_controller.dart';
 
 class DailyExerciseController extends GetxController with TrackerController {
   final _provider = ExerciseTrackProvider();
-  late List<ExerciseTracker> tracks;
   Rx<int> calories = 0.obs;
   Rx<int> sessions = 0.obs;
   Rx<int> time = 0.obs;
-  late DateTime date;
 
   @override
   void onInit() async {
@@ -25,6 +23,7 @@ class DailyExerciseController extends GetxController with TrackerController {
     sessions.value = 0;
     time.value = 0;
     tracks.map((e) {
+      e = e as ExerciseTracker;
       calories.value += e.outtakeCalories;
       time.value += e.totalTime;
       sessions.value += e.sessionNumber;

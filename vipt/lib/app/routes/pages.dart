@@ -166,7 +166,7 @@ abstract class AppPages {
     ),
     GetPage(
       name: Routes.nutritionHistory,
-      page: () => const NutritionHistoryScreen(),
+      page: () => NutritionHistoryScreen(),
     ),
     GetPage(
       name: Routes.waterHistory,

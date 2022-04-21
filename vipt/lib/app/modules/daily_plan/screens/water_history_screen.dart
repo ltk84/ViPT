@@ -106,6 +106,7 @@ class WaterHistoryScreen extends StatelessWidget {
               height: 4,
             ),
             ...c.tracks.map((log) {
+              log as WaterTracker;
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: HistoryTile(
