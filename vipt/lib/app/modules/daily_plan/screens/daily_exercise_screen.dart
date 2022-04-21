@@ -9,6 +9,7 @@ import 'package:vipt/app/data/models/category.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/daily_plan/daily_exercise_controller.dart';
+import 'package:vipt/app/modules/daily_plan/widgets/collection_tab_holder.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
@@ -163,6 +164,7 @@ class DailyExerciseScreen extends StatelessWidget {
                         ),
                         ..._buildCollectionList(
                             DataService.instance.collectionList),
+                        const CollectionTabHolder(),
                       ],
                     ),
                   ),
