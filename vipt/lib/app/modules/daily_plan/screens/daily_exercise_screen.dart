@@ -162,9 +162,11 @@ class DailyExerciseScreen extends StatelessWidget {
                         const SizedBox(
                           height: 8,
                         ),
-                        ..._buildCollectionList(
-                            DataService.instance.collectionList),
-                        const CollectionTabHolder(),
+                        CollectionTabHolder(
+                            firstCollection:
+                                DataService.instance.collectionList,
+                            secondCollection:
+                                DataService.instance.userCollectionList),
                       ],
                     ),
                   ),
