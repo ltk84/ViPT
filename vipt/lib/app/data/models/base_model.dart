@@ -2,5 +2,7 @@ abstract class BaseModel {
   String? id;
   BaseModel(this.id);
 
-  Map<String, dynamic> toMap();
+  Map<String, dynamic> toMap() {
+    return {};
+  }
 }

@@ -1,20 +1,18 @@
-class LocalMeal {
-  final int? id;
+import 'package:vipt/app/data/models/nutrition.dart';
+
+class LocalMealNutrition extends Nutrition {
   final String name;
-  final double calories;
-  final double carbs;
-  final double protein;
-  final double fat;
 
-  LocalMeal({
-    this.id,
+  LocalMealNutrition({
+    String? id,
     required this.name,
-    required this.calories,
-    required this.carbs,
-    required this.protein,
-    required this.fat,
-  });
+    num calories = 0,
+    num carbs = 0,
+    num fat = 0,
+    num protein = 0,
+  }) : super(id);
 
+  @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
       'name': name,
@@ -31,9 +29,9 @@ class LocalMeal {
     return map;
   }
 
-  factory LocalMeal.fromMap(Map<String, dynamic> map) {
-    return LocalMeal(
-      id: map['id']?.toInt() ?? 0,
+  factory LocalMealNutrition.fromMap(Map<String, dynamic> map) {
+    return LocalMealNutrition(
+      id: map['id']?.toString() ?? '',
       name: map['name'] ?? '',
       calories: map['calories']?.toDouble() ?? 0.0,
       carbs: map['carbs']?.toDouble() ?? 0.0,

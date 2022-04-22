@@ -1,6 +1,7 @@
 import 'package:vipt/app/data/models/tracker.dart';
 
 class MealNutritionTracker extends Tracker {
+  String name;
   int intakeCalories;
   int carbs;
   int protein;
@@ -9,6 +10,7 @@ class MealNutritionTracker extends Tracker {
   MealNutritionTracker({
     int? id,
     required DateTime date,
+    required this.name,
     required this.intakeCalories,
     required this.carbs,
     required this.protein,
@@ -19,6 +21,7 @@ class MealNutritionTracker extends Tracker {
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
       'date': super.date.toString(),
+      'name': name,
       'intakeCalories': intakeCalories,
       'carbs': carbs,
       'protein': protein,
@@ -36,6 +39,7 @@ class MealNutritionTracker extends Tracker {
     return MealNutritionTracker(
       id: map['id'],
       date: map['date'],
+      name: map['name'],
       intakeCalories: map['intakeCalories'] ?? 0,
       carbs: map['carbs'] ?? 0,
       protein: map['protein'] ?? 0,

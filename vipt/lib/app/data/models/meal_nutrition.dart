@@ -1,17 +1,14 @@
 import 'package:vipt/app/data/models/ingredient.dart';
 import 'package:vipt/app/data/models/meal.dart';
+import 'package:vipt/app/data/models/nutrition.dart';
 import 'package:vipt/app/data/providers/ingredient_provider.dart';
 import 'package:vipt/app/data/providers/meal_category_provider.dart';
 
-class MealNutrition {
+class MealNutrition extends Nutrition {
   final Meal meal;
   late final List<String> mealCate;
-  MealNutrition({required this.meal});
+  MealNutrition({String? id, required this.meal}) : super(id);
 
-  num calories = 0;
-  num carbs = 0;
-  num fat = 0;
-  num protein = 0;
   List<Ingredient> ingredients = [];
 
   getIngredients() async {
@@ -47,6 +44,7 @@ class MealNutrition {
     protein = 0;
   }
 
+  @override
   void initNutrition() {
     resetNutrition();
     for (var ingre in ingredients) {

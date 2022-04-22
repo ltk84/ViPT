@@ -209,30 +209,6 @@ class DailyExerciseScreen extends StatelessWidget {
     );
   }
 
-  _buildCollectionList(List<WorkoutCollection> workoutCollectionList) {
-    return workoutCollectionList.map((collection) {
-      String cateList = DataService.instance.collectionCateList
-          .where((item) => collection.categoryIDs.contains(item.id))
-          .map((e) => e.name)
-          .toString()
-          .replaceAll(RegExp(r'\(|\)'), '');
-      return Container(
-        margin: const EdgeInsets.symmetric(vertical: 8),
-        child: ExerciseInCollectionTile(
-            asset: collection.asset,
-            title: collection.title,
-            description: cateList,
-            onPressed: () async {
-              final _collectionController =
-                  Get.put(WorkoutCollectionController());
-              _collectionController.onSelectDefaultCollection(collection);
-              await Get.toNamed(Routes.workoutCollectionDetail);
-              Get.delete<WorkoutCollectionController>();
-            }),
-      );
-    }).toList();
-  }
-
   _showTabSelection(context,
       {required List<String> items,
       required Function(int)? onSelectedItemChanged,

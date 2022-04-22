@@ -5,6 +5,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
+import 'package:vipt/app/data/models/nutrition.dart';
+import 'package:vipt/app/data/models/tracker.dart';
 import 'package:vipt/app/global_widgets/info_cube_widget.dart';
 import 'package:vipt/app/modules/daily_plan/daily_nutrition_controller.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/history_tile.dart';
@@ -82,7 +85,7 @@ class NutritionHistoryScreen extends StatelessWidget {
                     fat: _controller.fat.value,
                     protein: _controller.protein.value,
                   )),
-              _buildHistoryList(context, nutritionHistory),
+              _buildHistoryList(context, _controller.tracks),
               const SizedBox(
                 height: 50,
               ),
@@ -185,7 +188,7 @@ class NutritionHistoryScreen extends StatelessWidget {
     );
   }
 
-  _buildHistoryList(context, List<Map<String, String>> nutritionHistory) {
+  _buildHistoryList(context, List<Tracker> nutritionHistory) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 24,
@@ -210,13 +213,14 @@ class NutritionHistoryScreen extends StatelessWidget {
             height: 4,
           ),
           ...nutritionHistory.map((log) {
+            log as MealNutritionTracker;
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: HistoryTile(
-                title: log['name'] ?? '',
-                description: log['description'] ?? '',
-                date: log['date'] ?? '',
-                time: log['time'] ?? '',
+                title: log.name,
+                description: log.intakeCalories.toString(),
+                date: '${log.date.day}/${log.date.month}/${log.date.year}',
+                time: '${log.date.hour}:${log.date.minute}',
                 action: () {},
               ),
             );
