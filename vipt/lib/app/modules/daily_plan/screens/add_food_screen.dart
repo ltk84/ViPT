@@ -6,6 +6,7 @@ import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/global_widgets/editable_intro_collection_widget.dart';
 import 'package:vipt/app/global_widgets/info_cube_widget.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/editable_ingredient_list_widget.dart';
+import 'package:vipt/app/modules/daily_plan/widgets/input_amount_dialog.dart';
 
 class AddFoodScreen extends StatelessWidget {
   const AddFoodScreen({Key? key}) : super(key: key);
@@ -54,21 +55,21 @@ class AddFoodScreen extends StatelessWidget {
                 titleTextStyle: Theme.of(context).textTheme.headline3,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Divider(
                   color: AppColor.textColor
                       .withOpacity(AppColor.disabledTextOpacity),
                 ),
               ),
-              const SizedBox(
-                height: 16,
-              ),
+              // const SizedBox(
+              //   height: 16,
+              // ),
               _buildIntakeCaloriesDisplay(context, 100),
-              const SizedBox(
-                height: 16,
-              ),
+              // const SizedBox(
+              //   height: 16,
+              // ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Divider(
                   color: AppColor.textColor
                       .withOpacity(AppColor.disabledTextOpacity),
@@ -79,9 +80,9 @@ class AddFoodScreen extends StatelessWidget {
               ),
               _buildNutritionFacts(context, protein: 50, carbs: 50, fat: 50),
               const SizedBox(
-                height: 36,
+                height: 32,
               ),
-              const EditableIngredientListWidget(),
+              _buildGuideSection(context),
             ],
           );
         }),
@@ -95,6 +96,24 @@ class AddFoodScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         InfoCubeWidget(
+          onTap: () async {
+            final result = await showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return InputAmountDialog(
+                  title: 'Carbs',
+                  unit: 'g',
+                  value: 1,
+                  confirmButtonColor: AppColor.carbCubeColor,
+                  confirmButtonText: 'Xác nhận',
+                  sliderActiveColor: AppColor.carbCubeColor,
+                  sliderInactiveColor: AppColor.carbCubeColor.withOpacity(
+                    AppColor.subTextOpacity,
+                  ),
+                );
+              },
+            );
+          },
           title: '${carbs.toStringAsFixed(0)}g',
           subtitle: 'Carbs',
           color: AppColor.carbCubeColor,
@@ -104,6 +123,24 @@ class AddFoodScreen extends StatelessWidget {
           width: 24,
         ),
         InfoCubeWidget(
+          onTap: () async {
+            final result = await showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return InputAmountDialog(
+                  title: 'Protein',
+                  unit: 'g',
+                  value: 1,
+                  confirmButtonColor: AppColor.proteinCubeColor,
+                  confirmButtonText: 'Xác nhận',
+                  sliderActiveColor: AppColor.proteinCubeColor,
+                  sliderInactiveColor: AppColor.proteinCubeColor.withOpacity(
+                    AppColor.subTextOpacity,
+                  ),
+                );
+              },
+            );
+          },
           title: '${protein.toStringAsFixed(0)}g',
           subtitle: 'Protein',
           color: AppColor.proteinCubeColor,
@@ -113,6 +150,24 @@ class AddFoodScreen extends StatelessWidget {
           width: 24,
         ),
         InfoCubeWidget(
+          onTap: () async {
+            final result = await showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return InputAmountDialog(
+                  title: 'Fat',
+                  unit: 'g',
+                  value: 1,
+                  confirmButtonColor: AppColor.fatCubeColor,
+                  confirmButtonText: 'Xác nhận',
+                  sliderActiveColor: AppColor.fatCubeColor,
+                  sliderInactiveColor: AppColor.fatCubeColor.withOpacity(
+                    AppColor.subTextOpacity,
+                  ),
+                );
+              },
+            );
+          },
           title: '${fat.toStringAsFixed(0)}g',
           subtitle: 'Fat',
           color: AppColor.fatCubeColor,
@@ -123,28 +178,75 @@ class AddFoodScreen extends StatelessWidget {
   }
 
   Widget _buildIntakeCaloriesDisplay(context, num amount) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(5),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(5),
+        onTap: () async {
+          final result = await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return InputAmountDialog(
+                title: 'Calories',
+                unit: 'kcal',
+                value: 1,
+                confirmButtonColor: AppColor.nutriBackgroundColor,
+                confirmButtonText: 'Xác nhận',
+                sliderActiveColor: AppColor.nutriBackgroundColor,
+                sliderInactiveColor: AppColor.nutriBackgroundColor.withOpacity(
+                  AppColor.subTextOpacity,
+                ),
+              );
+            },
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                SVGAssetString.dish,
+                height: 24,
+              ),
+              const SizedBox(
+                width: 12,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Calories',
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                  Text(
+                    '${amount.toStringAsFixed(0)} kcal',
+                    style: Theme.of(context).textTheme.subtitle1,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGuideSection(context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SvgPicture.asset(
-          SVGAssetString.dish,
-          height: 24,
+        Text(
+          'Hướng dẫn',
+          style: Theme.of(context).textTheme.headline5,
         ),
         const SizedBox(
-          width: 12,
+          height: 4,
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Calories',
-              style: Theme.of(context).textTheme.headline5,
-            ),
-            Text(
-              '${amount.toStringAsFixed(0)} kcal',
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
-          ],
+        Text(
+          'Chạm vào các vị trí Tên, Calories, Carbs, Protein, Fat để thay đổi giá trị tương ứng.',
+          style: Theme.of(context).textTheme.bodyText1,
         ),
       ],
     );
