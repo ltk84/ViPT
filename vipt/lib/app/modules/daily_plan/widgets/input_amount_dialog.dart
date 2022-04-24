@@ -17,7 +17,7 @@ class InputAmountDialog extends StatefulWidget {
       this.title = '',
       this.unit = 'g',
       this.value = 0,
-      this.min = 0,
+      this.min = 1,
       this.max = 3000,
       this.confirmButtonColor,
       this.sliderActiveColor,
@@ -97,8 +97,8 @@ class _InputAmountDialogState extends State<InputAmountDialog> {
                   _value = value.toInt();
                 });
               },
-              min: 1,
-              max: 3000,
+              min: widget.min.toDouble(),
+              max: widget.max.toDouble(),
               activeColor: widget.sliderActiveColor,
               inactiveColor: widget.sliderInactiveColor,
               thumbColor: AppColor.accentTextColor,
