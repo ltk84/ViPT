@@ -24,8 +24,6 @@ class _CollectionTabHolderState extends State<CollectionTabHolder>
   late TabController _controller;
   int _selectedTabIndex = 0;
 
-  final _exerciseController = Get.find<DailyExerciseController>();
-
   @override
   void initState() {
     _controller = TabController(length: 2, vsync: this);
@@ -71,8 +69,6 @@ class _CollectionTabHolderState extends State<CollectionTabHolder>
                       _collectionController.onSelectDefaultCollection(col);
                       await Get.toNamed(Routes.workoutCollectionDetail);
                       Get.delete<WorkoutCollectionController>();
-                      _exerciseController
-                          .fetchTracksByDate(_exerciseController.date);
                     }),
               ],
             );
@@ -87,8 +83,6 @@ class _CollectionTabHolderState extends State<CollectionTabHolder>
                       _collectionController.onSelectUserCollection(col);
                       await Get.toNamed(Routes.myWorkoutCollectionDetail);
                       Get.delete<WorkoutCollectionController>();
-                      _exerciseController
-                          .fetchTracksByDate(_exerciseController.date);
                     }),
               ],
             );
