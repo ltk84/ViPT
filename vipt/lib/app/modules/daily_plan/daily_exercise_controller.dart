@@ -27,7 +27,7 @@ class DailyExerciseController extends GetxController with TrackerController {
       calories.value += e.outtakeCalories;
       // TODO: bàn lại về vấn đề đơn vị thời gian hiển thị
       // s thì níu tập ít quá nó chỉ hiển thị 0.
-      time.value += e.totalTime ~/ 60;
+      time.value += e.totalTime;
       sessions.value += e.sessionNumber;
     }).toList();
     update();

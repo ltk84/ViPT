@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/services/data_service.dart';
+import 'package:vipt/app/modules/daily_plan/daily_exercise_controller.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
@@ -22,6 +23,8 @@ class _CollectionTabHolderState extends State<CollectionTabHolder>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
   int _selectedTabIndex = 0;
+
+  final _exerciseController = Get.find<DailyExerciseController>();
 
   @override
   void initState() {
@@ -68,6 +71,8 @@ class _CollectionTabHolderState extends State<CollectionTabHolder>
                       _collectionController.onSelectDefaultCollection(col);
                       await Get.toNamed(Routes.workoutCollectionDetail);
                       Get.delete<WorkoutCollectionController>();
+                      _exerciseController
+                          .fetchTracksByDate(_exerciseController.date);
                     }),
               ],
             );
@@ -82,6 +87,8 @@ class _CollectionTabHolderState extends State<CollectionTabHolder>
                       _collectionController.onSelectUserCollection(col);
                       await Get.toNamed(Routes.myWorkoutCollectionDetail);
                       Get.delete<WorkoutCollectionController>();
+                      _exerciseController
+                          .fetchTracksByDate(_exerciseController.date);
                     }),
               ],
             );

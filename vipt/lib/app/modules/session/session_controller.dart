@@ -5,6 +5,7 @@ import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/providers/exercise_track_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
+import 'package:vipt/app/modules/daily_plan/daily_exercise_controller.dart';
 import 'package:vipt/app/modules/session/widgets/custom_timer.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
@@ -252,8 +253,11 @@ class SessionController extends GetxController {
         date: DateTime.now(),
         outtakeCalories: caloConsumed.ceil(),
         sessionNumber: 1,
-        totalTime: (timeConsumed / 60).ceil());
+        totalTime: timeConsumed.ceil());
     await ExerciseTrackProvider().add(et);
+    final _c = Get.find<DailyExerciseController>();
+    await _c.fetchTracksByDate(_c.date);
+
     Get.toNamed(Routes.completeSession);
   }
 }

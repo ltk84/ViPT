@@ -38,4 +38,8 @@ class ExerciseTracker extends Tracker {
       totalTime: map['totalTime'] ?? 0,
     );
   }
+
+  @override
+  String toString() =>
+      'ExerciseTracker(id: $id, date: $date, outtakeCalories: $outtakeCalories, sessionNumber: $sessionNumber, totalTime: $totalTime)';
 }

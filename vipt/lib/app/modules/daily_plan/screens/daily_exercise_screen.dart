@@ -196,7 +196,7 @@ class DailyExerciseScreen extends StatelessWidget {
           SizedBox(
             width: screenWidth * 0.3,
             child: VerticalInfoWidget(
-              title: controller.time.value.toString(),
+              title: (controller.time.value / 60).toPrecision(2).toString(),
               subtitle: 'phút',
             ),
           ),
