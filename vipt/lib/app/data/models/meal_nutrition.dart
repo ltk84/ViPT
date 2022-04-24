@@ -1,6 +1,8 @@
 import 'package:vipt/app/data/models/ingredient.dart';
 import 'package:vipt/app/data/models/meal.dart';
+import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
 import 'package:vipt/app/data/models/nutrition.dart';
+import 'package:vipt/app/data/models/tracker.dart';
 import 'package:vipt/app/data/providers/ingredient_provider.dart';
 import 'package:vipt/app/data/providers/meal_category_provider.dart';
 
@@ -44,7 +46,6 @@ class MealNutrition extends Nutrition {
     protein = 0;
   }
 
-  @override
   void initNutrition() {
     resetNutrition();
     for (var ingre in ingredients) {
@@ -60,5 +61,16 @@ class MealNutrition extends Nutrition {
         protein += (ingre.protein * amount / 100);
       }
     }
+  }
+
+  @override
+  Tracker convertToMealNutritionTracker() {
+    return MealNutritionTracker(
+        date: DateTime.now(),
+        name: meal.name,
+        intakeCalories: calories.toInt(),
+        carbs: carbs.toInt(),
+        protein: protein.toInt(),
+        fat: fat.toInt());
   }
 }

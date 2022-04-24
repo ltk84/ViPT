@@ -96,8 +96,9 @@ class CompleteSessionScreen extends StatelessWidget {
                         height: 16,
                       ),
                       CompleteIndicatorDisplayWidget(
-                        timeString:
-                            _controller.timeConsumed.toPrecision(2).toString(),
+                        timeString: (_controller.timeConsumed / 60)
+                            .toPrecision(2)
+                            .toString(),
                         exerciseCountString:
                             _controller.completedWorkout.toString(),
                         caloString:

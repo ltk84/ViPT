@@ -46,9 +46,9 @@ class DatabaseProvider {
     db.execute('''
       CREATE TABLE ${AppValue.mealNutritionTrackTable}(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
         date TEXT,
         intakeCalories INTEGER,
-        outtakeCalories INTEGER,
         carbs INTEGER,
         protein INTEGER,
         fat INTEGER)

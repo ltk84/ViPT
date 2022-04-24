@@ -1,4 +1,5 @@
 import 'package:vipt/app/data/models/base_model.dart';
+import 'package:vipt/app/data/models/tracker.dart';
 
 abstract class Nutrition extends BaseModel {
   num calories;
@@ -10,10 +11,5 @@ abstract class Nutrition extends BaseModel {
       {this.calories = 0, this.carbs = 0, this.protein = 0, this.fat = 0})
       : super(id);
 
-  void initNutrition() {
-    calories = 0;
-    carbs = 0;
-    protein = 0;
-    fat = 0;
-  }
+  Tracker convertToMealNutritionTracker();
 }

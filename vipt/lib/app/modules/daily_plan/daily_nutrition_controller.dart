@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/data/models/exercise_tracker.dart';
 import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
@@ -23,6 +24,7 @@ class DailyNutritionController extends GetxController with TrackerController {
   void onInit() {
     super.onInit();
     diffCalo.value = intakeCalo.value - outtakeCalo.value;
+    // TODO: vấn đề hiển thị số âm
     fetchTracksByDate(DateTime.now());
   }
 
@@ -53,5 +55,40 @@ class DailyNutritionController extends GetxController with TrackerController {
     }).toList();
 
     diffCalo.value = intakeCalo.value - outtakeCalo.value;
+  }
+
+  addTracks(
+      {int intakeCalo = 0,
+      int carbs = 0,
+      int protein = 0,
+      int fat = 0,
+      required String name}) async {
+    this.carbs.value += carbs;
+    this.protein.value += protein;
+    this.fat.value += fat;
+    this.intakeCalo.value += intakeCalo;
+    diffCalo.value = this.intakeCalo.value - outtakeCalo.value;
+
+    MealNutritionTracker tracker = MealNutritionTracker(
+        date: DateUtils.isSameDay(date, DateTime.now()) ? DateTime.now() : date,
+        name: name,
+        intakeCalories: intakeCalo,
+        carbs: carbs,
+        protein: protein,
+        fat: fat);
+    tracks.add(tracker);
+    await _nutriTrackProvider.add(tracker);
+    update();
+  }
+
+  deleteTrack(MealNutritionTracker tracker) async {
+    carbs.value -= tracker.carbs;
+    protein.value -= tracker.protein;
+    fat.value -= tracker.fat;
+    intakeCalo.value -= tracker.intakeCalories;
+    diffCalo.value = intakeCalo.value - outtakeCalo.value;
+    tracks.remove(tracker);
+    await _nutriTrackProvider.delete(tracker.id ?? 0);
+    update();
   }
 }

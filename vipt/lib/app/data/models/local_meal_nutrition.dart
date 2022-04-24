@@ -1,4 +1,6 @@
+import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
 import 'package:vipt/app/data/models/nutrition.dart';
+import 'package:vipt/app/data/models/tracker.dart';
 
 class LocalMealNutrition extends Nutrition {
   final String name;
@@ -43,5 +45,16 @@ class LocalMealNutrition extends Nutrition {
   @override
   String toString() {
     return 'LocalMeal(id: $id, name: $name, calories: $calories, carbs: $carbs, protein: $protein, fat: $fat)';
+  }
+
+  @override
+  Tracker convertToMealNutritionTracker() {
+    return MealNutritionTracker(
+        date: DateTime.now(),
+        name: name,
+        intakeCalories: calories.toInt(),
+        carbs: carbs.toInt(),
+        protein: protein.toInt(),
+        fat: fat.toInt());
   }
 }

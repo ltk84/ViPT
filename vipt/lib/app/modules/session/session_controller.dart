@@ -252,7 +252,7 @@ class SessionController extends GetxController {
         date: DateTime.now(),
         outtakeCalories: caloConsumed.ceil(),
         sessionNumber: 1,
-        totalTime: timeConsumed.ceil());
+        totalTime: (timeConsumed / 60).ceil());
     await ExerciseTrackProvider().add(et);
     Get.toNamed(Routes.completeSession);
   }

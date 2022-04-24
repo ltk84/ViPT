@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
-import 'package:vipt/app/data/models/nutrition.dart';
 import 'package:vipt/app/data/models/tracker.dart';
 import 'package:vipt/app/global_widgets/info_cube_widget.dart';
 import 'package:vipt/app/modules/daily_plan/daily_nutrition_controller.dart';
@@ -20,33 +19,6 @@ class NutritionHistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, String>> nutritionHistory = [
-      {
-        'name': 'Thịt bò',
-        'description': '260 kcal',
-        'date': '11/04/2022',
-        'time': '10:00',
-      },
-      {
-        'name': 'Thịt heo',
-        'description': '300 kcal',
-        'date': '12/04/2022',
-        'time': '12:30',
-      },
-      {
-        'name': 'Táo',
-        'description': '35 kcal',
-        'date': '05/05/2022',
-        'time': '16:30',
-      },
-      {
-        'name': 'Chuối',
-        'description': '38 kcal',
-        'date': '03/04/2022',
-        'time': '18:30',
-      }
-    ];
-
     return Scaffold(
       backgroundColor: AppColor.nutriBackgroundColor,
       appBar: AppBar(
@@ -188,46 +160,53 @@ class NutritionHistoryScreen extends StatelessWidget {
     );
   }
 
-  _buildHistoryList(context, List<Tracker> nutritionHistory) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 24,
-        horizontal: 36,
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 4),
-            child: Row(
-              children: [
-                Text(
-                  'Lịch sử',
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
-                        color: AppColor.accentTextColor,
-                      ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 4,
-          ),
-          ...nutritionHistory.map((log) {
-            log as MealNutritionTracker;
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: HistoryTile(
-                title: log.name,
-                description: log.intakeCalories.toString(),
-                date: '${log.date.day}/${log.date.month}/${log.date.year}',
-                time: '${log.date.hour}:${log.date.minute}',
-                action: () {},
+  _buildHistoryList(
+    context,
+    List<Tracker> nutritionHistory,
+  ) {
+    return GetBuilder<DailyNutritionController>(builder: (c) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 24,
+          horizontal: 36,
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 4),
+              child: Row(
+                children: [
+                  Text(
+                    'Lịch sử',
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                          color: AppColor.accentTextColor,
+                        ),
+                  ),
+                ],
               ),
-            );
-          }).toList(),
-        ],
-      ),
-    );
+            ),
+            const SizedBox(
+              height: 4,
+            ),
+            ...nutritionHistory.map((log) {
+              log as MealNutritionTracker;
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: HistoryTile(
+                  title: log.name,
+                  description: log.intakeCalories.toString(),
+                  date: '${log.date.day}/${log.date.month}/${log.date.year}',
+                  time: '${log.date.hour}:${log.date.minute}',
+                  action: () async {
+                    await c.deleteTrack(log);
+                  },
+                ),
+              );
+            }).toList(),
+          ],
+        ),
+      );
+    });
   }
 
   _buildActionButton() {

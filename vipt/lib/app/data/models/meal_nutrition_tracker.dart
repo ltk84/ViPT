@@ -38,12 +38,17 @@ class MealNutritionTracker extends Tracker {
   factory MealNutritionTracker.fromMap(Map<String, dynamic> map) {
     return MealNutritionTracker(
       id: map['id'],
-      date: map['date'],
+      date: DateTime.parse(map['date']),
       name: map['name'],
       intakeCalories: map['intakeCalories'] ?? 0,
       carbs: map['carbs'] ?? 0,
       protein: map['protein'] ?? 0,
       fat: map['fat'] ?? 0,
     );
+  }
+
+  @override
+  String toString() {
+    return 'MealNutritionTracker(id: $id, date: $date, name: $name, intakeCalories: $intakeCalories, carbs: $carbs, protein: $protein, fat: $fat)';
   }
 }

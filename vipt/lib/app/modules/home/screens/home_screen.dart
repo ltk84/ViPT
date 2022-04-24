@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/data/providers/meal_nutrition_track_provider.dart';
 import 'package:vipt/app/modules/daily_plan/screens/daily_plan_screen.dart';
 import 'package:vipt/app/modules/home/home_controller.dart';
 import 'package:vipt/app/modules/library/screens/library_screen.dart';
@@ -56,11 +57,10 @@ class HomeScreen extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () async {
-                // await ExerciseTrackProvider().add(ExerciseTracker(
-                //     date: DateTime.now(),
-                //     outtakeCalories: 50,
-                //     sessionNumber: 1,
-                //     totalTime: 15));
+                var list = await MealNutritionTrackProvider().fetchAll();
+                for (var item in list) {
+                  print(item.toString());
+                }
               },
               child: const Text('Fetch data'),
             ),
