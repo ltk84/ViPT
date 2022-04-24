@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/data/models/exercise_tracker.dart';
 import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
@@ -7,6 +8,8 @@ import 'package:vipt/app/data/providers/meal_nutrition_track_provider.dart';
 import 'package:vipt/app/modules/daily_plan/tracker_controller.dart';
 
 class DailyNutritionController extends GetxController with TrackerController {
+  TextEditingController searchTextController = TextEditingController();
+
   final _nutriTrackProvider = MealNutritionTrackProvider();
   final _exerciseTrackProvider = ExerciseTrackProvider();
 
