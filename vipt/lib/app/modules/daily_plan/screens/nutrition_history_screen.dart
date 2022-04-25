@@ -9,6 +9,7 @@ import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
 import 'package:vipt/app/data/models/tracker.dart';
 import 'package:vipt/app/global_widgets/info_cube_widget.dart';
 import 'package:vipt/app/modules/daily_plan/daily_nutrition_controller.dart';
+import 'package:vipt/app/modules/daily_plan/screens/log_food_screen.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/history_tile.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
 
@@ -215,7 +216,21 @@ class NutritionHistoryScreen extends StatelessWidget {
         top: 24,
       ),
       child: ScaleTap(
-        onPressed: () {},
+        onPressed: () {
+          Get.bottomSheet(
+            Container(
+              margin: const EdgeInsets.only(top: 48),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  topRight: Radius.circular(10.0),
+                ),
+                child: LogFoodScreen(),
+              ),
+            ),
+            isScrollControlled: true,
+          );
+        },
         child: SvgPicture.asset(
           SVGAssetString.nutritionHeart,
           width: 70,
