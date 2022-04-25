@@ -64,6 +64,11 @@ class MealNutrition extends Nutrition {
   }
 
   @override
+  String getName() {
+    return meal.name;
+  }
+
+  @override
   Tracker convertToMealNutritionTracker() {
     return MealNutritionTracker(
         date: DateTime.now(),

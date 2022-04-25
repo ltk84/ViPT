@@ -57,4 +57,9 @@ class LocalMealNutrition extends Nutrition {
         protein: protein.toInt(),
         fat: fat.toInt());
   }
+
+  @override
+  String getName() {
+    return name;
+  }
 }

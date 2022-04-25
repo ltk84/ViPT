@@ -12,4 +12,5 @@ abstract class Nutrition extends BaseModel {
       : super(id);
 
   Tracker convertToMealNutritionTracker();
+  String getName();
 }

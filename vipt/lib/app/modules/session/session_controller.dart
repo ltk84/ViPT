@@ -248,7 +248,6 @@ class SessionController extends GetxController {
   }
 
   void handleCompleteSession() async {
-    // TODO: quyet dinh lam tron len hay lam tron xuong
     ExerciseTracker et = ExerciseTracker(
         date: DateTime.now(),
         outtakeCalories: caloConsumed.ceil(),

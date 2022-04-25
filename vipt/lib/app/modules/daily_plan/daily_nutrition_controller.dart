@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/data/models/exercise_tracker.dart';
+import 'package:vipt/app/data/models/local_meal_nutrition.dart';
+import 'package:vipt/app/data/models/meal_nutrition.dart';
 import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
 import 'package:vipt/app/data/models/tracker.dart';
 import 'package:vipt/app/data/providers/exercise_track_provider.dart';
+import 'package:vipt/app/data/providers/local_meal_provider.dart';
 import 'package:vipt/app/data/providers/meal_nutrition_track_provider.dart';
+import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/daily_plan/tracker_controller.dart';
 
 class DailyNutritionController extends GetxController with TrackerController {
@@ -13,6 +17,12 @@ class DailyNutritionController extends GetxController with TrackerController {
 
   final _nutriTrackProvider = MealNutritionTrackProvider();
   final _exerciseTrackProvider = ExerciseTrackProvider();
+  final _localMealProvider = LocalMealProvider();
+
+  final List<MealNutrition> firebaseFoodList = List.generate(
+      DataService.instance.mealList.length,
+      (index) => MealNutrition(meal: DataService.instance.mealList[index]));
+  late final List<LocalMealNutrition> localFoodList;
 
   Rx<int> intakeCalo = 0.obs;
   Rx<int> outtakeCalo = 0.obs;
@@ -24,11 +34,11 @@ class DailyNutritionController extends GetxController with TrackerController {
   List<Tracker> exerciseTracks = [];
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+    localFoodList = await _localMealProvider.fetchAll();
     diffCalo.value = intakeCalo.value - outtakeCalo.value;
-    // TODO: vấn đề hiển thị số âm
-    fetchTracksByDate(DateTime.now());
+    await fetchTracksByDate(DateTime.now());
   }
 
   @override

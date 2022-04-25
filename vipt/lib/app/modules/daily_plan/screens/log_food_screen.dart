@@ -3,14 +3,17 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/data/models/nutrition.dart';
 import 'package:vipt/app/modules/daily_plan/screens/add_food_screen.dart';
 import 'package:vipt/app/modules/setup_info/widgets/multiple_choice_card.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/search_field_widget.dart';
 
+import '../daily_nutrition_controller.dart';
+
 class LogFoodScreen extends StatelessWidget {
   LogFoodScreen({Key? key}) : super(key: key);
 
-  //final _controller = Get.find<DailyNutritionController>();
+  final _controller = Get.find<DailyNutritionController>();
 
   final List<Object> defaultFoodList = [
     'fake',
@@ -79,8 +82,8 @@ class LogFoodScreen extends StatelessWidget {
           ),
         ),
         body: TabBarView(children: [
-          _buildFoodListVieW(context, defaultFoodList, false),
-          _buildFoodListVieW(context, userFoodList, true),
+          _buildFoodListVieW(context, _controller.firebaseFoodList, false),
+          _buildFoodListVieW(context, _controller.localFoodList, true),
         ]),
         floatingActionButton: FloatingActionButton.extended(
           backgroundColor: AppColor.nutriBackgroundColor,
@@ -191,7 +194,7 @@ _buildFoodListVieW(context, foodList, editable) {
 
 Widget _buildInitialListView(
   context, {
-  required List<Object> foodList,
+  required List<Nutrition> foodList,
   bool editable = false,
 }) {
   return ListView(
@@ -216,8 +219,8 @@ Widget _buildInitialListView(
                   margin: const EdgeInsets.symmetric(vertical: 2),
                   child: MultipleChoiceCard(
                     selectedColor: AppColor.nutriBackgroundColor,
-                    title: 'Thức ăn cho cún',
-                    subtitle: '260 kcal',
+                    title: food.getName(),
+                    subtitle: food.calories.toString(),
                     isSelected: false,
                     onSelected: () {},
                   ),
