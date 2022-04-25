@@ -12,7 +12,7 @@ class LocalMealNutrition extends Nutrition {
     num carbs = 0,
     num fat = 0,
     num protein = 0,
-  }) : super(id);
+  }) : super(id, calories: calories, carbs: carbs, fat: fat, protein: protein);
 
   @override
   Map<String, dynamic> toMap() {

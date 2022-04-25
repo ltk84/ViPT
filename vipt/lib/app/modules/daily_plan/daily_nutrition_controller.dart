@@ -19,9 +19,7 @@ class DailyNutritionController extends GetxController with TrackerController {
   final _exerciseTrackProvider = ExerciseTrackProvider();
   final _localMealProvider = LocalMealProvider();
 
-  final List<MealNutrition> firebaseFoodList = List.generate(
-      DataService.instance.mealList.length,
-      (index) => MealNutrition(meal: DataService.instance.mealList[index]));
+  late final List<MealNutrition> firebaseFoodList;
   late final List<LocalMealNutrition> localFoodList;
 
   Rx<int> intakeCalo = 0.obs;
@@ -36,7 +34,16 @@ class DailyNutritionController extends GetxController with TrackerController {
   @override
   void onInit() async {
     super.onInit();
+
     localFoodList = await _localMealProvider.fetchAll();
+    firebaseFoodList =
+        List.generate(DataService.instance.mealList.length, (index) {
+      var meal = MealNutrition(meal: DataService.instance.mealList[index]);
+      return meal;
+    });
+
+    firebaseFoodList.map((e) async => await e.getIngredients()).toList();
+
     diffCalo.value = intakeCalo.value - outtakeCalo.value;
     await fetchTracksByDate(DateTime.now());
   }

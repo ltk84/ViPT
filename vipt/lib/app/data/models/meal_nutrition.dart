@@ -13,7 +13,7 @@ class MealNutrition extends Nutrition {
 
   List<Ingredient> ingredients = [];
 
-  getIngredients() async {
+  Future<void> getIngredients() async {
     ingredients.clear();
     final _ingrProvider = IngredientProvider();
     for (var id in meal.ingreIDToAmount.keys.toList()) {

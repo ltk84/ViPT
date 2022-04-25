@@ -126,7 +126,7 @@ class LogFoodScreen extends StatelessWidget {
   }
 }
 
-_buildFoodListVieW(context, foodList, editable) {
+_buildFoodListVieW(context, List<Nutrition> foodList, bool editable) {
   return Column(
     children: [
       Container(
@@ -220,7 +220,7 @@ Widget _buildInitialListView(
                   child: MultipleChoiceCard(
                     selectedColor: AppColor.nutriBackgroundColor,
                     title: food.getName(),
-                    subtitle: food.calories.toString(),
+                    subtitle: food.calories.toInt().toString() + ' kcal',
                     isSelected: false,
                     onSelected: () {},
                   ),

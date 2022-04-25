@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/data/models/local_meal_nutrition.dart';
 import 'package:vipt/app/data/providers/exercise_track_provider.dart';
+import 'package:vipt/app/data/providers/local_meal_provider.dart';
 import 'package:vipt/app/data/providers/meal_nutrition_track_provider.dart';
 import 'package:vipt/app/modules/daily_plan/screens/daily_plan_screen.dart';
 import 'package:vipt/app/modules/home/home_controller.dart';
@@ -58,10 +60,17 @@ class HomeScreen extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () async {
-                var list = await ExerciseTrackProvider().fetchAll();
-                for (var item in list) {
-                  print(item.toString());
-                }
+                // await LocalMealProvider().add(LocalMealNutrition(
+                //     name: 'One More Night - Maroon 5',
+                //     calories: 12,
+                //     fat: 15,
+                //     carbs: 55,
+                //     protein: 65));
+
+                // var list = await LocalMealProvider().fetchAll();
+                // for (var item in list) {
+                //   print(item.toString());
+                // }
               },
               child: const Text('Fetch data'),
             ),
