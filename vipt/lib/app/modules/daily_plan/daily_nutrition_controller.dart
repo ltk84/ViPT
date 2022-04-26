@@ -99,7 +99,24 @@ class DailyNutritionController extends GetxController with TrackerController {
     diffCalo.value = intakeCalo.value - outtakeCalo.value;
   }
 
-  addTracks(
+  resetSelectedList() => selectedList.clear();
+
+  handleLogTrack() async {
+    for (var track in selectedList) {
+      await addTrack(
+          name: track.getName(),
+          intakeCalo: track.calories.toInt(),
+          carbs: track.carbs.toInt(),
+          fat: track.fat.toInt(),
+          protein: track.protein.toInt());
+    }
+
+    resetSelectedList();
+
+    Get.back();
+  }
+
+  addTrack(
       {int intakeCalo = 0,
       int carbs = 0,
       int protein = 0,

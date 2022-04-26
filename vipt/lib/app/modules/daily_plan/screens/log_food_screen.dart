@@ -34,6 +34,7 @@ class LogFoodScreen extends StatelessWidget {
               child: Icon(Icons.close_rounded),
             ),
             onPressed: () {
+              _controller.resetSelectedList();
               Navigator.of(context).pop();
             },
           ),
@@ -54,8 +55,8 @@ class LogFoodScreen extends StatelessWidget {
                   color: AppColor.secondaryColor,
                 ),
               ),
-              onPressed: () {
-                print(_controller.selectedList);
+              onPressed: () async {
+                await _controller.handleLogTrack();
               },
             ),
           ],

@@ -195,7 +195,7 @@ class NutritionHistoryScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: HistoryTile(
                   title: log.name,
-                  description: log.intakeCalories.toString(),
+                  description: log.intakeCalories.toString() + ' kcal',
                   date: '${log.date.day}/${log.date.month}/${log.date.year}',
                   time: '${log.date.hour}:${log.date.minute}',
                   action: () async {
