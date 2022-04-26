@@ -4,6 +4,7 @@ import 'package:responsive_grid/responsive_grid.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/nutrition.dart';
+import 'package:vipt/app/global_widgets/loading_widget.dart';
 import 'package:vipt/app/modules/daily_plan/screens/add_food_screen.dart';
 import 'package:vipt/app/modules/setup_info/widgets/multiple_choice_card.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/search_field_widget.dart';
@@ -82,7 +83,12 @@ class LogFoodScreen extends StatelessWidget {
           ),
         ),
         body: TabBarView(children: [
-          _buildFoodListVieW(context, _controller.firebaseFoodList, false),
+          GetBuilder<DailyNutritionController>(builder: (c) {
+            if (c.completeFetchData) {
+              return _buildFoodListVieW(context, c.firebaseFoodList, false);
+            }
+            return const LoadingWidget();
+          }),
           _buildFoodListVieW(context, _controller.localFoodList, true),
         ]),
         floatingActionButton: FloatingActionButton.extended(

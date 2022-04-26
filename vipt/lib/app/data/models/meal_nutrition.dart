@@ -8,7 +8,7 @@ import 'package:vipt/app/data/providers/meal_category_provider.dart';
 
 class MealNutrition extends Nutrition {
   final Meal meal;
-  late final List<String> mealCate;
+  late List<String> mealCate;
   MealNutrition({String? id, required this.meal}) : super(id);
 
   List<Ingredient> ingredients = [];
