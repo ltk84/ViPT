@@ -16,17 +16,6 @@ class LogFoodScreen extends StatelessWidget {
 
   final _controller = Get.find<DailyNutritionController>();
 
-  final List<Object> defaultFoodList = [
-    'fake',
-    'fake',
-    'fake',
-  ];
-  final List<Object> userFoodList = [
-    'fake',
-    'fake',
-    'fake',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -65,7 +54,9 @@ class LogFoodScreen extends StatelessWidget {
                   color: AppColor.secondaryColor,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                print(_controller.selectedList);
+              },
             ),
           ],
           bottom: TabBar(
@@ -83,13 +74,16 @@ class LogFoodScreen extends StatelessWidget {
           ),
         ),
         body: TabBarView(children: [
-          GetBuilder<DailyNutritionController>(builder: (c) {
-            if (c.completeFetchData) {
-              return _buildFoodListVieW(context, c.firebaseFoodList, false);
-            }
-            return const LoadingWidget();
-          }),
-          _buildFoodListVieW(context, _controller.localFoodList, true),
+          Obx(() => _controller.finishFetchFoodList.value
+              ? _buildFoodListView(context,
+                  foodList: _controller.firebaseFoodList,
+                  editable: false,
+                  controller: _controller)
+              : const LoadingWidget()),
+          _buildFoodListView(context,
+              foodList: _controller.localFoodList,
+              editable: true,
+              controller: _controller),
         ]),
         floatingActionButton: FloatingActionButton.extended(
           backgroundColor: AppColor.nutriBackgroundColor,
@@ -132,7 +126,12 @@ class LogFoodScreen extends StatelessWidget {
   }
 }
 
-_buildFoodListVieW(context, List<Nutrition> foodList, bool editable) {
+_buildFoodListView(
+  context, {
+  required List<Nutrition> foodList,
+  required bool editable,
+  required DailyNutritionController controller,
+}) {
   return Column(
     children: [
       Container(
@@ -149,8 +148,13 @@ _buildFoodListVieW(context, List<Nutrition> foodList, bool editable) {
       Expanded(
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-          child: _buildInitialListView(context,
-              foodList: foodList, editable: editable),
+          child: Obx(
+            () => _buildInitialListView(context,
+                foodList: foodList,
+                editable: editable,
+                selectedList: controller.selectedList,
+                handleSelect: controller.handleSelect),
+          ),
         ),
       ),
     ],
@@ -202,6 +206,8 @@ Widget _buildInitialListView(
   context, {
   required List<Nutrition> foodList,
   bool editable = false,
+  required List<Nutrition> selectedList,
+  required Function(Nutrition) handleSelect,
 }) {
   return ListView(
     physics:
@@ -211,7 +217,7 @@ Widget _buildInitialListView(
         margin: const EdgeInsets.only(bottom: 4, top: 8),
         alignment: Alignment.center,
         child: Text(
-          'Đã chọn 0 thức ăn',
+          'Đã chọn ${selectedList.length} thức ăn',
           style: Theme.of(Get.context!).textTheme.subtitle1,
         ),
       ),
@@ -227,8 +233,10 @@ Widget _buildInitialListView(
                     selectedColor: AppColor.nutriBackgroundColor,
                     title: food.getName(),
                     subtitle: food.calories.toInt().toString() + ' kcal',
-                    isSelected: false,
-                    onSelected: () {},
+                    isSelected: selectedList.contains(food),
+                    onSelected: () {
+                      handleSelect(food);
+                    },
                   ),
                 ),
               ),

@@ -5,6 +5,7 @@ import 'package:vipt/app/data/models/exercise_tracker.dart';
 import 'package:vipt/app/data/models/local_meal_nutrition.dart';
 import 'package:vipt/app/data/models/meal_nutrition.dart';
 import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
+import 'package:vipt/app/data/models/nutrition.dart';
 import 'package:vipt/app/data/models/tracker.dart';
 import 'package:vipt/app/data/providers/exercise_track_provider.dart';
 import 'package:vipt/app/data/providers/local_meal_provider.dart';
@@ -19,8 +20,10 @@ class DailyNutritionController extends GetxController with TrackerController {
   final _exerciseTrackProvider = ExerciseTrackProvider();
   final _localMealProvider = LocalMealProvider();
 
-  late final List<MealNutrition> firebaseFoodList;
-  late final List<LocalMealNutrition> localFoodList;
+  List<MealNutrition> firebaseFoodList = [];
+  List<LocalMealNutrition> localFoodList = [];
+
+  RxList<Nutrition> selectedList = <Nutrition>[].obs;
 
   Rx<int> intakeCalo = 0.obs;
   Rx<int> outtakeCalo = 0.obs;
@@ -29,7 +32,7 @@ class DailyNutritionController extends GetxController with TrackerController {
   Rx<int> protein = 0.obs;
   Rx<int> fat = 0.obs;
 
-  bool completeFetchData = false;
+  Rx<bool> finishFetchFoodList = false.obs;
 
   List<Tracker> exerciseTracks = [];
 
@@ -39,23 +42,30 @@ class DailyNutritionController extends GetxController with TrackerController {
 
     localFoodList = await _localMealProvider.fetchAll();
 
-    await initFirebaseList();
-
-    // await initFirebaseList();
+    await initFirebaseFoodList();
 
     diffCalo.value = intakeCalo.value - outtakeCalo.value;
     await fetchTracksByDate(DateTime.now());
   }
 
-  Future<void> initFirebaseList() async {
+  void handleSelect(Nutrition nutrition) {
+    if (selectedList.contains(nutrition)) {
+      selectedList.remove(nutrition);
+    } else {
+      selectedList.add(nutrition);
+    }
+  }
+
+  Future<void> initFirebaseFoodList() async {
+    if (firebaseFoodList.isNotEmpty) firebaseFoodList.clear();
     firebaseFoodList = await Future.wait(
         List.generate(DataService.instance.mealList.length, (index) async {
       var meal = MealNutrition(meal: DataService.instance.mealList[index]);
-      await meal.getIngredients().whenComplete(() => print('done'));
+      await meal.getIngredients();
       return meal;
     }));
 
-    completeFetchData = true;
+    finishFetchFoodList.value = true;
 
     update();
   }
