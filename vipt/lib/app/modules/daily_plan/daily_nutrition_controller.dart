@@ -21,7 +21,9 @@ class DailyNutritionController extends GetxController with TrackerController {
   final _localMealProvider = LocalMealProvider();
 
   List<MealNutrition> firebaseFoodList = [];
+  RxList<MealNutrition> firebaseSearchResult = <MealNutrition>[].obs;
   List<LocalMealNutrition> localFoodList = [];
+  RxList<LocalMealNutrition> localSearchResult = <LocalMealNutrition>[].obs;
 
   RxList<Nutrition> selectedList = <Nutrition>[].obs;
 
@@ -36,6 +38,11 @@ class DailyNutritionController extends GetxController with TrackerController {
 
   List<Tracker> exerciseTracks = [];
 
+  TextEditingController firebaseListSearchController = TextEditingController();
+  Rx<String> firebaseSearchText = ''.obs;
+  TextEditingController localListSearchController = TextEditingController();
+  Rx<String> localSearchText = ''.obs;
+
   @override
   void onInit() async {
     super.onInit();
@@ -46,6 +53,46 @@ class DailyNutritionController extends GetxController with TrackerController {
 
     diffCalo.value = intakeCalo.value - outtakeCalo.value;
     await fetchTracksByDate(DateTime.now());
+
+    initDebounceForSearching();
+  }
+
+  initDebounceForSearching() {
+    firebaseListSearchController.addListener(() {
+      firebaseSearchText.value = firebaseListSearchController.text;
+    });
+
+    localListSearchController.addListener(() {
+      localSearchText.value = localListSearchController.text;
+    });
+
+    debounce(firebaseSearchText, (_) {
+      print('debounce');
+      handleSearch(
+          sourceList: firebaseFoodList,
+          searchList: firebaseSearchResult,
+          textController: firebaseListSearchController);
+    }, time: const Duration(seconds: 1));
+
+    debounce(localSearchText, (_) {
+      handleSearch(
+          sourceList: localFoodList,
+          searchList: localSearchResult,
+          textController: localListSearchController);
+    }, time: const Duration(seconds: 1));
+  }
+
+  handleSearch(
+      {required List<Nutrition> sourceList,
+      required List<Nutrition> searchList,
+      required TextEditingController textController}) {
+    searchList.clear();
+    var key = textController.text.toLowerCase();
+    var temptList = sourceList
+        .where((food) => food.getName().toLowerCase().contains(key))
+        .toList();
+    searchList.addAll(temptList);
+    // update();
   }
 
   void handleSelect(Nutrition nutrition) {
@@ -112,7 +159,6 @@ class DailyNutritionController extends GetxController with TrackerController {
     }
 
     resetSelectedList();
-
     Get.back();
   }
 

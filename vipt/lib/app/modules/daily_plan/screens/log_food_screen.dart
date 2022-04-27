@@ -79,12 +79,24 @@ class LogFoodScreen extends StatelessWidget {
               ? _buildFoodListView(context,
                   foodList: _controller.firebaseFoodList,
                   editable: false,
-                  controller: _controller)
+                  handleSelect: _controller.handleSelect,
+                  selectedList: _controller.selectedList,
+                  triggerText: _controller.firebaseSearchText,
+                  searchController: _controller.firebaseListSearchController,
+                  searchResultList: _controller.firebaseSearchResult)
               : const LoadingWidget()),
-          _buildFoodListView(context,
+          Obx(
+            () => _buildFoodListView(
+              context,
               foodList: _controller.localFoodList,
               editable: true,
-              controller: _controller),
+              searchController: _controller.localListSearchController,
+              searchResultList: _controller.localSearchResult,
+              triggerText: _controller.localSearchText,
+              handleSelect: _controller.handleSelect,
+              selectedList: _controller.selectedList,
+            ),
+          ),
         ]),
         floatingActionButton: FloatingActionButton.extended(
           backgroundColor: AppColor.nutriBackgroundColor,
@@ -131,14 +143,18 @@ _buildFoodListView(
   context, {
   required List<Nutrition> foodList,
   required bool editable,
-  required DailyNutritionController controller,
+  required List<Nutrition> selectedList,
+  required TextEditingController searchController,
+  required List<Nutrition> searchResultList,
+  required Rx<String> triggerText,
+  required Function(Nutrition) handleSelect,
 }) {
   return Column(
     children: [
       Container(
         padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 16),
         child: SearchFieldWidget(
-            controller: TextEditingController(),
+            controller: searchController,
             textStyle:
                 Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 16)),
       ),
@@ -149,59 +165,61 @@ _buildFoodListView(
       Expanded(
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-          child: Obx(
-            () => _buildInitialListView(context,
-                foodList: foodList,
-                editable: editable,
-                selectedList: controller.selectedList,
-                handleSelect: controller.handleSelect),
-          ),
+          child: triggerText.value.isEmpty
+              ? _buildInitialListView(context,
+                  foodList: foodList,
+                  editable: editable,
+                  selectedList: selectedList,
+                  handleSelect: handleSelect)
+              : _buildSearchResultListView(context,
+                  selectedList: selectedList,
+                  searchResultList: searchResultList,
+                  handleSelect: handleSelect),
         ),
       ),
     ],
   );
 }
 
-// Widget _buildSearchResultListView(
-//     context, DailyNutritionController _controller) {
-//   return ListView(
-//     physics:
-//         const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-//     children: [
-//       Container(
-//         margin: const EdgeInsets.only(bottom: 4, top: 8),
-//         alignment: Alignment.center,
-//         child: Obx(
-//           () => Text(
-//             'Đã chọn ${_controller.selectValueList.length} thức ăn',
-//             style: Theme.of(Get.context!).textTheme.subtitle1,
-//           ),
-//         ),
-//       ),
-//       ResponsiveGridRow(
-//         children: _controller.searchResult.map((workout) {
-//           return ResponsiveGridCol(
-//             xs: 12,
-//             child: Obx(
-//               () => Container(
-//                 margin: const EdgeInsets.symmetric(vertical: 2),
-//                 child: MultipleChoiceCard(
-//                   selectedColor: AppColor.nutriBackgroundColor,
-//                   title: workout.name,
-//                   subtitle: '260 kcal',
-//                   isSelected: _controller.selectValueList.contains(workout.id),
-//                   onSelected: () {
-//                     _controller.handleSelect(workout.id ?? '');
-//                   },
-//                 ),
-//               ),
-//             ),
-//           );
-//         }).toList(),
-//       ),
-//     ],
-//   );
-// }
+Widget _buildSearchResultListView(context,
+    {required List<Nutrition> selectedList,
+    required List<Nutrition> searchResultList,
+    required Function(Nutrition) handleSelect}) {
+  print('search');
+  return ListView(
+    physics:
+        const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+    children: [
+      Container(
+        margin: const EdgeInsets.only(bottom: 4, top: 8),
+        alignment: Alignment.center,
+        child: Text(
+          'Đã chọn ${selectedList.length} thức ăn',
+          style: Theme.of(Get.context!).textTheme.subtitle1,
+        ),
+      ),
+      ResponsiveGridRow(
+        children: searchResultList.map((nutrition) {
+          return ResponsiveGridCol(
+            xs: 12,
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 2),
+              child: MultipleChoiceCard(
+                selectedColor: AppColor.nutriBackgroundColor,
+                title: nutrition.getName(),
+                subtitle: '260 kcal',
+                isSelected: selectedList.contains(nutrition),
+                onSelected: () {
+                  handleSelect(nutrition);
+                },
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    ],
+  );
+}
 
 Widget _buildInitialListView(
   context, {
@@ -210,6 +228,7 @@ Widget _buildInitialListView(
   required List<Nutrition> selectedList,
   required Function(Nutrition) handleSelect,
 }) {
+  print('init');
   return ListView(
     physics:
         const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
