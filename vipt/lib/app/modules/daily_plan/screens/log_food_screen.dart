@@ -21,119 +21,134 @@ class LogFoodScreen extends StatelessWidget {
     return DefaultTabController(
       initialIndex: 0,
       length: 2,
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Theme.of(context).backgroundColor,
-        appBar: AppBar(
-          centerTitle: true,
+      child: Builder(builder: (context) {
+        DefaultTabController.of(context)!.addListener(() {
+          if (DefaultTabController.of(context)!.indexIsChanging) {
+            _controller.activeTabIndex.value =
+                DefaultTabController.of(context)!.index;
+          }
+        });
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
           backgroundColor: Theme.of(context).backgroundColor,
-          elevation: 0.5,
-          leading: IconButton(
-            icon: const Hero(
-              tag: 'leadingButtonAppBar',
-              child: Icon(Icons.close_rounded),
-            ),
-            onPressed: () {
-              _controller.resetSelectedList();
-              Navigator.of(context).pop();
-            },
-          ),
-          title: Hero(
-            tag: 'titleAppBar',
-            child: Text(
-              'Thêm thức ăn'.tr,
-              style: Theme.of(context).textTheme.headline3,
-            ),
-          ),
-          actions: [
-            IconButton(
-              color: Theme.of(context).backgroundColor,
+          appBar: AppBar(
+            centerTitle: true,
+            backgroundColor: Theme.of(context).backgroundColor,
+            elevation: 0.5,
+            leading: IconButton(
               icon: const Hero(
-                tag: 'actionButtonAppBar',
-                child: Icon(
-                  Icons.check_rounded,
-                  color: AppColor.secondaryColor,
-                ),
+                tag: 'leadingButtonAppBar',
+                child: Icon(Icons.close_rounded),
               ),
-              onPressed: () async {
-                await _controller.handleLogTrack();
+              onPressed: () {
+                _controller.resetSelectedList();
+                Navigator.of(context).pop();
               },
             ),
-          ],
-          bottom: TabBar(
-            labelStyle: Theme.of(context).textTheme.caption,
-            tabs: const [
-              Tab(
-                height: 20,
-                text: 'Mặc định',
+            title: Hero(
+              tag: 'titleAppBar',
+              child: Text(
+                'Thêm thức ăn'.tr,
+                style: Theme.of(context).textTheme.headline3,
               ),
-              Tab(
-                height: 20,
-                text: 'Cá nhân',
+            ),
+            actions: [
+              IconButton(
+                color: Theme.of(context).backgroundColor,
+                icon: const Hero(
+                  tag: 'actionButtonAppBar',
+                  child: Icon(
+                    Icons.check_rounded,
+                    color: AppColor.secondaryColor,
+                  ),
+                ),
+                onPressed: () async {
+                  await _controller.handleLogTrack();
+                },
               ),
             ],
-          ),
-        ),
-        body: TabBarView(children: [
-          Obx(() => _controller.finishFetchFoodList.value
-              ? _buildFoodListView(context,
-                  foodList: _controller.firebaseFoodList,
-                  editable: false,
-                  handleSelect: _controller.handleSelect,
-                  selectedList: _controller.selectedList,
-                  triggerText: _controller.firebaseSearchText,
-                  searchController: _controller.firebaseListSearchController,
-                  searchResultList: _controller.firebaseSearchResult)
-              : const LoadingWidget()),
-          Obx(
-            () => _buildFoodListView(
-              context,
-              foodList: _controller.localFoodList,
-              editable: true,
-              searchController: _controller.localListSearchController,
-              searchResultList: _controller.localSearchResult,
-              triggerText: _controller.localSearchText,
-              handleSelect: _controller.handleSelect,
-              selectedList: _controller.selectedList,
-            ),
-          ),
-        ]),
-        floatingActionButton: FloatingActionButton.extended(
-          backgroundColor: AppColor.nutriBackgroundColor,
-          onPressed: () {
-            Get.bottomSheet(
-              Container(
-                margin: const EdgeInsets.only(top: 64),
-                child: const ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0),
-                    topRight: Radius.circular(10.0),
-                  ),
-                  child: AddFoodScreen(),
+            bottom: TabBar(
+              labelStyle: Theme.of(context).textTheme.caption,
+              tabs: const [
+                Tab(
+                  height: 20,
+                  text: 'Mặc định',
                 ),
-              ),
-              isScrollControlled: true,
-            );
-          },
-          isExtended: true,
-          elevation: 1,
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          label: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.75,
-            child: Text(
-              'Tạo món ăn mới'.tr,
-              style: Theme.of(context)
-                  .textTheme
-                  .button!
-                  .copyWith(color: AppColor.accentTextColor),
-              textAlign: TextAlign.center,
+                Tab(
+                  height: 20,
+                  text: 'Cá nhân',
+                ),
+              ],
             ),
           ),
+          body: TabBarView(children: [
+            Obx(() => _controller.finishFetchFoodList.value
+                ? _buildFoodListView(context,
+                    foodList: _controller.firebaseFoodList,
+                    editable: false,
+                    handleSelect: _controller.handleSelect,
+                    selectedList: _controller.selectedList,
+                    triggerText: _controller.firebaseSearchText,
+                    searchController: _controller.firebaseListSearchController,
+                    searchResultList: _controller.firebaseSearchResult)
+                : const LoadingWidget()),
+            Obx(
+              () => _buildFoodListView(
+                context,
+                foodList: _controller.localFoodList,
+                editable: true,
+                searchController: _controller.localListSearchController,
+                searchResultList: _controller.localSearchResult,
+                triggerText: _controller.localSearchText,
+                handleSelect: _controller.handleSelect,
+                selectedList: _controller.selectedList,
+              ),
+            ),
+          ]),
+          floatingActionButton: Obx(() =>
+              _buildFloatingButton(context, _controller.activeTabIndex.value)),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+        );
+      }),
+    );
+  }
+
+  Widget _buildFloatingButton(BuildContext context, int currentIndex) {
+    if (currentIndex == 0) return Container();
+    return FloatingActionButton.extended(
+      backgroundColor: AppColor.nutriBackgroundColor,
+      onPressed: () {
+        Get.bottomSheet(
+          Container(
+            margin: const EdgeInsets.only(top: 64),
+            child: const ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10.0),
+                topRight: Radius.circular(10.0),
+              ),
+              child: AddFoodScreen(),
+            ),
+          ),
+          isScrollControlled: true,
+        );
+      },
+      isExtended: true,
+      elevation: 1,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      label: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.75,
+        child: Text(
+          'Tạo món ăn mới'.tr,
+          style: Theme.of(context)
+              .textTheme
+              .button!
+              .copyWith(color: AppColor.accentTextColor),
+          textAlign: TextAlign.center,
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }
@@ -185,7 +200,6 @@ Widget _buildSearchResultListView(context,
     {required List<Nutrition> selectedList,
     required List<Nutrition> searchResultList,
     required Function(Nutrition) handleSelect}) {
-  print('search');
   return ListView(
     physics:
         const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
@@ -228,7 +242,6 @@ Widget _buildInitialListView(
   required List<Nutrition> selectedList,
   required Function(Nutrition) handleSelect,
 }) {
-  print('init');
   return ListView(
     physics:
         const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),

@@ -43,6 +43,8 @@ class DailyNutritionController extends GetxController with TrackerController {
   TextEditingController localListSearchController = TextEditingController();
   Rx<String> localSearchText = ''.obs;
 
+  Rx<int> activeTabIndex = 0.obs;
+
   @override
   void onInit() async {
     super.onInit();
@@ -67,7 +69,6 @@ class DailyNutritionController extends GetxController with TrackerController {
     });
 
     debounce(firebaseSearchText, (_) {
-      print('debounce');
       handleSearch(
           sourceList: firebaseFoodList,
           searchList: firebaseSearchResult,
@@ -92,7 +93,6 @@ class DailyNutritionController extends GetxController with TrackerController {
         .where((food) => food.getName().toLowerCase().contains(key))
         .toList();
     searchList.addAll(temptList);
-    // update();
   }
 
   void handleSelect(Nutrition nutrition) {
