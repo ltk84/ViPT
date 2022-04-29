@@ -121,7 +121,7 @@ class LogFoodScreen extends StatelessWidget {
       backgroundColor: AppColor.nutriBackgroundColor,
       onPressed: () async {
         Get.lazyPut(() => LocalMealController());
-        await Get.bottomSheet(
+        final result = await Get.bottomSheet(
           Container(
             margin: const EdgeInsets.only(top: 64),
             child: ClipRRect(
@@ -135,6 +135,9 @@ class LogFoodScreen extends StatelessWidget {
           isScrollControlled: true,
         );
         Get.delete<LocalMealController>();
+        if (result) {
+          await _controller.fetchcLocalFoodList();
+        }
       },
       isExtended: true,
       elevation: 1,

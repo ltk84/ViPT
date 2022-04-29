@@ -26,7 +26,6 @@ class AddFoodScreen extends StatelessWidget {
         } else {
           _controller.isTextFieldValidate.value = true;
         }
-        print(_controller.isTextFieldValidate.value);
       });
       return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -40,7 +39,7 @@ class AddFoodScreen extends StatelessWidget {
               child: Icon(Icons.close_rounded),
             ),
             onPressed: () {
-              Navigator.of(context).pop();
+              Get.back(result: false);
             },
           ),
           actions: [
@@ -53,8 +52,9 @@ class AddFoodScreen extends StatelessWidget {
                   color: AppColor.secondaryColor,
                 ),
               ),
-              onPressed: () {
-                _controller.addLocalMeal();
+              onPressed: () async {
+                await _controller.addLocalMeal();
+                Get.back(result: true);
               },
             ),
           ],
@@ -86,8 +86,10 @@ class AddFoodScreen extends StatelessWidget {
                 // const SizedBox(
                 //   height: 16,
                 // ),
-                _buildIntakeCaloriesDisplay(
-                    context, _controller.calories.value),
+                Obx(
+                  () => _buildIntakeCaloriesDisplay(
+                      context, _controller.calories.value),
+                ),
                 // const SizedBox(
                 //   height: 16,
                 // ),
