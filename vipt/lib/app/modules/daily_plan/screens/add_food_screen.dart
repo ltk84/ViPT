@@ -1,93 +1,120 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/global_widgets/editable_intro_collection_widget.dart';
 import 'package:vipt/app/global_widgets/info_cube_widget.dart';
-import 'package:vipt/app/modules/daily_plan/widgets/editable_ingredient_list_widget.dart';
+import 'package:vipt/app/modules/daily_plan/local_meal_controller.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/input_amount_dialog.dart';
 
 class AddFoodScreen extends StatelessWidget {
-  const AddFoodScreen({Key? key}) : super(key: key);
+  AddFoodScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.find<LocalMealController>();
+
+  final TextEditingController nameTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        centerTitle: true,
+    return Builder(builder: (context) {
+      nameTextController.addListener(() {
+        _controller.name = nameTextController.text;
+        if (nameTextController.text.isEmpty) {
+          _controller.isTextFieldValidate.value = false;
+        } else {
+          _controller.isTextFieldValidate.value = true;
+        }
+        print(_controller.isTextFieldValidate.value);
+      });
+      return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Theme.of(context).backgroundColor,
-        leading: IconButton(
-          icon: const Hero(
-            tag: 'leadingButtonAppBar',
-            child: Icon(Icons.close_rounded),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        actions: [
-          IconButton(
-            color: Theme.of(context).backgroundColor,
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Theme.of(context).backgroundColor,
+          leading: IconButton(
             icon: const Hero(
-              tag: 'actionButtonAppBar',
-              child: Icon(
-                Icons.check_rounded,
-                color: AppColor.secondaryColor,
-              ),
+              tag: 'leadingButtonAppBar',
+              child: Icon(Icons.close_rounded),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
-        ],
-      ),
-      body: Container(
-        padding: AppDecoration.screenPadding.copyWith(top: 8, bottom: 0),
-        child: LayoutBuilder(builder: (context, constraints) {
-          return ListView(
-            physics: const BouncingScrollPhysics(
-                parent: AlwaysScrollableScrollPhysics()),
-            children: [
-              EditableIntroCollectionWidget(
-                titleTextController: TextEditingController(),
-                hintTitle: 'Nhập tên thức ăn',
-                titleTextStyle: Theme.of(context).textTheme.headline3,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Divider(
-                  color: AppColor.textColor
-                      .withOpacity(AppColor.disabledTextOpacity),
+          actions: [
+            IconButton(
+              color: Theme.of(context).backgroundColor,
+              icon: const Hero(
+                tag: 'actionButtonAppBar',
+                child: Icon(
+                  Icons.check_rounded,
+                  color: AppColor.secondaryColor,
                 ),
               ),
-              // const SizedBox(
-              //   height: 16,
-              // ),
-              _buildIntakeCaloriesDisplay(context, 100),
-              // const SizedBox(
-              //   height: 16,
-              // ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Divider(
-                  color: AppColor.textColor
-                      .withOpacity(AppColor.disabledTextOpacity),
+              onPressed: () {
+                _controller.addLocalMeal();
+              },
+            ),
+          ],
+        ),
+        body: Container(
+          padding: AppDecoration.screenPadding.copyWith(top: 8, bottom: 0),
+          child: LayoutBuilder(builder: (context, constraints) {
+            return ListView(
+              physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
+              children: [
+                Obx(
+                  () => EditableIntroCollectionWidget(
+                    titleTextController: nameTextController,
+                    hintTitle: 'Nhập tên thức ăn',
+                    errorText: _controller.isTextFieldValidate.value
+                        ? null
+                        : 'Hãy điền tên thức ăn',
+                    titleTextStyle: Theme.of(context).textTheme.headline3,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              _buildNutritionFacts(context, protein: 50, carbs: 50, fat: 50),
-              const SizedBox(
-                height: 32,
-              ),
-              _buildGuideSection(context),
-            ],
-          );
-        }),
-      ),
-    );
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Divider(
+                    color: AppColor.textColor
+                        .withOpacity(AppColor.disabledTextOpacity),
+                  ),
+                ),
+                // const SizedBox(
+                //   height: 16,
+                // ),
+                _buildIntakeCaloriesDisplay(
+                    context, _controller.calories.value),
+                // const SizedBox(
+                //   height: 16,
+                // ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Divider(
+                    color: AppColor.textColor
+                        .withOpacity(AppColor.disabledTextOpacity),
+                  ),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Obx(() => _buildNutritionFacts(context,
+                    protein: _controller.protein.value,
+                    carbs: _controller.carbs.value,
+                    fat: _controller.fat.value)),
+                const SizedBox(
+                  height: 32,
+                ),
+                _buildGuideSection(context),
+              ],
+            );
+          }),
+        ),
+      );
+    });
   }
 
   Widget _buildNutritionFacts(context,
@@ -103,7 +130,7 @@ class AddFoodScreen extends StatelessWidget {
                 return InputAmountDialog(
                   title: 'Carbs',
                   unit: 'g',
-                  value: 1,
+                  value: carbs.toInt(),
                   confirmButtonColor: AppColor.carbCubeColor,
                   confirmButtonText: 'Xác nhận',
                   sliderActiveColor: AppColor.carbCubeColor,
@@ -113,6 +140,10 @@ class AddFoodScreen extends StatelessWidget {
                 );
               },
             );
+
+            if (result != null) {
+              _controller.carbs.value = result;
+            }
           },
           title: '${carbs.toStringAsFixed(0)}g',
           subtitle: 'Carbs',
@@ -130,7 +161,7 @@ class AddFoodScreen extends StatelessWidget {
                 return InputAmountDialog(
                   title: 'Protein',
                   unit: 'g',
-                  value: 1,
+                  value: protein.toInt(),
                   confirmButtonColor: AppColor.proteinCubeColor,
                   confirmButtonText: 'Xác nhận',
                   sliderActiveColor: AppColor.proteinCubeColor,
@@ -140,6 +171,10 @@ class AddFoodScreen extends StatelessWidget {
                 );
               },
             );
+
+            if (result != null) {
+              _controller.protein.value = result;
+            }
           },
           title: '${protein.toStringAsFixed(0)}g',
           subtitle: 'Protein',
@@ -157,7 +192,7 @@ class AddFoodScreen extends StatelessWidget {
                 return InputAmountDialog(
                   title: 'Fat',
                   unit: 'g',
-                  value: 1,
+                  value: fat.toInt(),
                   confirmButtonColor: AppColor.fatCubeColor,
                   confirmButtonText: 'Xác nhận',
                   sliderActiveColor: AppColor.fatCubeColor,
@@ -167,6 +202,10 @@ class AddFoodScreen extends StatelessWidget {
                 );
               },
             );
+
+            if (result != null) {
+              _controller.fat.value = result;
+            }
           },
           title: '${fat.toStringAsFixed(0)}g',
           subtitle: 'Fat',
@@ -200,6 +239,10 @@ class AddFoodScreen extends StatelessWidget {
               );
             },
           );
+
+          if (result != null) {
+            _controller.calories.value = result;
+          }
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),

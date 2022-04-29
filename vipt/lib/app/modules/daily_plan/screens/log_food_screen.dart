@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/nutrition.dart';
 import 'package:vipt/app/global_widgets/loading_widget.dart';
+import 'package:vipt/app/modules/daily_plan/local_meal_controller.dart';
 import 'package:vipt/app/modules/daily_plan/screens/add_food_screen.dart';
 import 'package:vipt/app/modules/setup_info/widgets/multiple_choice_card.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/search_field_widget.dart';
@@ -118,12 +119,13 @@ class LogFoodScreen extends StatelessWidget {
     if (currentIndex == 0) return Container();
     return FloatingActionButton.extended(
       backgroundColor: AppColor.nutriBackgroundColor,
-      onPressed: () {
-        Get.bottomSheet(
+      onPressed: () async {
+        Get.lazyPut(() => LocalMealController());
+        await Get.bottomSheet(
           Container(
             margin: const EdgeInsets.only(top: 64),
-            child: const ClipRRect(
-              borderRadius: BorderRadius.only(
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(10.0),
                 topRight: Radius.circular(10.0),
               ),
@@ -132,6 +134,7 @@ class LogFoodScreen extends StatelessWidget {
           ),
           isScrollControlled: true,
         );
+        Get.delete<LocalMealController>();
       },
       isExtended: true,
       elevation: 1,

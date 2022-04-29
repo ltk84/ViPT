@@ -3,12 +3,14 @@ import 'package:vipt/app/core/values/colors.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final String? hint;
+  final String? errorText;
   final TextStyle? textStyle;
   final bool underline;
   final TextEditingController textEditingController;
   const TextFieldWidget(
       {Key? key,
       this.hint,
+      this.errorText,
       this.textStyle,
       this.underline = true,
       required this.textEditingController})
@@ -25,6 +27,7 @@ class TextFieldWidget extends StatelessWidget {
         decoration: underline
             ? InputDecoration(
                 hintText: hint,
+                errorText: errorText,
                 border: UnderlineInputBorder(
                   borderSide: BorderSide(
                     color: AppColor.textFieldUnderlineColor
@@ -46,6 +49,7 @@ class TextFieldWidget extends StatelessWidget {
             : InputDecoration(
                 border: InputBorder.none,
                 hintText: hint,
+                errorText: errorText,
               ),
       ),
     );

@@ -113,8 +113,6 @@ class DailyNutritionController extends GetxController with TrackerController {
     }));
 
     finishFetchFoodList.value = true;
-
-    update();
   }
 
   @override
