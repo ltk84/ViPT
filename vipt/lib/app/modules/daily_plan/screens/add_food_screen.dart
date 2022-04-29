@@ -6,13 +6,13 @@ import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/global_widgets/editable_intro_collection_widget.dart';
 import 'package:vipt/app/global_widgets/info_cube_widget.dart';
-import 'package:vipt/app/modules/daily_plan/local_meal_controller.dart';
+import 'package:vipt/app/modules/daily_plan/add_local_meal_controller.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/input_amount_dialog.dart';
 
 class AddFoodScreen extends StatelessWidget {
   AddFoodScreen({Key? key}) : super(key: key);
 
-  final _controller = Get.find<LocalMealController>();
+  final _controller = Get.find<AddLocalMealController>();
 
   final TextEditingController nameTextController = TextEditingController();
 

@@ -3,10 +3,13 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/data/models/local_meal_nutrition.dart';
 import 'package:vipt/app/data/models/nutrition.dart';
 import 'package:vipt/app/global_widgets/loading_widget.dart';
-import 'package:vipt/app/modules/daily_plan/local_meal_controller.dart';
+import 'package:vipt/app/modules/daily_plan/add_local_meal_controller.dart';
+import 'package:vipt/app/modules/daily_plan/edit_delete_local_meal_controller.dart';
 import 'package:vipt/app/modules/daily_plan/screens/add_food_screen.dart';
+import 'package:vipt/app/modules/daily_plan/screens/edit_delete_food_screen.dart';
 import 'package:vipt/app/modules/setup_info/widgets/multiple_choice_card.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/search_field_widget.dart';
 
@@ -24,7 +27,8 @@ class LogFoodScreen extends StatelessWidget {
       length: 2,
       child: Builder(builder: (context) {
         DefaultTabController.of(context)!.addListener(() {
-          if (DefaultTabController.of(context)!.indexIsChanging) {
+          if (DefaultTabController.of(context)!.index !=
+              DefaultTabController.of(context)!.previousIndex) {
             _controller.activeTabIndex.value =
                 DefaultTabController.of(context)!.index;
           }
@@ -84,14 +88,16 @@ class LogFoodScreen extends StatelessWidget {
           ),
           body: TabBarView(children: [
             Obx(() => _controller.finishFetchFoodList.value
-                ? _buildFoodListView(context,
+                ? _buildFoodListView(
+                    context,
                     foodList: _controller.firebaseFoodList,
                     editable: false,
                     handleSelect: _controller.handleSelect,
                     selectedList: _controller.selectedList,
                     triggerText: _controller.firebaseSearchText,
                     searchController: _controller.firebaseListSearchController,
-                    searchResultList: _controller.firebaseSearchResult)
+                    searchResultList: _controller.firebaseSearchResult,
+                  )
                 : const LoadingWidget()),
             Obx(
               () => _buildFoodListView(
@@ -103,6 +109,7 @@ class LogFoodScreen extends StatelessWidget {
                 triggerText: _controller.localSearchText,
                 handleSelect: _controller.handleSelect,
                 selectedList: _controller.selectedList,
+                updateCallBack: _controller.fetchcLocalFoodList,
               ),
             ),
           ]),
@@ -120,7 +127,7 @@ class LogFoodScreen extends StatelessWidget {
     return FloatingActionButton.extended(
       backgroundColor: AppColor.nutriBackgroundColor,
       onPressed: () async {
-        Get.lazyPut(() => LocalMealController());
+        Get.lazyPut(() => AddLocalMealController());
         final result = await Get.bottomSheet(
           Container(
             margin: const EdgeInsets.only(top: 64),
@@ -134,7 +141,7 @@ class LogFoodScreen extends StatelessWidget {
           ),
           isScrollControlled: true,
         );
-        Get.delete<LocalMealController>();
+        Get.delete<AddLocalMealController>();
         if (result) {
           await _controller.fetchcLocalFoodList();
         }
@@ -169,6 +176,7 @@ _buildFoodListView(
   required List<Nutrition> searchResultList,
   required Rx<String> triggerText,
   required Function(Nutrition) handleSelect,
+  Function()? updateCallBack,
 }) {
   return Column(
     children: [
@@ -185,61 +193,58 @@ _buildFoodListView(
       ),
       Expanded(
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-          child: triggerText.value.isEmpty
-              ? _buildInitialListView(context,
-                  foodList: foodList,
-                  editable: editable,
-                  selectedList: selectedList,
-                  handleSelect: handleSelect)
-              : _buildSearchResultListView(context,
-                  selectedList: selectedList,
-                  searchResultList: searchResultList,
-                  handleSelect: handleSelect),
-        ),
+            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+            child: _buildInitialListView(context,
+                foodList:
+                    triggerText.value.isEmpty ? foodList : searchResultList,
+                editable: editable,
+                selectedList: selectedList,
+                handleSelect: handleSelect,
+                updateCallBack: updateCallBack)),
       ),
     ],
   );
 }
 
-Widget _buildSearchResultListView(context,
-    {required List<Nutrition> selectedList,
-    required List<Nutrition> searchResultList,
-    required Function(Nutrition) handleSelect}) {
-  return ListView(
-    physics:
-        const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-    children: [
-      Container(
-        margin: const EdgeInsets.only(bottom: 4, top: 8),
-        alignment: Alignment.center,
-        child: Text(
-          'Đã chọn ${selectedList.length} thức ăn',
-          style: Theme.of(Get.context!).textTheme.subtitle1,
-        ),
-      ),
-      ResponsiveGridRow(
-        children: searchResultList.map((nutrition) {
-          return ResponsiveGridCol(
-            xs: 12,
-            child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 2),
-              child: MultipleChoiceCard(
-                selectedColor: AppColor.nutriBackgroundColor,
-                title: nutrition.getName(),
-                subtitle: '260 kcal',
-                isSelected: selectedList.contains(nutrition),
-                onSelected: () {
-                  handleSelect(nutrition);
-                },
-              ),
-            ),
-          );
-        }).toList(),
-      ),
-    ],
-  );
-}
+// Widget _buildSearchResultListView(context,
+//     {required List<Nutrition> selectedList,
+//     required List<Nutrition> searchResultList,
+//     required bool editable,
+//     required Function(Nutrition) handleSelect}) {
+//   return ListView(
+//     physics:
+//         const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+//     children: [
+//       Container(
+//         margin: const EdgeInsets.only(bottom: 4, top: 8),
+//         alignment: Alignment.center,
+//         child: Text(
+//           'Đã chọn ${selectedList.length} thức ăn',
+//           style: Theme.of(Get.context!).textTheme.subtitle1,
+//         ),
+//       ),
+//       ResponsiveGridRow(children: [
+//         ...searchResultList.map((nutrition) {
+//           return ResponsiveGridCol(
+//             xs: 12,
+//             child: Container(
+//               margin: const EdgeInsets.symmetric(vertical: 2),
+//               child: MultipleChoiceCard(
+//                 selectedColor: AppColor.nutriBackgroundColor,
+//                 title: nutrition.getName(),
+//                 subtitle: '260 kcal',
+//                 isSelected: selectedList.contains(nutrition),
+//                 onSelected: () {
+//                   handleSelect(nutrition);
+//                 },
+//               ),
+//             ),
+//           );
+//         }).toList(),
+//       ]),
+//     ],
+//   );
+// }
 
 Widget _buildInitialListView(
   context, {
@@ -247,6 +252,7 @@ Widget _buildInitialListView(
   bool editable = false,
   required List<Nutrition> selectedList,
   required Function(Nutrition) handleSelect,
+  required Function()? updateCallBack,
 }) {
   return ListView(
     physics:
@@ -286,7 +292,30 @@ Widget _buildInitialListView(
                     margin: const EdgeInsets.symmetric(vertical: 2),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(5),
-                      onTap: () {},
+                      onTap: () async {
+                        EditDeleteLocalMealController editController =
+                            Get.put(EditDeleteLocalMealController());
+                        editController
+                            .setSelectedMeal(food as LocalMealNutrition);
+
+                        final result = await Get.bottomSheet(
+                          Container(
+                            margin: const EdgeInsets.only(top: 64),
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(10.0),
+                                topRight: Radius.circular(10.0),
+                              ),
+                              child: EditDeleteFoodScreen(),
+                            ),
+                          ),
+                          isScrollControlled: true,
+                        );
+                        Get.delete<EditDeleteLocalMealController>();
+                        if (result) {
+                          await updateCallBack!();
+                        }
+                      },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                           vertical: 8.0,
