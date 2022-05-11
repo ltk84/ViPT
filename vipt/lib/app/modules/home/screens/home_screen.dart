@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -7,6 +10,14 @@ import 'package:vipt/app/modules/daily_plan/screens/daily_plan_screen.dart';
 import 'package:vipt/app/modules/home/home_controller.dart';
 import 'package:vipt/app/modules/library/screens/library_screen.dart';
 import 'package:vipt/app/modules/profile/screens/profile_screen.dart';
+
+int calcuateSum(List<int> values) {
+  int sum = 0;
+  for (int x in values) {
+    sum += x;
+  }
+  return sum;
+}
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -55,19 +66,7 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
-              onPressed: () async {
-                // await LocalMealProvider().add(LocalMealNutrition(
-                //     name: 'One More Night - Maroon 5',
-                //     calories: 12,
-                //     fat: 15,
-                //     carbs: 55,
-                //     protein: 65));
-
-                // var list = await LocalMealProvider().fetchAll();
-                // for (var item in list) {
-                //   print(item.toString());
-                // }
-              },
+              onPressed: () async {},
               child: const Text('Fetch data'),
             ),
             TextButton(

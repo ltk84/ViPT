@@ -381,6 +381,10 @@ class MyCountDownController {
     return _state
         ._getTime(_state._controller!.duration! * _state._controller!.value);
   }
+
+  Duration getTimeInDuration() {
+    return _state._controller!.duration! * _state._controller!.value;
+  }
 }
 
 class MyCountdownTextFormat {

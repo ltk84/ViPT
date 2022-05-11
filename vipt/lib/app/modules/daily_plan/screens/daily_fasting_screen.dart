@@ -15,10 +15,48 @@ import 'package:vipt/app/routes/pages.dart';
 
 import '../daily_fasting_controller.dart';
 
-class DailyFastingScreen extends StatelessWidget {
+class DailyFastingScreen extends StatefulWidget {
   DailyFastingScreen({Key? key}) : super(key: key);
 
+  @override
+  State<DailyFastingScreen> createState() => _DailyFastingScreenState();
+}
+
+class _DailyFastingScreenState extends State<DailyFastingScreen>
+    with WidgetsBindingObserver {
   final _controller = Get.put(DailyFastingController());
+
+  final _timerController = MyCountDownController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+    print(state);
+    switch (state) {
+      case AppLifecycleState.inactive:
+        await _controller.saveDataToPrefs(_timerController.getTimeInDuration());
+        break;
+      case AppLifecycleState.resumed:
+        break;
+      case AppLifecycleState.paused:
+        break;
+      case AppLifecycleState.detached:
+        break;
+      default:
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -198,20 +236,32 @@ class DailyFastingScreen extends StatelessWidget {
             subtitle: 'Bắt đầu',
           ),
         ),
-        MyCircularCountDownTimer(
-            width: screenWidth * 0.3,
-            height: screenWidth * 0.3,
-            duration: 1000,
-            fillColor: AppColor.accentTextColor,
-            ringColor:
-                AppColor.accentTextColor.withOpacity(AppColor.subTextOpacity),
-            strokeWidth: 6,
-            indicatorWidth: 8,
-            textStyle: Theme.of(context).textTheme.headline6!.copyWith(
-                  color: AppColor.accentTextColor,
-                  fontWeight: FontWeight.bold,
-                ),
-            indicatorColor: AppColor.accentTextColor),
+        FutureBuilder(
+            future: _controller.loadTimerInitialValue(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return MyCircularCountDownTimer(
+                    controller: _timerController,
+                    width: screenWidth * 0.3,
+                    height: screenWidth * 0.3,
+                    duration: _controller.timerDuration,
+                    initialDuration: _controller.initialDuration,
+                    fillColor: AppColor.accentTextColor,
+                    autoStart: true,
+                    ringColor: AppColor.accentTextColor
+                        .withOpacity(AppColor.subTextOpacity),
+                    strokeWidth: 6,
+                    indicatorWidth: 8,
+                    onComplete: () => _controller.resetData(),
+                    textStyle: Theme.of(context).textTheme.headline6!.copyWith(
+                          color: AppColor.accentTextColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                    indicatorColor: AppColor.accentTextColor);
+              } else {
+                return Container();
+              }
+            }),
         SizedBox(
           width: screenWidth * 0.3,
           child: const VerticalInfoWidget(
