@@ -2,6 +2,7 @@ import 'package:before_after/before_after.dart';
 import 'package:flutter/material.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/modules/profile/widgets/camera_button.dart';
 
 class ProgressImageWidget extends StatelessWidget {
   final String? pathBefore;
@@ -27,13 +28,33 @@ class ProgressImageWidget extends StatelessWidget {
         const SizedBox(
           height: 24,
         ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded(
+              child: CameraButton(
+                title: 'Ảnh trước',
+                onPressed: () {},
+              ),
+            ),
+            Expanded(
+              child: CameraButton(
+                title: 'Ảnh sau',
+                onPressed: () {},
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 24,
+        ),
         BeforeAfter(
           imageWidth: double.infinity,
           beforeImage: Image.asset(
-            JPGAssetString.nutrition,
+            pathBefore ?? JPGAssetString.bodyBefore,
           ),
           afterImage: Image.asset(
-            JPGAssetString.meal,
+            pathBefore ?? JPGAssetString.bodyAfter,
           ),
         ),
       ],

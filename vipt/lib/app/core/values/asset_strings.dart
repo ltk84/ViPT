@@ -38,6 +38,8 @@ class JPGAssetString {
       '$path/your_workout_collection.jpg';
   static const String userWorkoutCollection =
       '$path/user_workout_collection.jpg';
+  static const String bodyBefore = '$path/body_before.jpg';
+  static const String bodyAfter = '$path/body_after.jpg';
 }
 
 class GIFAssetString {
