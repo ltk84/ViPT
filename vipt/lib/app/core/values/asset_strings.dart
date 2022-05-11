@@ -25,6 +25,7 @@ class PNGAssetString {
   static const String breakfast = '$path/breakfast.png';
   static const String lunch = '$path/lunch.png';
   static const String snack = '$path/snack.png';
+  static const String muscleAvatar = '$path/muscle_avatar.png';
 }
 
 class JPGAssetString {
