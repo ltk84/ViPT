@@ -7,6 +7,7 @@ import 'package:vipt/app/modules/daily_plan/screens/daily_plan_screen.dart';
 import 'package:vipt/app/modules/home/home_controller.dart';
 import 'package:vipt/app/modules/library/screens/library_screen.dart';
 import 'package:vipt/app/modules/profile/screens/profile_screen.dart';
+import 'package:vipt/app/modules/workout_plan/screens/workout_plan_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -50,35 +51,7 @@ class HomeScreen extends StatelessWidget {
 
   List<Widget> _buildScreens() {
     return [
-      Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(
-              onPressed: () async {
-                // await LocalMealProvider().add(LocalMealNutrition(
-                //     name: 'One More Night - Maroon 5',
-                //     calories: 12,
-                //     fat: 15,
-                //     carbs: 55,
-                //     protein: 65));
-
-                // var list = await LocalMealProvider().fetchAll();
-                // for (var item in list) {
-                //   print(item.toString());
-                // }
-              },
-              child: const Text('Fetch data'),
-            ),
-            TextButton(
-              onPressed: () async {
-                await _controller.signOut();
-              },
-              child: const Text('Sign out'),
-            ),
-          ],
-        ),
-      ),
+      const WorkoutPlanScreen(),
       DailyPlanScreen(),
       LibraryScreen(),
       // Container(),

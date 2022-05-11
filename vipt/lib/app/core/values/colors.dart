@@ -27,6 +27,9 @@ class AppColor {
   static Color darkModeShadowColor = Colors.white.withOpacity(0.1);
   static Color disableButtonColor = Colors.grey;
 
+  // Workout Plan
+  static const Color logWeightButtonColor = Color(0xff42C988);
+
   // Profile
   static const Color profileBackgroundColor = Color(0xffeeeeee);
   static const Color statisticExerciseTitleColor = Color(0xff4E0909);

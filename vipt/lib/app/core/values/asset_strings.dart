@@ -116,4 +116,13 @@ class SVGAssetString {
       '$_path/selected_blood_sugar_stabilizes.svg';
   static const String selectedKetosis = '$_path/selected_ketosis.svg';
   static const String selectedMetabolism = '$_path/selected_metabolism.svg';
+  static const String uncheckedDay = '$_path/unchecked_day.svg';
+  static const String checkedDay = '$_path/checked_day.svg';
+  static const String shortcutExercise = '$_path/icon_shortcut_exercise.svg';
+  static const String shortcutNutrition = '$_path/icon_shortcut_nutrition.svg';
+  static const String shortcutWater = '$_path/icon_shortcut_water.svg';
+  static const String shortcutStatistics =
+      '$_path/icon_shortcut_statistics.svg';
+  static const String shortcutProgressImage =
+      '$_path/icon_shortcut_progress_image.svg';
 }
