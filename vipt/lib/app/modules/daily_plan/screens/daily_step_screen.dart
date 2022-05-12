@@ -155,8 +155,8 @@ class DailyStepScreen extends StatelessWidget {
       children: [
         SizedBox(
           width: screenWidth * 0.3,
-          child: const VerticalInfoWidget(
-            title: '12,000',
+          child: VerticalInfoWidget(
+            title: _controller.steps.value,
             subtitle: 'm',
           ),
         ),
@@ -167,8 +167,8 @@ class DailyStepScreen extends StatelessWidget {
         ),
         SizedBox(
           width: screenWidth * 0.3,
-          child: const VerticalInfoWidget(
-            title: '60',
+          child: VerticalInfoWidget(
+            title: _controller.status.value,
             subtitle: 'phút',
           ),
         ),
