@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
@@ -103,7 +104,9 @@ class _CollectionTabHolderState extends State<CollectionTabHolder>
       return Container(
         margin: const EdgeInsets.symmetric(vertical: 8),
         child: ExerciseInCollectionTile(
-            asset: collection.asset,
+            asset: collection.asset == ''
+                ? JPGAssetString.userWorkoutCollection
+                : collection.asset,
             title: collection.title,
             description: cateList,
             onPressed: () {

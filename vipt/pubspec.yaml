@@ -50,6 +50,13 @@ dependencies:
   adaptive_dialog: ^1.2.0
   percent_indicator: ^3.4.0
   carousel_slider: ^4.0.0
+  fl_chart: ^0.50.1
+  before_after:
+    git:
+      url: https://github.com/sdabet-orpheo/before_after.git
+      ref: 6493a92
+  pedometer: ^3.0.0
+  flutter_date_pickers: ^0.3.0
   
   flutter_localizations:
     sdk: flutter

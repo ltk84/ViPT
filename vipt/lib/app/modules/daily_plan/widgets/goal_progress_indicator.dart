@@ -3,22 +3,24 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:vipt/app/core/values/colors.dart';
 
 class GoalProgressIndicator extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final double progressValue;
+  final int value;
+  final String unitString;
   final double radius;
+  final int? goalValue;
   const GoalProgressIndicator(
       {Key? key,
-      required this.title,
-      required this.subtitle,
-      this.progressValue = 1,
-      this.radius = 134})
+      required this.value,
+      required this.unitString,
+      this.radius = 134,
+      this.goalValue})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double progress = goalValue == null ? 1 : value / goalValue!;
+
     return CircularPercentIndicator(
-      percent: progressValue,
+      percent: progress > 1 ? 1 : progress,
       radius: radius,
       lineWidth: 6,
       backgroundColor:
@@ -29,16 +31,23 @@ class GoalProgressIndicator extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.headline6!.copyWith(
-                    color: AppColor.accentTextColor,
-                    fontWeight: FontWeight.bold,
-                  ),
+            RichText(
               textAlign: TextAlign.center,
+              text: TextSpan(
+                children: <TextSpan>[
+                  TextSpan(
+                    text: '$value',
+                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                          color: AppColor.accentTextColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  if (goalValue != null) TextSpan(text: '/$goalValue'),
+                ],
+              ),
             ),
             Text(
-              subtitle,
+              unitString,
               style: Theme.of(context).textTheme.caption!.copyWith(
                     color: AppColor.accentTextColor,
                   ),

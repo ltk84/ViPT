@@ -42,6 +42,7 @@ import 'package:vipt/app/modules/workout_collection/screens/workout_collection_d
 import 'package:vipt/app/modules/workout_collection/screens/workout_collection_category_list_screen.dart';
 import 'package:vipt/app/modules/workout_collection/screens/workout_collection_list_screen.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_binding.dart';
+import 'package:vipt/app/modules/workout_plan/screens/finish_plan_screen.dart';
 
 part 'routes.dart';
 
@@ -183,6 +184,10 @@ abstract class AppPages {
     GetPage(
       name: Routes.addIngredientToFood,
       page: () => AddIngredientToFoodScreen(),
+    ),
+    GetPage(
+      name: Routes.finishPlanScreen,
+      page: () => const FinishPlanScreen(),
     ),
   ];
 }

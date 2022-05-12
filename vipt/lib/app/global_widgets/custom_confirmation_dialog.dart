@@ -12,6 +12,8 @@ class CustomConfirmationDialog extends StatelessWidget {
   final Function()? onOk;
   final double buttonFactorOnMaxWidth;
   final MainAxisAlignment buttonsAlignment;
+  final bool showCancelButton;
+  final bool showOkButton;
 
   const CustomConfirmationDialog({
     Key? key,
@@ -25,6 +27,8 @@ class CustomConfirmationDialog extends StatelessWidget {
     this.onOk,
     this.buttonFactorOnMaxWidth = 0,
     this.buttonsAlignment = MainAxisAlignment.spaceBetween,
+    this.showCancelButton = true,
+    this.showOkButton = true,
   }) : super(key: key);
 
   @override
@@ -44,42 +48,44 @@ class CustomConfirmationDialog extends StatelessWidget {
         ),
         contentTextStyle:
             Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 16),
-        contentPadding: const EdgeInsets.fromLTRB(48, 4, 48, 4),
+        contentPadding: const EdgeInsets.fromLTRB(24, 4, 24, 4),
         actions: [
-          ConstrainedBox(
-            constraints: BoxConstraints(
-              minWidth: constraints.maxWidth * buttonFactorOnMaxWidth,
-            ),
-            child: TextButton(
-              child: Text(
-                labelCancel,
-                style: Theme.of(context).textTheme.button!.copyWith(
-                      fontSize: 16,
-                      color: AppColor.textColor
-                          .withOpacity(AppColor.subTextOpacity),
-                    ),
+          if (showCancelButton)
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                minWidth: constraints.maxWidth * buttonFactorOnMaxWidth,
               ),
-              onPressed: onCancel,
-            ),
-          ),
-          ConstrainedBox(
-            constraints: BoxConstraints(
-              minWidth: constraints.maxWidth * buttonFactorOnMaxWidth,
-            ),
-            child: ElevatedButton(
-              child: Text(
-                labelOk,
-                style: Theme.of(context).textTheme.button,
-              ),
-              style: ElevatedButton.styleFrom(
-                primary: primaryButtonColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
+              child: TextButton(
+                child: Text(
+                  labelCancel,
+                  style: Theme.of(context).textTheme.button!.copyWith(
+                        fontSize: 16,
+                        color: AppColor.textColor
+                            .withOpacity(AppColor.subTextOpacity),
+                      ),
                 ),
+                onPressed: onCancel,
               ),
-              onPressed: onOk,
             ),
-          ),
+          if (showOkButton)
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                minWidth: constraints.maxWidth * buttonFactorOnMaxWidth,
+              ),
+              child: ElevatedButton(
+                child: Text(
+                  labelOk,
+                  style: Theme.of(context).textTheme.button,
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: primaryButtonColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                ),
+                onPressed: onOk,
+              ),
+            ),
         ],
         actionsAlignment: buttonsAlignment,
         actionsPadding: const EdgeInsets.fromLTRB(24, 8, 24, 8),

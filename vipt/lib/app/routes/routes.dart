@@ -34,4 +34,5 @@ abstract class Routes {
   static const bodyStatus = '/bodyStatus';
   static const logFood = '/logFood';
   static const addIngredientToFood = '/addIngredientToFood';
+  static const finishPlanScreen = '/finishPlanScreen';
 }

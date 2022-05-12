@@ -31,7 +31,7 @@ class WorkoutCollectionCategoryListScreen extends StatelessWidget {
         title: Hero(
           tag: 'titleAppBar',
           child: Text(
-            'Bài tập'.tr,
+            'Bộ luyện tập'.tr,
             style: Theme.of(context).textTheme.headline3,
           ),
         ),

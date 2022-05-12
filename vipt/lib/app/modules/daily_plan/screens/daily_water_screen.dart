@@ -147,9 +147,8 @@ class DailyWaterScreen extends StatelessWidget {
       child: Obx(
         () => GoalProgressIndicator(
           radius: screenWidth * 0.36,
-          title: _controller.waterVolume.toString(),
-          subtitle: 'ml',
-          progressValue: 0.5,
+          value: _controller.waterVolume.value,
+          unitString: 'ml',
         ),
       ),
     );

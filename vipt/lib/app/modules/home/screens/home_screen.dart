@@ -10,6 +10,7 @@ import 'package:vipt/app/modules/daily_plan/screens/daily_plan_screen.dart';
 import 'package:vipt/app/modules/home/home_controller.dart';
 import 'package:vipt/app/modules/library/screens/library_screen.dart';
 import 'package:vipt/app/modules/profile/screens/profile_screen.dart';
+import 'package:vipt/app/modules/workout_plan/screens/workout_plan_screen.dart';
 
 int calcuateSum(List<int> values) {
   int sum = 0;
@@ -61,23 +62,7 @@ class HomeScreen extends StatelessWidget {
 
   List<Widget> _buildScreens() {
     return [
-      Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(
-              onPressed: () async {},
-              child: const Text('Fetch data'),
-            ),
-            TextButton(
-              onPressed: () async {
-                await _controller.signOut();
-              },
-              child: const Text('Sign out'),
-            ),
-          ],
-        ),
-      ),
+      const WorkoutPlanScreen(),
       DailyPlanScreen(),
       LibraryScreen(),
       // Container(),

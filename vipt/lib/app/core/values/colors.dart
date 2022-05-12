@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 class AppColor {
   AppColor._();
   static const Color primaryColor = Colors.red;
+  static Color? primaryColorDark = Colors.red[900];
+  static Color? primaryColorLight = Colors.red[200];
   static const Color secondaryColor = Color(0xff00C734);
   static const Color lightModeBackgroundColor = Colors.white;
   static const Color lightModeTextColor = Color(0xFF1B1B1B);
@@ -18,10 +20,57 @@ class AppColor {
   static const double disabledIconOpacity = 0.25;
   static const Color buttonForegroundColor = Colors.white;
   static const Color lightModeAccentTextColor = Colors.white;
+  static const Color lightModeAccentTextLightColor = Color(0xddffffff);
   static const Color darkModeAccentTextColor = Color(0xff1b1b1b);
+  static const Color darkModeAccentTextLightColor = Color(0xdd1b1b1b);
   static Color lightModeShadowColor = Colors.black.withOpacity(0.1);
   static Color darkModeShadowColor = Colors.white.withOpacity(0.1);
   static Color disableButtonColor = Colors.grey;
+
+  // Workout Plan
+  static const Color logWeightButtonColor = Color(0xff42C988);
+
+  // Profile
+  static const Color profileBackgroundColor = Color(0xffeeeeee);
+  static const Color statisticExerciseTitleColor = Color(0xff4E0909);
+  static const Color statisticExerciseDescriptionColor = Color(0xA84E0909);
+  static Color statisticExerciseBarColor =
+      primaryColorDark!.withOpacity(subTextOpacity);
+  static const Color statisticExerciseBackgroundColor = Color(0xffef9a9a);
+  static const Color statisticExerciseForegroundColor = Color(0xddffffff);
+
+  static const Color statisticNutritionTitleColor = Color(0xff0F3300);
+  static const Color statisticNutritionDescriptionColor = Color(0xA80F3300);
+  static Color statisticNutritionBarColor =
+      nutriDarkBackgroundColor.withOpacity(subTextOpacity);
+  static const Color statisticNutritionBackgroundColor = Color(0xff75D6AC);
+  static const Color statisticNutritionForegroundColor = Color(0xddffffff);
+
+  static const Color statisticWaterTitleColor = Color(0xff152B51);
+  static const Color statisticWaterDescriptionColor = Color(0xA8152B51);
+  static Color statisticWaterBarColor =
+      waterDarkBackgroundColor.withOpacity(subTextOpacity);
+  static const Color statisticWaterBackgroundColor = Color(0xff759FF0);
+  static const Color statisticWaterForegroundColor = Color(0xddffffff);
+
+  static const Color statisticStepTitleColor = Color(0xff2A103C);
+  static const Color statisticStepDescriptionColor = Color(0xA82A103C);
+  static Color statisticStepBarColor =
+      stepTrackingDarkBackgroundColor.withOpacity(subTextOpacity);
+  static const Color statisticStepBackgroundColor = Color(0xffBB9EE6);
+  static const Color statisticStepForegroundColor = Color(0xddffffff);
+
+  static const Color weightTrackingTitleColor = Color(0xff02553E);
+  static const Color weightTrackingDescriptionColor = Color(0xA802553E);
+  static Color weightTrackingBarColor =
+      weightTrackingTitleColor.withOpacity(subTextOpacity);
+  static const Color weightTrackingBackgroundColor = Color(0xffB4FDEA);
+  static const Color weightTrackingForegroundColor = Color(0xdd1b1b1b);
+  static const Color weightTrackingBorderColor = Color(0xdd1b1b1b);
+  static const List<Color> weightTrackingGradientColors = [
+    Color(0xff23b6e6),
+    Color(0xff02d39a),
+  ];
 
   // Daily Plan colors
   static const Color nutriBackgroundColor = Color(0xff42C988);
@@ -118,6 +167,9 @@ class AppColor {
       : lightModeListTileButtonColor;
   static Color get accentTextColor =>
       (Get.isDarkMode) ? darkModeAccentTextColor : lightModeAccentTextColor;
+  static Color get accentTextLightColor => (Get.isDarkMode)
+      ? darkModeAccentTextLightColor
+      : lightModeAccentTextLightColor;
   static Color get shadowColor =>
       (Get.isDarkMode) ? darkModeShadowColor : lightModeShadowColor;
   static Color get secondaryBackgroudColor => (Get.isDarkMode)

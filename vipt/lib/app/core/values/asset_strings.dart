@@ -25,6 +25,7 @@ class PNGAssetString {
   static const String breakfast = '$path/breakfast.png';
   static const String lunch = '$path/lunch.png';
   static const String snack = '$path/snack.png';
+  static const String muscleAvatar = '$path/muscle_avatar.png';
 }
 
 class JPGAssetString {
@@ -37,6 +38,8 @@ class JPGAssetString {
       '$path/your_workout_collection.jpg';
   static const String userWorkoutCollection =
       '$path/user_workout_collection.jpg';
+  static const String bodyBefore = '$path/body_before.jpg';
+  static const String bodyAfter = '$path/body_after.jpg';
 }
 
 class GIFAssetString {
@@ -113,4 +116,14 @@ class SVGAssetString {
       '$_path/selected_blood_sugar_stabilizes.svg';
   static const String selectedKetosis = '$_path/selected_ketosis.svg';
   static const String selectedMetabolism = '$_path/selected_metabolism.svg';
+  static const String uncheckedDay = '$_path/unchecked_day.svg';
+  static const String checkedDay = '$_path/checked_day.svg';
+  static const String shortcutExercise = '$_path/icon_shortcut_exercise.svg';
+  static const String shortcutNutrition = '$_path/icon_shortcut_nutrition.svg';
+  static const String shortcutWater = '$_path/icon_shortcut_water.svg';
+  static const String shortcutStatistics =
+      '$_path/icon_shortcut_statistics.svg';
+  static const String shortcutProgressImage =
+      '$_path/icon_shortcut_progress_image.svg';
+  static const String question = '$_path/question.svg';
 }

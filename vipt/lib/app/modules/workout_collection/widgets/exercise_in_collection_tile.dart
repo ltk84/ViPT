@@ -43,7 +43,10 @@ class ExerciseInCollectionTile extends StatelessWidget {
                         maxWidth: constraints.maxWidth * 0.18,
                         maxHeight: constraints.maxWidth * 0.18,
                       ),
-                      child: _buildAsset(asset),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: _buildAsset(asset),
+                      ),
                     ),
                     SizedBox(
                       width: constraints.maxWidth * 0.05,

@@ -189,9 +189,8 @@ class DailyExerciseScreen extends StatelessWidget {
           ),
           GoalProgressIndicator(
             radius: screenWidth * 0.3,
-            title: controller.calories.value.toString(),
-            subtitle: 'calories tiêu hao',
-            progressValue: 0.5,
+            value: controller.calories.value,
+            unitString: 'calories tiêu hao',
           ),
           SizedBox(
             width: screenWidth * 0.3,
