@@ -125,4 +125,5 @@ class SVGAssetString {
       '$_path/icon_shortcut_statistics.svg';
   static const String shortcutProgressImage =
       '$_path/icon_shortcut_progress_image.svg';
+  static const String question = '$_path/question.svg';
 }

@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/expandable_widget.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 class ProgressInfoWidget extends StatefulWidget {
   final List<bool> completeDays;
-  const ProgressInfoWidget({Key? key, required this.completeDays})
+  final bool showAction;
+  final bool showTitle;
+  const ProgressInfoWidget(
+      {Key? key,
+      required this.completeDays,
+      this.showAction = true,
+      this.showTitle = true})
       : super(key: key);
 
   @override
@@ -18,7 +27,7 @@ class _ProgressInfoWidgetState extends State<ProgressInfoWidget> {
 
   @override
   void initState() {
-    _expand = false;
+    _expand = widget.showTitle ? false : true;
     super.initState();
   }
 
@@ -28,36 +37,37 @@ class _ProgressInfoWidgetState extends State<ProgressInfoWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () {
-              setState(() {
-                _expand = !_expand;
-              });
-            },
-            borderRadius: BorderRadius.circular(5),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 12, 8, 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Tiến trình',
-                    style: Theme.of(context).textTheme.headline5!.copyWith(
-                          color: AppColor.accentTextColor,
-                        ),
-                  ),
-                  Icon(
-                      _expand
-                          ? Icons.keyboard_arrow_up_rounded
-                          : Icons.keyboard_arrow_down_rounded,
-                      color: AppColor.accentTextColor),
-                ],
+        if (widget.showTitle)
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  _expand = !_expand;
+                });
+              },
+              borderRadius: BorderRadius.circular(5),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(8, 12, 8, 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Tiến trình',
+                      style: Theme.of(context).textTheme.headline5!.copyWith(
+                            color: AppColor.accentTextColor,
+                          ),
+                    ),
+                    Icon(
+                        _expand
+                            ? Icons.keyboard_arrow_up_rounded
+                            : Icons.keyboard_arrow_down_rounded,
+                        color: AppColor.accentTextColor),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
         ExpandableWidget(
           expand: _expand,
           child: Container(
@@ -69,17 +79,111 @@ class _ProgressInfoWidgetState extends State<ProgressInfoWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Ngày',
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
-                        fontWeight: FontWeight.w900,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Text(
+                            'Ngày',
+                            style:
+                                Theme.of(context).textTheme.headline5!.copyWith(
+                                      fontWeight: FontWeight.w900,
+                                    ),
+                          ),
+                          if (widget.showAction)
+                            const SizedBox(
+                              width: 4,
+                            ),
+                          if (widget.showAction)
+                            Material(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.transparent,
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(5),
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return CustomConfirmationDialog(
+                                        label: 'Tự động ghi nhận tiến trình',
+                                        content:
+                                            'Ngày sẽ tự động được đánh dấu là hoàn thành khi calories trong ngày xấp xỉ bằng calories mục tiêu (không chênh lệch quá 100 calories).',
+                                        labelCancel: 'Đóng',
+                                        textAlign: TextAlign.left,
+                                        onCancel: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        showOkButton: false,
+                                        buttonsAlignment: MainAxisAlignment.end,
+                                      );
+                                    },
+                                  );
+                                },
+                                child: SvgPicture.asset(
+                                  SVGAssetString.question,
+                                  height: 20,
+                                  color: AppColor.textColor,
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
+                    ),
+                    if (widget.showAction)
+                      Material(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(5),
+                          onTap: () async {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return CustomConfirmationDialog(
+                                  label: 'Bắt đầu lại lộ trình?',
+                                  content:
+                                      'Tiến trình sẽ được thiết lập lại từ đầu và sẽ không được lưu lại',
+                                  labelCancel: 'Hủy bỏ',
+                                  labelOk: 'Bắt đầu lại',
+                                  onCancel: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  onOk: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  buttonsAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                );
+                              },
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 2,
+                            ),
+                            child: Text(
+                              'Bắt đầu lại',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline5!
+                                  .copyWith(
+                                    color: AppColor.textColor
+                                        .withOpacity(AppColor.subTextOpacity),
+                                  ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
                 const SizedBox(
                   height: 24,
                 ),
                 Wrap(
-                  spacing: 28.0,
+                  spacing: 26.0,
                   runSpacing: 16.0,
                   children: _buildDayIndicatorList(context),
                 ),
@@ -100,7 +204,7 @@ class _ProgressInfoWidgetState extends State<ProgressInfoWidget> {
                     ),
                     Align(
                       alignment: Alignment.lerp(Alignment.topLeft,
-                          Alignment.topRight, _progressValue + 0.05)!,
+                          Alignment.topRight, _progressValue)!,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 18.0),
                         child: Text(
@@ -136,7 +240,7 @@ class _ProgressInfoWidgetState extends State<ProgressInfoWidget> {
               widget.completeDays[i]
                   ? SVGAssetString.checkedDay
                   : SVGAssetString.uncheckedDay,
-              height: 56,
+              height: 45,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 12.0),

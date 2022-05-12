@@ -98,10 +98,11 @@ class _WeightInfoWidgetState extends State<WeightInfoWidget> {
                 ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   child: LinearProgressIndicator(
-                    value: 1,
-                    minHeight: 5,
-                    color: AppColor.textFieldUnderlineColor
+                    value: widget.currentWeight == widget.goalWeight ? 1 : 0,
+                    minHeight: 6,
+                    backgroundColor: AppColor.textFieldUnderlineColor
                         .withOpacity(AppColor.subTextOpacity),
+                    color: AppColor.secondaryColor,
                   ),
                 ),
                 const SizedBox(

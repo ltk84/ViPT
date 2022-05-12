@@ -11,6 +11,8 @@ import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/collection_tab_holder.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
+import 'package:vipt/app/modules/workout_plan/widgets/calories_info_widget.dart';
+import 'package:vipt/app/modules/workout_plan/widgets/plan_tab_holder.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/progress_info_widget.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/shortcut_button.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/weight_info_widget.dart';
@@ -66,6 +68,10 @@ class WorkoutPlanScreen extends StatelessWidget {
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 18),
+                      child: CaloriesInfoWidget(),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 18),
                       child: WeightInfoWidget(),
                     ),
                     const Padding(
@@ -89,66 +95,51 @@ class WorkoutPlanScreen extends StatelessWidget {
                     const SizedBox(
                       height: 24,
                     ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //   children: [
-                    //     Flexible(
-                    //       child: ShortcutButton(
-                    //         onPressed: () {},
-                    //         title: 'Theo dõi luyện tập',
-                    //         icon: SvgPicture.asset(
-                    //           SVGAssetString.shortcutExercise,
-                    //           height: 28,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     Flexible(
-                    //       child: ShortcutButton(
-                    //         onPressed: () {},
-                    //         title: 'Theo dõi dinh dưỡng',
-                    //         icon: SvgPicture.asset(
-                    //           SVGAssetString.shortcutNutrition,
-                    //           height: 28,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     Flexible(
-                    //       child: ShortcutButton(
-                    //         onPressed: () {},
-                    //         title: 'Theo dõi nước uống',
-                    //         icon: SvgPicture.asset(
-                    //           SVGAssetString.shortcutWater,
-                    //           height: 28,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //   children: [
-                    //     Flexible(
-                    //       child: ShortcutButton(
-                    //         onPressed: () {},
-                    //         title: 'Xem thống kê',
-                    //         icon: SvgPicture.asset(
-                    //           SVGAssetString.shortcutStatistics,
-                    //           height: 28,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     Flexible(
-                    //       child: ShortcutButton(
-                    //         onPressed: () {},
-                    //         title: 'Hình ảnh quá trình',
-                    //         icon: SvgPicture.asset(
-                    //           SVGAssetString.shortcutProgressImage,
-                    //           height: 28,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Flexible(
+                          child: ShortcutButton(
+                            onPressed: () {},
+                            title: 'Luyện tập',
+                            icon: SvgPicture.asset(
+                              SVGAssetString.shortcutExercise,
+                              height: 24,
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          child: ShortcutButton(
+                            onPressed: () {},
+                            title: 'Dinh dưỡng',
+                            icon: SvgPicture.asset(
+                              SVGAssetString.shortcutNutrition,
+                              height: 24,
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          child: ShortcutButton(
+                            onPressed: () {},
+                            title: 'Nước uống',
+                            icon: SvgPicture.asset(
+                              SVGAssetString.shortcutWater,
+                              height: 24,
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          child: ShortcutButton(
+                            onPressed: () {},
+                            title: 'Thống kê',
+                            icon: SvgPicture.asset(
+                              SVGAssetString.shortcutStatistics,
+                              height: 24,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -166,26 +157,9 @@ class WorkoutPlanScreen extends StatelessWidget {
                   ),
                   child: SingleChildScrollView(
                     physics: const NeverScrollableScrollPhysics(),
-                    child: Column(
-                      children: [
-                        Text(
-                          "LUYỆN TẬP".tr,
-                          style:
-                              Theme.of(context).textTheme.subtitle2!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        Divider(
-                          thickness: 1,
-                          color: AppColor.textFieldUnderlineColor,
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                      ],
+                    child: PlanTabHolder(
+                      firstCollection: [],
+                      secondCollection: [],
                     ),
                   ),
                 ),

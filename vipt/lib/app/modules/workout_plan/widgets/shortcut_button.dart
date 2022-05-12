@@ -18,7 +18,7 @@ class ShortcutButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         onTap: onPressed,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.fromLTRB(4, 12, 4, 12),
           child: Column(
             children: [
               icon ?? Icon(Icons.shortcut, color: AppColor.accentTextColor),
@@ -29,7 +29,7 @@ class ShortcutButton extends StatelessWidget {
                 title,
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText1!
+                    .caption!
                     .copyWith(color: AppColor.accentTextColor),
                 textAlign: TextAlign.center,
               ),

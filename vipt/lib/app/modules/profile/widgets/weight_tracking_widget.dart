@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/profile/widgets/statistic_line_chart.dart';
 
 class WeightTrackingWidget extends StatelessWidget {
-  WeightTrackingWidget({Key? key}) : super(key: key);
+  final bool showTitle;
+  WeightTrackingWidget({
+    Key? key,
+    this.showTitle = true,
+  }) : super(key: key);
 
   // DateFormat chỉnh trong file statistic_line_chart.dart, hàm getFlSpot
   final Map<String, double> values = {
@@ -19,20 +22,22 @@ class WeightTrackingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          children: [
-            Text(
-              'Theo dõi cân nặng',
-              style: Theme.of(context).textTheme.headline4!.copyWith(
-                    color:
-                        AppColor.textColor.withOpacity(AppColor.subTextOpacity),
-                  ),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 24,
-        ),
+        if (showTitle)
+          Row(
+            children: [
+              Text(
+                'Theo dõi cân nặng',
+                style: Theme.of(context).textTheme.headline4!.copyWith(
+                      color: AppColor.textColor
+                          .withOpacity(AppColor.subTextOpacity),
+                    ),
+              ),
+            ],
+          ),
+        if (showTitle)
+          const SizedBox(
+            height: 24,
+          ),
         StatisticLineChart(
           values: values,
           title: "Tuần 09/05/22 - 15/05/22",
