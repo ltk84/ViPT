@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/floating_property_tile.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/icon_info_widget.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
@@ -275,6 +276,26 @@ class _DailyFastingScreenState extends State<DailyFastingScreen>
               onComplete: () {
                 _controller.resetData();
                 _controller.timerState.value = TimerState.ready;
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    // TODO: them icon, animation;
+                    Map<String, int> currentTypeOfFasting = _controller
+                        .getTypeOfFasting(_controller.fastTypeIndex.value);
+                    return CustomConfirmationDialog(
+                      label: 'Hoàn thành quá trình Fasting',
+                      content:
+                          'Bạn đã hoành thành ${currentTypeOfFasting['fastTime']} giờ Fasting và ${currentTypeOfFasting['eatTime']} giờ Eating',
+                      labelCancel: 'Đóng',
+                      textAlign: TextAlign.left,
+                      onCancel: () {
+                        Navigator.of(context).pop();
+                      },
+                      showOkButton: false,
+                      buttonsAlignment: MainAxisAlignment.end,
+                    );
+                  },
+                );
               },
               textStyle: Theme.of(context).textTheme.headline6!.copyWith(
                     color: AppColor.accentTextColor,
