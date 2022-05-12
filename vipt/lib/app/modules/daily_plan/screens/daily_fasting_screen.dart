@@ -279,15 +279,16 @@ class _DailyFastingScreenState extends State<DailyFastingScreen>
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    // TODO: them icon, animation;
                     Map<String, int> currentTypeOfFasting = _controller
                         .getTypeOfFasting(_controller.fastTypeIndex.value);
                     return CustomConfirmationDialog(
-                      label: 'Hoàn thành quá trình Fasting',
+                      icon: Image.asset(GIFAssetString.celebrate, height: 100),
+                      label: 'Hoàn thành Fasting',
                       content:
                           'Bạn đã hoành thành ${currentTypeOfFasting['fastTime']} giờ Fasting và ${currentTypeOfFasting['eatTime']} giờ Eating',
                       labelCancel: 'Đóng',
                       textAlign: TextAlign.left,
+                      labelTextAlign: TextAlign.center,
                       onCancel: () {
                         Navigator.of(context).pop();
                       },
