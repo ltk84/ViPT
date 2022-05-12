@@ -9,7 +9,6 @@ class DailyStepController extends GetxController with TrackerController {
 
   @override
   fetchTracksByDate(DateTime date) {
-    // TODO: implement fetchTracksByDate
     throw UnimplementedError();
   }
 

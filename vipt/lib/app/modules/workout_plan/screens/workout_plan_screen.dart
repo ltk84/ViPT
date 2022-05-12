@@ -3,12 +3,8 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
-import 'package:vipt/app/data/services/data_service.dart';
-import 'package:vipt/app/modules/daily_plan/widgets/collection_tab_holder.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/calories_info_widget.dart';
@@ -155,8 +151,8 @@ class WorkoutPlanScreen extends StatelessWidget {
                       topRight: Radius.circular(15),
                     ),
                   ),
-                  child: SingleChildScrollView(
-                    physics: const NeverScrollableScrollPhysics(),
+                  child: const SingleChildScrollView(
+                    physics: NeverScrollableScrollPhysics(),
                     child: PlanTabHolder(
                       firstCollection: [],
                       secondCollection: [],

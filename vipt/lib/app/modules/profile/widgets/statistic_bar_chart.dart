@@ -4,7 +4,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vipt/app/core/values/colors.dart';
-import 'package:vipt/app/modules/profile/widgets/week_picker_dialog.dart';
 
 class StatisticBarChart extends StatelessWidget {
   final List<int> values;
@@ -15,6 +14,7 @@ class StatisticBarChart extends StatelessWidget {
   final Color? descriptionColor;
   final Color? foregroundColor;
   final Color? emptyBarColor;
+  final Function()? onPressHandler;
   const StatisticBarChart(
       {Key? key,
       required this.values,
@@ -24,7 +24,8 @@ class StatisticBarChart extends StatelessWidget {
       this.titleColor,
       this.descriptionColor,
       this.foregroundColor,
-      this.emptyBarColor})
+      this.emptyBarColor,
+      this.onPressHandler})
       : super(key: key);
 
   @override
@@ -174,15 +175,7 @@ class StatisticBarChart extends StatelessWidget {
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(5),
                     child: InkWell(
-                      onTap: () async {
-                        final result = await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return const WeekPickerDialog();
-                          },
-                        );
-                        print(result);
-                      },
+                      onTap: onPressHandler,
                       borderRadius: BorderRadius.circular(5),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),

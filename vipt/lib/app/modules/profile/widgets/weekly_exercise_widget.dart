@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_date_pickers/flutter_date_pickers.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/profile/widgets/statistic_bar_chart.dart';
+import 'package:vipt/app/modules/profile/widgets/week_picker_dialog.dart';
 
 class WeeklyExerciseWidget extends StatelessWidget {
   WeeklyExerciseWidget({Key? key}) : super(key: key);
@@ -46,6 +48,18 @@ class WeeklyExerciseWidget extends StatelessWidget {
           values: values,
           title: "Tuần 09/05/22 - 15/05/22",
           description: "Lượng calories tiêu hao (kcal)",
+          onPressHandler: () async {
+            DatePeriod? result = await showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const WeekPickerDialog();
+              },
+            );
+            if (result != null) {
+              print(result.start);
+              print(result.end);
+            }
+          },
         ),
       ],
     );

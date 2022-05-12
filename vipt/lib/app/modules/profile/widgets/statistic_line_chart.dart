@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_date_pickers/flutter_date_pickers.dart';
 import 'package:intl/intl.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/profile/widgets/range_picker_dialog.dart';

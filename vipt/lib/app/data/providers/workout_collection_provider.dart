@@ -163,7 +163,6 @@ class WorkoutCollectionProvider
 
   @override
   Future<List<WorkoutCollection>> fetchAll() {
-    // TODO: implement fetchAll
     throw UnimplementedError();
   }
 }

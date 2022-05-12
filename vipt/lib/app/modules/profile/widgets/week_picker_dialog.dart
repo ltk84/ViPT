@@ -16,14 +16,19 @@ class _WeekPickerDialogState extends State<WeekPickerDialog> {
   @override
   void initState() {
     _selectedDate = DateTime.now();
-    _datePeriod = DatePeriod(_selectedDate, DateTime.now());
+    _datePeriod = DatePeriod(
+        _selectedDate.subtract(Duration(days: _selectedDate.weekday - 1)),
+        _selectedDate
+            .add(Duration(days: DateTime.daysPerWeek - _selectedDate.weekday)));
+    // _datePeriod = DatePeriod(_selectedDate, DateTime.now());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
+    return Center(
       child: Container(
+        margin: const EdgeInsets.all(16),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Theme.of(context).backgroundColor,

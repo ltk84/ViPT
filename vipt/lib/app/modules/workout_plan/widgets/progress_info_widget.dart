@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/expandable_widget.dart';
-import 'package:vipt/app/routes/pages.dart';
 
 class ProgressInfoWidget extends StatefulWidget {
   final List<bool> completeDays;
