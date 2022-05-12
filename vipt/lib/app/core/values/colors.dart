@@ -53,6 +53,13 @@ class AppColor {
   static const Color statisticWaterBackgroundColor = Color(0xff759FF0);
   static const Color statisticWaterForegroundColor = Color(0xddffffff);
 
+  static const Color statisticStepTitleColor = Color(0xff2A103C);
+  static const Color statisticStepDescriptionColor = Color(0xA82A103C);
+  static Color statisticStepBarColor =
+      stepTrackingDarkBackgroundColor.withOpacity(subTextOpacity);
+  static const Color statisticStepBackgroundColor = Color(0xffBB9EE6);
+  static const Color statisticStepForegroundColor = Color(0xddffffff);
+
   static const Color weightTrackingTitleColor = Color(0xff02553E);
   static const Color weightTrackingDescriptionColor = Color(0xA802553E);
   static Color weightTrackingBarColor =

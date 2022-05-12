@@ -6,6 +6,7 @@ import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/profile/widgets/progress_image_widget.dart';
 import 'package:vipt/app/modules/profile/widgets/weekly_exercise_widget.dart';
 import 'package:vipt/app/modules/profile/widgets/weekly_nutrition_widget.dart';
+import 'package:vipt/app/modules/profile/widgets/weekly_step_widget.dart';
 import 'package:vipt/app/modules/profile/widgets/weekly_water_widget.dart';
 import 'package:vipt/app/modules/profile/widgets/weight_tracking_widget.dart';
 
@@ -110,6 +111,14 @@ class ProfileScreen extends StatelessWidget {
                                 ),
                               ),
                               WeeklyWaterWidget(),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
+                                child: Divider(
+                                  color: AppColor.textFieldUnderlineColor,
+                                ),
+                              ),
+                              WeeklyStepWidget(),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 16),

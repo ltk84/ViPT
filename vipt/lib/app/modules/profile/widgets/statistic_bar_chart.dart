@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/modules/profile/widgets/week_picker_dialog.dart';
 
 class StatisticBarChart extends StatelessWidget {
   final List<int> values;
@@ -123,7 +125,6 @@ class StatisticBarChart extends StatelessWidget {
               return throw Error();
           }
         });
-
     return AspectRatio(
       aspectRatio: 4 / 3,
       child: Card(
@@ -136,25 +137,65 @@ class StatisticBarChart extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              if (title != null)
-                Text(
-                  title!,
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
-                      color:
-                          titleColor ?? AppColor.statisticExerciseTitleColor),
-                ),
-              if (title != null)
-                const SizedBox(
-                  height: 4,
-                ),
-              if (description != null)
-                Text(
-                  description!,
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        color: descriptionColor ??
-                            AppColor.statisticExerciseDescriptionColor,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (title != null)
+                        Text(
+                          title!,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5!
+                              .copyWith(
+                                  color: titleColor ??
+                                      AppColor.statisticExerciseTitleColor),
+                        ),
+                      if (title != null)
+                        const SizedBox(
+                          height: 4,
+                        ),
+                      if (description != null)
+                        Text(
+                          description!,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(
+                                color: descriptionColor ??
+                                    AppColor.statisticExerciseDescriptionColor,
+                              ),
+                        ),
+                    ],
+                  ),
+                  Material(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(5),
+                    child: InkWell(
+                      onTap: () async {
+                        final result = await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const WeekPickerDialog();
+                          },
+                        );
+                        print(result);
+                      },
+                      borderRadius: BorderRadius.circular(5),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.date_range_rounded,
+                          color: titleColor ??
+                              AppColor.statisticExerciseTitleColor,
+                        ),
                       ),
-                ),
+                    ),
+                  )
+                ],
+              ),
               const SizedBox(
                 height: 36,
               ),
