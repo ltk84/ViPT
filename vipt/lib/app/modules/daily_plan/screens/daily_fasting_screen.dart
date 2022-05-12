@@ -16,7 +16,7 @@ import 'package:vipt/app/routes/pages.dart';
 import '../daily_fasting_controller.dart';
 
 class DailyFastingScreen extends StatefulWidget {
-  DailyFastingScreen({Key? key}) : super(key: key);
+  const DailyFastingScreen({Key? key}) : super(key: key);
 
   @override
   State<DailyFastingScreen> createState() => _DailyFastingScreenState();
@@ -37,6 +37,7 @@ class _DailyFastingScreenState extends State<DailyFastingScreen>
   @override
   void dispose() {
     WidgetsBinding.instance!.removeObserver(this);
+    _controller.saveDataToPrefs(_timerController.getTimeInDuration());
     super.dispose();
   }
 
@@ -142,79 +143,79 @@ class _DailyFastingScreenState extends State<DailyFastingScreen>
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FloatingPropertyTile(
-            title: 'Thời gian bắt đầu',
-            value: '8:48',
-            iconData: Icons.timer,
-            onPressed: () {
-              _showSelection(
-                context,
-                maxHeight: MediaQuery.of(context).size.height,
-                itemBuilder: (context, index) {
-                  if (index > 0) {
-                    return Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        index.toString(),
-                        style: Theme.of(context).textTheme.headline4,
-                      ),
-                    );
-                  }
-                },
-                initialValue: 0,
-                onSelectedItemChanged: (value) {},
-              );
-            },
-          ),
-          const SizedBox(
-            height: 14,
-          ),
-          FloatingPropertyTile(
-            title: 'Kiểu fasting',
-            value: '12 giờ không ăn',
-            iconData: Icons.category_outlined,
-            onPressed: () {
-              _showSelection(
-                context,
-                maxHeight: MediaQuery.of(context).size.height,
-                itemBuilder: (context, index) {
-                  if (index >= 0 && index < 12) {
-                    return Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        '${12 + index} giờ không ăn - ${12 - index} giờ ăn',
-                        style: Theme.of(context).textTheme.headline4,
-                      ),
-                    );
-                  }
-                },
-                initialValue: 0,
-                onSelectedItemChanged: (value) {},
-              );
-            },
+          Obx(
+            () => FloatingPropertyTile(
+              title: 'Kiểu fasting',
+              value:
+                  '${_controller.getTypeOfFasting(_controller.fastTypeIndex.value)['fastTime']} giờ không ăn',
+              iconData: Icons.category_outlined,
+              onPressed: _controller.timerIsRunning()
+                  ? null
+                  : () {
+                      _showSelection(
+                        context,
+                        maxHeight: MediaQuery.of(context).size.height,
+                        itemBuilder: (context, index) {
+                          if (index >= 0 && index < 12) {
+                            Map<String, int> fastType =
+                                _controller.getTypeOfFasting(index);
+
+                            return Container(
+                              alignment: Alignment.center,
+                              child: Text(
+                                '${fastType['fastTime']} giờ không ăn - ${fastType['eatTime']} giờ ăn',
+                                style: Theme.of(context).textTheme.headline4,
+                              ),
+                            );
+                          }
+                        },
+                        initialValue: _controller.fastTypeIndex.value,
+                        onSelectedItemChanged: (value) {
+                          _controller.fastTypeIndex.value = value;
+                        },
+                      );
+                    },
+            ),
           ),
           const SizedBox(
             height: 24,
           ),
-          FloatingActionButton.extended(
-            heroTag: 'mainActionButton',
-            backgroundColor: AppColor.fastingLightBackgroundColor,
-            onPressed: () {},
-            isExtended: true,
-            elevation: 1,
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            label: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.75,
-              child: Text(
-                'Bắt đầu Fasting'.tr,
-                style: Theme.of(context)
-                    .textTheme
-                    .button!
-                    .copyWith(color: AppColor.accentTextColor),
-                textAlign: TextAlign.center,
+          Obx(
+            () => FloatingActionButton.extended(
+              heroTag: 'mainActionButton',
+              backgroundColor: _controller.timerIsRunning()
+                  ? AppColor.accentTextColor
+                  : AppColor.fastingLightBackgroundColor,
+              onPressed: () {
+                if (_controller.timerState.value == TimerState.ready) {
+                  _timerController.start();
+                  _controller.timerState.value = TimerState.running;
+                  _controller.setTimeLineStrings();
+                } else if (_controller.timerState.value == TimerState.running) {
+                  _timerController.reset();
+                  _controller.timerState.value = TimerState.ready;
+                  _controller.resetTimeLineStrings();
+                }
+              },
+              isExtended: true,
+              elevation: 1,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              label: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.75,
+                child: Text(
+                  _controller.timerIsRunning()
+                      ? 'Kết thúc Fasting'.tr
+                      : 'Bắt đầu Fasting'.tr,
+                  style: Theme.of(context).textTheme.button!.copyWith(
+                        color: !_controller.timerIsRunning()
+                            ? AppColor.accentTextColor
+                            : AppColor.fastingLightBackgroundColor,
+                      ),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
           ),
@@ -229,45 +230,82 @@ class _DailyFastingScreenState extends State<DailyFastingScreen>
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        SizedBox(
-          width: screenWidth * 0.3,
-          child: const VerticalInfoWidget(
-            title: '8:48',
-            subtitle: 'Bắt đầu',
-          ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: screenWidth * 0.3,
+              child: Obx(
+                () => VerticalInfoWidget(
+                  title: _controller.fastingStartTimeStr.value,
+                  subtitle: 'Bắt đầu Fasting',
+                  reverse: true,
+                ),
+              ),
+            ),
+            const SizedBox(height: 24.0),
+            SizedBox(
+              width: screenWidth * 0.3,
+              child: Obx(
+                () => VerticalInfoWidget(
+                  title: _controller.eatingStartTimeStr.value,
+                  reverse: true,
+                  subtitle: 'Bắt đầu Eating',
+                ),
+              ),
+            ),
+          ],
         ),
         FutureBuilder(
-            future: _controller.loadTimerInitialValue(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return MyCircularCountDownTimer(
-                    controller: _timerController,
-                    width: screenWidth * 0.3,
-                    height: screenWidth * 0.3,
-                    duration: _controller.timerDuration,
-                    initialDuration: _controller.initialDuration,
-                    fillColor: AppColor.accentTextColor,
-                    autoStart: true,
-                    ringColor: AppColor.accentTextColor
-                        .withOpacity(AppColor.subTextOpacity),
-                    strokeWidth: 6,
-                    indicatorWidth: 8,
-                    onComplete: () => _controller.resetData(),
-                    textStyle: Theme.of(context).textTheme.headline6!.copyWith(
-                          color: AppColor.accentTextColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                    indicatorColor: AppColor.accentTextColor);
-              } else {
-                return Container();
-              }
-            }),
-        SizedBox(
-          width: screenWidth * 0.3,
-          child: const VerticalInfoWidget(
-            title: '20:48',
-            subtitle: 'Kết thúc',
-          ),
+          future: _controller.loadTimerInitialValue(),
+          builder: (_, snapshot) => MyCircularCountDownTimer(
+              controller: _timerController,
+              width: screenWidth * 0.3,
+              height: screenWidth * 0.3,
+              isReverse: true,
+              duration: _controller.timerDuration,
+              initialDuration: _controller.initialDuration,
+              fillColor: AppColor.accentTextColor,
+              autoStart: false,
+              textFormat: MyCountdownTextFormat.HH_MM_SS,
+              ringColor:
+                  AppColor.accentTextColor.withOpacity(AppColor.subTextOpacity),
+              strokeWidth: 6,
+              indicatorWidth: 8,
+              onComplete: () {
+                _controller.resetData();
+                _controller.timerState.value = TimerState.ready;
+              },
+              textStyle: Theme.of(context).textTheme.headline6!.copyWith(
+                    color: AppColor.accentTextColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+              indicatorColor: AppColor.accentTextColor),
+        ),
+        Column(
+          children: [
+            SizedBox(
+              width: screenWidth * 0.3,
+              child: Obx(
+                () => VerticalInfoWidget(
+                  title: _controller.fastingEndTimeStr.value,
+                  subtitle: 'Kết thúc Fasting',
+                  reverse: true,
+                ),
+              ),
+            ),
+            const SizedBox(height: 24.0),
+            SizedBox(
+              width: screenWidth * 0.3,
+              child: Obx(
+                () => VerticalInfoWidget(
+                  title: _controller.eatingEndTimeStr.value,
+                  subtitle: 'Kết thúc Eating',
+                  reverse: true,
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );

@@ -352,6 +352,15 @@ class MyCountDownController {
     _state._controller?.stop(canceled: false);
   }
 
+  void reset() {
+    if (_isReverse) {
+      _state._controller?.reverse(from: 0);
+    } else {
+      _state._controller?.forward(from: 1);
+    }
+    pause();
+  }
+
   /// This Method Resumes the Countdown Timer
   void resume() {
     if (_isReverse) {

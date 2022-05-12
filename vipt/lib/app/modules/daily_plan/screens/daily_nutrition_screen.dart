@@ -10,7 +10,6 @@ import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/global_widgets/info_cube_widget.dart';
 import 'package:vipt/app/modules/daily_plan/daily_nutrition_controller.dart';
-import 'package:vipt/app/modules/daily_plan/screens/add_food_screen.dart';
 import 'package:vipt/app/modules/daily_plan/screens/log_food_screen.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';

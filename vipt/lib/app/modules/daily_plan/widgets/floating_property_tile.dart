@@ -5,7 +5,7 @@ class FloatingPropertyTile extends StatelessWidget {
   final String title;
   final String value;
   final IconData iconData;
-  final Function() onPressed;
+  final Function()? onPressed;
 
   const FloatingPropertyTile(
       {Key? key,
@@ -17,9 +17,11 @@ class FloatingPropertyTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double opacity = onPressed == null ? AppColor.subTextOpacity : 1;
+
     return FloatingActionButton.extended(
       heroTag: title,
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).backgroundColor.withOpacity(opacity),
       onPressed: onPressed,
       isExtended: true,
       elevation: 0,
@@ -31,7 +33,8 @@ class FloatingPropertyTile extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.75,
         child: Row(
           children: [
-            Icon(iconData, color: AppColor.fastingBackgroundColor),
+            Icon(iconData,
+                color: AppColor.fastingBackgroundColor.withOpacity(opacity)),
             const SizedBox(
               width: 14,
             ),
@@ -40,15 +43,14 @@ class FloatingPropertyTile extends StatelessWidget {
                 title,
                 style: Theme.of(context).textTheme.bodyText2!.copyWith(
                     fontWeight: FontWeight.w500,
-                    color: AppColor.fastingBackgroundColor),
+                    color:
+                        AppColor.fastingBackgroundColor.withOpacity(opacity)),
               ),
             ),
             Text(
               value,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1!
-                  .copyWith(color: AppColor.fastingBackgroundColor),
+              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  color: AppColor.fastingBackgroundColor.withOpacity(opacity)),
             ),
           ],
         ),
