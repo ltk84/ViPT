@@ -71,9 +71,8 @@ class WaterHistoryScreen extends StatelessWidget {
         child: Obx(
           () => GoalProgressIndicator(
             radius: screenWidth * 0.36,
-            title: c.waterVolume.toString(),
-            subtitle: 'ml',
-            progressValue: 1,
+            value: c.waterVolume.value,
+            unitString: 'ml',
           ),
         ),
       ),

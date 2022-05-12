@@ -177,20 +177,20 @@ class WorkoutPlanScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         SizedBox(
-          width: screenWidth * 0.3,
+          width: screenWidth * 0.25,
           child: const VerticalInfoWidget(
             title: '2074',
             subtitle: 'hấp thụ',
           ),
         ),
         GoalProgressIndicator(
-          radius: screenWidth * 0.3,
-          title: '1460',
-          subtitle: 'calories',
-          progressValue: 0.5,
+          radius: screenWidth * 0.4,
+          value: 1460,
+          unitString: 'calories',
+          goalValue: 2000,
         ),
         SizedBox(
-          width: screenWidth * 0.3,
+          width: screenWidth * 0.25,
           child: const VerticalInfoWidget(
             title: '614',
             subtitle: 'tiêu hao',

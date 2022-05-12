@@ -170,9 +170,8 @@ class DailyNutritionScreen extends StatelessWidget {
         ),
         GoalProgressIndicator(
           radius: screenWidth * 0.3,
-          title: diff.toString(),
-          subtitle: 'calories',
-          progressValue: 0.5,
+          value: diff,
+          unitString: 'calories',
         ),
         SizedBox(
           width: screenWidth * 0.3,
