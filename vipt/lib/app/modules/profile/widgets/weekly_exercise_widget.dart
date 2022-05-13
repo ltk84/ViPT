@@ -56,7 +56,7 @@ class WeeklyExerciseWidget extends StatelessWidget {
             //TODO: loi khi values toan so 0
             values: _controller.exerciseCaloList,
             title:
-                "Tuần ${_controller.startDateStr.value} - ${_controller.endDateStr.value}",
+                "Tuần ${_controller.exerciseStartDateStr.value} - ${_controller.exerciseEndDateStr.value}",
             description: "Lượng calories tiêu hao (kcal)",
             onPressHandler: () async {
               DatePeriod? result = await showDialog(

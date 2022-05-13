@@ -16,6 +16,7 @@ class StatisticLineChart extends StatelessWidget {
   final Color? titleColor;
   final Color? borderColor;
   final List<Color>? gradient;
+  final Function()? onPressHandler;
 
   final Color? descriptionColor;
   const StatisticLineChart(
@@ -28,7 +29,8 @@ class StatisticLineChart extends StatelessWidget {
       this.description,
       this.descriptionColor,
       this.borderColor,
-      this.gradient})
+      this.gradient,
+      this.onPressHandler})
       : super(key: key);
 
   @override
@@ -121,15 +123,7 @@ class StatisticLineChart extends StatelessWidget {
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(5),
                     child: InkWell(
-                      onTap: () async {
-                        final result = await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return const RangePickerDialog();
-                          },
-                        );
-                        print(result);
-                      },
+                      onTap: onPressHandler,
                       borderRadius: BorderRadius.circular(5),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),

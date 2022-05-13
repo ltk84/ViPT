@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/modules/profile/widgets/range_picker_dialog.dart';
 import 'package:vipt/app/modules/profile/widgets/statistic_line_chart.dart';
 
 class WeightTrackingWidget extends StatelessWidget {
@@ -42,6 +43,15 @@ class WeightTrackingWidget extends StatelessWidget {
           values: values,
           title: "Tuần 09/05/22 - 15/05/22",
           description: "Cân nặng (kg)",
+          onPressHandler: () async {
+            final result = await showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const RangePickerDialog();
+              },
+            );
+            print(result);
+          },
         ),
       ],
     );
