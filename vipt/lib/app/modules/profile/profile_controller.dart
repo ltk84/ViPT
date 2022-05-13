@@ -13,10 +13,10 @@ import 'package:vipt/app/data/providers/weight_tracker_provider.dart';
 class ProfileController extends GetxController {
   static final DateTime _firstDateOfWeek =
       DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
-  static final DateTime _lastDateOfWeek =
-      _firstDateOfWeek.add(const Duration(days: 7));
+  // static final DateTime _lastDateOfWeek =
+  //     _firstDateOfWeek.add(const Duration(days: 7));
   static final DateTimeRange defaultDateTime =
-      DateTimeRange(start: _firstDateOfWeek, end: _lastDateOfWeek);
+      DateTimeRange(start: _firstDateOfWeek, end: DateTime.now());
 
   final _exerciseProvider = ExerciseTrackProvider();
   final _nutritionProvider = MealNutritionTrackProvider();
@@ -159,6 +159,10 @@ class ProfileController extends GetxController {
   // ------------------------ Weight Track ------------------------ //
   Rx<DateTimeRange> weightDateRange = defaultDateTime.obs;
   RxList<WeightTracker> allWeightTracks = <WeightTracker>[].obs;
+  Map<DateTime, double> defaultMap = {
+    DateTime(2022, 1, 1): -1,
+    DateTime(2022, 1, 2): 75,
+  };
 
   Rx<String> get weightStartDateStr =>
       '${weightDateRange.value.start.day}/${weightDateRange.value.start.month}/${weightDateRange.value.start.year}'
@@ -171,15 +175,44 @@ class ProfileController extends GetxController {
     allWeightTracks.sort((x, y) {
       return x.date.compareTo(y.date);
     });
+
     return allWeightTracks.isEmpty
-        ? {
-            DateTime.parse('2022/11/2'): 0,
-          }
-        : {for (var e in allWeightTracks) e.date: e.weight.toDouble()};
+        ? defaultMap
+        : allWeightTracks.length == 1
+            ? fakeMap()
+            : convertToMap();
+  }
+
+  Map<DateTime, double> convertToMap() {
+    return {for (var e in allWeightTracks) e.date: e.weight.toDouble()};
+  }
+
+  Map<DateTime, double> fakeMap() {
+    var map = convertToMap();
+
+    map.addAll(
+        {allWeightTracks.first.date.subtract(const Duration(days: 1)): -1});
+
+    return map;
   }
 
   Future<void> loadWeightTracks() async {
-    allWeightTracks.value = await _weightProvider.fetchAll();
+    allWeightTracks.clear();
+    int duration = weightDateRange.value.duration.inDays + 1;
+    for (int i = 0; i < duration; i++) {
+      DateTime fetchDate = weightDateRange.value.start.add(Duration(days: i));
+      var weighTracks = await _weightProvider.fetchByDate(fetchDate);
+      weighTracks.sort((x, y) => x.weight - y.weight);
+      if (weighTracks.isNotEmpty) {
+        allWeightTracks.add(weighTracks.last);
+      }
+    }
+  }
+
+  Future<void> changeWeighDateRange(
+      DateTime startDate, DateTime endDate) async {
+    weightDateRange.value = DateTimeRange(start: startDate, end: endDate);
+    await loadWeightTracks();
   }
   // ------------------------ Weight Track ------------------------ //
 

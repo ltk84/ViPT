@@ -101,8 +101,7 @@ class WorkoutPlanScreen extends StatelessWidget {
                             onPressed: () {
                               // test
                               WeightTrackerProvider().add(WeightTracker(
-                                  date: DateTime.now().add(Duration(days: 61)),
-                                  weight: 70));
+                                  date: DateTime(2022, 5, 1), weight: 78));
                             },
                             title: 'Luyện tập',
                             icon: SvgPicture.asset(

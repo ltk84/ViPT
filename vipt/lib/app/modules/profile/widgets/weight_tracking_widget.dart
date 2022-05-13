@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_date_pickers/flutter_date_pickers.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/profile/profile_controller.dart';
@@ -13,12 +14,13 @@ class WeightTrackingWidget extends StatelessWidget {
   }) : super(key: key);
 
   // DateFormat chỉnh trong file statistic_line_chart.dart, hàm getFlSpot
-  final Map<String, double> values = {
-    '2022/05/14': 79.2,
-    '2022/07/12': 81,
-    '2022/08/10': 79.3,
-    '2022/03/15': 79.5,
-    '2022/01/16': 82,
+  final Map<DateTime, double> values = {
+    DateTime(2022, 05, 9): -1,
+    DateTime(2022, 05, 10): 0,
+    // DateTime(2022, 07, 12): 81,
+    // DateTime(2022, 08, 10): 79.3,
+    // DateTime(2022, 03, 15): 79.5,
+    // DateTime(2022, 01, 16): 82,
   };
 
   final _controller = Get.find<ProfileController>();
@@ -50,13 +52,20 @@ class WeightTrackingWidget extends StatelessWidget {
                 "Tuần ${_controller.weightStartDateStr} - ${_controller.weightEndDateStr}",
             description: "Cân nặng (kg)",
             onPressHandler: () async {
-              final result = await showDialog(
+              final DatePeriod? result = await showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return const RangePickerDialog();
+                  return RangePickerDialog(
+                    selectedPeriod: DatePeriod(
+                        _controller.waterDateRange.value.start,
+                        _controller.waterDateRange.value.end),
+                  );
                 },
               );
-              print(result);
+              if (result != null) {
+                print(result);
+                _controller.changeWeighDateRange(result.start, result.end);
+              }
             },
           ),
         ),
