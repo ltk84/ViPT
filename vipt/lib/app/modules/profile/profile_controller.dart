@@ -3,9 +3,11 @@ import 'package:get/get.dart';
 import 'package:vipt/app/data/models/exercise_tracker.dart';
 import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
 import 'package:vipt/app/data/models/water_tracker.dart';
+import 'package:vipt/app/data/models/weight_tracker.dart';
 import 'package:vipt/app/data/providers/exercise_track_provider.dart';
 import 'package:vipt/app/data/providers/meal_nutrition_track_provider.dart';
 import 'package:vipt/app/data/providers/water_track_provider.dart';
+import 'package:vipt/app/data/providers/weight_tracker_provider.dart';
 
 // TODO: giải quyết vấn đề chuyển tab không reload data
 class ProfileController extends GetxController {
@@ -19,6 +21,7 @@ class ProfileController extends GetxController {
   final _exerciseProvider = ExerciseTrackProvider();
   final _nutritionProvider = MealNutritionTrackProvider();
   final _waterProvider = WaterTrackProvider();
+  final _weightProvider = WeightTrackerProvider();
 
   // ------------------------ Exercise Track ------------------------ //
   Rx<int> exerciseMinutesWeekly = 0.obs;
@@ -154,7 +157,30 @@ class ProfileController extends GetxController {
   // ------------------------ Water Track ------------------------ //
 
   // ------------------------ Weight Track ------------------------ //
+  Rx<DateTimeRange> weightDateRange = defaultDateTime.obs;
+  RxList<WeightTracker> allWeightTracks = <WeightTracker>[].obs;
 
+  Rx<String> get weightStartDateStr =>
+      '${weightDateRange.value.start.day}/${weightDateRange.value.start.month}/${weightDateRange.value.start.year}'
+          .obs;
+  Rx<String> get weightEndDateStr =>
+      '${weightDateRange.value.end.day}/${weightDateRange.value.end.month}/${weightDateRange.value.end.year}'
+          .obs;
+
+  Map<DateTime, double> get weightTrackList {
+    allWeightTracks.sort((x, y) {
+      return x.date.compareTo(y.date);
+    });
+    return allWeightTracks.isEmpty
+        ? {
+            DateTime.parse('2022/11/2'): 0,
+          }
+        : {for (var e in allWeightTracks) e.date: e.weight.toDouble()};
+  }
+
+  Future<void> loadWeightTracks() async {
+    allWeightTracks.value = await _weightProvider.fetchAll();
+  }
   // ------------------------ Weight Track ------------------------ //
 
   @override
@@ -163,5 +189,6 @@ class ProfileController extends GetxController {
     await loadExerciseTracks();
     await loadNutritionTracks();
     await loadWaterTracks();
+    await loadWeightTracks();
   }
 }

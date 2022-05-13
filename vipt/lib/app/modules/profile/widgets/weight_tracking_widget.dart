@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/modules/profile/profile_controller.dart';
 import 'package:vipt/app/modules/profile/widgets/range_picker_dialog.dart';
 import 'package:vipt/app/modules/profile/widgets/statistic_line_chart.dart';
 
@@ -18,6 +20,8 @@ class WeightTrackingWidget extends StatelessWidget {
     '2022/03/15': 79.5,
     '2022/01/16': 82,
   };
+
+  final _controller = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,19 +43,22 @@ class WeightTrackingWidget extends StatelessWidget {
           const SizedBox(
             height: 24,
           ),
-        StatisticLineChart(
-          values: values,
-          title: "Tuần 09/05/22 - 15/05/22",
-          description: "Cân nặng (kg)",
-          onPressHandler: () async {
-            final result = await showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return const RangePickerDialog();
-              },
-            );
-            print(result);
-          },
+        Obx(
+          () => StatisticLineChart(
+            values: _controller.weightTrackList,
+            title:
+                "Tuần ${_controller.weightStartDateStr} - ${_controller.weightEndDateStr}",
+            description: "Cân nặng (kg)",
+            onPressHandler: () async {
+              final result = await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const RangePickerDialog();
+                },
+              );
+              print(result);
+            },
+          ),
         ),
       ],
     );
