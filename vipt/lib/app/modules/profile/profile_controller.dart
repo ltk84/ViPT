@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/data/models/exercise_tracker.dart';
+import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
 import 'package:vipt/app/data/providers/exercise_track_provider.dart';
 
 // TODO: giải quyết vấn đề chuyển tab không reload data
@@ -14,10 +15,11 @@ class ProfileController extends GetxController {
 
   final _exerciseProvider = ExerciseTrackProvider();
 
+  // ------------------------ Exercise Track ------------------------ //
   Rx<int> exerciseMinutesWeekly = 0.obs;
   Rx<int> exerciseCaloriesWeekly = 0.obs;
   RxList<List<ExerciseTracker>> exerciseTracksWeekly =
-      <List<ExerciseTracker>>[].obs;
+      <List<ExerciseTracker>>[[], [], [], [], [], [], []].obs;
   Rx<DateTimeRange> exerciseDateRange = defaultDateTime.obs;
 
   Rx<String> get startDateStr =>
@@ -26,15 +28,25 @@ class ProfileController extends GetxController {
   Rx<String> get endDateStr =>
       '${exerciseDateRange.value.end.day}/${exerciseDateRange.value.end.month}/${exerciseDateRange.value.end.year}'
           .obs;
-  RxList<int> get exerciseCaloList {
-    return List<int>.generate(exerciseTracksWeekly.length, (index) {
+  List<int> get exerciseCaloList {
+    List<int> list = List<int>.generate(exerciseTracksWeekly.length, (index) {
       int count = 0;
       for (var element in exerciseTracksWeekly[index]) {
         count += element.outtakeCalories;
       }
       return count;
-    }).obs;
+    });
+    list.add(1);
+    return list;
   }
+  // ------------------------ Exercise Track ------------------------ //
+
+// ------------------------ Nutrition Track ------------------------ //
+  Rx<int> nutritionCaloWeekly = 0.obs;
+  RxList<List<MealNutritionTracker>> nutritionTracksWeekly =
+      <List<MealNutritionTracker>>[].obs;
+
+  // ------------------------ Nutrition Track ------------------------ //
 
   @override
   void onInit() async {
@@ -42,6 +54,7 @@ class ProfileController extends GetxController {
     await loadExerciseTracks();
   }
 
+  // ------------------------ Exercise Track ------------------------ //
   Future<void> changeExerciseDateRange(
       DateTime startDate, DateTime endDate) async {
     exerciseDateRange.value = DateTimeRange(start: startDate, end: endDate);
@@ -51,7 +64,6 @@ class ProfileController extends GetxController {
   Future<void> loadExerciseTracks() async {
     exerciseCaloriesWeekly.value = 0;
     exerciseMinutesWeekly.value = 0;
-    exerciseTracksWeekly.clear();
 
     for (int i = 0; i < 7; i++) {
       var exerciseTracks = await _exerciseProvider
@@ -60,7 +72,12 @@ class ProfileController extends GetxController {
         exerciseCaloriesWeekly.value += element.outtakeCalories;
         exerciseMinutesWeekly.value += element.totalTime;
       }
-      exerciseTracksWeekly.add(exerciseTracks);
+      exerciseTracksWeekly[i] = exerciseTracks;
     }
   }
+  // ------------------------ Exercise Track ------------------------ //
+
+  // ------------------------ Nutrition Track ------------------------ //
+  // ------------------------ Nutrition Track ------------------------ //
+
 }

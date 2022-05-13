@@ -13,7 +13,7 @@ class WeeklyExerciseWidget extends StatelessWidget {
 
   final _controller = Get.find<ProfileController>();
 
-  final List<int> values = [110, 220, 220, 110, 20, 30, 0];
+  final List<int> values = [0, 00, 00, 00, 00, 00, 0, 1];
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class WeeklyExerciseWidget extends StatelessWidget {
         Obx(
           () => StatisticBarChart(
             //TODO: loi khi values toan so 0
-            values: values,
+            values: _controller.exerciseCaloList,
             title:
                 "Tuần ${_controller.startDateStr.value} - ${_controller.endDateStr.value}",
             description: "Lượng calories tiêu hao (kcal)",
@@ -62,7 +62,9 @@ class WeeklyExerciseWidget extends StatelessWidget {
               DatePeriod? result = await showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return const WeekPickerDialog();
+                  return WeekPickerDialog(
+                    selectedDate: _controller.exerciseDateRange.value.start,
+                  );
                 },
               );
               if (result != null) {
