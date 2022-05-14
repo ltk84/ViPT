@@ -45,6 +45,7 @@ class WeightTrackingWidget extends StatelessWidget {
           ),
         Obx(
           () => StatisticLineChart(
+            dateRange: _controller.weightDateRange.value,
             values: _controller.weightTrackList,
             title:
                 "Tuần ${_controller.weightStartDateStr} - ${_controller.weightEndDateStr}",

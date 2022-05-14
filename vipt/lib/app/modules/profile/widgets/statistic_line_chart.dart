@@ -8,6 +8,7 @@ import 'package:vipt/app/core/values/colors.dart';
 class StatisticLineChart extends StatelessWidget {
   final Map<DateTime, double> values;
 
+  final DateTimeRange dateRange;
   final String? title;
   final String? description;
   final Color? foregroundColor;
@@ -29,18 +30,20 @@ class StatisticLineChart extends StatelessWidget {
       this.descriptionColor,
       this.borderColor,
       this.gradient,
-      this.onPressHandler})
+      this.onPressHandler,
+      required this.dateRange})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    DatePeriod datePeriod =
-        DatePeriod(values.entries.first.key, values.entries.last.key);
-    int dateDiff = datePeriod.end.difference(datePeriod.start).inDays;
-
-    List<double> intValues = values.entries.map((e) => e.value).toList();
-    double maximum = (intValues.reduce(max) + 1).toDouble();
-    double minimum = (intValues.reduce(min) - 1).toDouble();
+    int dateDiff = dateRange.end.difference(dateRange.start).inDays;
+    double maximum = 1;
+    double minimum = 0;
+    if (values.isNotEmpty) {
+      List<double> intValues = values.entries.map((e) => e.value).toList();
+      maximum = (intValues.reduce(max) + 1).toDouble();
+      minimum = (intValues.reduce(min) - 1).toDouble();
+    }
     List<Color> gradientColors =
         gradient ?? AppColor.weightTrackingGradientColors;
 
@@ -50,9 +53,9 @@ class StatisticLineChart extends StatelessWidget {
           color: foregroundColor ?? AppColor.weightTrackingForegroundColor);
       Widget text;
       String dateFormatStart =
-          '${datePeriod.start.day}/${datePeriod.start.month}/${datePeriod.start.year}';
+          '${dateRange.start.day}/${dateRange.start.month}/${dateRange.start.year}';
       String dateFormatEnd =
-          '${datePeriod.end.day}/${datePeriod.end.month}/${datePeriod.end.year}';
+          '${dateRange.end.day}/${dateRange.end.month}/${dateRange.end.year}';
 
       if (value.toInt() == 0) {
         text = Text(dateFormatStart, style: style);
@@ -81,18 +84,24 @@ class StatisticLineChart extends StatelessWidget {
     List<FlSpot> getFlSpot() {
       List<FlSpot> results = [];
 
-      values.forEach((k, v) {
-        try {
-          double x = k.difference(datePeriod.start).inDays.toDouble();
-          double y = v.toDouble();
+      if (values.isNotEmpty) {
+        values.forEach((k, v) {
+          try {
+            double x = k.difference(dateRange.start).inDays.toDouble();
+            double y = v.toDouble();
 
-          results.add(
-            FlSpot(x, y),
-          );
-        } catch (e) {
-          print(e);
-        }
-      });
+            results.add(
+              FlSpot(x, y),
+            );
+          } catch (e) {
+            print(e);
+          }
+        });
+      } else {
+        results.add(const FlSpot(0, 0));
+        results.add(FlSpot(
+            dateRange.end.difference(dateRange.start).inDays.toDouble(), 0));
+      }
       results.sort((a, b) => a.x.compareTo(b.x));
       return results;
     }

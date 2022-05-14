@@ -171,11 +171,8 @@ class ProfileController extends GetxController {
     allWeightTracks.sort((x, y) {
       return x.date.compareTo(y.date);
     });
-    return allWeightTracks.isEmpty
-        ? {
-            DateTime.parse('2022/11/2'): 0,
-          }
-        : {for (var e in allWeightTracks) e.date: e.weight.toDouble()};
+
+    return {for (var e in allWeightTracks) e.date: e.weight.toDouble()};
   }
 
   Future<void> loadWeightTracks() async {
