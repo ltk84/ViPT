@@ -63,5 +63,12 @@ class DatabaseProvider {
         protein INTEGER,
         fat INTEGER)
     ''');
+
+    db.execute('''
+      CREATE TABLE ${AppValue.weightTrackTable}(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        date TEXT,
+        weight INTEGER)
+    ''');
   }
 }

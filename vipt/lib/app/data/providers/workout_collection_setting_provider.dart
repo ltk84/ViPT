@@ -37,7 +37,6 @@ class WorkoutCollectionSettingProvider
 
   @override
   Future<List<CollectionSetting>> fetchAll() {
-    // TODO: implement fetchAll
     throw UnimplementedError();
   }
 }

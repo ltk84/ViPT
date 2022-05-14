@@ -19,13 +19,11 @@ class MealCollectionProvider implements Firestoration<String, MealCollection> {
 
   @override
   Future<String> delete(String id) {
-    // TODO: implement delete
     throw UnimplementedError();
   }
 
   @override
   Future<MealCollection> fetch(String id) {
-    // TODO: implement fetch
     throw UnimplementedError();
   }
 
@@ -44,7 +42,6 @@ class MealCollectionProvider implements Firestoration<String, MealCollection> {
 
   @override
   Future<MealCollection> update(String id, MealCollection obj) {
-    // TODO: implement update
     throw UnimplementedError();
   }
 }

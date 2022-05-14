@@ -26,7 +26,6 @@ class MealProvider implements Firestoration<String, Meal> {
 
   @override
   Future<String> delete(String id) {
-    // TODO: implement delete
     throw UnimplementedError();
   }
 
@@ -61,7 +60,6 @@ class MealProvider implements Firestoration<String, Meal> {
 
   @override
   Future<Meal> update(String id, Meal obj) {
-    // TODO: implement update
     throw UnimplementedError();
   }
 }

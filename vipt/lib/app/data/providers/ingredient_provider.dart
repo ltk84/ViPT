@@ -27,7 +27,6 @@ class IngredientProvider implements Firestoration<String, Ingredient> {
 
   @override
   Future<String> delete(String id) {
-    // TODO: implement delete
     throw UnimplementedError();
   }
 

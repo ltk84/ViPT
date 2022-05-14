@@ -3,12 +3,10 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_date_pickers/flutter_date_pickers.dart';
-import 'package:intl/intl.dart';
 import 'package:vipt/app/core/values/colors.dart';
-import 'package:vipt/app/modules/profile/widgets/range_picker_dialog.dart';
 
 class StatisticLineChart extends StatelessWidget {
-  final Map<String, double> values;
+  final Map<DateTime, double> values;
 
   final String? title;
   final String? description;
@@ -17,6 +15,7 @@ class StatisticLineChart extends StatelessWidget {
   final Color? titleColor;
   final Color? borderColor;
   final List<Color>? gradient;
+  final Function()? onPressHandler;
 
   final Color? descriptionColor;
   const StatisticLineChart(
@@ -29,11 +28,16 @@ class StatisticLineChart extends StatelessWidget {
       this.description,
       this.descriptionColor,
       this.borderColor,
-      this.gradient})
+      this.gradient,
+      this.onPressHandler})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    DatePeriod datePeriod =
+        DatePeriod(values.entries.first.key, values.entries.last.key);
+    int dateDiff = datePeriod.end.difference(datePeriod.start).inDays;
+
     List<double> intValues = values.entries.map((e) => e.value).toList();
     double maximum = (intValues.reduce(max) + 1).toDouble();
     double minimum = (intValues.reduce(min) - 1).toDouble();
@@ -42,21 +46,20 @@ class StatisticLineChart extends StatelessWidget {
 
     Widget getBotomTitles(double value, TitleMeta meta) {
       TextStyle? style = Theme.of(context).textTheme.headline5!.copyWith(
+          fontSize: 14,
           color: foregroundColor ?? AppColor.weightTrackingForegroundColor);
       Widget text;
-      switch (value.toInt()) {
-        case 0:
-          text = Text('Th1', style: style);
-          break;
-        case 5:
-          text = Text('Th6', style: style);
-          break;
-        case 11:
-          text = Text('Th12', style: style);
-          break;
-        default:
-          text = Text('', style: style);
-          break;
+      String dateFormatStart =
+          '${datePeriod.start.day}/${datePeriod.start.month}/${datePeriod.start.year}';
+      String dateFormatEnd =
+          '${datePeriod.end.day}/${datePeriod.end.month}/${datePeriod.end.year}';
+
+      if (value.toInt() == 0) {
+        text = Text(dateFormatStart, style: style);
+      } else if (value.toInt() == dateDiff) {
+        text = Text(dateFormatEnd, style: style);
+      } else {
+        text = Text('', style: style);
       }
       return Padding(padding: const EdgeInsets.only(top: 16), child: text);
     }
@@ -73,6 +76,25 @@ class StatisticLineChart extends StatelessWidget {
         text = Text('', style: style);
       }
       return Padding(padding: const EdgeInsets.only(left: 8), child: text);
+    }
+
+    List<FlSpot> getFlSpot() {
+      List<FlSpot> results = [];
+
+      values.forEach((k, v) {
+        try {
+          double x = k.difference(datePeriod.start).inDays.toDouble();
+          double y = v.toDouble();
+
+          results.add(
+            FlSpot(x, y),
+          );
+        } catch (e) {
+          print(e);
+        }
+      });
+      results.sort((a, b) => a.x.compareTo(b.x));
+      return results;
     }
 
     return AspectRatio(
@@ -122,15 +144,7 @@ class StatisticLineChart extends StatelessWidget {
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(5),
                     child: InkWell(
-                      onTap: () async {
-                        final result = await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return const RangePickerDialog();
-                          },
-                        );
-                        print(result);
-                      },
+                      onTap: onPressHandler,
                       borderRadius: BorderRadius.circular(5),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -150,7 +164,7 @@ class StatisticLineChart extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(
-                    right: 16,
+                    right: 36,
                   ),
                   child: LineChart(
                     LineChartData(
@@ -188,7 +202,7 @@ class StatisticLineChart extends StatelessWidget {
                                   AppColor.weightTrackingBorderColor,
                               width: 1)),
                       minX: 0,
-                      maxX: 11,
+                      maxX: dateDiff.toDouble(),
                       minY: minimum,
                       maxY: maximum,
                       lineBarsData: [
@@ -203,7 +217,7 @@ class StatisticLineChart extends StatelessWidget {
                           barWidth: 5,
                           isStrokeCapRound: true,
                           dotData: FlDotData(
-                            show: false,
+                            show: true,
                           ),
                           belowBarData: BarAreaData(
                             show: true,
@@ -226,28 +240,5 @@ class StatisticLineChart extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  List<FlSpot> getFlSpot() {
-    List<FlSpot> results = [];
-
-    values.forEach((k, v) {
-      try {
-        DateFormat format = DateFormat("yyyy/MM/dd");
-        DateTime date = format.parse(k);
-        double x = (date.month - 1).toDouble() +
-            date.day.toDouble() /
-                DateUtils.getDaysInMonth(date.year, date.month).toDouble();
-        double y = v.toDouble();
-
-        results.add(
-          FlSpot(x, y),
-        );
-      } catch (e) {
-        print(e);
-      }
-    });
-    results.sort((a, b) => a.x.compareTo(b.x));
-    return results;
   }
 }

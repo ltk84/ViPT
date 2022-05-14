@@ -54,7 +54,7 @@ class DishIngredientsWidget extends StatelessWidget {
             amount: ingredients.values.elementAt(i).toString(),
             onAmountPressed: enableEdittingAmount
                 ? () async {
-                    final result = await showDialog(
+                    await showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return InputAmountDialog(

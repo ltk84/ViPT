@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/modules/profile/profile_controller.dart';
 import 'package:vipt/app/modules/profile/widgets/progress_image_widget.dart';
 import 'package:vipt/app/modules/profile/widgets/weekly_exercise_widget.dart';
 import 'package:vipt/app/modules/profile/widgets/weekly_nutrition_widget.dart';
@@ -11,7 +13,9 @@ import 'package:vipt/app/modules/profile/widgets/weekly_water_widget.dart';
 import 'package:vipt/app/modules/profile/widgets/weight_tracking_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  ProfileScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {

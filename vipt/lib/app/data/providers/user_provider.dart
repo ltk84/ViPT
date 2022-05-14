@@ -39,7 +39,6 @@ class UserProvider implements Firestoration<String, ViPTUser> {
 
   @override
   Future<List<ViPTUser>> fetchAll() {
-    // TODO: implement fetchAll
     throw UnimplementedError();
   }
 }

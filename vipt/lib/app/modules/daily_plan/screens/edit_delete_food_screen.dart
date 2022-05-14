@@ -9,8 +9,6 @@ import 'package:vipt/app/global_widgets/info_cube_widget.dart';
 import 'package:vipt/app/modules/daily_plan/edit_delete_local_meal_controller.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/input_amount_dialog.dart';
 
-import '../add_local_meal_controller.dart';
-
 class EditDeleteFoodScreen extends StatelessWidget {
   EditDeleteFoodScreen({Key? key}) : super(key: key);
 

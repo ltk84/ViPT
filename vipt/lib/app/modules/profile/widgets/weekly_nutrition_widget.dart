@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_date_pickers/flutter_date_pickers.dart';
+import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/modules/profile/profile_controller.dart';
 import 'package:vipt/app/modules/profile/widgets/statistic_bar_chart.dart';
+import 'package:vipt/app/modules/profile/widgets/week_picker_dialog.dart';
 
 class WeeklyNutritionWidget extends StatelessWidget {
   WeeklyNutritionWidget({Key? key}) : super(key: key);
@@ -14,6 +18,8 @@ class WeeklyNutritionWidget extends StatelessWidget {
     0,
     200,
   ];
+
+  final _controller = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,20 +42,39 @@ class WeeklyNutritionWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _buildExtraInfo(context, title: 'calories hấp thụ', value: '200'),
+            Obx(() => _buildExtraInfo(context,
+                title: 'calories hấp thụ',
+                value: _controller.nutritionCaloWeekly.value.toString())),
           ],
         ),
         const SizedBox(
           height: 24,
         ),
-        StatisticBarChart(
-          values: values,
-          title: "Tuần 09/05/22 - 15/05/22",
-          description: "Lượng calories hấp thụ (kcal)",
-          titleColor: AppColor.statisticNutritionTitleColor,
-          descriptionColor: AppColor.statisticNutritionDescriptionColor,
-          backgroundColor: AppColor.statisticNutritionBackgroundColor,
-          emptyBarColor: AppColor.statisticNutritionBarColor,
+        Obx(
+          () => StatisticBarChart(
+            values: _controller.nutritionCaloList,
+            title:
+                "Tuần ${_controller.nutritionStartDateStr.value} - ${_controller.nutritionEndDateStr.value}",
+            description: "Lượng calories hấp thụ (kcal)",
+            titleColor: AppColor.statisticNutritionTitleColor,
+            descriptionColor: AppColor.statisticNutritionDescriptionColor,
+            backgroundColor: AppColor.statisticNutritionBackgroundColor,
+            emptyBarColor: AppColor.statisticNutritionBarColor,
+            onPressHandler: () async {
+              DatePeriod? result = await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return WeekPickerDialog(
+                    selectedDate: _controller.nutritionDateRange.value.start,
+                  );
+                },
+              );
+              if (result != null) {
+                await _controller.changeNutritionDateChange(
+                    result.start, result.end);
+              }
+            },
+          ),
         ),
       ],
     );
