@@ -1,5 +1,6 @@
 import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/workout.dart';
+import 'package:vipt/app/enums/app_enums.dart';
 
 class WorkoutCollectionUtils {
   static double calculateCalo(
@@ -45,5 +46,24 @@ class SessionUtils {
       int time, num metValue, num bodyWeight) {
     double caloValue = ((time / 60) * metValue * bodyWeight * 3.5) / 200;
     return caloValue;
+  }
+}
+
+class StepTrackerUtils {
+  static double calculateDistanceInMeterWithFootStep(
+      int footStepCount, int userHeight, HeightUnit heightUnit, Gender gender) {
+    const double centiToMeterMetric = 0.01;
+    const double feetToMeterMetric = 0.3048;
+    const double calDistanceMetricForMale = 0.46;
+    const double calDistanceMetricForFemale = 0.45;
+
+    double userHeightInMeter = heightUnit == HeightUnit.cm
+        ? userHeight * centiToMeterMetric
+        : userHeight * feetToMeterMetric;
+
+    double selectedMetric = gender == Gender.male
+        ? calDistanceMetricForMale
+        : calDistanceMetricForFemale;
+    return userHeightInMeter * selectedMetric * footStepCount;
   }
 }

@@ -70,5 +70,12 @@ class DatabaseProvider {
         date TEXT,
         weight INTEGER)
     ''');
+
+    db.execute('''
+      CREATE TABLE ${AppValue.stepTrackTable}(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        date TEXT,
+        stepCount INTEGER)
+    ''');
   }
 }
