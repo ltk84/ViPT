@@ -10,14 +10,6 @@ import 'package:vipt/app/modules/library/screens/library_screen.dart';
 import 'package:vipt/app/modules/profile/screens/profile_screen.dart';
 import 'package:vipt/app/modules/workout_plan/screens/workout_plan_screen.dart';
 
-int calcuateSum(List<int> values) {
-  int sum = 0;
-  for (int x in values) {
-    sum += x;
-  }
-  return sum;
-}
-
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
@@ -59,8 +51,9 @@ class HomeScreen extends StatelessWidget {
   }
 
   List<Widget> _buildScreens() {
+    print('build screen');
     return [
-      const WorkoutPlanScreen(),
+      WorkoutPlanScreen(),
       DailyPlanScreen(),
       LibraryScreen(),
       ProfileScreen(),

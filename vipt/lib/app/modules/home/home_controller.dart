@@ -7,19 +7,19 @@ import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/daily_plan/daily_plan_controller.dart';
 import 'package:vipt/app/modules/library/library_controller.dart';
 import 'package:vipt/app/modules/profile/profile_controller.dart';
+import 'package:vipt/app/modules/workout_plan/workout_plan_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class HomeController extends GetxController {
   @override
   Future<void> onInit() async {
-    _initControllerForTabs();
-    // await Future.delayed(Duration(seconds: 2));
-    await DataService.instance.loadUserData();
-
+    await _initControllerForTabs();
     super.onInit();
   }
 
-  void _initControllerForTabs() {
+  Future<void> _initControllerForTabs() async {
+    print('init controllers');
+    Get.lazyPut(() => WorkoutPlanController());
     Get.lazyPut(() => LibraryController());
     Get.lazyPut(() => ProfileController());
     Get.lazyPut(() => DailyPlanController());

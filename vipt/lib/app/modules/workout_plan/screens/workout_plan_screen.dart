@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/weight_tracker.dart';
@@ -14,9 +15,13 @@ import 'package:vipt/app/modules/workout_plan/widgets/plan_tab_holder.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/progress_info_widget.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/shortcut_button.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/weight_info_widget.dart';
+import 'package:vipt/app/modules/workout_plan/workout_plan_controller.dart';
 
 class WorkoutPlanScreen extends StatelessWidget {
-  const WorkoutPlanScreen({Key? key}) : super(key: key);
+  WorkoutPlanScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.find<WorkoutPlanController>();
+
   @override
   Widget build(BuildContext context) {
     double bodyHeight = MediaQuery.of(context).size.height -

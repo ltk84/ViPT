@@ -72,6 +72,7 @@ class DataService {
   }
 
   loadUserData() async {
+    print('load user data');
     currentUser =
         await _userProvider.fetch(AuthService.instance.currentUser!.uid);
   }

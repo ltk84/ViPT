@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_date_pickers/flutter_date_pickers.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/profile/profile_controller.dart';
 import 'package:vipt/app/modules/profile/widgets/statistic_bar_chart.dart';
+import 'package:vipt/app/modules/profile/widgets/week_picker_dialog.dart';
 
 class WeeklyStepWidget extends StatelessWidget {
   WeeklyStepWidget({Key? key}) : super(key: key);
@@ -57,6 +59,20 @@ class WeeklyStepWidget extends StatelessWidget {
             descriptionColor: AppColor.statisticStepDescriptionColor,
             backgroundColor: AppColor.statisticStepBackgroundColor,
             emptyBarColor: AppColor.statisticStepBarColor,
+            onPressHandler: () async {
+              DatePeriod? result = await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return WeekPickerDialog(
+                    selectedDate: _controller.waterDateRange.value.start,
+                  );
+                },
+              );
+              if (result != null) {
+                await _controller.changeStepDateChange(
+                    result.start, result.end);
+              }
+            },
           ),
         ),
       ],

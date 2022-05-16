@@ -72,8 +72,6 @@ class DailyStepController extends GetxController with TrackerController {
     }
 
     steps.value = event.steps - savedSteps;
-    print('count step daily');
-    print("step: " + steps.value.toString());
 
     _calculateDistanceWithFootStep(steps.value);
   }
@@ -90,7 +88,6 @@ class DailyStepController extends GetxController with TrackerController {
   }
 
   Future<void> updateDailyStepTrackToDB() async {
-    print('update to db: ' + steps.value.toString());
     final _prefs = await prefs;
     String? lastDateStr = _prefs.getString(lastDateSaved);
 
