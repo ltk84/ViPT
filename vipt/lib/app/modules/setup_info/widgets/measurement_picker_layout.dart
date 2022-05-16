@@ -13,6 +13,7 @@ class MeasurementPickerLayout extends StatelessWidget {
     required this.onUnitChanged,
     required this.primaryUnitSymbol,
     required this.secondaryUnitSymbol,
+    this.isFullScreen = true,
   }) : super(key: key);
 
   final int? toggleValueForMeasureLayout;
@@ -20,32 +21,50 @@ class MeasurementPickerLayout extends StatelessWidget {
   final Function(int?) onUnitChanged;
   final String primaryUnitSymbol;
   final String secondaryUnitSymbol;
+  final bool isFullScreen;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 40),
-      alignment: Alignment.center,
-      child: _buildMeasurementField(
+    if (isFullScreen) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 40),
+        alignment: Alignment.center,
+        child: _buildMeasurementField(
+          context,
+          primaryUnit: primaryUnitSymbol,
+          initalValue: toggleValueForMeasureLayout,
+          secondaryUnit: secondaryUnitSymbol,
+          textFieldController: textFieldControllerForMeasureLayout,
+          onUnitChanged: onUnitChanged,
+          isFullScreen: isFullScreen,
+        ),
+      );
+    } else {
+      return _buildMeasurementField(
         context,
         primaryUnit: primaryUnitSymbol,
         initalValue: toggleValueForMeasureLayout,
         secondaryUnit: secondaryUnitSymbol,
         textFieldController: textFieldControllerForMeasureLayout,
         onUnitChanged: onUnitChanged,
-      ),
-    );
+        isFullScreen: isFullScreen,
+      );
+    }
   }
 }
 
 // Hàm build các field nhập chỉ số đo lường như cân nặng, chiều cao.
-Widget _buildMeasurementField(context,
-    {required String primaryUnit,
-    required String secondaryUnit,
-    required int? initalValue,
-    required TextEditingController textFieldController,
-    required Function(int?) onUnitChanged}) {
+Widget _buildMeasurementField(
+  context, {
+  required String primaryUnit,
+  required String secondaryUnit,
+  required int? initalValue,
+  required TextEditingController textFieldController,
+  required Function(int?) onUnitChanged,
+  required bool isFullScreen,
+}) {
   return Column(
+    mainAxisSize: isFullScreen ? MainAxisSize.max : MainAxisSize.min,
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       CupertinoSlidingSegmentedControl(

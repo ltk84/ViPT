@@ -57,8 +57,8 @@ class WeightTrackingWidget extends StatelessWidget {
                 builder: (BuildContext context) {
                   return RangePickerDialog(
                     selectedPeriod: DatePeriod(
-                        _controller.waterDateRange.value.start,
-                        _controller.waterDateRange.value.end),
+                        _controller.weightDateRange.value.start,
+                        _controller.weightDateRange.value.end),
                   );
                 },
               );

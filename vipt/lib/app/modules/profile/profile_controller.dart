@@ -19,7 +19,7 @@ class ProfileController extends GetxController {
   static final DateTime _lastDateOfWeek =
       _firstDateOfWeek.add(const Duration(days: 7));
   static final DateTimeRange defaultDateTime =
-      DateTimeRange(start: _firstDateOfWeek, end: _lastDateOfWeek);
+      DateTimeRange(start: _firstDateOfWeek, end: DateTime.now());
 
   final _exerciseProvider = ExerciseTrackProvider();
   final _nutritionProvider = MealNutritionTrackProvider();

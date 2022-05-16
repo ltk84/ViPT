@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vipt/app/core/values/app_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/modules/setup_info/widgets/measurement_picker_layout.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/expandable_widget.dart';
 import 'package:vipt/app/modules/workout_plan/workout_plan_controller.dart';
 
@@ -127,7 +129,50 @@ class _WeightInfoWidgetState extends State<WeightInfoWidget> {
                     color: AppColor.logWeightButtonColor,
                     child: InkWell(
                       borderRadius: BorderRadius.circular(5),
-                      onTap: () {},
+                      onTap: () async {
+                        await showDialog(
+                            context: context,
+                            builder: (_) {
+                              TextEditingController weightEditingController =
+                                  TextEditingController(
+                                      text: _controller.currentWeight.value
+                                          .toString());
+                              return Material(
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child: TextField(
+                                    style:
+                                        Theme.of(context).textTheme.bodyText2,
+                                    controller: weightEditingController,
+                                    textAlign: TextAlign.center,
+                                    keyboardType: TextInputType.number,
+                                    onSubmitted: (value) async {
+                                      await _controller.logWeight(value);
+                                      Get.back();
+                                    },
+                                    decoration: InputDecoration(
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                      filled: true,
+                                      hintText: 'Điền vào đây'.tr,
+                                      hintStyle:
+                                          Theme.of(context).textTheme.subtitle2,
+                                      fillColor: AppColor.textFieldFill,
+                                      border: const OutlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            topRight: Radius.circular(10),
+                                            bottomLeft: Radius.circular(28),
+                                            bottomRight: Radius.circular(28),
+                                          )),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            });
+                      },
                       child: Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(

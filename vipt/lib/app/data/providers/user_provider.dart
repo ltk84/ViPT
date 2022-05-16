@@ -25,8 +25,9 @@ class UserProvider implements Firestoration<String, ViPTUser> {
   }
 
   @override
-  Future<ViPTUser> update(String id, ViPTUser obj) {
-    throw UnimplementedError();
+  Future<ViPTUser> update(String id, ViPTUser obj) async {
+    await _firestore.collection(collectionPath).doc(id).update(obj.toMap());
+    return obj;
   }
 
   @override

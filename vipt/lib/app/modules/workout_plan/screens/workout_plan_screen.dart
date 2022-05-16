@@ -20,7 +20,7 @@ import 'package:vipt/app/modules/workout_plan/workout_plan_controller.dart';
 class WorkoutPlanScreen extends StatelessWidget {
   WorkoutPlanScreen({Key? key}) : super(key: key);
 
-  final _controller = Get.find<WorkoutPlanController>();
+  // final _controller = Get.find<WorkoutPlanController>();
 
   @override
   Widget build(BuildContext context) {
@@ -105,8 +105,8 @@ class WorkoutPlanScreen extends StatelessWidget {
                           child: ShortcutButton(
                             onPressed: () {
                               // test
-                              WeightTrackerProvider().add(WeightTracker(
-                                  date: DateTime(2022, 5, 1), weight: 78));
+                              // WeightTrackerProvider().add(WeightTracker(
+                              //     date: DateTime(2022, 5, 10), weight: 85));
                             },
                             title: 'Luyện tập',
                             icon: SvgPicture.asset(
