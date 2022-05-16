@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/modules/profile/profile_controller.dart';
 import 'package:vipt/app/modules/profile/widgets/statistic_bar_chart.dart';
 
 class WeeklyStepWidget extends StatelessWidget {
@@ -13,6 +15,8 @@ class WeeklyStepWidget extends StatelessWidget {
     0,
     200,
   ];
+
+  final _controller = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,20 +39,25 @@ class WeeklyStepWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _buildExtraInfo(context, title: 'bước chân', value: '15000'),
+            Obx(() => _buildExtraInfo(context,
+                title: 'bước chân',
+                value: _controller.stepCountWeekly.value.toString())),
           ],
         ),
         const SizedBox(
           height: 24,
         ),
-        StatisticBarChart(
-          values: values,
-          title: "Tuần 09/05/22 - 15/05/22",
-          description: "Số bước chân",
-          titleColor: AppColor.statisticStepTitleColor,
-          descriptionColor: AppColor.statisticStepDescriptionColor,
-          backgroundColor: AppColor.statisticStepBackgroundColor,
-          emptyBarColor: AppColor.statisticStepBarColor,
+        Obx(
+          () => StatisticBarChart(
+            values: _controller.stepCountList,
+            title:
+                "Tuần ${_controller.stepStartDateStr} - ${_controller.stepEndDateStr}",
+            description: "Số bước chân",
+            titleColor: AppColor.statisticStepTitleColor,
+            descriptionColor: AppColor.statisticStepDescriptionColor,
+            backgroundColor: AppColor.statisticStepBackgroundColor,
+            emptyBarColor: AppColor.statisticStepBarColor,
+          ),
         ),
       ],
     );

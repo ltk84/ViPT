@@ -238,7 +238,7 @@ class SessionController extends GetxController {
       time = 0;
     }
 
-    num bodyWeight = DataService.currentUser.currentWeight;
+    num bodyWeight = DataService.currentUser!.currentWeight;
     caloConsumed += SessionUtils.calculateCaloOneWorkout(
         time, currentWorkout.metValue, bodyWeight);
   }

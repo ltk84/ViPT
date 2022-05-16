@@ -13,6 +13,7 @@ class HomeController extends GetxController {
   @override
   Future<void> onInit() async {
     _initControllerForTabs();
+    // await Future.delayed(Duration(seconds: 2));
     await DataService.instance.loadUserData();
 
     super.onInit();
