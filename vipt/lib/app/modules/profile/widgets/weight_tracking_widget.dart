@@ -63,7 +63,6 @@ class WeightTrackingWidget extends StatelessWidget {
                 },
               );
               if (result != null) {
-                print(result);
                 _controller.changeWeighDateRange(result.start, result.end);
               }
             },

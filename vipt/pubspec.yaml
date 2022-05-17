@@ -69,6 +69,7 @@ dependencies:
   flutter_scale_tap: ^1.0.5
   sqflite: ^2.0.2
   shared_preferences: ^2.0.14
+  image_picker: ^0.8.5+3
 
 dev_dependencies:
   flutter_test:

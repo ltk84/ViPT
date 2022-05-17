@@ -51,7 +51,6 @@ class HomeScreen extends StatelessWidget {
   }
 
   List<Widget> _buildScreens() {
-    print('build screen');
     return [
       WorkoutPlanScreen(),
       DailyPlanScreen(),

@@ -19,7 +19,10 @@ class ProfileController extends GetxController {
   static final DateTime _lastDateOfWeek =
       _firstDateOfWeek.add(const Duration(days: 7));
   static final DateTimeRange defaultDateTime =
+      DateTimeRange(start: _firstDateOfWeek, end: _lastDateOfWeek);
+  static final DateTimeRange defaultWeightDateRange =
       DateTimeRange(start: _firstDateOfWeek, end: DateTime.now());
+  static const String defaultImageStr = '';
 
   final _exerciseProvider = ExerciseTrackProvider();
   final _nutritionProvider = MealNutritionTrackProvider();
@@ -163,7 +166,7 @@ class ProfileController extends GetxController {
   // ------------------------ Water Track ------------------------ //
 
   // ------------------------ Weight Track ------------------------ //
-  Rx<DateTimeRange> weightDateRange = defaultDateTime.obs;
+  Rx<DateTimeRange> weightDateRange = defaultWeightDateRange.obs;
   RxList<WeightTracker> allWeightTracks = <WeightTracker>[].obs;
   Map<DateTime, double> defaultMap = {
     DateTime(2022, 1, 1): -1,
@@ -270,6 +273,21 @@ class ProfileController extends GetxController {
   }
 
   // ------------------------ Step Track ------------------------ //
+
+  // ------------------------ Image Before - After ------------------------ //
+
+  RxString beforeImagePath = defaultImageStr.obs;
+  RxString afterImagePath = defaultImageStr.obs;
+
+  Future<void> pickBeforeImage(String path) async {
+    beforeImagePath.value = path;
+  }
+
+  Future<void> pickAfterImage(String path) async {
+    afterImagePath.value = path;
+  }
+
+  // ------------------------ Image Before - After ------------------------ //
 
   @override
   void onInit() async {

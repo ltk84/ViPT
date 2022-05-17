@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vipt/app/core/values/app_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
-import 'package:vipt/app/modules/setup_info/widgets/measurement_picker_layout.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/expandable_widget.dart';
 import 'package:vipt/app/modules/workout_plan/workout_plan_controller.dart';
 
@@ -95,10 +93,8 @@ class _WeightInfoWidgetState extends State<WeightInfoWidget> {
                   ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
                     child: LinearProgressIndicator(
-                      value: _controller.currentWeight.value ==
-                              _controller.goalWeight.value
-                          ? 1
-                          : 0,
+                      value: _controller.currentWeight.value /
+                          _controller.goalWeight.value,
                       minHeight: 6,
                       backgroundColor: AppColor.textFieldUnderlineColor
                           .withOpacity(AppColor.subTextOpacity),

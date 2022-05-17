@@ -3,7 +3,6 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/data/models/vipt_user.dart';
 import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/data/services/auth_service.dart';
-import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/daily_plan/daily_plan_controller.dart';
 import 'package:vipt/app/modules/library/library_controller.dart';
 import 'package:vipt/app/modules/profile/profile_controller.dart';
@@ -18,7 +17,6 @@ class HomeController extends GetxController {
   }
 
   Future<void> _initControllerForTabs() async {
-    print('init controllers');
     Get.lazyPut(() => WorkoutPlanController());
     Get.lazyPut(() => LibraryController());
     Get.lazyPut(() => ProfileController());
