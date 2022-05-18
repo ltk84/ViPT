@@ -78,3 +78,5 @@ enum CategoryType {
   fitnessTool,
   none,
 }
+
+enum ImagePickerSource { gallery, camera }

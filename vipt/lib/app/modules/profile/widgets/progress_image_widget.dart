@@ -4,10 +4,13 @@ import 'package:before_after/before_after.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/enums/app_enums.dart';
 import 'package:vipt/app/modules/profile/profile_controller.dart';
 import 'package:vipt/app/modules/profile/widgets/camera_button.dart';
+import 'package:vipt/app/modules/profile/widgets/image_picker_dialog.dart';
 
 class ProgressImageWidget extends StatelessWidget {
   ProgressImageWidget({Key? key}) : super(key: key);
@@ -39,12 +42,20 @@ class ProgressImageWidget extends StatelessWidget {
               child: CameraButton(
                 title: 'Ảnh trước',
                 onPressed: () async {
-                  // TODO: mở dialog để chọn pick từ camera hoặc là từ gallery
-                  final ImagePicker _picker = ImagePicker();
-                  final XFile? image =
-                      await _picker.pickImage(source: ImageSource.gallery);
-                  if (image != null) {
-                    _controller.pickBeforeImage(image.path);
+                  final result = await _handlePickImage(context);
+                  if (result != null) {
+                    final ImagePicker _picker = ImagePicker();
+                    final XFile? image;
+                    if (result == ImagePickerSource.gallery) {
+                      image =
+                          await _picker.pickImage(source: ImageSource.gallery);
+                    } else {
+                      image =
+                          await _picker.pickImage(source: ImageSource.camera);
+                    }
+                    if (image != null) {
+                      _controller.pickBeforeImage(File(image.path));
+                    }
                   }
                 },
               ),
@@ -53,11 +64,20 @@ class ProgressImageWidget extends StatelessWidget {
               child: CameraButton(
                 title: 'Ảnh sau',
                 onPressed: () async {
-                  final ImagePicker _picker = ImagePicker();
-                  final XFile? image =
-                      await _picker.pickImage(source: ImageSource.gallery);
-                  if (image != null) {
-                    _controller.pickAfterImage(image.path);
+                  final result = await _handlePickImage(context);
+                  if (result != null) {
+                    final ImagePicker _picker = ImagePicker();
+                    final XFile? image;
+                    if (result == ImagePickerSource.gallery) {
+                      image =
+                          await _picker.pickImage(source: ImageSource.gallery);
+                    } else {
+                      image =
+                          await _picker.pickImage(source: ImageSource.camera);
+                    }
+                    if (image != null) {
+                      _controller.pickAfterImage(File(image.path));
+                    }
                   }
                 },
               ),
@@ -84,5 +104,14 @@ class ProgressImageWidget extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future<ImagePickerSource?> _handlePickImage(BuildContext context) async {
+    return await showModalBottomSheet<ImagePickerSource>(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (context) {
+          return const ImagePickerDialog();
+        });
   }
 }

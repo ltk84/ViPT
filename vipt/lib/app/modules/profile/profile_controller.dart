@@ -1,5 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vipt/app/core/values/app_strings.dart';
 import 'package:vipt/app/data/models/exercise_tracker.dart';
 import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
 import 'package:vipt/app/data/models/step_tracker.dart';
@@ -23,6 +29,10 @@ class ProfileController extends GetxController {
   static final DateTimeRange defaultWeightDateRange =
       DateTimeRange(start: _firstDateOfWeek, end: DateTime.now());
   static const String defaultImageStr = '';
+  static const String beforeImagePrefKey = 'beforeImage';
+  static const String afterImagePrefKey = 'afterImage';
+
+  final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
   final _exerciseProvider = ExerciseTrackProvider();
   final _nutritionProvider = MealNutritionTrackProvider();
@@ -279,12 +289,41 @@ class ProfileController extends GetxController {
   RxString beforeImagePath = defaultImageStr.obs;
   RxString afterImagePath = defaultImageStr.obs;
 
-  Future<void> pickBeforeImage(String path) async {
-    beforeImagePath.value = path;
+  Future<void> loadImagesFromApplicationFolder() async {
+    final _prefs = await prefs;
+    String? beforeImageSavedPath = _prefs.getString(beforeImagePrefKey);
+    if (beforeImageSavedPath != null) {
+      beforeImagePath.value = beforeImageSavedPath;
+    }
+
+    String? afterImageSavedPath = _prefs.getString(afterImagePrefKey);
+    if (afterImageSavedPath != null) {
+      afterImagePath.value = afterImageSavedPath;
+    }
   }
 
-  Future<void> pickAfterImage(String path) async {
-    afterImagePath.value = path;
+  Future<File> saveImagesToApplicationFolder(
+      String prefKey, File imageFile) async {
+    final appDocDir = await getApplicationDocumentsDirectory();
+    final String appDocPath = appDocDir.path;
+
+    final fileName = basename(imageFile.path);
+    final File localFile = await imageFile.copy('$appDocPath/$fileName');
+
+    final _prefs = await prefs;
+    await _prefs.setString(prefKey, localFile.path);
+
+    return localFile;
+  }
+
+  Future<void> pickBeforeImage(File imageFile) async {
+    beforeImagePath.value = imageFile.path;
+    await saveImagesToApplicationFolder(beforeImagePrefKey, imageFile);
+  }
+
+  Future<void> pickAfterImage(File imageFile) async {
+    afterImagePath.value = imageFile.path;
+    await saveImagesToApplicationFolder(afterImagePrefKey, imageFile);
   }
 
   // ------------------------ Image Before - After ------------------------ //
@@ -298,5 +337,6 @@ class ProfileController extends GetxController {
     await loadWeightTracks();
     await updateStepTrackData();
     await loadStepTracks();
+    await loadImagesFromApplicationFolder();
   }
 }
