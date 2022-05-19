@@ -6,8 +6,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/modules/daily_plan/daily_plan_controller.dart';
+import 'package:vipt/app/modules/daily_plan/screens/daily_plan_screen.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
+import 'package:vipt/app/modules/home/home_controller.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/calories_info_widget.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/plan_tab_holder.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/progress_info_widget.dart';
@@ -18,6 +21,18 @@ class WorkoutPlanScreen extends StatelessWidget {
   WorkoutPlanScreen({Key? key}) : super(key: key);
 
   // final _controller = Get.find<WorkoutPlanController>();
+
+  void _shortcutToTabs(int? dailyPlanTabIndex) {
+    final _homeController = Get.find<HomeController>();
+    final _dailyPlanController = Get.find<DailyPlanController>();
+
+    if (dailyPlanTabIndex != null) {
+      _homeController.tabController.jumpToTab(HomeController.dailyPlanTabIndex);
+      _dailyPlanController.changeTab(dailyPlanTabIndex);
+    } else {
+      _homeController.tabController.jumpToTab(HomeController.profileTabIndex);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,9 +116,8 @@ class WorkoutPlanScreen extends StatelessWidget {
                         Flexible(
                           child: ShortcutButton(
                             onPressed: () {
-                              // test
-                              // WeightTrackerProvider().add(WeightTracker(
-                              //     date: DateTime(2022, 5, 10), weight: 85));
+                              _shortcutToTabs(
+                                  DailyPlanController.exerciseTabIndex);
                             },
                             title: 'Luyện tập',
                             icon: SvgPicture.asset(
@@ -114,7 +128,10 @@ class WorkoutPlanScreen extends StatelessWidget {
                         ),
                         Flexible(
                           child: ShortcutButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _shortcutToTabs(
+                                  DailyPlanController.nutritionTabIndex);
+                            },
                             title: 'Dinh dưỡng',
                             icon: SvgPicture.asset(
                               SVGAssetString.shortcutNutrition,
@@ -124,7 +141,10 @@ class WorkoutPlanScreen extends StatelessWidget {
                         ),
                         Flexible(
                           child: ShortcutButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _shortcutToTabs(
+                                  DailyPlanController.waterTabIndex);
+                            },
                             title: 'Nước uống',
                             icon: SvgPicture.asset(
                               SVGAssetString.shortcutWater,
@@ -134,7 +154,9 @@ class WorkoutPlanScreen extends StatelessWidget {
                         ),
                         Flexible(
                           child: ShortcutButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _shortcutToTabs(null);
+                            },
                             title: 'Thống kê',
                             icon: SvgPicture.asset(
                               SVGAssetString.shortcutStatistics,

@@ -10,29 +10,16 @@ import 'package:vipt/app/modules/workout_plan/workout_plan_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class HomeController extends GetxController {
-  int currentTabIndex = 0;
+  static const int workoutPlanTabIndex = 0;
+  static const int dailyPlanTabIndex = 1;
+  static const int libraryTabIndex = 2;
+  static const int profileTabIndex = 3;
+  int currentTabIndex = workoutPlanTabIndex;
 
   @override
   Future<void> onInit() async {
     await _initControllerForTabs();
     super.onInit();
-    // tabController.addListener(() {
-    //   switch (tabController.index) {
-    //     case 0:
-    //       Get.reload<WorkoutPlanController>();
-    //       break;
-    //     case 1:
-    //       // Get.reload<DailyPlanController>();
-    //       break;
-    //     case 2:
-    //       // Get.reload<LibraryController>();
-    //       break;
-    //     case 3:
-    //       Get.reload<ProfileController>();
-    //       break;
-    //     default:
-    //   }
-    // });
   }
 
   Future<void> _initControllerForTabs() async {
