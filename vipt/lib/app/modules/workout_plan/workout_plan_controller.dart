@@ -4,6 +4,7 @@ import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/data/providers/weight_tracker_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/enums/app_enums.dart';
+import 'package:vipt/app/modules/profile/profile_controller.dart';
 
 class WorkoutPlanController extends GetxController {
   static const num defaultWeightValue = 0;
@@ -18,6 +19,8 @@ class WorkoutPlanController extends GetxController {
   WeightUnit weightUnit = defaultWeightUnit;
 
   String get unit => weightUnit == WeightUnit.kg ? 'kg' : 'lbs';
+
+  final _profileController = Get.find<ProfileController>();
 
   @override
   void onInit() {
@@ -48,6 +51,8 @@ class WorkoutPlanController extends GetxController {
       _userInfo.currentWeight = newWeight;
       await _userProvider.update(_userInfo.id ?? '', _userInfo);
     }
+
+    _profileController.loadWeightTracks();
   }
 
   // --------------- LOG WEIGHT --------------------------------

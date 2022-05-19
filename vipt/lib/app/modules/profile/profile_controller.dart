@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vipt/app/core/values/app_strings.dart';
 import 'package:vipt/app/data/models/exercise_tracker.dart';
 import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
 import 'package:vipt/app/data/models/step_tracker.dart';
@@ -18,7 +17,7 @@ import 'package:vipt/app/data/providers/water_track_provider.dart';
 import 'package:vipt/app/data/providers/weight_tracker_provider.dart';
 import 'package:vipt/app/modules/daily_plan/daily_step_controller.dart';
 
-// TODO: giải quyết vấn đề chuyển tab không reload data
+// TODO: giải quyết vấn đề chuyển tab không reload data (xong trừ step chưa xong)
 class ProfileController extends GetxController {
   static final DateTime _firstDateOfWeek =
       DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
@@ -74,6 +73,7 @@ class ProfileController extends GetxController {
   }
 
   Future<void> loadExerciseTracks() async {
+    print('load exercise tracks');
     exerciseCaloriesWeekly.value = 0;
     exerciseMinutesWeekly.value = 0;
 
@@ -114,6 +114,7 @@ class ProfileController extends GetxController {
   }
 
   Future<void> loadNutritionTracks() async {
+    print('load nutrition tracks');
     nutritionCaloWeekly.value = 0;
     for (int i = 0; i < 7; i++) {
       var nutritionTracks = await _nutritionProvider
@@ -279,7 +280,7 @@ class ProfileController extends GetxController {
 
   Future<void> updateStepTrackData() async {
     await _stepTrackController.updateDailyStepTrackToDB();
-    Get.delete<DailyStepController>();
+    // Get.delete<DailyStepController>();
   }
 
   // ------------------------ Step Track ------------------------ //

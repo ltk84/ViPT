@@ -12,6 +12,7 @@ import 'package:vipt/app/data/providers/local_meal_provider.dart';
 import 'package:vipt/app/data/providers/meal_nutrition_track_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/daily_plan/tracker_controller.dart';
+import 'package:vipt/app/modules/profile/profile_controller.dart';
 
 class DailyNutritionController extends GetxController with TrackerController {
   TextEditingController searchTextController = TextEditingController();
@@ -45,11 +46,13 @@ class DailyNutritionController extends GetxController with TrackerController {
 
   Rx<int> activeTabIndex = 0.obs;
 
+  final _profileController = Get.find<ProfileController>();
+
   @override
   void onInit() async {
     super.onInit();
 
-    await fetchcLocalFoodList();
+    await fetchLocalFoodList();
 
     await fetchFirebaseFoodList();
 
@@ -103,7 +106,7 @@ class DailyNutritionController extends GetxController with TrackerController {
     }
   }
 
-  Future<void> fetchcLocalFoodList() async {
+  Future<void> fetchLocalFoodList() async {
     localFoodList.value = await _localMealProvider.fetchAll();
   }
 
@@ -161,6 +164,7 @@ class DailyNutritionController extends GetxController with TrackerController {
     }
 
     resetSelectedList();
+    _profileController.loadNutritionTracks();
     Get.back();
   }
 
@@ -197,5 +201,6 @@ class DailyNutritionController extends GetxController with TrackerController {
     tracks.remove(tracker);
     await _nutriTrackProvider.delete(tracker.id ?? 0);
     update();
+    _profileController.loadNutritionTracks();
   }
 }

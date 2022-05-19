@@ -3,10 +3,13 @@ import 'package:get/get.dart';
 import 'package:vipt/app/data/models/water_tracker.dart';
 import 'package:vipt/app/data/providers/water_track_provider.dart';
 import 'package:vipt/app/modules/daily_plan/tracker_controller.dart';
+import 'package:vipt/app/modules/profile/profile_controller.dart';
 
 class DailyWaterController extends GetxController with TrackerController {
   final _provider = WaterTrackProvider();
   Rx<int> waterVolume = 0.obs;
+
+  final _profileController = Get.find<ProfileController>();
 
   @override
   void onInit() async {
@@ -34,6 +37,7 @@ class DailyWaterController extends GetxController with TrackerController {
     tracks.add(wt);
     await _provider.add(wt);
     update();
+    _profileController.loadWaterTracks();
   }
 
   deleteTrack(WaterTracker wt) async {
@@ -41,5 +45,6 @@ class DailyWaterController extends GetxController with TrackerController {
     tracks.remove(wt);
     await _provider.delete(wt.id ?? 0);
     update();
+    _profileController.loadWaterTracks();
   }
 }

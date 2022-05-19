@@ -53,7 +53,6 @@ class WeeklyExerciseWidget extends StatelessWidget {
         ),
         Obx(
           () => StatisticBarChart(
-            //TODO: loi khi values toan so 0
             values: _controller.exerciseCaloList,
             title:
                 "Tuần ${_controller.exerciseStartDateStr.value} - ${_controller.exerciseEndDateStr.value}",
