@@ -1,15 +1,19 @@
 import 'package:get/get.dart';
 import 'package:vipt/app/data/models/exercise_tracker.dart';
 import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
-import 'package:vipt/app/data/models/tracker.dart';
 import 'package:vipt/app/data/models/weight_tracker.dart';
+import 'package:vipt/app/data/models/workout_plan.dart';
+import 'package:vipt/app/data/models/workout_plan_exercise.dart';
+import 'package:vipt/app/data/models/workout_plan_meal.dart';
 import 'package:vipt/app/data/providers/exercise_track_provider.dart';
 import 'package:vipt/app/data/providers/meal_nutrition_track_provider.dart';
 import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/data/providers/weight_tracker_provider.dart';
+import 'package:vipt/app/data/providers/workout_plan_exercise_provider.dart';
+import 'package:vipt/app/data/providers/workout_plan_meal_provider.dart';
+import 'package:vipt/app/data/providers/workout_plan_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/enums/app_enums.dart';
-import 'package:vipt/app/modules/profile/profile_controller.dart';
 
 class WorkoutPlanController extends GetxController {
   static const num defaultWeightValue = 0;
@@ -56,13 +60,38 @@ class WorkoutPlanController extends GetxController {
   // --------------- WORKOUT + MEAL PLAN --------------------------------
   final _nutriTrackProvider = MealNutritionTrackProvider();
   final _exerciseTrackProvider = ExerciseTrackProvider();
+  final _workoutPlanProvider = WorkoutPlanProvider();
+  final _wkExerciseProvider = WorkoutPlanExerciseProvider();
+  final _wkMealProvider = WorkoutPlanMealProvider();
 
   RxInt intakeCalories = defaultCaloriesValue.obs;
   RxInt outtakeCalories = defaultCaloriesValue.obs;
   RxInt get dailyDiffCalories =>
       (intakeCalories.value - outtakeCalories.value).obs;
-  // mock
-  RxInt dailyGoalCalories = 200.obs;
+  RxInt dailyGoalCalories = defaultCaloriesValue.obs;
+  RxList<WorkoutPlanExercise> wpExerciseList = <WorkoutPlanExercise>[].obs;
+  RxList<WorkoutPlanMeal> wpMealList = <WorkoutPlanMeal>[].obs;
+
+  Future<void> loadDailyGoalCalories() async {
+    List<WorkoutPlan> list = await _workoutPlanProvider.fetchAll();
+    if (list.isNotEmpty) {
+      dailyGoalCalories.value = list[0].dailyGoalCalories.toInt();
+    }
+  }
+
+  Future<void> loadWorkoutPlanExerciseList() async {
+    List<WorkoutPlanExercise> list = await _wkExerciseProvider.fetchAll();
+    if (list.isNotEmpty) {
+      wpExerciseList.value = list;
+    }
+  }
+
+  Future<void> loadWorkoutPlanMealList() async {
+    List<WorkoutPlanMeal> list = await _wkMealProvider.fetchAll();
+    if (list.isNotEmpty) {
+      wpMealList.value = list;
+    }
+  }
 
   Future<void> loadDailyCalories() async {
     final date = DateTime.now();
@@ -91,11 +120,10 @@ class WorkoutPlanController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await loadInitialData();
-  }
-
-  Future<void> loadInitialData() async {
     await loadWeightValues();
     await loadDailyCalories();
+    await loadDailyGoalCalories();
+    await loadWorkoutPlanExerciseList();
+    await loadWorkoutPlanMealList();
   }
 }

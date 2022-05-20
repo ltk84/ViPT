@@ -93,8 +93,8 @@ class _WeightInfoWidgetState extends State<WeightInfoWidget> {
                   ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
                     child: LinearProgressIndicator(
-                      value: _controller.currentWeight.value /
-                          _controller.goalWeight.value,
+                      value: _controller.currentWeight.value.toInt() /
+                          _controller.goalWeight.value.toInt(),
                       minHeight: 6,
                       backgroundColor: AppColor.textFieldUnderlineColor
                           .withOpacity(AppColor.subTextOpacity),

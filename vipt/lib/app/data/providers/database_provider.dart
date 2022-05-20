@@ -77,5 +77,27 @@ class DatabaseProvider {
         date TEXT,
         stepCount INTEGER)
     ''');
+
+    db.execute('''
+      CREATE TABLE ${AppValue.workoutPlanTable}(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        dailyGoalCalories REAL,
+        startDate TEXT,
+        endDate TEXT)
+    ''');
+
+    db.execute('''
+      CREATE TABLE ${AppValue.workoutPlanExerciseTable}(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        date TEXT,
+        exerciseID TEXT)
+    ''');
+
+    db.execute('''
+      CREATE TABLE ${AppValue.workoutPlanMealTable}(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        date TEXT,
+        mealID TEXT)
+    ''');
   }
 }
