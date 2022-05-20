@@ -53,7 +53,7 @@ class WeeklyWaterWidget extends StatelessWidget {
           () => StatisticBarChart(
             values: _controller.waterVolumeList,
             title:
-                "Tuần ${_controller.waterStartDateStr} - ${_controller.waterStartDateStr}",
+                "Tuần ${_controller.waterStartDateStr} - ${_controller.waterEndDateStr}",
             description: "Lượng nước đã uống (ml)",
             titleColor: AppColor.statisticWaterTitleColor,
             descriptionColor: AppColor.statisticWaterDescriptionColor,

@@ -72,6 +72,12 @@ class StatisticLineChart extends StatelessWidget {
           value.toInt() == maximum ~/ 2 ||
           value == minimum) {
         text = Text(value.toStringAsFixed(0), style: style);
+        if (value < 0) {
+          text = Text(
+            '',
+            style: style,
+          );
+        }
       } else {
         text = Text('', style: style);
       }
@@ -86,9 +92,11 @@ class StatisticLineChart extends StatelessWidget {
           double x = k.difference(datePeriod.start).inDays.toDouble();
           double y = v.toDouble();
 
-          results.add(
-            FlSpot(x, y),
-          );
+          if (y != -1) {
+            results.add(
+              FlSpot(x, y),
+            );
+          }
         } catch (e) {
           print(e);
         }

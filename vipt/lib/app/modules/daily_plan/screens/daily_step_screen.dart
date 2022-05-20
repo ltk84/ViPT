@@ -65,44 +65,44 @@ class DailyStepScreen extends StatelessWidget {
             ],
           ),
         ),
-        actions: [
-          InkWell(
-            borderRadius: BorderRadius.circular(8),
-            onTap: () async {
-              var dateTime = await showDatePicker(
-                  locale: const Locale("vi", "VI"),
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(1970),
-                  lastDate: DateTime.now().add(const Duration(days: 1)));
-            },
-            child: Row(
-              children: [
-                const SizedBox(
-                  width: 24,
-                ),
-                Icon(
-                  Icons.calendar_today_rounded,
-                  color: AppColor.accentTextColor,
-                  size: 18,
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  'Hôm nay'.tr,
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                        color: AppColor.accentTextColor,
-                        fontSize: 16,
-                      ),
-                ),
-                const SizedBox(
-                  width: 24,
-                ),
-              ],
-            ),
-          ),
-        ],
+        // actions: [
+        //   InkWell(
+        //     borderRadius: BorderRadius.circular(8),
+        //     onTap: () async {
+        //       var dateTime = await showDatePicker(
+        //           locale: const Locale("vi", "VI"),
+        //           context: context,
+        //           initialDate: DateTime.now(),
+        //           firstDate: DateTime(1970),
+        //           lastDate: DateTime.now().add(const Duration(days: 1)));
+        //     },
+        //     child: Row(
+        //       children: [
+        //         const SizedBox(
+        //           width: 24,
+        //         ),
+        //         Icon(
+        //           Icons.calendar_today_rounded,
+        //           color: AppColor.accentTextColor,
+        //           size: 18,
+        //         ),
+        //         const SizedBox(
+        //           width: 8,
+        //         ),
+        //         Text(
+        //           'Hôm nay'.tr,
+        //           style: Theme.of(context).textTheme.headline6!.copyWith(
+        //                 color: AppColor.accentTextColor,
+        //                 fontSize: 16,
+        //               ),
+        //         ),
+        //         const SizedBox(
+        //           width: 24,
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ],
       ),
       body: ListView(
         physics: const BouncingScrollPhysics(
@@ -117,34 +117,37 @@ class DailyStepScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildInfo(context),
+                Obx(
+                  () => _buildInfo(context),
+                )
               ],
             ),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColor.stepTrackingDarkBackgroundColor,
-        onPressed: () {},
-        isExtended: true,
-        elevation: 1,
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        label: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.75,
-          child: Text(
-            'Bật theo dõi bước chân'.tr,
-            style: Theme.of(context)
-                .textTheme
-                .button!
-                .copyWith(color: AppColor.accentTextColor),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: FloatingActionButton.extended(
+      //   backgroundColor: AppColor.stepTrackingDarkBackgroundColor,
+      //   onPressed: () {
+      //   },
+      //   isExtended: true,
+      //   elevation: 1,
+      //   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      //   shape: RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.circular(8),
+      //   ),
+      //   label: SizedBox(
+      //     width: MediaQuery.of(context).size.width * 0.75,
+      //     child: Text(
+      //       'Bật theo dõi bước chân'.tr,
+      //       style: Theme.of(context)
+      //           .textTheme
+      //           .button!
+      //           .copyWith(color: AppColor.accentTextColor),
+      //       textAlign: TextAlign.center,
+      //     ),
+      //   ),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -156,20 +159,20 @@ class DailyStepScreen extends StatelessWidget {
         SizedBox(
           width: screenWidth * 0.3,
           child: VerticalInfoWidget(
-            title: _controller.steps.value,
+            title: _controller.distance.value.toStringAsFixed(2),
             subtitle: 'm',
           ),
         ),
         GoalProgressIndicator(
           radius: screenWidth * 0.36,
-          value: 15000,
+          value: _controller.steps.value,
           unitString: 'bước chân',
         ),
         SizedBox(
           width: screenWidth * 0.3,
           child: VerticalInfoWidget(
-            title: _controller.status.value,
-            subtitle: 'phút',
+            title: 'chua',
+            subtitle: 'calories',
           ),
         ),
       ],

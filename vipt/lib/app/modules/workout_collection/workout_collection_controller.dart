@@ -232,7 +232,7 @@ class WorkoutCollectionController extends GetxController {
 
   // hàm tính toán calo và time
   void calculateCaloAndTime() {
-    num bodyWeight = DataService.currentUser.currentWeight;
+    num bodyWeight = DataService.currentUser!.currentWeight;
     resetCaloAndTime();
     caloValue.value = WorkoutCollectionUtils.calculateCalo(
         workoutList: generatedWorkoutList,
@@ -250,7 +250,7 @@ class WorkoutCollectionController extends GetxController {
 
   // hàm load collection setting
   void loadCollectionSetting() {
-    collectionSetting.value = DataService.currentUser.collectionSetting;
+    collectionSetting.value = DataService.currentUser!.collectionSetting;
   }
 
   // hàm update collection setting

@@ -109,7 +109,7 @@ class LogFoodScreen extends StatelessWidget {
                 triggerText: _controller.localSearchText,
                 handleSelect: _controller.handleSelect,
                 selectedList: _controller.selectedList,
-                updateCallBack: _controller.fetchcLocalFoodList,
+                updateCallBack: _controller.fetchLocalFoodList,
               ),
             ),
           ]),
@@ -143,7 +143,7 @@ class LogFoodScreen extends StatelessWidget {
         );
         Get.delete<AddLocalMealController>();
         if (result) {
-          await _controller.fetchcLocalFoodList();
+          await _controller.fetchLocalFoodList();
         }
       },
       isExtended: true,

@@ -18,7 +18,7 @@ class DataService {
   DataService._privateConstructor();
 
   static final DataService instance = DataService._privateConstructor();
-  static late ViPTUser currentUser;
+  static ViPTUser? currentUser;
 
   static late List<Workout> _workoutList = [];
   static late List<Category> _workoutCateList = [];
@@ -66,12 +66,13 @@ class DataService {
     _userCollectionList = await _collectionProvider.fetchAllUserCollection();
   }
 
-  Future<ViPTUser> createUser(ViPTUser user) async {
+  Future<ViPTUser?> createUser(ViPTUser user) async {
     currentUser = await _userProvider.add(user);
     return currentUser;
   }
 
   loadUserData() async {
+    print('load user data');
     currentUser =
         await _userProvider.fetch(AuthService.instance.currentUser!.uid);
   }

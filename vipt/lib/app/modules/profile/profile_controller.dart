@@ -1,15 +1,22 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vipt/app/data/models/exercise_tracker.dart';
 import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
+import 'package:vipt/app/data/models/step_tracker.dart';
 import 'package:vipt/app/data/models/water_tracker.dart';
 import 'package:vipt/app/data/models/weight_tracker.dart';
 import 'package:vipt/app/data/providers/exercise_track_provider.dart';
 import 'package:vipt/app/data/providers/meal_nutrition_track_provider.dart';
+import 'package:vipt/app/data/providers/step_tracker_provider.dart';
 import 'package:vipt/app/data/providers/water_track_provider.dart';
 import 'package:vipt/app/data/providers/weight_tracker_provider.dart';
+import 'package:vipt/app/modules/daily_plan/daily_step_controller.dart';
 
-// TODO: giải quyết vấn đề chuyển tab không reload data
 class ProfileController extends GetxController {
   static final DateTime _firstDateOfWeek =
       DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
@@ -17,11 +24,21 @@ class ProfileController extends GetxController {
       _firstDateOfWeek.add(const Duration(days: 7));
   static final DateTimeRange defaultDateTime =
       DateTimeRange(start: _firstDateOfWeek, end: _lastDateOfWeek);
+  static final DateTimeRange defaultWeightDateRange =
+      DateTimeRange(start: _firstDateOfWeek, end: DateTime.now());
+  static const String defaultImageStr = '';
+  static const String beforeImagePrefKey = 'beforeImage';
+  static const String afterImagePrefKey = 'afterImage';
+
+  final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
   final _exerciseProvider = ExerciseTrackProvider();
   final _nutritionProvider = MealNutritionTrackProvider();
   final _waterProvider = WaterTrackProvider();
   final _weightProvider = WeightTrackerProvider();
+  final _stepProvider = StepTrackerProvider();
+
+  final _stepTrackController = Get.put(DailyStepController());
 
   // ------------------------ Exercise Track ------------------------ //
   Rx<int> exerciseMinutesWeekly = 0.obs;
@@ -157,8 +174,12 @@ class ProfileController extends GetxController {
   // ------------------------ Water Track ------------------------ //
 
   // ------------------------ Weight Track ------------------------ //
-  Rx<DateTimeRange> weightDateRange = defaultDateTime.obs;
+  Rx<DateTimeRange> weightDateRange = defaultWeightDateRange.obs;
   RxList<WeightTracker> allWeightTracks = <WeightTracker>[].obs;
+  Map<DateTime, double> defaultMap = {
+    DateTime(2022, 1, 1): -1,
+    DateTime(2022, 1, 2): 75,
+  };
 
   Rx<String> get weightStartDateStr =>
       '${weightDateRange.value.start.day}/${weightDateRange.value.start.month}/${weightDateRange.value.start.year}'
@@ -171,17 +192,139 @@ class ProfileController extends GetxController {
     allWeightTracks.sort((x, y) {
       return x.date.compareTo(y.date);
     });
+
     return allWeightTracks.isEmpty
-        ? {
-            DateTime.parse('2022/11/2'): 0,
-          }
-        : {for (var e in allWeightTracks) e.date: e.weight.toDouble()};
+        ? defaultMap
+        : allWeightTracks.length == 1
+            ? fakeMap()
+            : convertToMap();
+  }
+
+  Map<DateTime, double> convertToMap() {
+    return {for (var e in allWeightTracks) e.date: e.weight.toDouble()};
+  }
+
+  Map<DateTime, double> fakeMap() {
+    var map = convertToMap();
+
+    map.addAll(
+        {allWeightTracks.first.date.subtract(const Duration(days: 1)): -1});
+
+    return map;
   }
 
   Future<void> loadWeightTracks() async {
-    allWeightTracks.value = await _weightProvider.fetchAll();
+    allWeightTracks.clear();
+    int duration = weightDateRange.value.duration.inDays + 1;
+    for (int i = 0; i < duration; i++) {
+      DateTime fetchDate = weightDateRange.value.start.add(Duration(days: i));
+      var weighTracks = await _weightProvider.fetchByDate(fetchDate);
+      weighTracks.sort((x, y) => x.weight - y.weight);
+      if (weighTracks.isNotEmpty) {
+        allWeightTracks.add(weighTracks.last);
+      }
+    }
+  }
+
+  Future<void> changeWeighDateRange(
+      DateTime startDate, DateTime endDate) async {
+    weightDateRange.value = DateTimeRange(start: startDate, end: endDate);
+    await loadWeightTracks();
   }
   // ------------------------ Weight Track ------------------------ //
+
+  // ------------------------ Step Track ------------------------ //
+  Rx<int> stepCountWeekly = 0.obs;
+  RxList<List<StepTracker>> stepTracksWeekly =
+      <List<StepTracker>>[[], [], [], [], [], [], []].obs;
+  Rx<DateTimeRange> stepDateRange = defaultDateTime.obs;
+
+  Rx<String> get stepStartDateStr =>
+      '${stepDateRange.value.start.day}/${stepDateRange.value.start.month}/${stepDateRange.value.start.year}'
+          .obs;
+  Rx<String> get stepEndDateStr =>
+      '${stepDateRange.value.end.day}/${stepDateRange.value.end.month}/${stepDateRange.value.end.year}'
+          .obs;
+  List<int> get stepCountList {
+    List<int> list = List<int>.generate(stepTracksWeekly.length, (index) {
+      int count = 0;
+      for (var element in stepTracksWeekly[index]) {
+        count += element.stepCount;
+      }
+      return count;
+    });
+    list.add(1);
+    return list;
+  }
+
+  Future<void> loadStepTracks() async {
+    stepCountWeekly.value = 0;
+    for (int i = 0; i < 7; i++) {
+      var stepTracks = await _stepProvider
+          .fetchByDate(stepDateRange.value.start.add(Duration(days: i)));
+      for (var element in stepTracks) {
+        stepCountWeekly.value += element.stepCount;
+      }
+      stepTracksWeekly[i] = stepTracks;
+    }
+  }
+
+  Future<void> changeStepDateChange(
+      DateTime startDate, DateTime endDate) async {
+    stepDateRange.value = DateTimeRange(start: startDate, end: endDate);
+    await loadStepTracks();
+  }
+
+  Future<void> updateStepTrackData() async {
+    await _stepTrackController.updateDailyStepTrackToDB();
+    // Get.delete<DailyStepController>();
+  }
+
+  // ------------------------ Step Track ------------------------ //
+
+  // ------------------------ Image Before - After ------------------------ //
+
+  RxString beforeImagePath = defaultImageStr.obs;
+  RxString afterImagePath = defaultImageStr.obs;
+
+  Future<void> loadImagesFromApplicationFolder() async {
+    final _prefs = await prefs;
+    String? beforeImageSavedPath = _prefs.getString(beforeImagePrefKey);
+    if (beforeImageSavedPath != null) {
+      beforeImagePath.value = beforeImageSavedPath;
+    }
+
+    String? afterImageSavedPath = _prefs.getString(afterImagePrefKey);
+    if (afterImageSavedPath != null) {
+      afterImagePath.value = afterImageSavedPath;
+    }
+  }
+
+  Future<File> saveImagesToApplicationFolder(
+      String prefKey, File imageFile) async {
+    final appDocDir = await getApplicationDocumentsDirectory();
+    final String appDocPath = appDocDir.path;
+
+    final fileName = basename(imageFile.path);
+    final File localFile = await imageFile.copy('$appDocPath/$fileName');
+
+    final _prefs = await prefs;
+    await _prefs.setString(prefKey, localFile.path);
+
+    return localFile;
+  }
+
+  Future<void> pickBeforeImage(File imageFile) async {
+    beforeImagePath.value = imageFile.path;
+    await saveImagesToApplicationFolder(beforeImagePrefKey, imageFile);
+  }
+
+  Future<void> pickAfterImage(File imageFile) async {
+    afterImagePath.value = imageFile.path;
+    await saveImagesToApplicationFolder(afterImagePrefKey, imageFile);
+  }
+
+  // ------------------------ Image Before - After ------------------------ //
 
   @override
   void onInit() async {
@@ -190,5 +333,8 @@ class ProfileController extends GetxController {
     await loadNutritionTracks();
     await loadWaterTracks();
     await loadWeightTracks();
+    await updateStepTrackData();
+    await loadStepTracks();
+    await loadImagesFromApplicationFolder();
   }
 }

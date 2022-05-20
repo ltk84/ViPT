@@ -12,6 +12,7 @@ import 'package:vipt/app/data/providers/local_meal_provider.dart';
 import 'package:vipt/app/data/providers/meal_nutrition_track_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/daily_plan/tracker_controller.dart';
+import 'package:vipt/app/modules/profile/profile_controller.dart';
 
 class DailyNutritionController extends GetxController with TrackerController {
   TextEditingController searchTextController = TextEditingController();
@@ -49,7 +50,7 @@ class DailyNutritionController extends GetxController with TrackerController {
   void onInit() async {
     super.onInit();
 
-    await fetchcLocalFoodList();
+    await fetchLocalFoodList();
 
     await fetchFirebaseFoodList();
 
@@ -103,7 +104,7 @@ class DailyNutritionController extends GetxController with TrackerController {
     }
   }
 
-  Future<void> fetchcLocalFoodList() async {
+  Future<void> fetchLocalFoodList() async {
     localFoodList.value = await _localMealProvider.fetchAll();
   }
 

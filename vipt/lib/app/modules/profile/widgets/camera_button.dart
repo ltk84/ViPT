@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 class CameraButton extends StatelessWidget {
   final Function()? onPressed;
   final String title;
-  const CameraButton({Key? key, this.onPressed, this.title = 'Chụp ảnh'})
+  final IconData? iconData;
+  const CameraButton(
+      {Key? key, this.onPressed, this.title = 'Chụp ảnh', this.iconData})
       : super(key: key);
 
   @override
@@ -18,7 +20,7 @@ class CameraButton extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              const Icon(Icons.camera_alt_rounded),
+              Icon(iconData ?? Icons.camera_alt_rounded),
               const SizedBox(
                 height: 4,
               ),

@@ -3,20 +3,38 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
-import 'package:vipt/app/data/models/weight_tracker.dart';
-import 'package:vipt/app/data/providers/weight_tracker_provider.dart';
+import 'package:vipt/app/modules/daily_plan/daily_plan_controller.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
+import 'package:vipt/app/modules/home/home_controller.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/calories_info_widget.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/plan_tab_holder.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/progress_info_widget.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/shortcut_button.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/weight_info_widget.dart';
 
+import '../workout_plan_controller.dart';
+
 class WorkoutPlanScreen extends StatelessWidget {
-  const WorkoutPlanScreen({Key? key}) : super(key: key);
+  WorkoutPlanScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.find<WorkoutPlanController>();
+
+  void _shortcutToTabs(int? dailyPlanTabIndex) {
+    final _homeController = Get.find<HomeController>();
+    final _dailyPlanController = Get.find<DailyPlanController>();
+
+    if (dailyPlanTabIndex != null) {
+      _homeController.tabController.jumpToTab(HomeController.dailyPlanTabIndex);
+      _dailyPlanController.changeTab(dailyPlanTabIndex);
+    } else {
+      _homeController.tabController.jumpToTab(HomeController.profileTabIndex);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double bodyHeight = MediaQuery.of(context).size.height -
@@ -60,7 +78,9 @@ class WorkoutPlanScreen extends StatelessWidget {
                 constraints: BoxConstraints(minHeight: bodyHeight * 0.35),
                 child: Column(
                   children: [
-                    _buildInfo(context),
+                    _buildInfo(
+                      context,
+                    ),
                     const SizedBox(
                       height: 24,
                     ),
@@ -99,10 +119,8 @@ class WorkoutPlanScreen extends StatelessWidget {
                         Flexible(
                           child: ShortcutButton(
                             onPressed: () {
-                              // test
-                              WeightTrackerProvider().add(WeightTracker(
-                                  date: DateTime.now().add(Duration(days: 61)),
-                                  weight: 70));
+                              _shortcutToTabs(
+                                  DailyPlanController.exerciseTabIndex);
                             },
                             title: 'Luyện tập',
                             icon: SvgPicture.asset(
@@ -113,7 +131,10 @@ class WorkoutPlanScreen extends StatelessWidget {
                         ),
                         Flexible(
                           child: ShortcutButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _shortcutToTabs(
+                                  DailyPlanController.nutritionTabIndex);
+                            },
                             title: 'Dinh dưỡng',
                             icon: SvgPicture.asset(
                               SVGAssetString.shortcutNutrition,
@@ -123,7 +144,10 @@ class WorkoutPlanScreen extends StatelessWidget {
                         ),
                         Flexible(
                           child: ShortcutButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _shortcutToTabs(
+                                  DailyPlanController.waterTabIndex);
+                            },
                             title: 'Nước uống',
                             icon: SvgPicture.asset(
                               SVGAssetString.shortcutWater,
@@ -133,7 +157,9 @@ class WorkoutPlanScreen extends StatelessWidget {
                         ),
                         Flexible(
                           child: ShortcutButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _shortcutToTabs(null);
+                            },
                             title: 'Thống kê',
                             icon: SvgPicture.asset(
                               SVGAssetString.shortcutStatistics,
@@ -176,30 +202,32 @@ class WorkoutPlanScreen extends StatelessWidget {
 
   _buildInfo(context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        SizedBox(
-          width: screenWidth * 0.25,
-          child: const VerticalInfoWidget(
-            title: '2074',
-            subtitle: 'hấp thụ',
+    return Obx(
+      () => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          SizedBox(
+            width: screenWidth * 0.25,
+            child: VerticalInfoWidget(
+              title: _controller.intakeCalories.value.toString(),
+              subtitle: 'hấp thụ',
+            ),
           ),
-        ),
-        GoalProgressIndicator(
-          radius: screenWidth * 0.4,
-          value: 1460,
-          unitString: 'calories',
-          goalValue: 2000,
-        ),
-        SizedBox(
-          width: screenWidth * 0.25,
-          child: const VerticalInfoWidget(
-            title: '614',
-            subtitle: 'tiêu hao',
+          GoalProgressIndicator(
+            radius: screenWidth * 0.4,
+            value: _controller.dailyDiffCalories.value,
+            unitString: 'calories',
+            goalValue: _controller.dailyGoalCalories.value,
           ),
-        ),
-      ],
+          SizedBox(
+            width: screenWidth * 0.25,
+            child: VerticalInfoWidget(
+              title: _controller.outtakeCalories.value.toString(),
+              subtitle: 'tiêu hao',
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -598,4 +598,8 @@ class AppValue {
   static const mealNutritionTrackTable = 'MealNutriTrackRecord';
   static const localMealTable = 'LocalMeal';
   static const weightTrackTable = 'WeightTrackRecord';
+  static const stepTrackTable = 'StepTrackRecord';
+  static const workoutPlanTable = 'WorkoutPlanRecord';
+  static const workoutPlanExerciseTable = 'WorkoutPlanExerciseRecord';
+  static const workoutPlanMealTable = 'WorkoutPlanMealRecord';
 }

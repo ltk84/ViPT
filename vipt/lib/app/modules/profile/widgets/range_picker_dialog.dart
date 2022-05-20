@@ -3,7 +3,11 @@ import 'package:flutter_date_pickers/flutter_date_pickers.dart';
 import 'package:vipt/app/core/values/colors.dart';
 
 class RangePickerDialog extends StatefulWidget {
-  const RangePickerDialog({Key? key}) : super(key: key);
+  const RangePickerDialog({
+    Key? key,
+    required this.selectedPeriod,
+  }) : super(key: key);
+  final DatePeriod selectedPeriod;
 
   @override
   State<RangePickerDialog> createState() => _RangePickerDialogState();
@@ -14,15 +18,15 @@ class _RangePickerDialogState extends State<RangePickerDialog> {
 
   @override
   void initState() {
-    _selectedPeriod = DatePeriod(
-        DateTime.now().subtract(const Duration(days: 30)), DateTime.now());
+    _selectedPeriod = widget.selectedPeriod;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
+    return Center(
       child: Container(
+        margin: const EdgeInsets.all(16),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Theme.of(context).backgroundColor,
