@@ -46,8 +46,6 @@ class DailyNutritionController extends GetxController with TrackerController {
 
   Rx<int> activeTabIndex = 0.obs;
 
-  final _profileController = Get.find<ProfileController>();
-
   @override
   void onInit() async {
     super.onInit();
@@ -164,7 +162,6 @@ class DailyNutritionController extends GetxController with TrackerController {
     }
 
     resetSelectedList();
-    _profileController.loadNutritionTracks();
     Get.back();
   }
 
@@ -201,6 +198,5 @@ class DailyNutritionController extends GetxController with TrackerController {
     tracks.remove(tracker);
     await _nutriTrackProvider.delete(tracker.id ?? 0);
     update();
-    _profileController.loadNutritionTracks();
   }
 }

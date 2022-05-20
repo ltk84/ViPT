@@ -70,9 +70,6 @@ class _CollectionTabHolderState extends State<CollectionTabHolder>
                       _collectionController.onSelectDefaultCollection(col);
                       await Get.toNamed(Routes.workoutCollectionDetail);
                       Get.delete<WorkoutCollectionController>();
-
-                      final _profileController = Get.find<ProfileController>();
-                      await _profileController.loadExerciseTracks();
                     }),
               ],
             );

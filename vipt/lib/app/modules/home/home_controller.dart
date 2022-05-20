@@ -14,19 +14,36 @@ class HomeController extends GetxController {
   static const int dailyPlanTabIndex = 1;
   static const int libraryTabIndex = 2;
   static const int profileTabIndex = 3;
-  int currentTabIndex = workoutPlanTabIndex;
+  // int currentTabIndex = workoutPlanTabIndex;
 
   @override
   Future<void> onInit() async {
     await _initControllerForTabs();
     super.onInit();
+    tabController.addListener(() {
+      switch (tabController.index) {
+        case 0:
+          Get.find<WorkoutPlanController>().onInit();
+          break;
+        case 1:
+          Get.find<DailyPlanController>().onInit();
+          break;
+        case 2:
+          Get.find<LibraryController>().onInit();
+          break;
+        case 3:
+          Get.find<ProfileController>().onInit();
+          break;
+        default:
+      }
+    });
   }
 
   Future<void> _initControllerForTabs() async {
     Get.lazyPut(() => WorkoutPlanController());
+    Get.lazyPut(() => DailyPlanController());
     Get.lazyPut(() => LibraryController());
     Get.lazyPut(() => ProfileController());
-    Get.lazyPut(() => DailyPlanController());
   }
 
   final PersistentTabController tabController =
