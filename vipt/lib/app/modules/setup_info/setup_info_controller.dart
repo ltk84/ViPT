@@ -1,10 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:vipt/app/core/utilities/utils.dart';
 import 'package:vipt/app/core/values/app_strings.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/answer.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/vipt_user.dart';
+import 'package:vipt/app/data/models/workout_plan.dart';
+import 'package:vipt/app/data/providers/workout_plan_exercise_provider.dart';
+import 'package:vipt/app/data/providers/workout_plan_meal_provider.dart';
+import 'package:vipt/app/data/providers/workout_plan_provider.dart';
 import 'package:vipt/app/data/services/auth_service.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/enums/app_enums.dart';
@@ -310,6 +315,8 @@ class SetupInfoController extends GetxController {
         break;
 
       case PropertyLink.userGoalWeight:
+        weightUnit =
+            toggleValueForMeasureLayout == 0 ? WeightUnit.kg : WeightUnit.lbs;
         goalWeight = num.parse(textFieldControllerForMeasureLayout.text);
         break;
 
@@ -622,9 +629,26 @@ class SetupInfoController extends GetxController {
       collectionSetting: CollectionSetting(),
     );
 
-    await DataService.instance.createUser(newUser);
+    final user = await DataService.instance.createUser(newUser);
+    if (user != null) {
+      // await createWorkoutPlan(user);
+      Get.offAllNamed(Routes.home);
+    } else {
+      Get.offAllNamed(Routes.error);
+    }
+  }
 
-    Get.offAllNamed(Routes.home);
+  // tính toán endDate, meal list, exercise list
+  Future<void> createWorkoutPlan(ViPTUser user) async {
+    final _workoutPlanProvider = WorkoutPlanProvider();
+    final _wkMealProvider = WorkoutPlanMealProvider();
+    final _wkExerciseProvider = WorkoutPlanExerciseProvider();
+
+    final WorkoutPlan workoutPlan = WorkoutPlan(
+        dailyGoalCalories: WorkoutPlanUtils.createDailyGoalCalories(user),
+        startDate: DateTime.now(),
+        endDate: DateTime.now());
+    _workoutPlanProvider.add(workoutPlan);
   }
 
   void skipQuestion() {

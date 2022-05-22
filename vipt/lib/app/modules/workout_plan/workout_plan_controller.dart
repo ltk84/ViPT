@@ -115,6 +115,11 @@ class WorkoutPlanController extends GetxController {
     dailyDiffCalories.value = intakeCalories.value - outtakeCalories.value;
   }
 
+  Future<void> checkIfWorkoutPlanExist() async {
+    List<WorkoutPlan> list = await _workoutPlanProvider.fetchAll();
+    print('exist: ' + list.isNotEmpty.toString());
+  }
+
   // --------------- WORKOUT + MEAL PLAN --------------------------------
 
   @override
@@ -122,6 +127,7 @@ class WorkoutPlanController extends GetxController {
     super.onInit();
     await loadWeightValues();
     await loadDailyCalories();
+    await checkIfWorkoutPlanExist();
     await loadDailyGoalCalories();
     await loadWorkoutPlanExerciseList();
     await loadWorkoutPlanMealList();
