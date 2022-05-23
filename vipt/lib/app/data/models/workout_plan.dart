@@ -13,8 +13,8 @@ class WorkoutPlan {
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
       'dailyGoalCalories': dailyGoalCalories,
-      'startDate': startDate.millisecondsSinceEpoch,
-      'endDate': endDate.millisecondsSinceEpoch,
+      'startDate': startDate.toString(),
+      'endDate': endDate.toString(),
     };
 
     if (id != null) {
@@ -28,8 +28,8 @@ class WorkoutPlan {
     return WorkoutPlan(
       id: map['id']?.toInt(),
       dailyGoalCalories: map['dailyGoalCalories'] ?? 0,
-      startDate: DateTime.fromMillisecondsSinceEpoch(map['startDate']),
-      endDate: DateTime.fromMillisecondsSinceEpoch(map['endDate']),
+      startDate: DateTime.parse(map['startDate']),
+      endDate: DateTime.parse(map['endDate']),
     );
   }
 

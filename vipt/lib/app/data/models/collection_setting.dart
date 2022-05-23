@@ -44,31 +44,6 @@ class CollectionSetting {
     return 'CollectionSetting(round: $round, numOfWorkoutPerRound: $numOfWorkoutPerRound, isStartWithWarmUp: $isStartWithWarmUp, isShuffle: $isShuffle, exerciseTime: $exerciseTime, transitionTime: $transitionTime, restTime: $restTime, restFrequency: $restFrequency)';
   }
 
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is CollectionSetting &&
-        other.round == round &&
-        other.isStartWithWarmUp == isStartWithWarmUp &&
-        other.isShuffle == isShuffle &&
-        other.exerciseTime == exerciseTime &&
-        other.transitionTime == transitionTime &&
-        other.restTime == restTime &&
-        other.restFrequency == restFrequency;
-  }
-
-  @override
-  int get hashCode {
-    return round.hashCode ^
-        isStartWithWarmUp.hashCode ^
-        isShuffle.hashCode ^
-        exerciseTime.hashCode ^
-        transitionTime.hashCode ^
-        restTime.hashCode ^
-        restFrequency.hashCode;
-  }
-
   factory CollectionSetting.fromMap(Map<String, dynamic> map) {
     return CollectionSetting(
       round: map['round'].toInt() ?? 0,

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/utilities/utils.dart';
@@ -5,9 +7,15 @@ import 'package:vipt/app/core/values/app_strings.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/answer.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
+import 'package:vipt/app/data/models/plan_exercise.dart';
+import 'package:vipt/app/data/models/plan_exercise_collection.dart';
+import 'package:vipt/app/data/models/plan_exercise_collection_setting.dart';
 import 'package:vipt/app/data/models/vipt_user.dart';
+import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_plan.dart';
-import 'package:vipt/app/data/providers/workout_plan_exercise_provider.dart';
+import 'package:vipt/app/data/providers/plan_exercise_collection_provider.dart';
+import 'package:vipt/app/data/providers/plan_exercise_collection_setting_provider.dart';
+import 'package:vipt/app/data/providers/plan_exercise_provider.dart';
 import 'package:vipt/app/data/providers/workout_plan_meal_provider.dart';
 import 'package:vipt/app/data/providers/workout_plan_provider.dart';
 import 'package:vipt/app/data/services/auth_service.dart';
@@ -631,25 +639,139 @@ class SetupInfoController extends GetxController {
 
     final user = await DataService.instance.createUser(newUser);
     if (user != null) {
-      // await createWorkoutPlan(user);
+      await createWorkoutPlan(user);
       Get.offAllNamed(Routes.home);
     } else {
       Get.offAllNamed(Routes.error);
     }
+    // await createWorkoutPlan(newUser);
   }
 
   // tính toán endDate, meal list, exercise list
   Future<void> createWorkoutPlan(ViPTUser user) async {
     final _workoutPlanProvider = WorkoutPlanProvider();
-    final _wkMealProvider = WorkoutPlanMealProvider();
-    final _wkExerciseProvider = WorkoutPlanExerciseProvider();
+    // final _wkMealProvider = WorkoutPlanMealProvider();
+    // final _wkExerciseProvider = PlanExerciseCollectionProvider();
+
+    await DataService.instance.loadWorkoutList();
+
+    num weightDiff = user.goalWeight - user.currentWeight;
+    num workoutPlanLengthInWeek =
+        weightDiff.abs() / AppValue.intensityWeightPerWeek;
+    int workoutPlanLengthInDays = workoutPlanLengthInWeek.toInt() * 7;
+
+    DateTime workoutPlanStartDate = DateTime.now();
+    DateTime workoutPlanEndDate =
+        DateTime.now().add(Duration(days: workoutPlanLengthInDays));
+
+    num dailyGoalCalories = WorkoutPlanUtils.createDailyGoalCalories(user);
+    num intakeCalories = dailyGoalCalories + AppValue.intensityWeight;
+    num outtakeCalories = AppValue.intensityWeight;
 
     final WorkoutPlan workoutPlan = WorkoutPlan(
-        dailyGoalCalories: WorkoutPlanUtils.createDailyGoalCalories(user),
-        startDate: DateTime.now(),
-        endDate: DateTime.now());
+        dailyGoalCalories: dailyGoalCalories,
+        startDate: workoutPlanStartDate,
+        endDate: workoutPlanEndDate);
     _workoutPlanProvider.add(workoutPlan);
+
+    generateMealList(intakeCalories);
+    generateExerciseListWithPlanLength(
+        outtakeCalories, user.currentWeight, workoutPlanLengthInDays);
   }
+
+  void generateExerciseListWithPlanLength(
+      num outtakeCalories, num userWeight, int workoutPlanLength) {
+    // for (int i = 0; i < workoutPlanLength; i++) {
+    //   generateExerciseListEveryDay(outtakeCalories, userWeight);
+    // }
+    generateExerciseListEveryDay(
+        outtakeCalories: outtakeCalories,
+        userWeight: userWeight,
+        date: DateTime.now());
+  }
+
+  Future<void> generateExerciseListEveryDay(
+      {required num outtakeCalories,
+      required num userWeight,
+      required DateTime date}) async {
+    int numberOfExercise = 10;
+    int everyExerciseSeconds = 45;
+    List<Workout> exerciseList1 = randomExercises(numberOfExercise);
+    List<Workout> exerciseList2 = randomExercises(numberOfExercise);
+
+    double totalCalo1 = 0;
+    for (var element in exerciseList1) {
+      double calo = SessionUtils.calculateCaloOneWorkout(
+          everyExerciseSeconds, element.metValue, userWeight);
+      totalCalo1 += calo;
+    }
+
+    double totalCalo2 = 0;
+    for (var element in exerciseList2) {
+      double calo = SessionUtils.calculateCaloOneWorkout(
+          everyExerciseSeconds, element.metValue, userWeight);
+      totalCalo2 += calo;
+    }
+
+    int round1 = ((outtakeCalories / 2) / totalCalo1).ceil();
+    int round2 = ((outtakeCalories / 2) / totalCalo2).ceil();
+
+    //  tao collection setting
+    PlanExerciseCollectionSetting setting1 = PlanExerciseCollectionSetting(
+        round: round1,
+        exerciseTime: everyExerciseSeconds,
+        numOfWorkoutPerRound: numberOfExercise);
+
+    PlanExerciseCollectionSetting setting2 = PlanExerciseCollectionSetting(
+        round: round2,
+        exerciseTime: everyExerciseSeconds,
+        numOfWorkoutPerRound: numberOfExercise);
+
+    final _settingProvider = PlanExerciseCollectionSettingProvider();
+    setting1 = (await _settingProvider.add(setting1))!;
+    setting2 = (await _settingProvider.add(setting2))!;
+
+    PlanExerciseCollection collection1 = PlanExerciseCollection(
+        date: date, collectionSettingID: setting1.id ?? 0);
+
+    PlanExerciseCollection collection2 = PlanExerciseCollection(
+        date: date, collectionSettingID: setting2.id ?? 0);
+
+    final _collectionProvider = PlanExerciseCollectionProvider();
+    collection1 = (await _collectionProvider.add(collection1))!;
+    collection2 = (await _collectionProvider.add(collection2))!;
+
+    final _exerciseProvider = PlanExerciseProvider();
+    for (var element in exerciseList1) {
+      PlanExercise pe = PlanExercise(
+          exerciseID: element.id ?? '', listID: collection1.id ?? 0);
+      _exerciseProvider.add(pe);
+    }
+
+    for (var element in exerciseList2) {
+      PlanExercise pe = PlanExercise(
+          exerciseID: element.id ?? '', listID: collection2.id ?? 0);
+      _exerciseProvider.add(pe);
+    }
+  }
+
+  List<Workout> randomExercises(int numberOfExercise) {
+    int count = 0;
+    final _random = Random();
+    List<Workout> result = [];
+    final allExerciseList = DataService.instance.workoutList;
+    while (count < numberOfExercise) {
+      var element = allExerciseList[_random.nextInt(allExerciseList.length)];
+      if (!result.contains(element)) {
+        result.add(element);
+        count++;
+      }
+    }
+
+    return result;
+  }
+
+  void generateMealList(num intakeCalories) {}
 
   void skipQuestion() {
     String propertyToGet = getCurrentQuestion().propertyLink;

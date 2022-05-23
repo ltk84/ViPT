@@ -1,3 +1,4 @@
+import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/vipt_user.dart';
 import 'package:vipt/app/data/models/workout.dart';
@@ -83,13 +84,13 @@ class WorkoutPlanUtils {
 
     Gender gender = user.gender;
     int constantValue = gender == Gender.male ? 5 : -161;
-    int age = DateTime.now().day - user.dateOfBirth.year;
+    int age = DateTime.now().year - user.dateOfBirth.year;
     if (age <= 0) {
       throw Exception(
           "Invalide Date of Birth (${user.dateOfBirth}) is after now (${DateTime.now()}))");
     }
 
-    return 10 * weight + 6.25 * height + 5 * age + constantValue;
+    return 10 * weight + 6.25 * height - 5 * age + constantValue;
   }
 
   static num _calculateTDEE(num bmr, ActiveFrequency activeFrequency) {
@@ -116,7 +117,7 @@ class WorkoutPlanUtils {
     num dailyGoalCalories = 0;
     num bmr = _calculateBMR(user);
     num tdee = _calculateTDEE(bmr, user.activeFrequency);
-    int intensity = 500;
+    int intensity = AppValue.intensityWeight;
 
     if (user.currentWeight < user.goalWeight) {
       dailyGoalCalories = tdee + intensity;

@@ -600,6 +600,13 @@ class AppValue {
   static const weightTrackTable = 'WeightTrackRecord';
   static const stepTrackTable = 'StepTrackRecord';
   static const workoutPlanTable = 'WorkoutPlanRecord';
-  static const workoutPlanExerciseTable = 'WorkoutPlanExerciseRecord';
+  static const planExerciseCollectionTable = 'PlanExerciseCollectionRecord';
+  static const planExerciseCollectionSettingTable =
+      'PlanExerciseCollectionSettingRecord';
+  static const planExerciseTable = 'PlanExerciseRecord';
   static const workoutPlanMealTable = 'WorkoutPlanMealRecord';
+
+  // other
+  static const intensityWeight = 500;
+  static const intensityWeightPerWeek = 0.5;
 }

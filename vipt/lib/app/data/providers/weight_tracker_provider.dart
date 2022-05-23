@@ -9,7 +9,7 @@ class WeightTrackerProvider implements SqfliteHelper<int, WeightTracker> {
   String tableName = AppValue.weightTrackTable;
 
   @override
-  Future<void> add(WeightTracker obj) async {
+  Future<WeightTracker?> add(WeightTracker obj) async {
     final db = await DatabaseProvider.database;
     db!.insert(tableName, obj.toMap());
   }

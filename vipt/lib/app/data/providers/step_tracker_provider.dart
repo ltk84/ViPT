@@ -9,7 +9,7 @@ class StepTrackerProvider implements SqfliteHelper<int, StepTracker> {
   String tableName = AppValue.stepTrackTable;
 
   @override
-  Future<void> add(StepTracker obj) async {
+  Future<StepTracker?> add(StepTracker obj) async {
     final db = await DatabaseProvider.database;
     db!.insert(tableName, obj.toMap());
   }
