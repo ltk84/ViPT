@@ -12,7 +12,9 @@ class PlanExerciseCollectionProvider
   @override
   Future<PlanExerciseCollection?> add(PlanExerciseCollection obj) async {
     final db = await DatabaseProvider.database;
-    db!.insert(tableName, obj.toMap()).then((value) => obj.id = value);
+    await db!.insert(tableName, obj.toMap()).then((value) {
+      return obj.id = value;
+    });
     return obj;
   }
 

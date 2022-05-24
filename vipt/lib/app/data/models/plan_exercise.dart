@@ -25,4 +25,8 @@ class PlanExercise {
       listID: map['listID']?.toInt() ?? 0,
     );
   }
+
+  @override
+  String toString() =>
+      'PlanExercise(id: $id, exerciseID: $exerciseID, listID: $listID)';
 }

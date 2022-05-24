@@ -1,12 +1,14 @@
 import 'package:get/get.dart';
 import 'package:vipt/app/data/models/exercise_tracker.dart';
 import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
+import 'package:vipt/app/data/models/plan_exercise.dart';
 import 'package:vipt/app/data/models/weight_tracker.dart';
 import 'package:vipt/app/data/models/workout_plan.dart';
 import 'package:vipt/app/data/models/plan_exercise_collection.dart';
 import 'package:vipt/app/data/models/workout_plan_meal.dart';
 import 'package:vipt/app/data/providers/exercise_track_provider.dart';
 import 'package:vipt/app/data/providers/meal_nutrition_track_provider.dart';
+import 'package:vipt/app/data/providers/plan_exercise_provider.dart';
 import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/data/providers/weight_tracker_provider.dart';
 import 'package:vipt/app/data/providers/plan_exercise_collection_provider.dart';
@@ -61,7 +63,8 @@ class WorkoutPlanController extends GetxController {
   final _nutriTrackProvider = MealNutritionTrackProvider();
   final _exerciseTrackProvider = ExerciseTrackProvider();
   final _workoutPlanProvider = WorkoutPlanProvider();
-  final _wkExerciseProvider = PlanExerciseCollectionProvider();
+  final _wkExerciseCollectionProvider = PlanExerciseCollectionProvider();
+  final _wkExerciseProvider = PlanExerciseProvider();
   final _wkMealProvider = WorkoutPlanMealProvider();
 
   RxInt intakeCalories = defaultCaloriesValue.obs;
@@ -81,7 +84,9 @@ class WorkoutPlanController extends GetxController {
   }
 
   Future<void> loadWorkoutPlanExerciseList() async {
-    List<PlanExerciseCollection> list = await _wkExerciseProvider.fetchAll();
+    List<PlanExerciseCollection> list =
+        await _wkExerciseCollectionProvider.fetchAll();
+    List<PlanExercise> _exerciseList = await _wkExerciseProvider.fetchAll();
     if (list.isNotEmpty) {
       wpExerciseList.value = list;
     }

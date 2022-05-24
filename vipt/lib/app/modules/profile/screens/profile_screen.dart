@@ -12,6 +12,7 @@ import 'package:vipt/app/modules/profile/widgets/weekly_nutrition_widget.dart';
 import 'package:vipt/app/modules/profile/widgets/weekly_step_widget.dart';
 import 'package:vipt/app/modules/profile/widgets/weekly_water_widget.dart';
 import 'package:vipt/app/modules/profile/widgets/weight_tracking_widget.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({Key? key}) : super(key: key);
@@ -150,6 +151,7 @@ class ProfileScreen extends StatelessWidget {
                               TextButton(
                                   onPressed: () async {
                                     await AuthService.instance.signOut();
+                                    Get.offAllNamed(Routes.auth);
                                   },
                                   child: Text('Dang xuat'))
                             ],
