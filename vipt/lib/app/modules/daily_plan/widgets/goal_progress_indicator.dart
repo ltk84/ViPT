@@ -20,7 +20,7 @@ class GoalProgressIndicator extends StatelessWidget {
     double progress = goalValue == null ? 1 : value / goalValue!;
 
     return CircularPercentIndicator(
-      percent: progress > 1 ? 1 : progress,
+      percent: progress > 1 || progress < 0 ? 1 : progress,
       radius: radius,
       lineWidth: 6,
       backgroundColor:

@@ -21,6 +21,19 @@ class CollectionSetting {
     this.restFrequency = 10,
   });
 
+  factory CollectionSetting.fromCollectionSetting(CollectionSetting set) {
+    return CollectionSetting(
+      round: set.round,
+      exerciseTime: set.exerciseTime,
+      isShuffle: set.isShuffle,
+      isStartWithWarmUp: set.isStartWithWarmUp,
+      numOfWorkoutPerRound: set.numOfWorkoutPerRound,
+      restFrequency: set.restFrequency,
+      restTime: set.restTime,
+      transitionTime: set.transitionTime,
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'round': round,

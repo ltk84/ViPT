@@ -49,12 +49,12 @@ class WorkoutCollectionController extends GetxController {
 
   Rx<String> displayTime = ''.obs;
 
+  bool useDefaulColSetting = true;
+
   @override
   void onInit() {
     initWorkoutCollectionTree();
     loadCollectionCategories();
-    // loadCateListAndNumCollection();
-    // initCollectionSetting();
     loadUserCollections();
     loadCollectionSetting();
     selectedCollection = null;
@@ -250,13 +250,17 @@ class WorkoutCollectionController extends GetxController {
 
   // hàm load collection setting
   void loadCollectionSetting() {
-    collectionSetting.value = DataService.currentUser!.collectionSetting;
+    if (useDefaulColSetting) {
+      collectionSetting.value = DataService.currentUser!.collectionSetting;
+    }
   }
 
   // hàm update collection setting
   Future<void> updateCollectionSetting() async {
-    await WorkoutCollectionSettingProvider()
-        .update('id', collectionSetting.value);
+    if (useDefaulColSetting) {
+      await WorkoutCollectionSettingProvider()
+          .update('id', collectionSetting.value);
+    }
   }
 
   // // hàm load cateListAndNumCollection
