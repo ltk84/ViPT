@@ -675,19 +675,18 @@ class SetupInfoController extends GetxController {
     _workoutPlanProvider.add(workoutPlan);
 
     generateMealList(intakeCalories);
-    generateExerciseListWithPlanLength(
+    await generateExerciseListWithPlanLength(
         outtakeCalories, user.currentWeight, workoutPlanLengthInDays);
   }
 
-  void generateExerciseListWithPlanLength(
-      num outtakeCalories, num userWeight, int workoutPlanLength) {
-    // for (int i = 0; i < workoutPlanLength; i++) {
-    //   generateExerciseListEveryDay(outtakeCalories, userWeight);
-    // }
-    generateExerciseListEveryDay(
-        outtakeCalories: outtakeCalories,
-        userWeight: userWeight,
-        date: DateTime.now());
+  Future<void> generateExerciseListWithPlanLength(
+      num outtakeCalories, num userWeight, int workoutPlanLength) async {
+    for (int i = 0; i < workoutPlanLength; i++) {
+      await generateExerciseListEveryDay(
+          outtakeCalories: outtakeCalories,
+          userWeight: userWeight,
+          date: DateTime.now().add(Duration(days: i)));
+    }
   }
 
   Future<void> generateExerciseListEveryDay(
