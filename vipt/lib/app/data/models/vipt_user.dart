@@ -14,16 +14,16 @@ class ViPTUser extends BaseModel {
   WeightUnit weightUnit;
   HeightUnit heightUnit;
   List<Hobby>? hobbies;
-  Diet diet;
+  Diet? diet;
   List<BadHabit>? badHabits;
   List<ProteinSource>? proteinSources;
   List<PhyscialLimitaion>? limits;
-  SleepTime sleepTime;
-  DailyWater dailyWater;
-  MainGoal mainGoal;
-  BodyType bodyType;
-  Experience experience;
-  TypicalDay typicalDay;
+  SleepTime? sleepTime;
+  DailyWater? dailyWater;
+  MainGoal? mainGoal;
+  BodyType? bodyType;
+  Experience? experience;
+  TypicalDay? typicalDay;
   ActiveFrequency activeFrequency;
   CollectionSetting collectionSetting;
 
@@ -64,17 +64,17 @@ class ViPTUser extends BaseModel {
       'goalWeight': goalWeight,
       'weightUnit': weightUnit.toStr(),
       'heightUnit': heightUnit.toStr(),
-      'hobbies': hobbies!.map((e) => e.toStr()).toList(),
-      'diet': diet.toStr(),
-      'badHabits': badHabits!.map((e) => e.toStr()).toList(),
-      'proteinSources': proteinSources!.map((e) => e.toStr()).toList(),
-      'limits': limits!.map((e) => e.toStr()).toList(),
-      'sleepTime': sleepTime.toStr(),
-      'dailyWater': dailyWater.toStr(),
-      'mainGoal': mainGoal.toStr(),
-      'bodyType': bodyType.toStr(),
-      'experience': experience.toStr(),
-      'typicalDay': typicalDay.toStr(),
+      'hobbies': hobbies?.map((e) => e.toStr()).toList() ?? [],
+      'diet': diet?.toStr() ?? '',
+      'badHabits': badHabits?.map((e) => e.toStr()).toList() ?? [],
+      'proteinSources': proteinSources?.map((e) => e.toStr()).toList() ?? [],
+      'limits': limits?.map((e) => e.toStr()).toList() ?? [],
+      'sleepTime': sleepTime?.toStr() ?? '',
+      'dailyWater': dailyWater?.toStr() ?? '',
+      'mainGoal': mainGoal?.toStr() ?? '',
+      'bodyType': bodyType?.toStr() ?? '',
+      'experience': experience?.toStr() ?? '',
+      'typicalDay': typicalDay?.toStr() ?? '',
       'activeFrequency': activeFrequency.toStr(),
       'collectionSetting': collectionSetting.toMap(),
     };

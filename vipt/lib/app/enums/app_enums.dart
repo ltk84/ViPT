@@ -18,7 +18,7 @@ enum PhyscialLimitaion { backPain, kneePain, limitedMobility, none }
 
 enum Experience { beginner, intermediate, advanced }
 
-enum ActiveFrequency { notMuch, few, average, much }
+enum ActiveFrequency { notMuch, few, average, much, soMuch }
 
 enum DailyWater { notMuch, few, average, much }
 

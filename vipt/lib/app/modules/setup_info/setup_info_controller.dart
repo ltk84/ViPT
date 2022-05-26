@@ -4,19 +4,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/utilities/utils.dart';
 import 'package:vipt/app/core/values/app_strings.dart';
+import 'package:vipt/app/core/values/quiz.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/answer.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
+import 'package:vipt/app/data/models/meal.dart';
+import 'package:vipt/app/data/models/meal_nutrition.dart';
 import 'package:vipt/app/data/models/plan_exercise.dart';
 import 'package:vipt/app/data/models/plan_exercise_collection.dart';
 import 'package:vipt/app/data/models/plan_exercise_collection_setting.dart';
+import 'package:vipt/app/data/models/plan_meal.dart';
+import 'package:vipt/app/data/models/plan_meal_collection.dart';
 import 'package:vipt/app/data/models/vipt_user.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_plan.dart';
 import 'package:vipt/app/data/providers/plan_exercise_collection_provider.dart';
 import 'package:vipt/app/data/providers/plan_exercise_collection_setting_provider.dart';
 import 'package:vipt/app/data/providers/plan_exercise_provider.dart';
-import 'package:vipt/app/data/providers/workout_plan_meal_provider.dart';
+import 'package:vipt/app/data/providers/plan_meal_collection_provider.dart';
+import 'package:vipt/app/data/providers/plan_meal_provider.dart';
 import 'package:vipt/app/data/providers/workout_plan_provider.dart';
 import 'package:vipt/app/data/services/auth_service.dart';
 import 'package:vipt/app/data/services/data_service.dart';
@@ -623,16 +629,16 @@ class SetupInfoController extends GetxController {
       weightUnit: weightUnit as WeightUnit,
       heightUnit: heightUnit as HeightUnit,
       hobbies: hobbies,
-      diet: diet as Diet,
+      diet: diet,
       badHabits: badHabits,
       proteinSources: proteinSources,
       limits: limits,
-      sleepTime: sleepTime as SleepTime,
-      dailyWater: dailyWater as DailyWater,
-      mainGoal: mainGoal as MainGoal,
-      bodyType: bodyType as BodyType,
-      experience: experience as Experience,
-      typicalDay: typicalDay as TypicalDay,
+      sleepTime: sleepTime,
+      dailyWater: dailyWater,
+      mainGoal: mainGoal,
+      bodyType: bodyType,
+      experience: experience,
+      typicalDay: typicalDay,
       activeFrequency: activeFrequency as ActiveFrequency,
       collectionSetting: CollectionSetting(),
     );
@@ -647,13 +653,14 @@ class SetupInfoController extends GetxController {
     // await createWorkoutPlan(newUser);
   }
 
-  // tính toán endDate, meal list, exercise list
   Future<void> createWorkoutPlan(ViPTUser user) async {
     final _workoutPlanProvider = WorkoutPlanProvider();
     // final _wkMealProvider = WorkoutPlanMealProvider();
     // final _wkExerciseProvider = PlanExerciseCollectionProvider();
 
     await DataService.instance.loadWorkoutList();
+    await DataService.instance.loadMealList();
+    await DataService.instance.loadMealCategoryList();
 
     num weightDiff = user.goalWeight - user.currentWeight;
     num workoutPlanLengthInWeek =
@@ -665,8 +672,8 @@ class SetupInfoController extends GetxController {
         DateTime.now().add(Duration(days: workoutPlanLengthInDays));
 
     num dailyGoalCalories = WorkoutPlanUtils.createDailyGoalCalories(user);
-    num intakeCalories = dailyGoalCalories + AppValue.intensityWeight;
-    num outtakeCalories = AppValue.intensityWeight;
+    num dailyIntakeCalories = dailyGoalCalories + AppValue.intensityWeight;
+    num dailyOuttakeCalories = AppValue.intensityWeight;
 
     final WorkoutPlan workoutPlan = WorkoutPlan(
         dailyGoalCalories: dailyGoalCalories,
@@ -674,9 +681,10 @@ class SetupInfoController extends GetxController {
         endDate: workoutPlanEndDate);
     _workoutPlanProvider.add(workoutPlan);
 
-    generateMealList(intakeCalories);
-    await generateExerciseListWithPlanLength(
-        outtakeCalories, user.currentWeight, workoutPlanLengthInDays);
+    await generateMealList(
+        intakeCalories: dailyIntakeCalories, date: DateTime.now());
+    // await generateExerciseListWithPlanLength(
+    //     dailyOuttakeCalories, user.currentWeight, workoutPlanLengthInDays);
   }
 
   Future<void> generateExerciseListWithPlanLength(
@@ -770,7 +778,69 @@ class SetupInfoController extends GetxController {
     return result;
   }
 
-  void generateMealList(num intakeCalories) {}
+  Future<void> generateMealList(
+      {required num intakeCalories, required DateTime date}) async {
+    List<Meal> mealList = await randomMeals();
+    num ratio = await calculateMealRatio(intakeCalories, mealList);
+
+    PlanMealCollection collection =
+        PlanMealCollection(date: date, mealRatio: ratio.toDouble());
+    collection = (await PlanMealCollectionProvider().add(collection))!;
+
+    final mealProvider = PlanMealProvider();
+    for (var e in mealList) {
+      PlanMeal meal = PlanMeal(mealID: e.id ?? '', listID: collection.id ?? 0);
+      await mealProvider.add(meal);
+    }
+  }
+
+  Future<double> calculateMealRatio(
+      num intakeCalories, List<Meal> mealList) async {
+    num totalCalories = 0;
+    for (var element in mealList) {
+      var mealNutri = MealNutrition(meal: element);
+      await mealNutri.getIngredients();
+      totalCalories += mealNutri.calories;
+    }
+
+    return intakeCalories / totalCalories;
+  }
+
+  Future<List<Meal>> randomMeals() async {
+    List<Meal> result = [];
+    num totalCalories = 0;
+    final _random = Random();
+
+    List<String> mealCategoryIDs =
+        DataService.instance.mealCategoryList.map((e) => e.id ?? '').toList();
+
+    final breakfastList = DataService.instance.mealList
+        .where((element) => element.categoryIDs.contains(mealCategoryIDs[0]))
+        .toList();
+    final lunchDinnerList = DataService.instance.mealList
+        .where((element) => element.categoryIDs.contains(mealCategoryIDs[1]))
+        .toList();
+    final snackList = DataService.instance.mealList
+        .where((element) => element.categoryIDs.contains(mealCategoryIDs[2]))
+        .toList();
+
+    var breakfastMeal = breakfastList[_random.nextInt(breakfastList.length)];
+    if (!result.contains(breakfastMeal)) {
+      result.add(breakfastMeal);
+    }
+
+    var lunchDinnerMeal =
+        lunchDinnerList[_random.nextInt(lunchDinnerList.length)];
+    if (!result.contains(lunchDinnerMeal)) {
+      result.add(lunchDinnerMeal);
+    }
+
+    var snackMeal = snackList[_random.nextInt(snackList.length)];
+    if (!result.contains(snackMeal)) {
+      result.add(snackMeal);
+    }
+    return result;
+  }
 
   void skipQuestion() {
     String propertyToGet = getCurrentQuestion().propertyLink;

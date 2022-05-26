@@ -50,7 +50,7 @@ class NutritionCollectionController extends GetxController {
       for (var mealID in element.value) {
         final meal = await mealProvider.fetch(mealID);
         final mealNutri = MealNutrition(meal: meal);
-        mealNutri.getIngredients();
+        await mealNutri.getIngredients();
         currentMealList.add(mealNutri);
       }
     }

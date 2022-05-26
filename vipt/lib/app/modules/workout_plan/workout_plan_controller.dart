@@ -1,22 +1,27 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/exercise_tracker.dart';
+import 'package:vipt/app/data/models/meal.dart';
 import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
 import 'package:vipt/app/data/models/plan_exercise.dart';
 import 'package:vipt/app/data/models/plan_exercise_collection_setting.dart';
+import 'package:vipt/app/data/models/plan_meal.dart';
+import 'package:vipt/app/data/models/plan_meal_collection.dart';
 import 'package:vipt/app/data/models/weight_tracker.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/models/workout_plan.dart';
 import 'package:vipt/app/data/models/plan_exercise_collection.dart';
-import 'package:vipt/app/data/models/workout_plan_meal.dart';
 import 'package:vipt/app/data/providers/exercise_track_provider.dart';
 import 'package:vipt/app/data/providers/meal_nutrition_track_provider.dart';
+import 'package:vipt/app/data/providers/meal_provider.dart';
 import 'package:vipt/app/data/providers/plan_exercise_collection_setting_provider.dart';
 import 'package:vipt/app/data/providers/plan_exercise_provider.dart';
+import 'package:vipt/app/data/providers/plan_meal_collection_provider.dart';
+import 'package:vipt/app/data/providers/plan_meal_provider.dart';
 import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/data/providers/weight_tracker_provider.dart';
 import 'package:vipt/app/data/providers/plan_exercise_collection_provider.dart';
-import 'package:vipt/app/data/providers/workout_plan_meal_provider.dart';
 import 'package:vipt/app/data/providers/workout_plan_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/enums/app_enums.dart';
@@ -70,9 +75,11 @@ class WorkoutPlanController extends GetxController {
   final _wkExerciseCollectionProvider = PlanExerciseCollectionProvider();
   final _wkExerciseProvider = PlanExerciseProvider();
   final _colSettingProvider = PlanExerciseCollectionSettingProvider();
-  final _wkMealProvider = WorkoutPlanMealProvider();
+  final _wkMealCollectionProvider = PlanMealCollectionProvider();
+  final _wkMealProvider = PlanMealProvider();
 
   RxBool isLoading = false.obs;
+  RxBool isMealListLoading = false.obs;
 
   RxInt intakeCalories = defaultCaloriesValue.obs;
   RxInt outtakeCalories = defaultCaloriesValue.obs;
@@ -80,13 +87,14 @@ class WorkoutPlanController extends GetxController {
       (intakeCalories.value - outtakeCalories.value).obs;
   RxInt dailyGoalCalories = defaultCaloriesValue.obs;
 
-  RxList<PlanExerciseCollection> planExerciseCollection =
-      <PlanExerciseCollection>[].obs;
-  RxList<PlanExercise> planExercise = <PlanExercise>[].obs;
+  List<PlanExerciseCollection> planExerciseCollection =
+      <PlanExerciseCollection>[];
+  List<PlanExercise> planExercise = <PlanExercise>[];
   List<PlanExerciseCollectionSetting> collectionSetting =
-      <PlanExerciseCollectionSetting>[].obs;
+      <PlanExerciseCollectionSetting>[];
 
-  RxList<WorkoutPlanMeal> wpMealList = <WorkoutPlanMeal>[].obs;
+  List<PlanMealCollection> planMealCollection = <PlanMealCollection>[];
+  List<PlanMeal> planMeal = [];
 
   Future<void> loadDailyGoalCalories() async {
     List<WorkoutPlan> list = await _workoutPlanProvider.fetchAll();
@@ -99,7 +107,7 @@ class WorkoutPlanController extends GetxController {
     List<PlanExerciseCollection> list =
         await _wkExerciseCollectionProvider.fetchAll();
     if (list.isNotEmpty) {
-      planExerciseCollection.value = list;
+      planExerciseCollection = list;
       await loadCollectionSetting();
       await loadPlanExerciseList();
     }
@@ -108,7 +116,7 @@ class WorkoutPlanController extends GetxController {
   Future<void> loadPlanExerciseList() async {
     List<PlanExercise> _list = await _wkExerciseProvider.fetchAll();
     if (_list.isNotEmpty) {
-      planExercise.value = _list;
+      planExercise = _list;
     }
   }
 
@@ -116,13 +124,6 @@ class WorkoutPlanController extends GetxController {
     var _list = await _colSettingProvider.fetchAll();
     if (_list.isNotEmpty) {
       collectionSetting = _list;
-    }
-  }
-
-  Future<void> loadWorkoutPlanMealList() async {
-    List<WorkoutPlanMeal> list = await _wkMealProvider.fetchAll();
-    if (list.isNotEmpty) {
-      wpMealList.value = list;
     }
   }
 
@@ -148,18 +149,25 @@ class WorkoutPlanController extends GetxController {
     dailyDiffCalories.value = intakeCalories.value - outtakeCalories.value;
   }
 
-  List<WorkoutCollection> getWkCol() {
-    return planExerciseCollection.map((col) {
-      List<PlanExercise> exerciseList =
-          planExercise.where((p0) => p0.listID == col.id).toList();
-      return WorkoutCollection(col.id.toString(),
-          title:
-              'Bat tap ${col.id} (${col.date.day}/${col.date.month}/${col.date.year})',
-          description: '',
-          asset: '',
-          generatorIDs: exerciseList.map((e) => e.exerciseID).toList(),
-          categoryIDs: []);
-    }).toList();
+  List<WorkoutCollection> loadWorkoutCollectionToShow(DateTime date) {
+    var collection = planExerciseCollection
+        .where((element) => DateUtils.isSameDay(element.date, date))
+        .toList();
+
+    if (collection.isNotEmpty) {
+      return collection.map((col) {
+        List<PlanExercise> exerciseList =
+            planExercise.where((p0) => p0.listID == col.id).toList();
+        return WorkoutCollection(col.id.toString(),
+            title:
+                'Bat tap ${col.id} (${col.date.day}/${col.date.month}/${col.date.year})',
+            description: '',
+            asset: '',
+            generatorIDs: exerciseList.map((e) => e.exerciseID).toList(),
+            categoryIDs: []);
+      }).toList();
+    }
+    return <WorkoutCollection>[];
   }
 
   CollectionSetting? getCollectionSetting(String workoutCollectionID) {
@@ -174,6 +182,43 @@ class WorkoutPlanController extends GetxController {
     return null;
   }
 
+  Future<void> loadWorkoutPlanMealList() async {
+    List<PlanMealCollection> list = await _wkMealCollectionProvider.fetchAll();
+    if (list.isNotEmpty) {
+      planMealCollection = list;
+      await loadPlanMealList();
+    }
+  }
+
+  Future<void> loadPlanMealList() async {
+    List<PlanMeal> _list = await _wkMealProvider.fetchAll();
+    if (_list.isNotEmpty) {
+      planMeal = _list;
+    }
+  }
+
+  Future<List<Meal>> loadMealListToShow(DateTime date) async {
+    isMealListLoading.value = true;
+    final firebaseMealProvider = MealProvider();
+    var collection = planMealCollection
+        .where((element) => DateUtils.isSameDay(element.date, date));
+    if (collection.isEmpty) {
+      return [];
+    } else {
+      List<PlanMeal> _list = planMeal
+          .where((element) => element.listID == collection.first.id)
+          .toList();
+      List<Meal> mealList = [];
+      for (var element in _list) {
+        var m = await firebaseMealProvider.fetch(element.mealID);
+        mealList.add(m);
+      }
+
+      isMealListLoading.value = false;
+      return mealList;
+    }
+  }
+
   // --------------- WORKOUT + MEAL PLAN --------------------------------
 
   @override
@@ -184,7 +229,7 @@ class WorkoutPlanController extends GetxController {
     await loadDailyCalories();
     await loadDailyGoalCalories();
     await loadPlanExerciseCollectionList();
+    await loadWorkoutPlanMealList();
     isLoading.value = false;
-    // await loadWorkoutPlanMealList();
   }
 }

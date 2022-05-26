@@ -100,13 +100,6 @@ class DatabaseProvider {
         listID INTEGER)
     ''');
 
-    // db.execute('''
-    //   CREATE TABLE ${AppValue.workoutPlanMealTable}(
-    //     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    //     date TEXT,
-    //     mealID TEXT)
-    // ''');
-
     db.execute('''
       CREATE TABLE ${AppValue.planExerciseCollectionSettingTable}(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -118,6 +111,20 @@ class DatabaseProvider {
         transitionTime INTEGER,
         restTime INTEGER,
         restFrequency INTEGER)
+    ''');
+
+    db.execute('''
+      CREATE TABLE ${AppValue.planMealCollectionTable}(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        date TEXT,
+        mealRatio REAL)
+    ''');
+
+    db.execute('''
+      CREATE TABLE ${AppValue.planMealTable}(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        mealID TEXT,
+        listID INTEGER)
     ''');
   }
 }

@@ -100,12 +100,15 @@ class WorkoutPlanUtils {
         fValue = 1.2;
         break;
       case ActiveFrequency.few:
-        fValue = 1.55;
+        fValue = 1.375;
         break;
       case ActiveFrequency.average:
-        fValue = 1.725;
+        fValue = 1.55;
         break;
       case ActiveFrequency.much:
+        fValue = 1.725;
+        break;
+      case ActiveFrequency.soMuch:
         fValue = 1.9;
         break;
     }

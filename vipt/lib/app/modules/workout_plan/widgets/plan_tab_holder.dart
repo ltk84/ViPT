@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
+import 'package:vipt/app/data/models/meal.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
@@ -11,12 +12,7 @@ import 'package:vipt/app/routes/pages.dart';
 import '../workout_plan_controller.dart';
 
 class PlanTabHolder extends StatefulWidget {
-  const PlanTabHolder(
-      {required this.firstCollection, required this.secondCollection, Key? key})
-      : super(key: key);
-
-  final List<WorkoutCollection> firstCollection;
-  final List<WorkoutCollection> secondCollection;
+  const PlanTabHolder({Key? key}) : super(key: key);
 
   @override
   State<PlanTabHolder> createState() => _PlanTabHolderState();
@@ -29,10 +25,14 @@ class _PlanTabHolderState extends State<PlanTabHolder>
 
   final _controller = Get.find<WorkoutPlanController>();
 
+  List<WorkoutCollection> workouts = [];
+  List<Meal> meals = [];
+
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
+    workouts = _controller.loadWorkoutCollectionToShow(DateTime.now());
   }
 
   @override
@@ -44,8 +44,11 @@ class _PlanTabHolderState extends State<PlanTabHolder>
           child: TabBar(
             controller: _tabController,
             onTap: (index) {
-              setState(() {
+              setState(() async {
                 _selectedTabIndex = index;
+                if (_selectedTabIndex == 1 && meals.isEmpty) {
+                  meals = await _controller.loadMealListToShow(DateTime.now());
+                }
               });
             },
             labelStyle: Theme.of(context).textTheme.subtitle2!.copyWith(
@@ -69,7 +72,7 @@ class _PlanTabHolderState extends State<PlanTabHolder>
             return Column(
               children: [
                 ..._buildCollectionList(
-                    workoutCollectionList: widget.firstCollection,
+                    workoutCollectionList: workouts,
                     elementOnPress: (col) async {
                       await _handleSelectExercise(col);
                     }),
@@ -79,7 +82,7 @@ class _PlanTabHolderState extends State<PlanTabHolder>
             return Column(
               children: [
                 ..._buildCollectionList(
-                    workoutCollectionList: widget.secondCollection,
+                    workoutCollectionList: [],
                     elementOnPress: (col) async {
                       final _collectionController =
                           Get.put(WorkoutCollectionController());

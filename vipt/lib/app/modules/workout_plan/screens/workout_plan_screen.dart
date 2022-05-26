@@ -190,12 +190,9 @@ class WorkoutPlanScreen extends StatelessWidget {
                               topRight: Radius.circular(15),
                             ),
                           ),
-                          child: SingleChildScrollView(
-                            physics: const NeverScrollableScrollPhysics(),
-                            child: PlanTabHolder(
-                              firstCollection: _controller.getWkCol(),
-                              secondCollection: [],
-                            ),
+                          child: const SingleChildScrollView(
+                            physics: NeverScrollableScrollPhysics(),
+                            child: PlanTabHolder(),
                           ),
                         ),
                       ),

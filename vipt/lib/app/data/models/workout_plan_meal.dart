@@ -1,36 +1,36 @@
-class WorkoutPlanMeal {
-  final int? id;
-  final DateTime date;
-  final String mealID;
+// class WorkoutPlanMeal {
+//   final int? id;
+//   final DateTime date;
+//   final String mealID;
 
-  WorkoutPlanMeal({
-    this.id,
-    required this.date,
-    required this.mealID,
-  });
+//   WorkoutPlanMeal({
+//     this.id,
+//     required this.date,
+//     required this.mealID,
+//   });
 
-  Map<String, dynamic> toMap() {
-    Map<String, dynamic> map = {
-      'id': id,
-      'date': date.toString(),
-      'mealID': mealID,
-    };
+//   Map<String, dynamic> toMap() {
+//     Map<String, dynamic> map = {
+//       'id': id,
+//       'date': date.toString(),
+//       'mealID': mealID,
+//     };
 
-    if (id != null) {
-      map['id'] = id;
-    }
+//     if (id != null) {
+//       map['id'] = id;
+//     }
 
-    return map;
-  }
+//     return map;
+//   }
 
-  factory WorkoutPlanMeal.fromMap(Map<String, dynamic> map) {
-    return WorkoutPlanMeal(
-      id: map['id']?.toInt(),
-      date: DateTime.parse(map['date']),
-      mealID: map['mealID'] ?? '',
-    );
-  }
+//   factory WorkoutPlanMeal.fromMap(Map<String, dynamic> map) {
+//     return WorkoutPlanMeal(
+//       id: map['id']?.toInt(),
+//       date: DateTime.parse(map['date']),
+//       mealID: map['mealID'] ?? '',
+//     );
+//   }
 
-  @override
-  String toString() => 'WorkoutPlanMeal(id: $id, date: $date, mealID: $mealID)';
-}
+//   @override
+//   String toString() => 'WorkoutPlanMeal(id: $id, date: $date, mealID: $mealID)';
+// }
