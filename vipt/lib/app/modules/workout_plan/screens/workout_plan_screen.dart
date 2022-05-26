@@ -89,30 +89,25 @@ class WorkoutPlanScreen extends StatelessWidget {
                             const SizedBox(
                               height: 24,
                             ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: CaloriesInfoWidget(),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 18),
+                              child: CaloriesInfoWidget(
+                                currentCalories:
+                                    _controller.dailyDiffCalories.value,
+                                goalCalories:
+                                    _controller.dailyGoalCalories.value,
+                              ),
                             ),
                             const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 18),
                               child: WeightInfoWidget(),
                             ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 18),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 18),
                               child: ProgressInfoWidget(
-                                completeDays: [
-                                  true,
-                                  true,
-                                  true,
-                                  true,
-                                  true,
-                                  true,
-                                  true,
-                                  true,
-                                  true,
-                                  true,
-                                  false
-                                ],
+                                completeDays: _controller.planStreak,
                               ),
                             ),
                             const SizedBox(

@@ -19,13 +19,11 @@ class PlanMealProvider implements SqfliteHelper<int, PlanMeal> {
 
   @override
   Future<void> delete(int id) {
-    // TODO: implement delete
     throw UnimplementedError();
   }
 
   @override
   Future<PlanMeal?> fetch(int id) {
-    // TODO: implement fetch
     throw UnimplementedError();
   }
 
@@ -39,13 +37,11 @@ class PlanMealProvider implements SqfliteHelper<int, PlanMeal> {
 
   @override
   Future<List<PlanMeal>> fetchByDate(DateTime dateTime) {
-    // TODO: implement fetchByDate
     throw UnimplementedError();
   }
 
   @override
   Future<void> update(int id, PlanMeal obj) {
-    // TODO: implement update
     throw UnimplementedError();
   }
 }

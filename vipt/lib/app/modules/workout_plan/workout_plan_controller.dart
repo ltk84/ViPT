@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/exercise_tracker.dart';
 import 'package:vipt/app/data/models/meal.dart';
@@ -221,6 +222,36 @@ class WorkoutPlanController extends GetxController {
 
   // --------------- WORKOUT + MEAL PLAN --------------------------------
 
+  // --------------- STREAK --------------------------------
+  Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+  List<bool> planStreak = [];
+
+  Future<void> loadPlanStreak() async {
+    List<WorkoutPlan> list = await _workoutPlanProvider.fetchAll();
+    if (list.isNotEmpty) {
+      var plan = list[0];
+      int dateExtend = plan.endDate.difference(plan.startDate).inDays;
+      List<bool> streak = [];
+      final _prefs = await prefs;
+      for (int i = 0; i < dateExtend; i++) {
+        DateTime date = plan.startDate.add(Duration(days: i));
+        var res = _prefs.getBool(DateUtils.dateOnly(date).toString());
+        if (res != null) {
+          streak.add(res);
+        } else {
+          // TODO: làm thông báo không tìm được streak list
+          printError(info: 'Loi khong tim streak vao date $date');
+          return;
+        }
+      }
+
+      planStreak.clear();
+      planStreak.addAll(streak);
+    }
+  }
+
+  // --------------- STREAK --------------------------------
+
   @override
   void onInit() async {
     super.onInit();
@@ -230,6 +261,21 @@ class WorkoutPlanController extends GetxController {
     await loadDailyGoalCalories();
     await loadPlanExerciseCollectionList();
     await loadWorkoutPlanMealList();
+    await loadPlanStreak();
     isLoading.value = false;
+
+    ever(dailyDiffCalories, (_) async {
+      if (dailyDiffCalories.value >= dailyGoalCalories.value) {
+        final _prefs = await prefs;
+        DateTime date = DateUtils.dateOnly(DateTime.now());
+        bool? isTodayComplete = _prefs.getBool(date.toString());
+        if (isTodayComplete == null) {
+          // TODO: làm thông báo không tìm được streak list
+          printError(info: 'Loi khong tim streak vao date $date');
+          return;
+        }
+        _prefs.setBool(date.toString(), true);
+      }
+    });
   }
 }

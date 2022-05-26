@@ -44,11 +44,11 @@ class _PlanTabHolderState extends State<PlanTabHolder>
           child: TabBar(
             controller: _tabController,
             onTap: (index) {
-              setState(() async {
+              setState(() {
                 _selectedTabIndex = index;
-                if (_selectedTabIndex == 1 && meals.isEmpty) {
-                  meals = await _controller.loadMealListToShow(DateTime.now());
-                }
+                // if (_selectedTabIndex == 1 && meals.isEmpty) {
+                //   meals = await _controller.loadMealListToShow(DateTime.now());
+                // }
               });
             },
             labelStyle: Theme.of(context).textTheme.subtitle2!.copyWith(

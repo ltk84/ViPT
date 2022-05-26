@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class PlanMeal {
   int? id;
   final String mealID;

@@ -12,7 +12,6 @@ import 'package:vipt/app/data/providers/local_meal_provider.dart';
 import 'package:vipt/app/data/providers/meal_nutrition_track_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/daily_plan/tracker_controller.dart';
-import 'package:vipt/app/modules/profile/profile_controller.dart';
 
 class DailyNutritionController extends GetxController with TrackerController {
   TextEditingController searchTextController = TextEditingController();

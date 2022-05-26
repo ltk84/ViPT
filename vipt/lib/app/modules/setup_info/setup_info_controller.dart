@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vipt/app/core/utilities/utils.dart';
 import 'package:vipt/app/core/values/app_strings.dart';
 import 'package:vipt/app/core/values/quiz.dart';
@@ -655,8 +657,6 @@ class SetupInfoController extends GetxController {
 
   Future<void> createWorkoutPlan(ViPTUser user) async {
     final _workoutPlanProvider = WorkoutPlanProvider();
-    // final _wkMealProvider = WorkoutPlanMealProvider();
-    // final _wkExerciseProvider = PlanExerciseCollectionProvider();
 
     await DataService.instance.loadWorkoutList();
     await DataService.instance.loadMealList();
@@ -681,10 +681,16 @@ class SetupInfoController extends GetxController {
         endDate: workoutPlanEndDate);
     _workoutPlanProvider.add(workoutPlan);
 
-    await generateMealList(
-        intakeCalories: dailyIntakeCalories, date: DateTime.now());
-    // await generateExerciseListWithPlanLength(
-    //     dailyOuttakeCalories, user.currentWeight, workoutPlanLengthInDays);
+    await generateMealListWithPlanLength(
+        intakeCalories: dailyIntakeCalories,
+        planLength: workoutPlanLengthInDays);
+
+    await generateExerciseListWithPlanLength(
+        dailyOuttakeCalories, user.currentWeight, workoutPlanLengthInDays);
+
+    await generateInitialPlanStreak(
+        startDate: workoutPlanStartDate,
+        planLengthInDays: workoutPlanLengthInDays);
   }
 
   Future<void> generateExerciseListWithPlanLength(
@@ -778,6 +784,15 @@ class SetupInfoController extends GetxController {
     return result;
   }
 
+  Future<void> generateMealListWithPlanLength(
+      {required num intakeCalories, required int planLength}) async {
+    for (int i = 0; i < planLength; i++) {
+      generateMealList(
+          intakeCalories: intakeCalories,
+          date: DateTime.now().add(Duration(days: i)));
+    }
+  }
+
   Future<void> generateMealList(
       {required num intakeCalories, required DateTime date}) async {
     List<Meal> mealList = await randomMeals();
@@ -808,7 +823,6 @@ class SetupInfoController extends GetxController {
 
   Future<List<Meal>> randomMeals() async {
     List<Meal> result = [];
-    num totalCalories = 0;
     final _random = Random();
 
     List<String> mealCategoryIDs =
@@ -840,6 +854,16 @@ class SetupInfoController extends GetxController {
       result.add(snackMeal);
     }
     return result;
+  }
+
+  Future<void> generateInitialPlanStreak(
+      {required DateTime startDate, required int planLengthInDays}) async {
+    final _prefs = await SharedPreferences.getInstance();
+
+    for (int i = 0; i < planLengthInDays; i++) {
+      DateTime date = DateUtils.dateOnly(startDate.add(Duration(days: i)));
+      _prefs.setBool(date.toString(), false);
+    }
   }
 
   void skipQuestion() {
