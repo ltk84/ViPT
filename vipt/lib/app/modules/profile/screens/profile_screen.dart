@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/data/services/auth_service.dart';
 import 'package:vipt/app/modules/profile/profile_controller.dart';
 import 'package:vipt/app/modules/profile/widgets/progress_image_widget.dart';
 import 'package:vipt/app/modules/profile/widgets/weekly_exercise_widget.dart';
@@ -11,6 +12,7 @@ import 'package:vipt/app/modules/profile/widgets/weekly_nutrition_widget.dart';
 import 'package:vipt/app/modules/profile/widgets/weekly_step_widget.dart';
 import 'package:vipt/app/modules/profile/widgets/weekly_water_widget.dart';
 import 'package:vipt/app/modules/profile/widgets/weight_tracking_widget.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({Key? key}) : super(key: key);
@@ -139,6 +141,19 @@ class ProfileScreen extends StatelessWidget {
                                 ),
                               ),
                               ProgressImageWidget(),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
+                                child: Divider(
+                                  color: AppColor.textFieldUnderlineColor,
+                                ),
+                              ),
+                              TextButton(
+                                  onPressed: () async {
+                                    await AuthService.instance.signOut();
+                                    Get.offAllNamed(Routes.auth);
+                                  },
+                                  child: Text('Dang xuat'))
                             ],
                           ),
                         ),

@@ -10,7 +10,7 @@ class MealNutritionTrackProvider
   String tableName = AppValue.mealNutritionTrackTable;
 
   @override
-  Future<void> add(MealNutritionTracker obj) async {
+  Future<MealNutritionTracker?> add(MealNutritionTracker obj) async {
     final db = await DatabaseProvider.database;
     db!.insert(tableName, obj.toMap());
   }

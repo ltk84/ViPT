@@ -26,7 +26,6 @@ class MyWorkoutCollectionDetailScreen extends StatelessWidget {
 
   void init() {
     _controller.loadCollectionSetting();
-    // _controller.loadWorkoutList();
   }
 
   void handleDeleteAction() async {

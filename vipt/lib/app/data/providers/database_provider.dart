@@ -87,17 +87,37 @@ class DatabaseProvider {
     ''');
 
     db.execute('''
-      CREATE TABLE ${AppValue.workoutPlanExerciseTable}(
+      CREATE TABLE ${AppValue.planExerciseCollectionTable}(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         date TEXT,
-        exerciseID TEXT)
+        collectionSettingID INTEGER)
     ''');
 
     db.execute('''
-      CREATE TABLE ${AppValue.workoutPlanMealTable}(
+      CREATE TABLE ${AppValue.planExerciseTable}(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        date TEXT,
-        mealID TEXT)
+        exerciseID TEXT,
+        listID INTEGER)
+    ''');
+
+    // db.execute('''
+    //   CREATE TABLE ${AppValue.workoutPlanMealTable}(
+    //     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    //     date TEXT,
+    //     mealID TEXT)
+    // ''');
+
+    db.execute('''
+      CREATE TABLE ${AppValue.planExerciseCollectionSettingTable}(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        round INTEGER,
+        numOfWorkoutPerRound INTEGER,
+        isStartWithWarmUp INTEGER,
+        isShuffle INTEGER,
+        exerciseTime INTEGER,
+        transitionTime INTEGER,
+        restTime INTEGER,
+        restFrequency INTEGER)
     ''');
   }
 }
