@@ -60,14 +60,14 @@ class CustomConfirmationDialog extends StatelessWidget {
           ],
         ),
         titleTextStyle: Theme.of(context).textTheme.headline3,
-        titlePadding: const EdgeInsets.fromLTRB(24, 28, 24, 4),
+        titlePadding: const EdgeInsets.fromLTRB(36, 28, 36, 4),
         content: Text(
           content,
           textAlign: textAlign,
         ),
         contentTextStyle:
             Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 16),
-        contentPadding: const EdgeInsets.fromLTRB(24, 4, 24, 4),
+        contentPadding: const EdgeInsets.fromLTRB(36, 4, 36, 4),
         actions: [
           if (showCancelButton)
             ConstrainedBox(

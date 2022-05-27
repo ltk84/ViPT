@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
+import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/services/data_service.dart';
+import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
@@ -109,7 +111,27 @@ class _PlanTabHolderState extends State<PlanTabHolder>
     }
     // TODO: Thông báo lỗi nếu không tìm được collection setting
     else {
-      print('Khong tim duoc collection setting');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CustomConfirmationDialog(
+            icon: const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Icon(Icons.error_rounded,
+                  color: AppColor.errorColor, size: 48),
+            ),
+            label: 'Đã xảy ra lỗi',
+            content: 'Không tìm thấy cài đặt bộ luyện tập',
+            showOkButton: false,
+            labelCancel: 'Đóng',
+            onCancel: () {
+              Navigator.of(context).pop();
+            },
+            buttonsAlignment: MainAxisAlignment.center,
+            buttonFactorOnMaxWidth: double.infinity,
+          );
+        },
+      );
     }
   }
 
