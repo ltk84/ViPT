@@ -138,13 +138,19 @@ class _PlanTabHolderState extends State<PlanTabHolder>
   _buildCollectionList(
       {required List<WorkoutCollection> workoutCollectionList,
       required Function(WorkoutCollection) elementOnPress}) {
-    return workoutCollectionList.map((collection) {
+    int collectionPerDay = 2;
+    List<Widget> results = [];
+
+    int count = workoutCollectionList.length;
+    for (int i = 0; i < count; i++) {
+      WorkoutCollection collection = workoutCollectionList[i];
       String cateList = DataService.instance.collectionCateList
           .where((item) => collection.categoryIDs.contains(item.id))
           .map((e) => e.name)
           .toString()
           .replaceAll(RegExp(r'\(|\)'), '');
-      return Container(
+
+      Widget collectionToWidget = Container(
         margin: const EdgeInsets.symmetric(vertical: 8),
         child: ExerciseInCollectionTile(
             asset: collection.asset == ''
@@ -156,6 +162,69 @@ class _PlanTabHolderState extends State<PlanTabHolder>
               elementOnPress(collection);
             }),
       );
-    }).toList();
+
+      if (i % 2 == 0) {
+        Widget dayIndicator = Padding(
+          padding: const EdgeInsets.only(top: 16, bottom: 4),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Divider(
+                  thickness: 1,
+                  color: AppColor.textFieldUnderlineColor,
+                ),
+              ),
+              const SizedBox(
+                width: 16,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // const SizedBox(
+                  //   height: 24,
+                  // ),
+                  Text(
+                    'NGÀY ${i ~/ 2 + 1}',
+                    style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  const SizedBox(
+                    height: 2,
+                  ),
+                  Text(
+                    'dd/MM/yyyy',
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          color: AppColor.textColor.withOpacity(
+                            AppColor.subTextOpacity,
+                          ),
+                        ),
+                  ),
+                  // const SizedBox(
+                  //   height: 4,
+                  // ),
+                ],
+              ),
+              const SizedBox(
+                width: 16,
+              ),
+              Expanded(
+                child: Divider(
+                  thickness: 1,
+                  color: AppColor.textFieldUnderlineColor,
+                ),
+              ),
+            ],
+          ),
+        );
+
+        results.add(dayIndicator);
+      }
+
+      results.add(collectionToWidget);
+    }
+
+    return results;
   }
 }
