@@ -176,10 +176,10 @@ class ProfileController extends GetxController {
   // ------------------------ Weight Track ------------------------ //
   Rx<DateTimeRange> weightDateRange = defaultWeightDateRange.obs;
   RxList<WeightTracker> allWeightTracks = <WeightTracker>[].obs;
-  Map<DateTime, double> defaultMap = {
-    DateTime(2022, 1, 1): -1,
-    DateTime(2022, 1, 2): 75,
-  };
+  // Map<DateTime, double> defaultMap = {
+  //   DateTime(2022, 1, 1): -1,
+  //   DateTime(2022, 1, 2): 75,
+  // };
 
   Rx<String> get weightStartDateStr =>
       '${weightDateRange.value.start.day}/${weightDateRange.value.start.month}/${weightDateRange.value.start.year}'
@@ -193,11 +193,7 @@ class ProfileController extends GetxController {
       return x.date.compareTo(y.date);
     });
 
-    return allWeightTracks.isEmpty
-        ? defaultMap
-        : allWeightTracks.length == 1
-            ? fakeMap()
-            : convertToMap();
+    return allWeightTracks.length == 1 ? fakeMap() : convertToMap();
   }
 
   Map<DateTime, double> convertToMap() {
@@ -208,7 +204,7 @@ class ProfileController extends GetxController {
     var map = convertToMap();
 
     map.addAll(
-        {allWeightTracks.first.date.subtract(const Duration(days: 1)): -1});
+        {allWeightTracks.first.date.subtract(const Duration(days: 1)): 0});
 
     return map;
   }
@@ -228,6 +224,11 @@ class ProfileController extends GetxController {
 
   Future<void> changeWeighDateRange(
       DateTime startDate, DateTime endDate) async {
+    if (startDate.day == endDate.day &&
+        startDate.month == endDate.month &&
+        startDate.year == endDate.year) {
+      startDate = startDate.subtract(const Duration(days: 1));
+    }
     weightDateRange.value = DateTimeRange(start: startDate, end: endDate);
     await loadWeightTracks();
   }
