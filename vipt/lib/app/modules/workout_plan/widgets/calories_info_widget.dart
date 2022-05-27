@@ -98,12 +98,15 @@ class _CaloriesInfoWidgetState extends State<CaloriesInfoWidget> {
                 ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   child: LinearProgressIndicator(
-                    value:
-                        widget.currentCalories == widget.goalCalories ? 1 : 0,
+                    value: widget.goalCalories != 0
+                        ? widget.currentCalories / widget.goalCalories
+                        : 0,
                     minHeight: 6,
                     backgroundColor: AppColor.textFieldUnderlineColor
                         .withOpacity(AppColor.subTextOpacity),
-                    color: AppColor.secondaryColor,
+                    color: widget.currentCalories > widget.goalCalories
+                        ? AppColor.primaryColor
+                        : AppColor.secondaryColor,
                   ),
                 ),
                 const SizedBox(
