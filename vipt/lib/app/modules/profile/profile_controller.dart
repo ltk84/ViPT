@@ -41,7 +41,7 @@ class ProfileController extends GetxController {
   final _stepTrackController = Get.put(DailyStepController());
 
   // ------------------------ Exercise Track ------------------------ //
-  Rx<double> exerciseMinutesWeekly = 0.0.obs;
+  Rx<double> exerciseSecondsWeekly = 0.0.obs;
   Rx<int> exerciseCaloriesWeekly = 0.obs;
   RxList<List<ExerciseTracker>> exerciseTracksWeekly =
       <List<ExerciseTracker>>[[], [], [], [], [], [], []].obs;
@@ -73,7 +73,7 @@ class ProfileController extends GetxController {
 
   Future<void> loadExerciseTracks() async {
     exerciseCaloriesWeekly.value = 0;
-    exerciseMinutesWeekly.value = 0;
+    exerciseSecondsWeekly.value = 0;
 
     for (int i = 0; i < 7; i++) {
       var exerciseTracks = await _exerciseProvider
@@ -82,11 +82,11 @@ class ProfileController extends GetxController {
       double temptTotalTime = 0;
       for (var element in exerciseTracks) {
         temptOuttakeCalories += element.outtakeCalories;
-        temptTotalTime += (element.totalTime / 60);
+        temptTotalTime += (element.totalTime);
       }
 
       exerciseCaloriesWeekly.value += temptOuttakeCalories;
-      exerciseMinutesWeekly.value += temptTotalTime;
+      exerciseSecondsWeekly.value += temptTotalTime;
       exerciseTracksWeekly[i] = exerciseTracks;
     }
   }
