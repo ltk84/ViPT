@@ -41,7 +41,7 @@ class ProfileController extends GetxController {
   final _stepTrackController = Get.put(DailyStepController());
 
   // ------------------------ Exercise Track ------------------------ //
-  Rx<int> exerciseMinutesWeekly = 0.obs;
+  Rx<double> exerciseMinutesWeekly = 0.0.obs;
   Rx<int> exerciseCaloriesWeekly = 0.obs;
   RxList<List<ExerciseTracker>> exerciseTracksWeekly =
       <List<ExerciseTracker>>[[], [], [], [], [], [], []].obs;
@@ -78,10 +78,15 @@ class ProfileController extends GetxController {
     for (int i = 0; i < 7; i++) {
       var exerciseTracks = await _exerciseProvider
           .fetchByDate(exerciseDateRange.value.start.add(Duration(days: i)));
+      int temptOuttakeCalories = 0;
+      double temptTotalTime = 0;
       for (var element in exerciseTracks) {
-        exerciseCaloriesWeekly.value += element.outtakeCalories;
-        exerciseMinutesWeekly.value += element.totalTime;
+        temptOuttakeCalories += element.outtakeCalories;
+        temptTotalTime += (element.totalTime / 60);
       }
+
+      exerciseCaloriesWeekly.value += temptOuttakeCalories;
+      exerciseMinutesWeekly.value += temptTotalTime;
       exerciseTracksWeekly[i] = exerciseTracks;
     }
   }
@@ -116,9 +121,11 @@ class ProfileController extends GetxController {
     for (int i = 0; i < 7; i++) {
       var nutritionTracks = await _nutritionProvider
           .fetchByDate(exerciseDateRange.value.start.add(Duration(days: i)));
+      int temptIntakeCalories = 0;
       for (var element in nutritionTracks) {
-        nutritionCaloWeekly.value += element.intakeCalories;
+        temptIntakeCalories += element.intakeCalories;
       }
+      nutritionCaloWeekly.value += temptIntakeCalories;
       nutritionTracksWeekly[i] = nutritionTracks;
     }
   }
@@ -159,9 +166,12 @@ class ProfileController extends GetxController {
     for (int i = 0; i < 7; i++) {
       var waterTracks = await _waterProvider
           .fetchByDate(waterDateRange.value.start.add(Duration(days: i)));
+
+      int temptWaterVolume = 0;
       for (var element in waterTracks) {
-        waterVolumeWeekly.value += element.waterVolume;
+        temptWaterVolume += element.waterVolume;
       }
+      waterVolumeWeekly.value += temptWaterVolume;
       waterTracksWeekly[i] = waterTracks;
     }
   }
@@ -262,9 +272,11 @@ class ProfileController extends GetxController {
     for (int i = 0; i < 7; i++) {
       var stepTracks = await _stepProvider
           .fetchByDate(stepDateRange.value.start.add(Duration(days: i)));
+      int temptStep = 0;
       for (var element in stepTracks) {
-        stepCountWeekly.value += element.stepCount;
+        temptStep += element.stepCount;
       }
+      stepCountWeekly.value += temptStep;
       stepTracksWeekly[i] = stepTracks;
     }
   }

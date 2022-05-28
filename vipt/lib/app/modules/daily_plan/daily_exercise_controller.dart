@@ -7,7 +7,7 @@ class DailyExerciseController extends GetxController with TrackerController {
   final _provider = ExerciseTrackProvider();
   Rx<int> calories = 0.obs;
   Rx<int> sessions = 0.obs;
-  Rx<int> time = 0.obs;
+  Rx<double> time = 0.0.obs;
 
   @override
   void onInit() async {
@@ -30,5 +30,6 @@ class DailyExerciseController extends GetxController with TrackerController {
       sessions.value += e.sessionNumber;
     }).toList();
     update();
+    print(time);
   }
 }

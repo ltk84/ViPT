@@ -39,7 +39,7 @@ class WeeklyExerciseWidget extends StatelessWidget {
             Obx(
               () => _buildExtraInfo(context,
                   title: 'phút luyện tập',
-                  value: _controller.exerciseMinutesWeekly.toString()),
+                  value: _controller.exerciseMinutesWeekly.ceil().toString()),
             ),
             Obx(
               () => _buildExtraInfo(context,

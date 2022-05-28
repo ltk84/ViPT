@@ -255,8 +255,8 @@ class SessionController extends GetxController {
         sessionNumber: 1,
         totalTime: timeConsumed.ceil());
     await ExerciseTrackProvider().add(et);
-    // final _c = Get.find<DailyExerciseController>();
-    // await _c.fetchTracksByDate(_c.date);
+    final _c = Get.find<DailyExerciseController>();
+    await _c.fetchTracksByDate(_c.date);
 
     _markRelevantTabToUpdate();
 
