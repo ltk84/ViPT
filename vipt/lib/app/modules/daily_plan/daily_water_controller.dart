@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/data/models/water_tracker.dart';
+import 'package:vipt/app/data/others/tab_refesh_controller.dart';
 import 'package:vipt/app/data/providers/water_track_provider.dart';
 import 'package:vipt/app/modules/daily_plan/tracker_controller.dart';
 
@@ -34,6 +35,14 @@ class DailyWaterController extends GetxController with TrackerController {
     tracks.add(wt);
     await _provider.add(wt);
     update();
+
+    markRelevantTabToUpdate();
+  }
+
+  void markRelevantTabToUpdate() {
+    if (!RefeshTabController.instance.isProfileTabNeedToUpdate) {
+      RefeshTabController.instance.toggleProfileTabUpdate();
+    }
   }
 
   deleteTrack(WaterTracker wt) async {
@@ -41,5 +50,7 @@ class DailyWaterController extends GetxController with TrackerController {
     tracks.remove(wt);
     await _provider.delete(wt.id ?? 0);
     update();
+
+    markRelevantTabToUpdate();
   }
 }

@@ -6,6 +6,7 @@ import 'package:pedometer/pedometer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vipt/app/core/utilities/utils.dart';
 import 'package:vipt/app/data/models/step_tracker.dart';
+import 'package:vipt/app/data/others/tab_refesh_controller.dart';
 import 'package:vipt/app/data/providers/step_tracker_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/daily_plan/tracker_controller.dart';
@@ -74,6 +75,8 @@ class DailyStepController extends GetxController with TrackerController {
     steps.value = event.steps - savedSteps;
 
     _calculateDistanceWithFootStep(steps.value);
+
+    _markRelevantTabToUpdate();
   }
 
   // TODO: tìm hiểu thêm về cách tính khoảng cách dựa trên sô bước
@@ -85,6 +88,12 @@ class DailyStepController extends GetxController with TrackerController {
         _user.currentHeight.toInt(),
         _user.heightUnit,
         _user.gender);
+  }
+
+  void _markRelevantTabToUpdate() {
+    if (!RefeshTabController.instance.isProfileTabNeedToUpdate) {
+      RefeshTabController.instance.toggleProfileTabUpdate();
+    }
   }
 
   Future<void> updateDailyStepTrackToDB() async {

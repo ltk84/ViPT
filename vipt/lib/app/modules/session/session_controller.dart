@@ -3,6 +3,7 @@ import 'package:vipt/app/core/utilities/utils.dart';
 import 'package:vipt/app/data/models/exercise_tracker.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
+import 'package:vipt/app/data/others/tab_refesh_controller.dart';
 import 'package:vipt/app/data/providers/exercise_track_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/daily_plan/daily_exercise_controller.dart';
@@ -254,9 +255,25 @@ class SessionController extends GetxController {
         sessionNumber: 1,
         totalTime: timeConsumed.ceil());
     await ExerciseTrackProvider().add(et);
-    final _c = Get.find<DailyExerciseController>();
-    await _c.fetchTracksByDate(_c.date);
+    // final _c = Get.find<DailyExerciseController>();
+    // await _c.fetchTracksByDate(_c.date);
+
+    _markRelevantTabToUpdate();
 
     Get.toNamed(Routes.completeSession);
+  }
+
+  void _markRelevantTabToUpdate() {
+    if (!RefeshTabController.instance.isPlanTabNeedToUpdate) {
+      RefeshTabController.instance.togglePlanTabUpdate();
+    }
+
+    if (!RefeshTabController.instance.isDailyTabNeedToUpdate) {
+      RefeshTabController.instance.toggleDailyTabUpdate();
+    }
+
+    if (!RefeshTabController.instance.isProfileTabNeedToUpdate) {
+      RefeshTabController.instance.toggleProfileTabUpdate();
+    }
   }
 }

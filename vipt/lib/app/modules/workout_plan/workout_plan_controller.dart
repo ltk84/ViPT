@@ -13,6 +13,7 @@ import 'package:vipt/app/data/models/weight_tracker.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/models/workout_plan.dart';
 import 'package:vipt/app/data/models/plan_exercise_collection.dart';
+import 'package:vipt/app/data/others/tab_refesh_controller.dart';
 import 'package:vipt/app/data/providers/exercise_track_provider.dart';
 import 'package:vipt/app/data/providers/meal_nutrition_track_provider.dart';
 import 'package:vipt/app/data/providers/meal_provider.dart';
@@ -65,6 +66,8 @@ class WorkoutPlanController extends GetxController {
       _userInfo.currentWeight = newWeight;
       await _userProvider.update(_userInfo.id ?? '', _userInfo);
     }
+
+    _markRelevantTabToUpdate();
   }
 
   // --------------- LOG WEIGHT --------------------------------
@@ -277,5 +280,11 @@ class WorkoutPlanController extends GetxController {
         _prefs.setBool(date.toString(), true);
       }
     });
+  }
+
+  void _markRelevantTabToUpdate() {
+    if (!RefeshTabController.instance.isProfileTabNeedToUpdate) {
+      RefeshTabController.instance.toggleProfileTabUpdate();
+    }
   }
 }

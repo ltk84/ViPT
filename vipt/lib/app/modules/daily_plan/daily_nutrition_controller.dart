@@ -7,6 +7,7 @@ import 'package:vipt/app/data/models/meal_nutrition.dart';
 import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
 import 'package:vipt/app/data/models/nutrition.dart';
 import 'package:vipt/app/data/models/tracker.dart';
+import 'package:vipt/app/data/others/tab_refesh_controller.dart';
 import 'package:vipt/app/data/providers/exercise_track_provider.dart';
 import 'package:vipt/app/data/providers/local_meal_provider.dart';
 import 'package:vipt/app/data/providers/meal_nutrition_track_provider.dart';
@@ -161,7 +162,20 @@ class DailyNutritionController extends GetxController with TrackerController {
     }
 
     resetSelectedList();
+
+    _markRelevantTabToUpdate();
+
     Get.back();
+  }
+
+  void _markRelevantTabToUpdate() {
+    if (!RefeshTabController.instance.isPlanTabNeedToUpdate) {
+      RefeshTabController.instance.togglePlanTabUpdate();
+    }
+
+    if (!RefeshTabController.instance.isProfileTabNeedToUpdate) {
+      RefeshTabController.instance.toggleProfileTabUpdate();
+    }
   }
 
   addTrack(
@@ -197,5 +211,7 @@ class DailyNutritionController extends GetxController with TrackerController {
     tracks.remove(tracker);
     await _nutriTrackProvider.delete(tracker.id ?? 0);
     update();
+
+    _markRelevantTabToUpdate();
   }
 }

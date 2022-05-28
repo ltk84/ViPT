@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vipt/app/data/models/vipt_user.dart';
+import 'package:vipt/app/data/others/tab_refesh_controller.dart';
 import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/data/services/auth_service.dart';
 import 'package:vipt/app/modules/daily_plan/daily_plan_controller.dart';
@@ -23,16 +24,28 @@ class HomeController extends GetxController {
     tabController.addListener(() {
       switch (tabController.index) {
         case 0:
-          Get.find<WorkoutPlanController>().onInit();
+          if (RefeshTabController.instance.isPlanTabNeedToUpdate) {
+            Get.find<WorkoutPlanController>().onInit();
+            RefeshTabController.instance.togglePlanTabUpdate();
+          }
           break;
         case 1:
-          Get.find<DailyPlanController>().onInit();
+          if (RefeshTabController.instance.isDailyTabNeedToUpdate) {
+            Get.find<DailyPlanController>().onInit();
+            RefeshTabController.instance.toggleDailyTabUpdate();
+          }
           break;
         case 2:
-          Get.find<LibraryController>().onInit();
+          if (RefeshTabController.instance.isLibraryTabNeedToUpdate) {
+            Get.find<LibraryController>().onInit();
+            RefeshTabController.instance.toggleLibraryTabUpdate();
+          }
           break;
         case 3:
-          Get.find<ProfileController>().onInit();
+          if (RefeshTabController.instance.isProfileTabNeedToUpdate) {
+            Get.find<ProfileController>().onInit();
+            RefeshTabController.instance.toggleProfileTabUpdate();
+          }
           break;
         default:
       }
