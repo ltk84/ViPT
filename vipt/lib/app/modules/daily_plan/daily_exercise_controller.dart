@@ -25,7 +25,6 @@ class DailyExerciseController extends GetxController with TrackerController {
     tracks.map((e) {
       e = e as ExerciseTracker;
       calories.value += e.outtakeCalories;
-      // TODO: Xử lý hiển thị tướng ứng (< 60 hiển thị giây, lớn hơn hiển thị phút)
       time.value += e.totalTime;
       sessions.value += e.sessionNumber;
     }).toList();
