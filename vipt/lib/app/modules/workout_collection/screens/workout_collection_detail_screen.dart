@@ -95,7 +95,7 @@ class WorkoutCollectionDetailScreen extends StatelessWidget {
                 return IndicatorDisplayWidget(
                     displayTime: '${_controller.displayTime}'.tr,
                     displayCaloValue:
-                        '${_controller.caloValue.value.toInt()} calo'.tr);
+                        '${_controller.caloValue.value.ceil()} calo'.tr);
               }),
               const SizedBox(
                 height: 16,

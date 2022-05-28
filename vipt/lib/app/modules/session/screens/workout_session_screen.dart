@@ -222,9 +222,9 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
     }
   }
 
-  void skip() {
+  Future<void> skip() async {
     _videoController!.pause();
-    _controller.skip();
+    await _controller.skip();
     setState(() {
       _initVideoController(_controller.currentWorkout.animation);
     });
@@ -496,8 +496,8 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
             ),
             onPressed: isInitVideo == true
                 ? null
-                : () {
-                    skip();
+                : () async {
+                    await skip();
                   },
           ),
         ],
@@ -552,8 +552,8 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
       isReverseAnimation: false,
       autoStart: false,
       onStart: () {},
-      onComplete: () {
-        _controller.handleCompleteSession();
+      onComplete: () async {
+        await _controller.handleCompleteSession();
         //Get.back();
       },
       indicatorColor: AppColor.collectionTimerIndicatorColor,

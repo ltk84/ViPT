@@ -8,10 +8,12 @@ class CompleteIndicatorDisplayWidget extends StatelessWidget {
   final String timeString;
   final String exerciseCountString;
   final String caloString;
+  final String timeUnit;
 
   const CompleteIndicatorDisplayWidget(
       {Key? key,
       required this.timeString,
+      required this.timeUnit,
       required this.exerciseCountString,
       required this.caloString})
       : super(key: key);
@@ -25,7 +27,7 @@ class CompleteIndicatorDisplayWidget extends StatelessWidget {
           context,
           asset: SVGAssetString.timer,
           value: timeString,
-          unit: 'phút'.tr,
+          unit: timeUnit.tr,
         ),
         const SizedBox(
           width: 16,

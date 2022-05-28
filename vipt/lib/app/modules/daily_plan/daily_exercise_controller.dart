@@ -30,6 +30,5 @@ class DailyExerciseController extends GetxController with TrackerController {
       sessions.value += e.sessionNumber;
     }).toList();
     update();
-    print(time);
   }
 }

@@ -142,10 +142,13 @@ class SessionController extends GetxController {
 
   // hàm khi handle workout timer hoàn thành
   void onWorkoutTimerComplete() {
-    calculateCaloConsumed(timeList[workoutTimerIndex]);
+    print('workout timer complete');
     calculateTimeConsumed(timeList[workoutTimerIndex]);
 
-    completedWorkout++;
+    if (isWorkoutTurn) {
+      calculateCaloConsumed(timeList[workoutTimerIndex]);
+      completedWorkout++;
+    }
 
     workoutTimerIndex++;
     if (workoutTimerIndex >= timeList.length) {
@@ -168,9 +171,10 @@ class SessionController extends GetxController {
   }
 
   // hàm handle việc skip
-  void skip() {
+  Future<void> skip() async {
     int remainWorkoutTime = int.parse(workoutTimeController.getTime());
-    calculateCaloConsumed(remainWorkoutTime);
+    // chỗ này sao lại gọi luôn remainWorkoutTime nhỉ???
+    // calculateCaloConsumed(remainWorkoutTime);
     calculateCaloConsumed(timeList[workoutTimerIndex] - remainWorkoutTime);
 
     if (isWorkoutTurn || isRestTurn) {
@@ -182,7 +186,7 @@ class SessionController extends GetxController {
 
     if (workoutTimerIndex >= timeList.length) {
       workoutTimerIndex--;
-      handleCompleteSession();
+      await handleCompleteSession();
       //Get.back();
       return;
     }
@@ -248,12 +252,16 @@ class SessionController extends GetxController {
     timeConsumed += time;
   }
 
-  void handleCompleteSession() async {
+  Future<void> handleCompleteSession() async {
+    // đảm bảo collection timer kết thúc sau workout timer.
+    await Future.delayed(const Duration(seconds: 1));
+
     ExerciseTracker et = ExerciseTracker(
         date: DateTime.now(),
         outtakeCalories: caloConsumed.ceil(),
         sessionNumber: 1,
         totalTime: timeConsumed.ceil());
+
     await ExerciseTrackProvider().add(et);
     final _c = Get.find<DailyExerciseController>();
     await _c.fetchTracksByDate(_c.date);
