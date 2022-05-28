@@ -47,9 +47,10 @@ class WeightTrackingWidget extends StatelessWidget {
           ),
         Obx(
           () => StatisticLineChart(
+            dateRange: _controller.weightDateRange.value,
             values: _controller.weightTrackList,
             title:
-                "Tuần ${_controller.weightStartDateStr} - ${_controller.weightEndDateStr}",
+                "Từ ${_controller.weightStartDateStr} - ${_controller.weightEndDateStr}",
             description: "Cân nặng (kg)",
             onPressHandler: () async {
               final DatePeriod? result = await showDialog(

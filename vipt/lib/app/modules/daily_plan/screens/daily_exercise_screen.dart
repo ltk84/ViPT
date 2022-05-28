@@ -2,13 +2,17 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_scale_tap/flutter_scale_tap.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/daily_plan/daily_exercise_controller.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/collection_tab_holder.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
+import 'package:vipt/app/modules/daily_plan/widgets/input_amount_dialog.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
 
 class DailyExerciseScreen extends StatelessWidget {
@@ -124,6 +128,8 @@ class DailyExerciseScreen extends StatelessWidget {
                 constraints: BoxConstraints(minHeight: bodyHeight * 0.35),
                 child: _buildInfo(context, _controller),
               ),
+              _buildActionButton(context),
+              _buildActionDescription(context),
               ConstrainedBox(
                 constraints: BoxConstraints(minHeight: bodyHeight * 0.65),
                 child: Container(
@@ -202,6 +208,52 @@ class DailyExerciseScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  _buildActionButton(context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 8,
+        bottom: 24,
+      ),
+      child: ScaleTap(
+        onPressed: () async {
+          final result = await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return InputAmountDialog(
+                title: 'Calories đã đốt cháy',
+                unit: 'kcal',
+                value: 200,
+                confirmButtonColor: AppColor.exerciseBackgroundColor,
+                confirmButtonText: 'Thêm',
+                sliderActiveColor: AppColor.exerciseBackgroundColor,
+                sliderInactiveColor:
+                    AppColor.exerciseBackgroundColor.withOpacity(
+                  AppColor.subTextOpacity,
+                ),
+              );
+            },
+          );
+        },
+        child: SvgPicture.asset(
+          SVGAssetString.heartOnFire,
+        ),
+      ),
+    );
+  }
+
+  _buildActionDescription(context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(36, 0, 36, 24),
+      child: Text(
+        'Chạm vào trái tim màu đỏ để cập nhật lượng calories đã đốt cháy.',
+        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+              color: AppColor.accentTextColor,
+            ),
+        textAlign: TextAlign.center,
       ),
     );
   }

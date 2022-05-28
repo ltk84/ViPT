@@ -48,6 +48,7 @@ class GIFAssetString {
   static const String introduction_2 = '$_path/introduction_2.gif';
   static const String setupInfoIntro = '$_path/setup_info_intro.gif';
   static const String logoAnimation = '$_path/logo_animation.gif';
+  static const String celebrate = '$_path/celebrate.gif';
 }
 
 class SVGAssetString {
@@ -126,4 +127,5 @@ class SVGAssetString {
   static const String shortcutProgressImage =
       '$_path/icon_shortcut_progress_image.svg';
   static const String question = '$_path/question.svg';
+  static const String heartOnFire = '$_path/heart_on_fire.svg';
 }

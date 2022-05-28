@@ -13,6 +13,7 @@ import 'package:vipt/app/data/providers/local_meal_provider.dart';
 import 'package:vipt/app/data/providers/meal_nutrition_track_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/modules/daily_plan/tracker_controller.dart';
+import 'package:vipt/app/modules/daily_plan/widgets/change_amount_nutrition_widget.dart';
 
 class DailyNutritionController extends GetxController with TrackerController {
   TextEditingController searchTextController = TextEditingController();
@@ -96,7 +97,23 @@ class DailyNutritionController extends GetxController with TrackerController {
     searchList.addAll(temptList);
   }
 
-  void handleSelect(Nutrition nutrition) {
+  void handleSelect(Nutrition nutrition) async {
+    final result = await Get.bottomSheet(
+      Container(
+        margin: const EdgeInsets.only(top: 64),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(10.0),
+            topRight: Radius.circular(10.0),
+          ),
+          child: ChangeAmountNutritionWidget(
+            nutrition: nutrition,
+          ),
+        ),
+      ),
+      isScrollControlled: true,
+    );
+
     if (selectedList.contains(nutrition)) {
       selectedList.remove(nutrition);
     } else {

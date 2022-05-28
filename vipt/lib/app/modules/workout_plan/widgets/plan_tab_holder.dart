@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
+import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/meal.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/services/data_service.dart';
+import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
@@ -112,20 +114,46 @@ class _PlanTabHolderState extends State<PlanTabHolder>
     }
     // TODO: Thông báo lỗi nếu không tìm được collection setting
     else {
-      print('Khong tim duoc collection setting');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CustomConfirmationDialog(
+            icon: const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Icon(Icons.error_rounded,
+                  color: AppColor.errorColor, size: 48),
+            ),
+            label: 'Đã xảy ra lỗi',
+            content: 'Không tìm thấy cài đặt bộ luyện tập',
+            showOkButton: false,
+            labelCancel: 'Đóng',
+            onCancel: () {
+              Navigator.of(context).pop();
+            },
+            buttonsAlignment: MainAxisAlignment.center,
+            buttonFactorOnMaxWidth: double.infinity,
+          );
+        },
+      );
     }
   }
 
   _buildCollectionList(
       {required List<WorkoutCollection> workoutCollectionList,
       required Function(WorkoutCollection) elementOnPress}) {
-    return workoutCollectionList.map((collection) {
+    int collectionPerDay = 2;
+    List<Widget> results = [];
+
+    int count = workoutCollectionList.length;
+    for (int i = 0; i < count; i++) {
+      WorkoutCollection collection = workoutCollectionList[i];
       String cateList = DataService.instance.collectionCateList
           .where((item) => collection.categoryIDs.contains(item.id))
           .map((e) => e.name)
           .toString()
           .replaceAll(RegExp(r'\(|\)'), '');
-      return Container(
+
+      Widget collectionToWidget = Container(
         margin: const EdgeInsets.symmetric(vertical: 8),
         child: ExerciseInCollectionTile(
             asset: collection.asset == ''
@@ -137,6 +165,69 @@ class _PlanTabHolderState extends State<PlanTabHolder>
               elementOnPress(collection);
             }),
       );
-    }).toList();
+
+      if (i % 2 == 0) {
+        Widget dayIndicator = Padding(
+          padding: const EdgeInsets.only(top: 16, bottom: 4),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Divider(
+                  thickness: 1,
+                  color: AppColor.textFieldUnderlineColor,
+                ),
+              ),
+              const SizedBox(
+                width: 16,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // const SizedBox(
+                  //   height: 24,
+                  // ),
+                  Text(
+                    'NGÀY ${i ~/ 2 + 1}',
+                    style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  const SizedBox(
+                    height: 2,
+                  ),
+                  Text(
+                    'dd/MM/yyyy',
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          color: AppColor.textColor.withOpacity(
+                            AppColor.subTextOpacity,
+                          ),
+                        ),
+                  ),
+                  // const SizedBox(
+                  //   height: 4,
+                  // ),
+                ],
+              ),
+              const SizedBox(
+                width: 16,
+              ),
+              Expanded(
+                child: Divider(
+                  thickness: 1,
+                  color: AppColor.textFieldUnderlineColor,
+                ),
+              ),
+            ],
+          ),
+        );
+
+        results.add(dayIndicator);
+      }
+
+      results.add(collectionToWidget);
+    }
+
+    return results;
   }
 }

@@ -16,6 +16,7 @@ class StatisticLineChart extends StatelessWidget {
   final Color? borderColor;
   final List<Color>? gradient;
   final Function()? onPressHandler;
+  final DateTimeRange dateRange;
 
   final Color? descriptionColor;
   const StatisticLineChart(
@@ -29,18 +30,29 @@ class StatisticLineChart extends StatelessWidget {
       this.descriptionColor,
       this.borderColor,
       this.gradient,
-      this.onPressHandler})
+      this.onPressHandler,
+      required this.dateRange})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    DatePeriod datePeriod =
-        DatePeriod(values.entries.first.key, values.entries.last.key);
-    int dateDiff = datePeriod.end.difference(datePeriod.start).inDays;
+    DateTime startDate = DateTime(
+        dateRange.start.year, dateRange.start.month, dateRange.start.day);
+    DateTime endDate =
+        DateTime(dateRange.end.year, dateRange.end.month, dateRange.end.day);
 
-    List<double> intValues = values.entries.map((e) => e.value).toList();
-    double maximum = (intValues.reduce(max) + 1).toDouble();
-    double minimum = (intValues.reduce(min) - 1).toDouble();
+    if (startDate.compareTo(endDate) == 0) {
+      startDate = startDate.subtract(const Duration(days: 1));
+    }
+
+    int dateDiff = endDate.difference(startDate).inDays;
+    double maximum = 1;
+    double minimum = 0;
+    if (values.isNotEmpty) {
+      List<double> intValues = values.entries.map((e) => e.value).toList();
+      maximum = (intValues.reduce(max) + 1).toDouble();
+      minimum = (intValues.reduce(min) - 1).toDouble();
+    }
     List<Color> gradientColors =
         gradient ?? AppColor.weightTrackingGradientColors;
 
@@ -50,9 +62,8 @@ class StatisticLineChart extends StatelessWidget {
           color: foregroundColor ?? AppColor.weightTrackingForegroundColor);
       Widget text;
       String dateFormatStart =
-          '${datePeriod.start.day}/${datePeriod.start.month}/${datePeriod.start.year}';
-      String dateFormatEnd =
-          '${datePeriod.end.day}/${datePeriod.end.month}/${datePeriod.end.year}';
+          '${startDate.day}/${startDate.month}/${startDate.year}';
+      String dateFormatEnd = '${endDate.day}/${endDate.month}/${endDate.year}';
 
       if (value.toInt() == 0) {
         text = Text(dateFormatStart, style: style);
@@ -87,20 +98,23 @@ class StatisticLineChart extends StatelessWidget {
     List<FlSpot> getFlSpot() {
       List<FlSpot> results = [];
 
-      values.forEach((k, v) {
-        try {
-          double x = k.difference(datePeriod.start).inDays.toDouble();
-          double y = v.toDouble();
+      if (values.isNotEmpty) {
+        values.forEach((k, v) {
+          try {
+            double x = k.difference(startDate).inDays.toDouble();
+            double y = v.toDouble();
 
-          if (y != -1) {
             results.add(
               FlSpot(x, y),
             );
+          } catch (e) {
+            print(e);
           }
-        } catch (e) {
-          print(e);
-        }
-      });
+        });
+      } else {
+        results.add(const FlSpot(0, 0));
+        results.add(FlSpot(endDate.difference(startDate).inDays.toDouble(), 0));
+      }
       results.sort((a, b) => a.x.compareTo(b.x));
       return results;
     }

@@ -149,6 +149,7 @@ class AppColor {
   static const Color facebookButtonBackgroundColor = Color(0xff1877F2);
   static const Color facebookButtonForegroundColor = Colors.white;
   static const Color resumeActionConfirmationAlertColor = Color(0xff78BC09);
+  static const Color errorColor = Color(0xffF44444);
 
   // static Color get backgroundColor => (Get.isDarkMode) ? darkBackgroundColor : lightBackgroundColor;
   //

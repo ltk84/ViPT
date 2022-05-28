@@ -5,6 +5,7 @@ class CustomConfirmationDialog extends StatelessWidget {
   final String label;
   final String content;
   final TextAlign textAlign;
+  final TextAlign? labelTextAlign;
   final String labelCancel;
   final String labelOk;
   final Color primaryButtonColor;
@@ -14,6 +15,7 @@ class CustomConfirmationDialog extends StatelessWidget {
   final MainAxisAlignment buttonsAlignment;
   final bool showCancelButton;
   final bool showOkButton;
+  final Widget? icon;
 
   const CustomConfirmationDialog({
     Key? key,
@@ -29,6 +31,8 @@ class CustomConfirmationDialog extends StatelessWidget {
     this.buttonsAlignment = MainAxisAlignment.spaceBetween,
     this.showCancelButton = true,
     this.showOkButton = true,
+    this.icon,
+    this.labelTextAlign,
   }) : super(key: key);
 
   @override
@@ -36,19 +40,34 @@ class CustomConfirmationDialog extends StatelessWidget {
     return LayoutBuilder(builder: (context, constraints) {
       return AlertDialog(
         insetPadding: const EdgeInsets.symmetric(horizontal: 24),
-        title: Text(
-          label,
-          textAlign: textAlign,
+        title: Column(
+          children: [
+            if (icon != null) icon!,
+            if (icon != null)
+              const SizedBox(
+                height: 8,
+              ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    label,
+                    textAlign: labelTextAlign ?? textAlign,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
         titleTextStyle: Theme.of(context).textTheme.headline3,
-        titlePadding: const EdgeInsets.fromLTRB(24, 28, 24, 4),
+        titlePadding: const EdgeInsets.fromLTRB(36, 28, 36, 4),
         content: Text(
           content,
           textAlign: textAlign,
         ),
         contentTextStyle:
             Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 16),
-        contentPadding: const EdgeInsets.fromLTRB(24, 4, 24, 4),
+        contentPadding: const EdgeInsets.fromLTRB(36, 4, 36, 4),
         actions: [
           if (showCancelButton)
             ConstrainedBox(
