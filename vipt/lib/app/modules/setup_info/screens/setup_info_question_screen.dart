@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:intl/intl.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/enums/app_enums.dart';
@@ -81,6 +82,12 @@ Widget _handleLayoutSelection(
       return DatePickerLayout(
         textFieldController: controller.textFieldControllerForDatePickerLayout,
         handleChangeDateTime: controller.handleSelectDateTime,
+        errorText: controller.errorTextForTextField,
+        initialDate: controller
+                .textFieldControllerForDatePickerLayout.text.isEmpty
+            ? null
+            : DateFormat('dd/MM/yyyy')
+                .parse(controller.textFieldControllerForDatePickerLayout.text),
       );
     case QuestionLayoutType.measurementPicker:
       return MeasurementPickerLayout(
@@ -92,6 +99,7 @@ Widget _handleLayoutSelection(
         textFieldControllerForMeasureLayout:
             controller.textFieldControllerForMeasureLayout,
         toggleValueForMeasureLayout: controller.toggleValueForMeasureLayout,
+        errorText: controller.errorTextForTextField,
       );
     case QuestionLayoutType.textField:
       return TextFieldLayout(

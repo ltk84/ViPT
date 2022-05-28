@@ -8,6 +8,7 @@ import 'package:vipt/app/modules/daily_plan/screens/daily_plan_screen.dart';
 import 'package:vipt/app/modules/home/home_controller.dart';
 import 'package:vipt/app/modules/library/screens/library_screen.dart';
 import 'package:vipt/app/modules/profile/screens/profile_screen.dart';
+import 'package:vipt/app/modules/workout_plan/screens/finish_plan_screen.dart';
 import 'package:vipt/app/modules/workout_plan/screens/workout_plan_screen.dart';
 
 class HomeScreen extends StatelessWidget {

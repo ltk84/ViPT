@@ -45,7 +45,7 @@ class WorkoutPlanScreen extends StatelessWidget {
 
     return Obx(
       () => _controller.isLoading.value
-          ? LoadingScreen()
+          ? const LoadingScreen()
           : Scaffold(
               backgroundColor: AppColor.exerciseBackgroundColor,
               appBar: AppBar(

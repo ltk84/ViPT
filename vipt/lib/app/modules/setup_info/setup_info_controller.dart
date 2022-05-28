@@ -51,6 +51,7 @@ class SetupInfoController extends GetxController {
   List<dynamic> _listSelectedValueForMultipleChoiceLayout = [];
   String? groupValue;
   bool isAbleToGoToNextQuestion = false;
+  String? errorTextForTextField;
 
   String _primaryUnitSymbol = AppString.primaryWeightUnitSymbol;
   String get primaryUnitSymbol => _primaryUnitSymbol;
@@ -113,6 +114,114 @@ class SetupInfoController extends GetxController {
   TypicalDay? typicalDay;
   ActiveFrequency? activeFrequency;
 
+  void validateInputForMeasureLayout() {
+    String text = textFieldControllerForMeasureLayout.text;
+
+    if (text.isEmpty) {
+      isAbleToGoToNextQuestion = false;
+      errorTextForTextField = null;
+    } else {
+      switch (getCurrentQuestion().propertyLink) {
+        case PropertyLink.userHeight:
+          int? height = int.tryParse(text);
+          bool isCm = toggleValueForMeasureLayout == 0 ? true : false;
+          if (height != null) {
+            if (isCm) {
+              if (height >= AppValue.heightCeilInCmValue &&
+                  height <= AppValue.heightFloorInCmValue) {
+                errorTextForTextField = null;
+                isAbleToGoToNextQuestion = true;
+                break;
+              }
+            } else {
+              if (height >= AppValue.heightCeilInFtValue &&
+                  height <= AppValue.heightFloorInFtValue) {
+                errorTextForTextField = null;
+                isAbleToGoToNextQuestion = true;
+                break;
+              }
+            }
+          }
+          errorTextForTextField = '$text không phù hợp';
+          isAbleToGoToNextQuestion = false;
+          break;
+        case PropertyLink.userWeight:
+          int? weight = int.tryParse(text);
+          bool isKg = toggleValueForMeasureLayout == 0 ? true : false;
+          if (weight != null) {
+            if (isKg) {
+              if (weight >= AppValue.weightCeilInKgValue &&
+                  weight <= AppValue.weightFloorInKgvalue) {
+                errorTextForTextField = null;
+                isAbleToGoToNextQuestion = true;
+                break;
+              }
+            } else {
+              if (weight >= AppValue.weightCeilInLbsValue &&
+                  weight <= AppValue.weightFloorInLbsValue) {
+                errorTextForTextField = null;
+                isAbleToGoToNextQuestion = true;
+                break;
+              }
+            }
+          }
+          errorTextForTextField = '$text không phù hợp';
+          isAbleToGoToNextQuestion = false;
+          break;
+        case PropertyLink.userGoalWeight:
+          int? weight = int.tryParse(text);
+          bool isKg = toggleValueForMeasureLayout == 0 ? true : false;
+          if (weight != null) {
+            if (isKg) {
+              if (weight >= AppValue.weightCeilInKgValue &&
+                  weight <= AppValue.weightFloorInKgvalue) {
+                errorTextForTextField = null;
+                isAbleToGoToNextQuestion = true;
+                break;
+              }
+            } else {
+              if (weight >= AppValue.weightCeilInLbsValue &&
+                  weight <= AppValue.weightFloorInLbsValue) {
+                errorTextForTextField = null;
+                isAbleToGoToNextQuestion = true;
+                break;
+              }
+            }
+          }
+          errorTextForTextField = '$text không phù hợp';
+          isAbleToGoToNextQuestion = false;
+          break;
+
+        default:
+          isAbleToGoToNextQuestion = true;
+      }
+    }
+  }
+
+  void validateInputForDateTimeLayout() {
+    String text = textFieldControllerForDatePickerLayout.text;
+    if (text.isEmpty) {
+      isAbleToGoToNextQuestion = false;
+      errorTextForTextField = "Ngày sinh không được để trống";
+    } else {
+      DateFormat df = DateFormat('dd/MM/yyyy');
+      try {
+        DateTime? date = df.parse(text);
+        int yearDiff = DateTime.now().year - date.year;
+        if (yearDiff < 16 || yearDiff > 40) {
+          isAbleToGoToNextQuestion = false;
+          errorTextForTextField = "Tuổi phải từ 16 tới 40";
+        } else {
+          isAbleToGoToNextQuestion = true;
+          errorTextForTextField = null;
+        }
+      } on FormatException catch (_) {
+        isAbleToGoToNextQuestion = false;
+        errorTextForTextField = "Tuổi phải từ 16 tới 40";
+      }
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -130,20 +239,12 @@ class SetupInfoController extends GetxController {
     });
 
     textFieldControllerForDatePickerLayout.addListener(() {
-      if (textFieldControllerForDatePickerLayout.text.isEmpty) {
-        isAbleToGoToNextQuestion = false;
-      } else {
-        isAbleToGoToNextQuestion = true;
-      }
+      validateInputForDateTimeLayout();
       update();
     });
 
     textFieldControllerForMeasureLayout.addListener(() {
-      if (textFieldControllerForMeasureLayout.text.isEmpty) {
-        isAbleToGoToNextQuestion = false;
-      } else {
-        isAbleToGoToNextQuestion = true;
-      }
+      validateInputForMeasureLayout();
       update();
     });
   }
@@ -165,10 +266,12 @@ class SetupInfoController extends GetxController {
   void _clearValueForMeasurementLayout() {
     textFieldControllerForMeasureLayout.clear();
     toggleValueForMeasureLayout = 0;
+    errorTextForTextField = null;
   }
 
   void _clearValueForDatePickerLayout() {
     textFieldControllerForDatePickerLayout.clear();
+    errorTextForTextField = null;
   }
 
   void _clearValueForTextFieldLayout() {
@@ -244,46 +347,14 @@ class SetupInfoController extends GetxController {
 
   void handleSelectDateTime(DateTime inputDateTime) {
     textFieldControllerForDatePickerLayout.text = formatDateTime(inputDateTime);
-
     update();
   }
 
   void handleOnUnitChange(int? value) {
     toggleValueForMeasureLayout = value;
+    validateInputForMeasureLayout();
     update();
   }
-
-  // num _convertKgToLbs(num value) => value * 2.2;
-  // num _convertLbsToKg(num value) => value / 2.2;
-  // num _convertCmToFt(num value) => value / 30.48;
-  // num _convertFtToCm(num value) => value * 30.48;
-
-  // void weightUnitSetter(int? toggleValue) {
-  //   WeightUnit result = toggleValue == 0 ? WeightUnit.kg : WeightUnit.lbs;
-  //   if (weightUnit != null && weightUnit != result) {
-  //     if (currentWeight != null) {
-  //       currentWeight = result == WeightUnit.kg
-  //           ? _convertLbsToKg(currentWeight as num)
-  //           : _convertKgToLbs(currentWeight as num);
-  //     }
-  //     if (goalWeight != null) {
-  //       goalWeight = result == WeightUnit.kg
-  //           ? _convertLbsToKg(goalWeight as num)
-  //           : _convertKgToLbs(goalWeight as num);
-  //     }
-  //   }
-  // }
-
-  // void heightUnitSetter(int? toggleValue) {
-  //   HeightUnit result = toggleValue == 0 ? HeightUnit.cm : HeightUnit.ft;
-  //   if (heightUnit != null && heightUnit != result) {
-  //     if (currentHeight != null) {
-  //       currentHeight = result == HeightUnit.cm
-  //           ? _convertCmToFt(currentHeight as num)
-  //           : _convertFtToCm(currentHeight as num);
-  //     }
-  //   }
-  // }
 
   bool isAbleToGoNextQuestion() {
     return isAbleToGoToNextQuestion;

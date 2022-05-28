@@ -6,7 +6,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/colors.dart';
 
 class MeasurementPickerLayout extends StatelessWidget {
-  const MeasurementPickerLayout({
+  MeasurementPickerLayout({
     Key? key,
     required this.toggleValueForMeasureLayout,
     required this.textFieldControllerForMeasureLayout,
@@ -14,6 +14,7 @@ class MeasurementPickerLayout extends StatelessWidget {
     required this.primaryUnitSymbol,
     required this.secondaryUnitSymbol,
     this.isFullScreen = true,
+    this.errorText,
   }) : super(key: key);
 
   final int? toggleValueForMeasureLayout;
@@ -22,6 +23,7 @@ class MeasurementPickerLayout extends StatelessWidget {
   final String primaryUnitSymbol;
   final String secondaryUnitSymbol;
   final bool isFullScreen;
+  String? errorText;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,7 @@ class MeasurementPickerLayout extends StatelessWidget {
           textFieldController: textFieldControllerForMeasureLayout,
           onUnitChanged: onUnitChanged,
           isFullScreen: isFullScreen,
+          errorText: errorText,
         ),
       );
     } else {
@@ -48,6 +51,7 @@ class MeasurementPickerLayout extends StatelessWidget {
         textFieldController: textFieldControllerForMeasureLayout,
         onUnitChanged: onUnitChanged,
         isFullScreen: isFullScreen,
+        errorText: errorText,
       );
     }
   }
@@ -62,6 +66,7 @@ Widget _buildMeasurementField(
   required TextEditingController textFieldController,
   required Function(int?) onUnitChanged,
   required bool isFullScreen,
+  required String? errorText,
 }) {
   return Column(
     mainAxisSize: isFullScreen ? MainAxisSize.max : MainAxisSize.min,
@@ -94,6 +99,7 @@ Widget _buildMeasurementField(
           textAlign: TextAlign.center,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
+            errorText: errorText,
             contentPadding: const EdgeInsets.symmetric(horizontal: 20),
             filled: true,
             hintText: 'Điền vào đây'.tr,

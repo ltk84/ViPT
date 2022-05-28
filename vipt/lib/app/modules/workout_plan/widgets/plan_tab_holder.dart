@@ -111,9 +111,7 @@ class _PlanTabHolderState extends State<PlanTabHolder>
       _collectionController.onSelectUserCollection(col);
       await Get.toNamed(Routes.myWorkoutCollectionDetail);
       await Get.delete<WorkoutCollectionController>();
-    }
-    // TODO: Thông báo lỗi nếu không tìm được collection setting
-    else {
+    } else {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -141,7 +139,7 @@ class _PlanTabHolderState extends State<PlanTabHolder>
   _buildCollectionList(
       {required List<WorkoutCollection> workoutCollectionList,
       required Function(WorkoutCollection) elementOnPress}) {
-    int collectionPerDay = 2;
+    // int collectionPerDay = 2;
     List<Widget> results = [];
 
     int count = workoutCollectionList.length;
@@ -197,7 +195,7 @@ class _PlanTabHolderState extends State<PlanTabHolder>
                     height: 2,
                   ),
                   Text(
-                    'dd/MM/yyyy',
+                    '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
                           color: AppColor.textColor.withOpacity(
                             AppColor.subTextOpacity,
