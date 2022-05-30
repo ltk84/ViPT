@@ -132,3 +132,21 @@ class WorkoutPlanUtils {
     return dailyGoalCalories;
   }
 }
+
+class Converter {
+  static double convertCmToFt(double data) {
+    return data / 30.48;
+  }
+
+  static double convertFtToCm(double data) {
+    return data * 30.48;
+  }
+
+  static double convertKgToLbs(double data) {
+    return data / 0.45359237;
+  }
+
+  static double convertLbsToKg(double data) {
+    return data * 0.45359237;
+  }
+}

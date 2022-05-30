@@ -22,6 +22,5 @@ class SplashController extends GetxController {
     } else {
       Get.offAllNamed(Routes.auth);
     }
-    // Get.offAllNamed(Routes.auth);
   }
 }

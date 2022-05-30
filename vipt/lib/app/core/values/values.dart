@@ -105,8 +105,8 @@ class AppValue {
   static const weightCeilInKgValue = 25;
   static const weightFloorInKgvalue = 300;
 
-  static const heightCeilInFtValue = 2.95275591;
-  static const heightFloorInFtValue = 9.84251969;
-  static const weightCeilInLbsValue = 55.1155655;
-  static const weightFloorInLbsValue = 661.386787;
+  static const heightCeilInFtValue = 2.9527559055;
+  static const heightFloorInFtValue = 9.842519685;
+  static const weightCeilInLbsValue = 55.12;
+  static const weightFloorInLbsValue = 661.4;
 }

@@ -125,7 +125,7 @@ class SetupInfoController extends GetxController {
     } else {
       switch (getCurrentQuestion().propertyLink) {
         case PropertyLink.userHeight:
-          int? height = int.tryParse(text);
+          double? height = double.tryParse(text);
           bool isCm = toggleValueForMeasureLayout == 0 ? true : false;
           if (height != null) {
             if (isCm) {
@@ -148,7 +148,7 @@ class SetupInfoController extends GetxController {
           isAbleToGoToNextQuestion = false;
           break;
         case PropertyLink.userWeight:
-          int? weight = int.tryParse(text);
+          double? weight = double.tryParse(text);
           bool isKg = toggleValueForMeasureLayout == 0 ? true : false;
           if (weight != null) {
             if (isKg) {
@@ -171,7 +171,7 @@ class SetupInfoController extends GetxController {
           isAbleToGoToNextQuestion = false;
           break;
         case PropertyLink.userGoalWeight:
-          int? weight = int.tryParse(text);
+          double? weight = double.tryParse(text);
           bool isKg = toggleValueForMeasureLayout == 0 ? true : false;
           if (weight != null) {
             if (isKg) {
@@ -354,8 +354,47 @@ class SetupInfoController extends GetxController {
 
   void handleOnUnitChange(int? value) {
     toggleValueForMeasureLayout = value;
+
+    bool isHeightQuesType =
+        getCurrentQuestion().propertyLink == PropertyLink.userHeight
+            ? true
+            : false;
+    convertDataBaseOnUnit(
+        textFieldControllerForMeasureLayout.text, value, isHeightQuesType);
+
     validateInputForMeasureLayout();
+
     update();
+  }
+
+  void convertDataBaseOnUnit(
+      String textData, int? unitToggleValue, bool isHeightType) {
+    if (textData.isEmpty || unitToggleValue == null) return;
+
+    double? data = double.tryParse(textData);
+    if (data == null) return;
+
+    if (isHeightType) {
+      bool fromCmToFt = unitToggleValue == 1;
+      if (fromCmToFt) {
+        data = Converter.convertCmToFt(data);
+        textFieldControllerForMeasureLayout.text =
+            data.toPrecision(2).toString();
+      } else {
+        data = Converter.convertFtToCm(data);
+        textFieldControllerForMeasureLayout.text = data.toStringAsFixed(0);
+      }
+    } else {
+      bool fromKgToLbs = unitToggleValue == 1;
+      if (fromKgToLbs) {
+        data = Converter.convertKgToLbs(data);
+        textFieldControllerForMeasureLayout.text =
+            data.toPrecision(2).toString();
+      } else {
+        data = Converter.convertLbsToKg(data);
+        textFieldControllerForMeasureLayout.text = data.toStringAsFixed(0);
+      }
+    }
   }
 
   bool isAbleToGoNextQuestion() {
@@ -718,15 +757,14 @@ class SetupInfoController extends GetxController {
       collectionSetting: CollectionSetting(),
     );
 
-    final user = await DataService.instance.createUser(newUser);
-    if (user != null) {
-      await createWorkoutPlan(user);
-      await logWeightTrack(user.currentWeight);
-      Get.offAllNamed(Routes.home);
-    } else {
-      Get.offAllNamed(Routes.error);
-    }
-    // await createWorkoutPlan(newUser);
+    // final user = await DataService.instance.createUser(newUser);
+    // if (user != null) {
+    //   await createWorkoutPlan(user);
+    //   await logWeightTrack(user.currentWeight);
+    //   Get.offAllNamed(Routes.home);
+    // } else {
+    //   Get.offAllNamed(Routes.error);
+    // }
   }
 
   Future<void> logWeightTrack(num currentWeight) async {

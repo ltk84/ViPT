@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
 
       // themeMode: ThemeService.theme,
-      initialRoute: Routes.splash,
+      initialRoute: Routes.setupInfoQuestion,
       // locale: LocalizationService.locale,
       // fallbackLocale: LocalizationService.fallbackLocale,
       // translations: LocalizationService(),

@@ -70,22 +70,22 @@ Widget _buildIntro(context) {
           child: Text('Bắt đầu'.tr, style: Theme.of(context).textTheme.button),
         ),
       ),
-      Container(
-        color: Colors.transparent,
-        height: 46,
-        width: double.maxFinite,
-        child: TextButton(
-          onPressed: () {},
-          child: Text(
-            'Để sau'.tr,
-            style: Theme.of(context).textTheme.button!.copyWith(
-                  fontSize: 16,
-                  color:
-                      AppColor.textColor.withOpacity(AppColor.subTextOpacity),
-                ),
-          ),
-        ),
-      ),
+      // Container(
+      //   color: Colors.transparent,
+      //   height: 46,
+      //   width: double.maxFinite,
+      //   child: TextButton(
+      //     onPressed: () {},
+      //     child: Text(
+      //       'Để sau'.tr,
+      //       style: Theme.of(context).textTheme.button!.copyWith(
+      //             fontSize: 16,
+      //             color:
+      //                 AppColor.textColor.withOpacity(AppColor.subTextOpacity),
+      //           ),
+      //     ),
+      //   ),
+      // ),
     ],
   );
 }

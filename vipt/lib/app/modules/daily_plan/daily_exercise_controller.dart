@@ -34,11 +34,10 @@ class DailyExerciseController extends GetxController with TrackerController {
 
   Future<void> addTrack(int newCalories) async {
     calories.value += newCalories;
-    sessions.value += 1;
     ExerciseTracker et = ExerciseTracker(
         date: date,
         outtakeCalories: newCalories,
-        sessionNumber: 1,
+        sessionNumber: 0,
         totalTime: 0);
     await _provider.add(et);
     update();
