@@ -14,6 +14,7 @@ import 'package:vipt/app/modules/daily_plan/widgets/collection_tab_holder.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/input_amount_dialog.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 class DailyExerciseScreen extends StatelessWidget {
   DailyExerciseScreen({Key? key}) : super(key: key);
@@ -126,7 +127,12 @@ class DailyExerciseScreen extends StatelessWidget {
             children: [
               ConstrainedBox(
                 constraints: BoxConstraints(minHeight: bodyHeight * 0.35),
-                child: _buildInfo(context, _controller),
+                child: InkWell(
+                  onTap: () {
+                    Get.toNamed(Routes.exerciseHistory);
+                  },
+                  child: _buildInfo(context, _controller),
+                ),
               ),
               _buildActionButton(context),
               _buildActionDescription(context),
@@ -193,10 +199,13 @@ class DailyExerciseScreen extends StatelessWidget {
               subtitle: 'phiên tập',
             ),
           ),
-          GoalProgressIndicator(
-            radius: screenWidth * 0.3,
-            value: controller.calories.value,
-            unitString: 'calories tiêu hao',
+          Hero(
+            tag: 'exerciseIntakeWidget',
+            child: GoalProgressIndicator(
+              radius: screenWidth * 0.3,
+              value: controller.calories.value,
+              unitString: 'calories tiêu hao',
+            ),
           ),
           SizedBox(
             width: screenWidth * 0.3,
