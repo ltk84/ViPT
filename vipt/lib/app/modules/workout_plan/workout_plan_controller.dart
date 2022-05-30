@@ -57,7 +57,32 @@ class WorkoutPlanController extends GetxController {
   }
 
   Future<void> logWeight(String newWeightStr) async {
-    int newWeight = int.parse(newWeightStr);
+    int? newWeight = int.tryParse(newWeightStr);
+    if (newWeight == null) {
+      await showDialog(
+        context: Get.context!,
+        builder: (BuildContext context) {
+          return CustomConfirmationDialog(
+            icon: const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Icon(Icons.error_rounded,
+                  color: AppColor.errorColor, size: 48),
+            ),
+            label: 'Đã xảy ra lỗi',
+            content: 'Giá trị cân nặng không đúng định dạng',
+            showOkButton: false,
+            labelCancel: 'Đóng',
+            onCancel: () {
+              Navigator.of(context).pop();
+            },
+            buttonsAlignment: MainAxisAlignment.center,
+            buttonFactorOnMaxWidth: double.infinity,
+          );
+        },
+      );
+      return;
+    }
+
     currentWeight.value = newWeight;
 
     await _weighTrackProvider
@@ -244,7 +269,7 @@ class WorkoutPlanController extends GetxController {
         if (res != null) {
           streak.add(res);
         } else {
-          showDialog(
+          await showDialog(
             context: Get.context!,
             builder: (BuildContext context) {
               return CustomConfirmationDialog(

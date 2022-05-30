@@ -18,6 +18,7 @@ import 'package:vipt/app/data/models/plan_exercise_collection_setting.dart';
 import 'package:vipt/app/data/models/plan_meal.dart';
 import 'package:vipt/app/data/models/plan_meal_collection.dart';
 import 'package:vipt/app/data/models/vipt_user.dart';
+import 'package:vipt/app/data/models/weight_tracker.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_plan.dart';
 import 'package:vipt/app/data/providers/plan_exercise_collection_provider.dart';
@@ -25,6 +26,7 @@ import 'package:vipt/app/data/providers/plan_exercise_collection_setting_provide
 import 'package:vipt/app/data/providers/plan_exercise_provider.dart';
 import 'package:vipt/app/data/providers/plan_meal_collection_provider.dart';
 import 'package:vipt/app/data/providers/plan_meal_provider.dart';
+import 'package:vipt/app/data/providers/weight_tracker_provider.dart';
 import 'package:vipt/app/data/providers/workout_plan_provider.dart';
 import 'package:vipt/app/data/services/auth_service.dart';
 import 'package:vipt/app/data/services/data_service.dart';
@@ -719,11 +721,17 @@ class SetupInfoController extends GetxController {
     final user = await DataService.instance.createUser(newUser);
     if (user != null) {
       await createWorkoutPlan(user);
+      await logWeightTrack(user.currentWeight);
       Get.offAllNamed(Routes.home);
     } else {
       Get.offAllNamed(Routes.error);
     }
     // await createWorkoutPlan(newUser);
+  }
+
+  Future<void> logWeightTrack(num currentWeight) async {
+    await WeightTrackerProvider().add(
+        WeightTracker(date: DateTime.now(), weight: currentWeight.toInt()));
   }
 
   Future<void> createWorkoutPlan(ViPTUser user) async {

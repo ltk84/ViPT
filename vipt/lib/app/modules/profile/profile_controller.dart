@@ -186,10 +186,6 @@ class ProfileController extends GetxController {
   // ------------------------ Weight Track ------------------------ //
   Rx<DateTimeRange> weightDateRange = defaultWeightDateRange.obs;
   RxList<WeightTracker> allWeightTracks = <WeightTracker>[].obs;
-  // Map<DateTime, double> defaultMap = {
-  //   DateTime(2022, 1, 1): -1,
-  //   DateTime(2022, 1, 2): 75,
-  // };
 
   Rx<String> get weightStartDateStr =>
       '${weightDateRange.value.start.day}/${weightDateRange.value.start.month}/${weightDateRange.value.start.year}'
