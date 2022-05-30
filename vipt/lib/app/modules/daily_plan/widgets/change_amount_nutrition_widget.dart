@@ -4,12 +4,13 @@ import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
+import 'package:vipt/app/data/models/meal_nutrition.dart';
 import 'package:vipt/app/data/models/nutrition.dart';
 import 'package:vipt/app/global_widgets/info_cube_widget.dart';
 import 'package:vipt/app/global_widgets/intro_collection_widget.dart';
 
 class ChangeAmountNutritionWidget extends StatefulWidget {
-  final Nutrition nutrition;
+  final MealNutrition nutrition;
 
   const ChangeAmountNutritionWidget({Key? key, required this.nutrition})
       : super(key: key);
@@ -27,6 +28,7 @@ class _ChangeAmountNutritionWidgetState
   void initState() {
     _value = 1;
     super.initState();
+    print(widget.nutrition.ingredients);
   }
 
   @override
@@ -43,7 +45,7 @@ class _ChangeAmountNutritionWidgetState
             child: Icon(Icons.close_rounded),
           ),
           onPressed: () {
-            Get.back(result: false);
+            Get.back();
           },
         ),
         actions: [
@@ -57,7 +59,7 @@ class _ChangeAmountNutritionWidgetState
               ),
             ),
             onPressed: () {
-              Get.back(result: true);
+              Get.back(result: _value);
             },
           ),
         ],

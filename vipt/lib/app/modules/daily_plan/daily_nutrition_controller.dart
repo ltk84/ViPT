@@ -28,6 +28,7 @@ class DailyNutritionController extends GetxController with TrackerController {
   RxList<LocalMealNutrition> localSearchResult = <LocalMealNutrition>[].obs;
 
   RxList<Nutrition> selectedList = <Nutrition>[].obs;
+  Map<String, double> selectedAmountList = {};
 
   Rx<int> intakeCalo = 0.obs;
   Rx<int> outtakeCalo = 0.obs;
@@ -98,26 +99,31 @@ class DailyNutritionController extends GetxController with TrackerController {
   }
 
   void handleSelect(Nutrition nutrition) async {
-    final result = await Get.bottomSheet(
-      Container(
-        margin: const EdgeInsets.only(top: 64),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(10.0),
-            topRight: Radius.circular(10.0),
-          ),
-          child: ChangeAmountNutritionWidget(
-            nutrition: nutrition,
-          ),
-        ),
-      ),
-      isScrollControlled: true,
-    );
-
+    nutrition as MealNutrition;
     if (selectedList.contains(nutrition)) {
       selectedList.remove(nutrition);
+      selectedAmountList.remove(nutrition.id);
     } else {
-      selectedList.add(nutrition);
+      final result = await Get.bottomSheet(
+        Container(
+          margin: const EdgeInsets.only(top: 64),
+          child: ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(10.0),
+              topRight: Radius.circular(10.0),
+            ),
+            child: ChangeAmountNutritionWidget(
+              nutrition: nutrition,
+            ),
+          ),
+        ),
+        isScrollControlled: true,
+      );
+
+      if (result != null) {
+        selectedList.add(nutrition);
+        selectedAmountList[nutrition.id ?? ''] = result;
+      }
     }
   }
 
@@ -166,16 +172,20 @@ class DailyNutritionController extends GetxController with TrackerController {
     diffCalo.value = intakeCalo.value - outtakeCalo.value;
   }
 
-  resetSelectedList() => selectedList.clear();
+  resetSelectedList() {
+    selectedList.clear();
+    selectedAmountList.clear();
+  }
 
   handleLogTrack() async {
     for (var track in selectedList) {
+      double amount = selectedAmountList[track.id ?? ''] ?? 1;
       await addTrack(
           name: track.getName(),
-          intakeCalo: track.calories.toInt(),
-          carbs: track.carbs.toInt(),
-          fat: track.fat.toInt(),
-          protein: track.protein.toInt());
+          intakeCalo: (track.calories * amount).toInt(),
+          carbs: (track.carbs * amount).toInt(),
+          fat: (track.fat * amount).toInt(),
+          protein: (track.protein * amount).toInt());
     }
 
     resetSelectedList();

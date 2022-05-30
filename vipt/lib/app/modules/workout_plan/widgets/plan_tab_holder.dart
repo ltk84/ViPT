@@ -34,7 +34,10 @@ class _PlanTabHolderState extends State<PlanTabHolder>
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
-    workouts = _controller.loadWorkoutCollectionToShow(DateTime.now());
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      workouts = _controller.loadWorkoutCollectionToShow(DateTime.now());
+      meals = await _controller.loadMealListToShow(DateTime.now());
+    });
   }
 
   @override
