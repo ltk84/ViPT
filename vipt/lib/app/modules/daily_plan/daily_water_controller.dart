@@ -36,10 +36,10 @@ class DailyWaterController extends GetxController with TrackerController {
     await _provider.add(wt);
     update();
 
-    markRelevantTabToUpdate();
+    _markRelevantTabToUpdate();
   }
 
-  void markRelevantTabToUpdate() {
+  void _markRelevantTabToUpdate() {
     if (!RefeshTabController.instance.isProfileTabNeedToUpdate) {
       RefeshTabController.instance.toggleProfileTabUpdate();
     }
@@ -51,6 +51,6 @@ class DailyWaterController extends GetxController with TrackerController {
     await _provider.delete(wt.id ?? 0);
     update();
 
-    markRelevantTabToUpdate();
+    _markRelevantTabToUpdate();
   }
 }
