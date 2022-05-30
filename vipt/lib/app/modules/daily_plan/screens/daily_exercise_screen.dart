@@ -237,6 +237,10 @@ class DailyExerciseScreen extends StatelessWidget {
               );
             },
           );
+
+          if (result != null) {
+            await _controller.addTrack(result);
+          }
         },
         child: SvgPicture.asset(
           SVGAssetString.heartOnFire,

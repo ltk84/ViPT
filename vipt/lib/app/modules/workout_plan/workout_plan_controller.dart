@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/exercise_tracker.dart';
 import 'package:vipt/app/data/models/meal.dart';
@@ -27,6 +28,7 @@ import 'package:vipt/app/data/providers/plan_exercise_collection_provider.dart';
 import 'package:vipt/app/data/providers/workout_plan_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/enums/app_enums.dart';
+import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
 
 class WorkoutPlanController extends GetxController {
   static const num defaultWeightValue = 0;
@@ -55,7 +57,32 @@ class WorkoutPlanController extends GetxController {
   }
 
   Future<void> logWeight(String newWeightStr) async {
-    int newWeight = int.parse(newWeightStr);
+    int? newWeight = int.tryParse(newWeightStr);
+    if (newWeight == null) {
+      await showDialog(
+        context: Get.context!,
+        builder: (BuildContext context) {
+          return CustomConfirmationDialog(
+            icon: const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Icon(Icons.error_rounded,
+                  color: AppColor.errorColor, size: 48),
+            ),
+            label: 'Đã xảy ra lỗi',
+            content: 'Giá trị cân nặng không đúng định dạng',
+            showOkButton: false,
+            labelCancel: 'Đóng',
+            onCancel: () {
+              Navigator.of(context).pop();
+            },
+            buttonsAlignment: MainAxisAlignment.center,
+            buttonFactorOnMaxWidth: double.infinity,
+          );
+        },
+      );
+      return;
+    }
+
     currentWeight.value = newWeight;
 
     await _weighTrackProvider
@@ -162,9 +189,9 @@ class WorkoutPlanController extends GetxController {
       return collection.map((col) {
         List<PlanExercise> exerciseList =
             planExercise.where((p0) => p0.listID == col.id).toList();
+        int index = collection.indexOf(col);
         return WorkoutCollection(col.id.toString(),
-            title:
-                'Bat tap ${col.id} (${col.date.day}/${col.date.month}/${col.date.year})',
+            title: 'Bài tập thứ ${index + 1}',
             description: '',
             asset: '',
             generatorIDs: exerciseList.map((e) => e.exerciseID).toList(),
@@ -242,8 +269,27 @@ class WorkoutPlanController extends GetxController {
         if (res != null) {
           streak.add(res);
         } else {
-          // TODO: làm thông báo không tìm được streak list
-          printError(info: 'Loi khong tim streak vao date $date');
+          await showDialog(
+            context: Get.context!,
+            builder: (BuildContext context) {
+              return CustomConfirmationDialog(
+                icon: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  child: Icon(Icons.error_rounded,
+                      color: AppColor.errorColor, size: 48),
+                ),
+                label: 'Đã xảy ra lỗi',
+                content: 'Không tìm thấy danh sách streak',
+                showOkButton: false,
+                labelCancel: 'Đóng',
+                onCancel: () {
+                  Navigator.of(context).pop();
+                },
+                buttonsAlignment: MainAxisAlignment.center,
+                buttonFactorOnMaxWidth: double.infinity,
+              );
+            },
+          );
           return;
         }
       }
@@ -273,8 +319,27 @@ class WorkoutPlanController extends GetxController {
         DateTime date = DateUtils.dateOnly(DateTime.now());
         bool? isTodayComplete = _prefs.getBool(date.toString());
         if (isTodayComplete == null) {
-          // TODO: làm thông báo không tìm được streak list
-          printError(info: 'Loi khong tim streak vao date $date');
+          showDialog(
+            context: Get.context!,
+            builder: (BuildContext context) {
+              return CustomConfirmationDialog(
+                icon: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  child: Icon(Icons.error_rounded,
+                      color: AppColor.errorColor, size: 48),
+                ),
+                label: 'Đã xảy ra lỗi',
+                content: 'Không tìm thấy danh sách streak',
+                showOkButton: false,
+                labelCancel: 'Đóng',
+                onCancel: () {
+                  Navigator.of(context).pop();
+                },
+                buttonsAlignment: MainAxisAlignment.center,
+                buttonFactorOnMaxWidth: double.infinity,
+              );
+            },
+          );
           return;
         }
         _prefs.setBool(date.toString(), true);

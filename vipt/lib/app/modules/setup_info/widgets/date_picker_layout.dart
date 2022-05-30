@@ -6,9 +6,14 @@ import 'package:vipt/app/core/values/colors.dart';
 class DatePickerLayout extends StatelessWidget {
   final TextEditingController textFieldController;
   final Function handleChangeDateTime;
-  const DatePickerLayout(
+  String? errorText;
+  DateTime? initialDate;
+
+  DatePickerLayout(
       {required this.textFieldController,
       required this.handleChangeDateTime,
+      this.errorText,
+      this.initialDate,
       Key? key})
       : super(key: key);
 
@@ -17,23 +22,23 @@ class DatePickerLayout extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 40),
       alignment: Alignment.center,
-      child: _buildDatePickerField(
-          context, textFieldController, handleChangeDateTime),
+      child: _buildDatePickerField(context, textFieldController,
+          handleChangeDateTime, errorText, initialDate ?? DateTime(2001)),
     );
   }
 }
 
 // Hàm build các field chọn ngày tháng năm như ngày sinh.
-Widget _buildDatePickerField(
-    context, TextEditingController controller, Function handleChangeDateTime) {
+Widget _buildDatePickerField(context, TextEditingController controller,
+    Function handleChangeDateTime, String? errorText, DateTime initialDate) {
   return TextField(
     onTap: () async {
       var dateTime = await showDatePicker(
           locale: const Locale("vi", "VI"),
           context: context,
-          initialDate: DateTime(1999),
+          initialDate: initialDate,
           firstDate: DateTime(1970),
-          lastDate: DateTime(2022));
+          lastDate: DateTime.now());
       if (dateTime != null) {
         handleChangeDateTime(dateTime);
       }
@@ -43,6 +48,7 @@ Widget _buildDatePickerField(
     style: Theme.of(context).textTheme.bodyText2,
     textAlign: TextAlign.center,
     decoration: InputDecoration(
+      errorText: errorText,
       filled: true,
       suffixIcon: const Icon(
         Icons.calendar_today_rounded,

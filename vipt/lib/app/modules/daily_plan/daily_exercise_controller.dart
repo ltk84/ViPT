@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:vipt/app/data/models/exercise_tracker.dart';
+import 'package:vipt/app/data/others/tab_refesh_controller.dart';
 import 'package:vipt/app/data/providers/exercise_track_provider.dart';
 import 'package:vipt/app/modules/daily_plan/tracker_controller.dart';
 
@@ -29,5 +30,29 @@ class DailyExerciseController extends GetxController with TrackerController {
       sessions.value += e.sessionNumber;
     }).toList();
     update();
+  }
+
+  Future<void> addTrack(int newCalories) async {
+    calories.value += newCalories;
+    sessions.value += 1;
+    ExerciseTracker et = ExerciseTracker(
+        date: date,
+        outtakeCalories: newCalories,
+        sessionNumber: 1,
+        totalTime: 0);
+    await _provider.add(et);
+    update();
+
+    _markRelevantTabToUpdate();
+  }
+
+  void _markRelevantTabToUpdate() {
+    if (!RefeshTabController.instance.isProfileTabNeedToUpdate) {
+      RefeshTabController.instance.toggleProfileTabUpdate();
+    }
+
+    if (!RefeshTabController.instance.isPlanTabNeedToUpdate) {
+      RefeshTabController.instance.togglePlanTabUpdate();
+    }
   }
 }

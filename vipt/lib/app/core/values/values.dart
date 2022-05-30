@@ -98,4 +98,15 @@ class AppValue {
   // other
   static const intensityWeight = 500;
   static const intensityWeightPerWeek = 0.5;
+
+  // limit
+  static const heightCeilInCmValue = 90;
+  static const heightFloorInCmValue = 300;
+  static const weightCeilInKgValue = 25;
+  static const weightFloorInKgvalue = 300;
+
+  static const heightCeilInFtValue = 2.95275591;
+  static const heightFloorInFtValue = 9.84251969;
+  static const weightCeilInLbsValue = 55.1155655;
+  static const weightFloorInLbsValue = 661.386787;
 }
