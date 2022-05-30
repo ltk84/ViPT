@@ -98,7 +98,9 @@ class _CaloriesInfoWidgetState extends State<CaloriesInfoWidget> {
                 ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   child: LinearProgressIndicator(
-                    value: widget.goalCalories != 0
+                    value: widget.goalCalories != 0 &&
+                            !widget.goalCalories.isNaN &&
+                            !widget.currentCalories.isNaN
                         ? widget.currentCalories / widget.goalCalories
                         : 0,
                     minHeight: 6,

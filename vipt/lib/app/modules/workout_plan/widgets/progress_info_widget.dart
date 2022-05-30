@@ -32,6 +32,9 @@ class _ProgressInfoWidgetState extends State<ProgressInfoWidget> {
   @override
   Widget build(BuildContext context) {
     double _progressValue = _getProgressValue();
+    if (_progressValue.isNaN) {
+      _progressValue = 0;
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

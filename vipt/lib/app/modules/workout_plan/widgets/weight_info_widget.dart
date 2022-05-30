@@ -94,7 +94,9 @@ class _WeightInfoWidgetState extends State<WeightInfoWidget> {
                   ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
                     child: LinearProgressIndicator(
-                      value: _controller.goalWeight.value != 0
+                      value: _controller.goalWeight.value != 0 &&
+                              !_controller.goalWeight.value.isNaN &&
+                              !_controller.currentWeight.value.isNaN
                           ? 1 -
                               (_controller.goalWeight.value -
                                           _controller.currentWeight.value)
