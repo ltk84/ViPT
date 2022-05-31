@@ -39,7 +39,7 @@ class DailyExerciseController extends GetxController with TrackerController {
         outtakeCalories: newCalories,
         sessionNumber: 0,
         totalTime: 0);
-    await _provider.add(et);
+    et = await _provider.add(et);
     update();
 
     _markRelevantTabToUpdate();

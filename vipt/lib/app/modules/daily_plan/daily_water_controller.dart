@@ -32,8 +32,8 @@ class DailyWaterController extends GetxController with TrackerController {
     WaterTracker wt = WaterTracker(
         date: DateUtils.isSameDay(date, DateTime.now()) ? DateTime.now() : date,
         waterVolume: volume);
+    wt = await _provider.add(wt);
     tracks.add(wt);
-    await _provider.add(wt);
     update();
 
     _markRelevantTabToUpdate();
