@@ -9,6 +9,7 @@ import 'package:vipt/app/data/models/nutrition.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
+import 'package:vipt/app/modules/nutrition/nutrition_controller.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
 import 'package:vipt/app/routes/pages.dart';
@@ -30,16 +31,17 @@ class _PlanTabHolderState extends State<PlanTabHolder>
   final _controller = Get.find<WorkoutPlanController>();
 
   List<WorkoutCollection> workouts = [];
-  List<Meal> meals = [];
+  List<MealNutrition> meals = [];
 
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      workouts = _controller.loadWorkoutCollectionToShow(DateTime.now());
-      meals = await _controller.loadMealListToShow(DateTime.now());
-    });
+
+    workouts = _controller.loadWorkoutCollectionToShow(DateTime.now());
+    _controller
+        .loadMealListToShow(DateTime.now())
+        .then((value) => meals = value);
   }
 
   @override
@@ -89,7 +91,10 @@ class _PlanTabHolderState extends State<PlanTabHolder>
             return Column(
               children: [
                 ..._buildNutritionList(
-                    nutritionList: [], elementOnPress: (nutri) async {}),
+                    nutritionList: meals,
+                    elementOnPress: (nutri) async {
+                      await handleSelectMeal(nutri);
+                    }),
               ],
             );
           }
@@ -132,6 +137,12 @@ class _PlanTabHolderState extends State<PlanTabHolder>
         },
       );
     }
+  }
+
+  handleSelectMeal(MealNutrition nutrition) async {
+    Get.put(NutritionController());
+    await Get.toNamed(Routes.dishDetail, arguments: nutrition);
+    await Get.delete<NutritionController>();
   }
 
   _buildCollectionList(
@@ -228,8 +239,8 @@ class _PlanTabHolderState extends State<PlanTabHolder>
   }
 
   _buildNutritionList(
-      {required List<Nutrition> nutritionList,
-      required Function(Nutrition) elementOnPress}) {
+      {required List<MealNutrition> nutritionList,
+      required Function(MealNutrition) elementOnPress}) {
     // int collectionPerDay = 2;
     List<Widget> results = [];
 

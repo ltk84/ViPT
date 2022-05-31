@@ -180,6 +180,7 @@ class DailyNutritionController extends GetxController with TrackerController {
   handleLogTrack() async {
     for (var track in selectedList) {
       double amount = selectedAmountList[track.id ?? ''] ?? 1;
+
       await addTrack(
           name: track.getName(),
           intakeCalo: (track.calories * amount).toInt(),

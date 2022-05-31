@@ -5,7 +5,9 @@ import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/exercise_tracker.dart';
 import 'package:vipt/app/data/models/meal.dart';
+import 'package:vipt/app/data/models/meal_nutrition.dart';
 import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
+import 'package:vipt/app/data/models/nutrition.dart';
 import 'package:vipt/app/data/models/plan_exercise.dart';
 import 'package:vipt/app/data/models/plan_exercise_collection_setting.dart';
 import 'package:vipt/app/data/models/plan_meal.dart';
@@ -110,7 +112,6 @@ class WorkoutPlanController extends GetxController {
   final _wkMealProvider = PlanMealProvider();
 
   RxBool isLoading = false.obs;
-  RxBool isMealListLoading = false.obs;
 
   RxInt intakeCalories = defaultCaloriesValue.obs;
   RxInt outtakeCalories = defaultCaloriesValue.obs;
@@ -228,8 +229,8 @@ class WorkoutPlanController extends GetxController {
     }
   }
 
-  Future<List<Meal>> loadMealListToShow(DateTime date) async {
-    isMealListLoading.value = true;
+  Future<List<MealNutrition>> loadMealListToShow(DateTime date) async {
+    // isMealListLoading.value = true;
     final firebaseMealProvider = MealProvider();
     var collection = planMealCollection
         .where((element) => DateUtils.isSameDay(element.date, date));
@@ -239,13 +240,15 @@ class WorkoutPlanController extends GetxController {
       List<PlanMeal> _list = planMeal
           .where((element) => element.listID == collection.first.id)
           .toList();
-      List<Meal> mealList = [];
+      List<MealNutrition> mealList = [];
       for (var element in _list) {
         var m = await firebaseMealProvider.fetch(element.mealID);
-        mealList.add(m);
+        MealNutrition mn = MealNutrition(meal: m);
+        await mn.getIngredients();
+        mealList.add(mn);
       }
 
-      isMealListLoading.value = false;
+      // isMealListLoading.value = false;
       return mealList;
     }
   }

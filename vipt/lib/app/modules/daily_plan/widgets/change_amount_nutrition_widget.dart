@@ -27,11 +27,8 @@ class _ChangeAmountNutritionWidgetState
   @override
   void initState() {
     try {
-      List<String> listAmount = (widget.nutrition as MealNutrition)
-          .meal
-          .ingreIDToAmount
-          .values
-          .toList();
+      List<String> listAmount =
+          (widget.nutrition).meal.ingreIDToAmount.values.toList();
       _defaultValue = 0;
       for (int i = 0; i < listAmount.length; i++) {
         listAmount[i] = listAmount[i].replaceAll(RegExp("[^\\d.]"), "");
@@ -44,7 +41,6 @@ class _ChangeAmountNutritionWidgetState
       _value = 0;
     }
     super.initState();
-    print(widget.nutrition.ingredients);
   }
 
   @override
@@ -75,7 +71,7 @@ class _ChangeAmountNutritionWidgetState
               ),
             ),
             onPressed: () {
-              Get.back(result: _value);
+              Get.back(result: _value / _defaultValue);
             },
           ),
         ],
