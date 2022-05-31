@@ -1,5 +1,5 @@
 class WorkoutPlan {
-  final int? id;
+  int? id;
   final num dailyGoalCalories;
   final DateTime startDate;
   final DateTime endDate;

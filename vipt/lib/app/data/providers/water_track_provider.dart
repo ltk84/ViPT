@@ -5,9 +5,10 @@ import 'package:vipt/app/data/providers/sqflite_helper.dart';
 
 class WaterTrackProvider implements SqfliteHelper<int, WaterTracker> {
   @override
-  Future<WaterTracker?> add(WaterTracker obj) async {
+  Future<WaterTracker> add(WaterTracker obj) async {
     final db = await DatabaseProvider.database;
-    db!.insert(tableName, obj.toMap());
+    db!.insert(tableName, obj.toMap()).then((value) => obj.id = value);
+    return obj;
   }
 
   @override

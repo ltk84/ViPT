@@ -858,8 +858,8 @@ class SetupInfoController extends GetxController {
         numOfWorkoutPerRound: numberOfExercise);
 
     final _settingProvider = PlanExerciseCollectionSettingProvider();
-    setting1 = (await _settingProvider.add(setting1))!;
-    setting2 = (await _settingProvider.add(setting2))!;
+    setting1 = (await _settingProvider.add(setting1));
+    setting2 = (await _settingProvider.add(setting2));
 
     PlanExerciseCollection collection1 = PlanExerciseCollection(
         date: date, collectionSettingID: setting1.id ?? 0);
@@ -868,8 +868,8 @@ class SetupInfoController extends GetxController {
         date: date, collectionSettingID: setting2.id ?? 0);
 
     final _collectionProvider = PlanExerciseCollectionProvider();
-    collection1 = (await _collectionProvider.add(collection1))!;
-    collection2 = (await _collectionProvider.add(collection2))!;
+    collection1 = (await _collectionProvider.add(collection1));
+    collection2 = (await _collectionProvider.add(collection2));
 
     final _exerciseProvider = PlanExerciseProvider();
     for (var element in exerciseList1) {
@@ -917,7 +917,7 @@ class SetupInfoController extends GetxController {
 
     PlanMealCollection collection =
         PlanMealCollection(date: date, mealRatio: ratio.toDouble());
-    collection = (await PlanMealCollectionProvider().add(collection))!;
+    collection = (await PlanMealCollectionProvider().add(collection));
 
     final mealProvider = PlanMealProvider();
     for (var e in mealList) {

@@ -10,7 +10,7 @@ class PlanExerciseCollectionProvider
   String tableName = AppValue.planExerciseCollectionTable;
 
   @override
-  Future<PlanExerciseCollection?> add(PlanExerciseCollection obj) async {
+  Future<PlanExerciseCollection> add(PlanExerciseCollection obj) async {
     final db = await DatabaseProvider.database;
     await db!.insert(tableName, obj.toMap()).then((value) {
       return obj.id = value;

@@ -9,7 +9,7 @@ class PlanMealProvider implements SqfliteHelper<int, PlanMeal> {
   String tableName = AppValue.planMealTable;
 
   @override
-  Future<PlanMeal?> add(PlanMeal obj) async {
+  Future<PlanMeal> add(PlanMeal obj) async {
     final db = await DatabaseProvider.database;
     await db!.insert(tableName, obj.toMap()).then((value) {
       return obj.id = value;

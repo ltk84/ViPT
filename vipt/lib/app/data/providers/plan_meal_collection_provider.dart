@@ -10,7 +10,7 @@ class PlanMealCollectionProvider
   String tableName = AppValue.planMealCollectionTable;
 
   @override
-  Future<PlanMealCollection?> add(PlanMealCollection obj) async {
+  Future<PlanMealCollection> add(PlanMealCollection obj) async {
     final db = await DatabaseProvider.database;
     await db!.insert(tableName, obj.toMap()).then((value) {
       return obj.id = value;

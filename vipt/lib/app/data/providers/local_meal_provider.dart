@@ -9,9 +9,12 @@ class LocalMealProvider implements SqfliteHelper<int, LocalMealNutrition> {
   String tableName = AppValue.localMealTable;
 
   @override
-  Future<LocalMealNutrition?> add(LocalMealNutrition obj) async {
+  Future<LocalMealNutrition> add(LocalMealNutrition obj) async {
     final db = await DatabaseProvider.database;
-    db!.insert(tableName, obj.toMap());
+    db!
+        .insert(tableName, obj.toMap())
+        .then((value) => obj.id = value.toString());
+    return obj;
   }
 
   @override

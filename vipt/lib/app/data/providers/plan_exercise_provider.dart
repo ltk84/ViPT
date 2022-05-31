@@ -9,7 +9,7 @@ class PlanExerciseProvider implements SqfliteHelper<int, PlanExercise> {
   String tableName = AppValue.planExerciseTable;
 
   @override
-  Future<PlanExercise?> add(PlanExercise obj) async {
+  Future<PlanExercise> add(PlanExercise obj) async {
     final db = await DatabaseProvider.database;
     db!.insert(tableName, obj.toMap()).then((value) => obj.id = value);
     return obj;

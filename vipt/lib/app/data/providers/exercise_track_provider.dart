@@ -8,9 +8,10 @@ class ExerciseTrackProvider implements SqfliteHelper<int, ExerciseTracker> {
   String tableName = AppValue.exerciseTrackTable;
 
   @override
-  Future<ExerciseTracker?> add(ExerciseTracker obj) async {
+  Future<ExerciseTracker> add(ExerciseTracker obj) async {
     final db = await DatabaseProvider.database;
-    db!.insert(tableName, obj.toMap());
+    db!.insert(tableName, obj.toMap()).then((value) => obj.id = value);
+    return obj;
   }
 
   @override

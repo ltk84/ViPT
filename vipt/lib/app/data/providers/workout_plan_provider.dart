@@ -9,9 +9,10 @@ class WorkoutPlanProvider implements SqfliteHelper<int, WorkoutPlan> {
   String tableName = AppValue.workoutPlanTable;
 
   @override
-  Future<WorkoutPlan?> add(WorkoutPlan obj) async {
+  Future<WorkoutPlan> add(WorkoutPlan obj) async {
     final db = await DatabaseProvider.database;
-    db!.insert(tableName, obj.toMap());
+    db!.insert(tableName, obj.toMap()).then((value) => obj.id = value);
+    return obj;
   }
 
   @override
