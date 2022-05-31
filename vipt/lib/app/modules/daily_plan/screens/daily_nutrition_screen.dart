@@ -13,6 +13,7 @@ import 'package:vipt/app/modules/daily_plan/daily_nutrition_controller.dart';
 import 'package:vipt/app/modules/daily_plan/screens/log_food_screen.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
+import 'package:vipt/app/modules/loading/screens/loading_screen.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class DailyNutritionScreen extends StatelessWidget {
@@ -30,125 +31,130 @@ class DailyNutritionScreen extends StatelessWidget {
       'Fasting',
     ];
 
-    return Scaffold(
-      //extendBodyBehindAppBar: true,
-      backgroundColor: AppColor.nutriBackgroundColor,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: InkWell(
-          borderRadius: BorderRadius.circular(8),
-          onTap: () async {
-            int? newIndex;
-            await _showTabSelection(context, items: tabs, value: 0,
-                onSelectedItemChanged: (value) {
-              newIndex = value;
-            });
-            if (newIndex != null) {
-              _controller.changeTab(newIndex ?? 0);
-            }
-          },
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(
-                width: 8,
-              ),
-              Text(
-                tabs[0].tr,
-                style: Theme.of(context).textTheme.headline4!.copyWith(
-                      color: AppColor.accentTextColor,
-                    ),
-              ),
-              const SizedBox(
-                width: 4,
-              ),
-              Icon(
-                Icons.keyboard_arrow_down_rounded,
-                color: AppColor.accentTextColor,
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          InkWell(
-            borderRadius: BorderRadius.circular(8),
-            onTap: () async {
-              var dateTime = await showDatePicker(
-                  locale: const Locale("vi", "VI"),
-                  context: context,
-                  initialDate: _controller.date,
-                  firstDate: DateTime(1970),
-                  lastDate: DateTime.now());
-              if (dateTime != null) {
-                await _controller.fetchTracksByDate(dateTime);
-              }
-            },
-            child: Row(
-              children: [
-                const SizedBox(
-                  width: 24,
-                ),
-                Icon(
-                  Icons.calendar_today_rounded,
-                  color: AppColor.accentTextColor,
-                  size: 18,
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  'Hôm nay'.tr,
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                        color: AppColor.accentTextColor,
-                        fontSize: 16,
+    return Obx(
+      () => _controller.isLoading.value
+          ? const LoadingScreen()
+          : Scaffold(
+              //extendBodyBehindAppBar: true,
+              backgroundColor: AppColor.nutriBackgroundColor,
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                title: InkWell(
+                  borderRadius: BorderRadius.circular(8),
+                  onTap: () async {
+                    int? newIndex;
+                    await _showTabSelection(context, items: tabs, value: 0,
+                        onSelectedItemChanged: (value) {
+                      newIndex = value;
+                    });
+                    if (newIndex != null) {
+                      _controller.changeTab(newIndex ?? 0);
+                    }
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(
+                        width: 8,
                       ),
-                ),
-                const SizedBox(
-                  width: 24,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(
-          parent: AlwaysScrollableScrollPhysics(),
-        ),
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height -
-                MediaQuery.of(context).padding.top -
-                kToolbarHeight -
-                kBottomNavigationBarHeight,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Obx(
-                  () => InkWell(
-                    onTap: () {
-                      Get.toNamed(Routes.nutritionHistory);
-                    },
-                    child: _buildInfo(
-                      context,
-                      intake: _controller.intakeCalo.value,
-                      outtake: _controller.outtakeCalo.value,
-                      diff: _controller.diffCalo.value,
-                    ),
+                      Text(
+                        tabs[0].tr,
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
+                              color: AppColor.accentTextColor,
+                            ),
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        color: AppColor.accentTextColor,
+                      ),
+                    ],
                   ),
                 ),
-                Obx(() => _buildNutritionFacts(
-                    carbs: _controller.carbs.value,
-                    protein: _controller.protein.value,
-                    fat: _controller.fat.value)),
-                _buildActionButton(),
-                _buildActionDescription(context),
-              ],
+                actions: [
+                  InkWell(
+                    borderRadius: BorderRadius.circular(8),
+                    onTap: () async {
+                      var dateTime = await showDatePicker(
+                          locale: const Locale("vi", "VI"),
+                          context: context,
+                          initialDate: _controller.date,
+                          firstDate: DateTime(1970),
+                          lastDate: DateTime.now());
+                      if (dateTime != null) {
+                        await _controller.fetchTracksByDate(dateTime);
+                      }
+                    },
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 24,
+                        ),
+                        Icon(
+                          Icons.calendar_today_rounded,
+                          color: AppColor.accentTextColor,
+                          size: 18,
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          'Hôm nay'.tr,
+                          style:
+                              Theme.of(context).textTheme.headline6!.copyWith(
+                                    color: AppColor.accentTextColor,
+                                    fontSize: 16,
+                                  ),
+                        ),
+                        const SizedBox(
+                          width: 24,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              body: ListView(
+                physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
+                ),
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height -
+                        MediaQuery.of(context).padding.top -
+                        kToolbarHeight -
+                        kBottomNavigationBarHeight,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Obx(
+                          () => InkWell(
+                            onTap: () {
+                              Get.toNamed(Routes.nutritionHistory);
+                            },
+                            child: _buildInfo(
+                              context,
+                              intake: _controller.intakeCalo.value,
+                              outtake: _controller.outtakeCalo.value,
+                              diff: _controller.diffCalo.value,
+                            ),
+                          ),
+                        ),
+                        Obx(() => _buildNutritionFacts(
+                            carbs: _controller.carbs.value,
+                            protein: _controller.protein.value,
+                            fat: _controller.fat.value)),
+                        _buildActionButton(),
+                        _buildActionDescription(context),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
     );
   }
 

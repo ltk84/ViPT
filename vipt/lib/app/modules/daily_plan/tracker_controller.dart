@@ -8,6 +8,8 @@ abstract class TrackerController {
   late DateTime date;
   late List<Tracker> tracks;
 
+  RxBool isLoading = false.obs;
+
   void changeTab(int value) {
     _parentController.changeTab(value);
   }

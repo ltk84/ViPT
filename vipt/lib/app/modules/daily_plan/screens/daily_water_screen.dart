@@ -11,6 +11,7 @@ import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/daily_plan/daily_water_controller.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/input_amount_dialog.dart';
+import 'package:vipt/app/modules/loading/screens/loading_screen.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class DailyWaterScreen extends StatelessWidget {
@@ -28,115 +29,120 @@ class DailyWaterScreen extends StatelessWidget {
       'Fasting',
     ];
 
-    return Scaffold(
-      //extendBodyBehindAppBar: true,
-      backgroundColor: AppColor.waterBackgroundColor,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: InkWell(
-          borderRadius: BorderRadius.circular(8),
-          onTap: () async {
-            int? newIndex;
-            await _showTabSelection(context, items: tabs, value: 2,
-                onSelectedItemChanged: (value) {
-              newIndex = value;
-            });
-            if (newIndex != null) {
-              _controller.changeTab(newIndex ?? 0);
-            }
-          },
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(
-                width: 8,
-              ),
-              Text(
-                tabs[2].tr,
-                style: Theme.of(context).textTheme.headline4!.copyWith(
-                      color: AppColor.accentTextColor,
-                    ),
-              ),
-              const SizedBox(
-                width: 4,
-              ),
-              Icon(
-                Icons.keyboard_arrow_down_rounded,
-                color: AppColor.accentTextColor,
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          InkWell(
-            borderRadius: BorderRadius.circular(8),
-            onTap: () async {
-              var dateTime = await showDatePicker(
-                  locale: const Locale("vi", "VI"),
-                  context: context,
-                  initialDate: _controller.date,
-                  firstDate: DateTime(1970),
-                  lastDate: DateTime.now());
-
-              if (dateTime != null) {
-                await _controller.fetchTracksByDate(dateTime);
-              }
-            },
-            child: Row(
-              children: [
-                const SizedBox(
-                  width: 24,
-                ),
-                Icon(
-                  Icons.calendar_today_rounded,
-                  color: AppColor.accentTextColor,
-                  size: 18,
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  'Hôm nay'.tr,
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                        color: AppColor.accentTextColor,
-                        fontSize: 16,
-                      ),
-                ),
-                const SizedBox(
-                  width: 24,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(
-          parent: AlwaysScrollableScrollPhysics(),
-        ),
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height -
-                MediaQuery.of(context).padding.top -
-                kToolbarHeight -
-                kBottomNavigationBarHeight,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Get.toNamed(Routes.waterHistory);
+    return Obx(
+      () => _controller.isLoading.value
+          ? const LoadingScreen()
+          : Scaffold(
+              //extendBodyBehindAppBar: true,
+              backgroundColor: AppColor.waterBackgroundColor,
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                title: InkWell(
+                  borderRadius: BorderRadius.circular(8),
+                  onTap: () async {
+                    int? newIndex;
+                    await _showTabSelection(context, items: tabs, value: 2,
+                        onSelectedItemChanged: (value) {
+                      newIndex = value;
+                    });
+                    if (newIndex != null) {
+                      _controller.changeTab(newIndex ?? 0);
+                    }
                   },
-                  child: _buildInfo(context),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        tabs[2].tr,
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
+                              color: AppColor.accentTextColor,
+                            ),
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        color: AppColor.accentTextColor,
+                      ),
+                    ],
+                  ),
                 ),
-                _buildActionButton(context, _controller),
-                _buildActionDescription(context),
-              ],
+                actions: [
+                  InkWell(
+                    borderRadius: BorderRadius.circular(8),
+                    onTap: () async {
+                      var dateTime = await showDatePicker(
+                          locale: const Locale("vi", "VI"),
+                          context: context,
+                          initialDate: _controller.date,
+                          firstDate: DateTime(1970),
+                          lastDate: DateTime.now());
+
+                      if (dateTime != null) {
+                        await _controller.fetchTracksByDate(dateTime);
+                      }
+                    },
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 24,
+                        ),
+                        Icon(
+                          Icons.calendar_today_rounded,
+                          color: AppColor.accentTextColor,
+                          size: 18,
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          'Hôm nay'.tr,
+                          style:
+                              Theme.of(context).textTheme.headline6!.copyWith(
+                                    color: AppColor.accentTextColor,
+                                    fontSize: 16,
+                                  ),
+                        ),
+                        const SizedBox(
+                          width: 24,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              body: ListView(
+                physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
+                ),
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height -
+                        MediaQuery.of(context).padding.top -
+                        kToolbarHeight -
+                        kBottomNavigationBarHeight,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Get.toNamed(Routes.waterHistory);
+                          },
+                          child: _buildInfo(context),
+                        ),
+                        _buildActionButton(context, _controller),
+                        _buildActionDescription(context),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
     );
   }
 

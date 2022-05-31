@@ -48,9 +48,13 @@ class DailyNutritionController extends GetxController with TrackerController {
 
   Rx<int> activeTabIndex = 0.obs;
 
+  RxBool isLoading = false.obs;
+
   @override
   void onInit() async {
     super.onInit();
+
+    isLoading.value = true;
 
     await fetchLocalFoodList();
 
@@ -58,6 +62,8 @@ class DailyNutritionController extends GetxController with TrackerController {
 
     diffCalo.value = intakeCalo.value - outtakeCalo.value;
     await fetchTracksByDate(DateTime.now());
+
+    isLoading.value = false;
 
     initDebounceForSearching();
   }

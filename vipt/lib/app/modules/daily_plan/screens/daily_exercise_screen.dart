@@ -14,6 +14,7 @@ import 'package:vipt/app/modules/daily_plan/widgets/collection_tab_holder.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/input_amount_dialog.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
+import 'package:vipt/app/modules/loading/screens/loading_screen.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class DailyExerciseScreen extends StatelessWidget {
@@ -35,154 +36,163 @@ class DailyExerciseScreen extends StatelessWidget {
       'Fasting',
     ];
 
-    return Scaffold(
-      //extendBodyBehindAppBar: true,
-      backgroundColor: AppColor.exerciseBackgroundColor,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: InkWell(
-          borderRadius: BorderRadius.circular(8),
-          onTap: () async {
-            int? newIndex;
-            await _showTabSelection(context, items: tabs, value: 1,
-                onSelectedItemChanged: (value) {
-              newIndex = value;
-            });
-            if (newIndex != null) {
-              _controller.changeTab(newIndex ?? 0);
-            }
-          },
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(
-                width: 8,
-              ),
-              Text(
-                tabs[1].tr,
-                style: Theme.of(context).textTheme.headline4!.copyWith(
-                      color: AppColor.accentTextColor,
-                    ),
-              ),
-              const SizedBox(
-                width: 4,
-              ),
-              Icon(
-                Icons.keyboard_arrow_down_rounded,
-                color: AppColor.accentTextColor,
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          InkWell(
-            borderRadius: BorderRadius.circular(8),
-            onTap: () async {
-              var dateTime = await showDatePicker(
-                  locale: const Locale("vi", "VI"),
-                  context: context,
-                  initialDate: _controller.date,
-                  firstDate: DateTime(1970),
-                  lastDate: DateTime.now());
-              if (dateTime != null) {
-                _controller.fetchTracksByDate(dateTime);
-              }
-            },
-            child: Row(
-              children: [
-                const SizedBox(
-                  width: 24,
-                ),
-                Icon(
-                  Icons.calendar_today_rounded,
-                  color: AppColor.accentTextColor,
-                  size: 18,
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  'Hôm nay'.tr,
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                        color: AppColor.accentTextColor,
-                        fontSize: 16,
-                      ),
-                ),
-                const SizedBox(
-                  width: 24,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(
-          parent: AlwaysScrollableScrollPhysics(),
-        ),
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ConstrainedBox(
-                constraints: BoxConstraints(minHeight: bodyHeight * 0.35),
-                child: InkWell(
-                  onTap: () {
-                    Get.toNamed(Routes.exerciseHistory);
+    return Obx(
+      () => _controller.isLoading.value
+          ? const LoadingScreen()
+          : Scaffold(
+              //extendBodyBehindAppBar: true,
+              backgroundColor: AppColor.exerciseBackgroundColor,
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                title: InkWell(
+                  borderRadius: BorderRadius.circular(8),
+                  onTap: () async {
+                    int? newIndex;
+                    await _showTabSelection(context, items: tabs, value: 1,
+                        onSelectedItemChanged: (value) {
+                      newIndex = value;
+                    });
+                    if (newIndex != null) {
+                      _controller.changeTab(newIndex ?? 0);
+                    }
                   },
-                  child: _buildInfo(context, _controller),
-                ),
-              ),
-              _buildActionButton(context),
-              _buildActionDescription(context),
-              ConstrainedBox(
-                constraints: BoxConstraints(minHeight: bodyHeight * 0.65),
-                child: Container(
-                  width: double.maxFinite,
-                  padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).backgroundColor,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
-                    ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        tabs[1].tr,
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
+                              color: AppColor.accentTextColor,
+                            ),
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        color: AppColor.accentTextColor,
+                      ),
+                    ],
                   ),
-                  child: SingleChildScrollView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    child: Column(
+                ),
+                actions: [
+                  InkWell(
+                    borderRadius: BorderRadius.circular(8),
+                    onTap: () async {
+                      var dateTime = await showDatePicker(
+                          locale: const Locale("vi", "VI"),
+                          context: context,
+                          initialDate: _controller.date,
+                          firstDate: DateTime(1970),
+                          lastDate: DateTime.now());
+                      if (dateTime != null) {
+                        _controller.fetchTracksByDate(dateTime);
+                      }
+                    },
+                    child: Row(
                       children: [
+                        const SizedBox(
+                          width: 24,
+                        ),
+                        Icon(
+                          Icons.calendar_today_rounded,
+                          color: AppColor.accentTextColor,
+                          size: 18,
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
                         Text(
-                          "LUYỆN TẬP".tr,
+                          'Hôm nay'.tr,
                           style:
-                              Theme.of(context).textTheme.subtitle2!.copyWith(
-                                    fontWeight: FontWeight.bold,
+                              Theme.of(context).textTheme.headline6!.copyWith(
+                                    color: AppColor.accentTextColor,
+                                    fontSize: 16,
                                   ),
                         ),
                         const SizedBox(
-                          height: 12,
+                          width: 24,
                         ),
-                        Divider(
-                          thickness: 1,
-                          color: AppColor.textFieldUnderlineColor,
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        CollectionTabHolder(
-                            firstCollection:
-                                DataService.instance.collectionList,
-                            secondCollection:
-                                DataService.instance.userCollectionList),
                       ],
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
-        ],
-      ),
+              body: ListView(
+                physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
+                ),
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ConstrainedBox(
+                        constraints:
+                            BoxConstraints(minHeight: bodyHeight * 0.35),
+                        child: InkWell(
+                          onTap: () {
+                            Get.toNamed(Routes.exerciseHistory);
+                          },
+                          child: _buildInfo(context, _controller),
+                        ),
+                      ),
+                      _buildActionButton(context),
+                      _buildActionDescription(context),
+                      ConstrainedBox(
+                        constraints:
+                            BoxConstraints(minHeight: bodyHeight * 0.65),
+                        child: Container(
+                          width: double.maxFinite,
+                          padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).backgroundColor,
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15),
+                            ),
+                          ),
+                          child: SingleChildScrollView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "LUYỆN TẬP".tr,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle2!
+                                      .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                ),
+                                const SizedBox(
+                                  height: 12,
+                                ),
+                                Divider(
+                                  thickness: 1,
+                                  color: AppColor.textFieldUnderlineColor,
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                CollectionTabHolder(
+                                    firstCollection:
+                                        DataService.instance.collectionList,
+                                    secondCollection: DataService
+                                        .instance.userCollectionList),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
     );
   }
 

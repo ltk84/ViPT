@@ -13,7 +13,10 @@ class DailyExerciseController extends GetxController with TrackerController {
   @override
   void onInit() async {
     super.onInit();
+
+    isLoading.value = true;
     await fetchTracksByDate(DateTime.now());
+    isLoading.value = false;
   }
 
   @override
