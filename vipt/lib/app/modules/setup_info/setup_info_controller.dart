@@ -757,14 +757,14 @@ class SetupInfoController extends GetxController {
       collectionSetting: CollectionSetting(),
     );
 
-    // final user = await DataService.instance.createUser(newUser);
-    // if (user != null) {
-    //   await createWorkoutPlan(user);
-    //   await logWeightTrack(user.currentWeight);
-    //   Get.offAllNamed(Routes.home);
-    // } else {
-    //   Get.offAllNamed(Routes.error);
-    // }
+    final user = await DataService.instance.createUser(newUser);
+    if (user != null) {
+      await createWorkoutPlan(user);
+      await logWeightTrack(user.currentWeight);
+      Get.offAllNamed(Routes.home);
+    } else {
+      Get.offAllNamed(Routes.error);
+    }
   }
 
   Future<void> logWeightTrack(num currentWeight) async {
