@@ -4,6 +4,7 @@ import 'package:responsive_grid/responsive_grid.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/local_meal_nutrition.dart';
+import 'package:vipt/app/data/models/meal_nutrition.dart';
 import 'package:vipt/app/data/models/nutrition.dart';
 import 'package:vipt/app/global_widgets/loading_widget.dart';
 import 'package:vipt/app/modules/daily_plan/add_local_meal_controller.dart';
@@ -277,7 +278,8 @@ Widget _buildInitialListView(
                   child: MultipleChoiceCard(
                     selectedColor: AppColor.nutriBackgroundColor,
                     title: food.getName(),
-                    subtitle: food.calories.toInt().toString() + ' kcal',
+                    subtitle:
+                        '${food.calories.toInt().toString()} kcal / ${calculateIngredientAmount(food).toStringAsFixed(0)} g',
                     isSelected: selectedList.contains(food),
                     onSelected: () {
                       handleSelect(food);
@@ -332,4 +334,15 @@ Widget _buildInitialListView(
       }).toList(),
     ],
   );
+}
+
+double calculateIngredientAmount(Nutrition nutrition) {
+  List<String> listAmount =
+      (nutrition as MealNutrition).meal.ingreIDToAmount.values.toList();
+  double sum = 0;
+  for (int i = 0; i < listAmount.length; i++) {
+    listAmount[i] = listAmount[i].replaceAll(RegExp("[^\\d.]"), "");
+    sum += double.parse(listAmount[i]);
+  }
+  return sum;
 }

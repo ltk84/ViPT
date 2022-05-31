@@ -21,11 +21,28 @@ class ChangeAmountNutritionWidget extends StatefulWidget {
 
 class _ChangeAmountNutritionWidgetState
     extends State<ChangeAmountNutritionWidget> {
+  late double _defaultValue;
   late double _value;
 
   @override
   void initState() {
-    _value = 1;
+    try {
+      List<String> listAmount = (widget.nutrition as MealNutrition)
+          .meal
+          .ingreIDToAmount
+          .values
+          .toList();
+      _defaultValue = 0;
+      for (int i = 0; i < listAmount.length; i++) {
+        listAmount[i] = listAmount[i].replaceAll(RegExp("[^\\d.]"), "");
+        _defaultValue += double.parse(listAmount[i]);
+      }
+      _value = _defaultValue;
+    } catch (e) {
+      print('count ingredient amount error');
+      _defaultValue = 0;
+      _value = 0;
+    }
     super.initState();
     print(widget.nutrition.ingredients);
   }
@@ -88,7 +105,9 @@ class _ChangeAmountNutritionWidgetState
                   height: 16,
                 ),
                 _buildIntakeCaloriesDisplay(
-                    context, widget.nutrition.calories * _value),
+                  context,
+                  widget.nutrition.calories * (_value / _defaultValue),
+                ),
                 const SizedBox(
                   height: 16,
                 ),
@@ -102,17 +121,19 @@ class _ChangeAmountNutritionWidgetState
                 const SizedBox(
                   height: 16,
                 ),
-                _buildNutritionFacts(context,
-                    protein: widget.nutrition.protein * _value,
-                    carbs: widget.nutrition.carbs * _value,
-                    fat: widget.nutrition.fat * _value),
+                _buildNutritionFacts(
+                  context,
+                  protein: widget.nutrition.protein * (_value / _defaultValue),
+                  carbs: widget.nutrition.carbs * (_value / _defaultValue),
+                  fat: widget.nutrition.fat * (_value / _defaultValue),
+                ),
                 const SizedBox(
                   height: 32,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    'Hệ số',
+                    'Khối lượng',
                     style: Theme.of(context).textTheme.headline5,
                   ),
                 ),
@@ -125,7 +146,7 @@ class _ChangeAmountNutritionWidgetState
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        _value.toStringAsFixed(2),
+                        '${_value.toStringAsFixed(0)}g',
                         style: Theme.of(context).textTheme.bodyText2,
                       ),
                       Material(
@@ -135,7 +156,7 @@ class _ChangeAmountNutritionWidgetState
                           borderRadius: BorderRadius.circular(5),
                           onTap: () {
                             setState(() {
-                              _value = 1;
+                              _value = _defaultValue;
                             });
                           },
                           child: Padding(
@@ -160,14 +181,14 @@ class _ChangeAmountNutritionWidgetState
                   ),
                 ),
                 Slider(
-                  value: _value,
+                  value: _value.toDouble(),
                   onChanged: (value) {
                     setState(() {
                       _value = value;
                     });
                   },
-                  min: 0.1,
-                  max: 10,
+                  min: 0,
+                  max: 2000,
                   activeColor: AppColor.nutriBackgroundColor,
                   inactiveColor: AppColor.nutriBackgroundColor
                       .withOpacity(AppColor.subTextOpacity),

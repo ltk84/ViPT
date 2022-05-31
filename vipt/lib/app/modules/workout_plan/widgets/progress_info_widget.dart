@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
@@ -32,6 +33,9 @@ class _ProgressInfoWidgetState extends State<ProgressInfoWidget> {
   @override
   Widget build(BuildContext context) {
     double _progressValue = _getProgressValue();
+    if (_progressValue.isNaN) {
+      _progressValue = 0;
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -180,10 +184,19 @@ class _ProgressInfoWidgetState extends State<ProgressInfoWidget> {
                 const SizedBox(
                   height: 24,
                 ),
-                Wrap(
-                  spacing: 26.0,
-                  runSpacing: 16.0,
-                  children: _buildDayIndicatorList(context),
+                SizedBox(
+                  height: (widget.completeDays.length.isNaN ||
+                          widget.completeDays.isEmpty)
+                      ? 0
+                      : 116,
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Wrap(
+                      spacing: 26.0,
+                      runSpacing: 16.0,
+                      children: _buildDayIndicatorList(context),
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   height: 36,

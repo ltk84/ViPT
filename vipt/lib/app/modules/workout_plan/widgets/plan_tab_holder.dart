@@ -4,6 +4,8 @@ import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/meal.dart';
+import 'package:vipt/app/data/models/meal_nutrition.dart';
+import 'package:vipt/app/data/models/nutrition.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
@@ -86,15 +88,8 @@ class _PlanTabHolderState extends State<PlanTabHolder>
           } else {
             return Column(
               children: [
-                ..._buildCollectionList(
-                    workoutCollectionList: [],
-                    elementOnPress: (col) async {
-                      final _collectionController =
-                          Get.put(WorkoutCollectionController());
-                      _collectionController.onSelectUserCollection(col);
-                      await Get.toNamed(Routes.myWorkoutCollectionDetail);
-                      Get.delete<WorkoutCollectionController>();
-                    }),
+                ..._buildNutritionList(
+                    nutritionList: [], elementOnPress: (nutri) async {}),
               ],
             );
           }
@@ -164,6 +159,94 @@ class _PlanTabHolderState extends State<PlanTabHolder>
             description: cateList,
             onPressed: () {
               elementOnPress(collection);
+            }),
+      );
+
+      if (i % 2 == 0) {
+        Widget dayIndicator = Padding(
+          padding: const EdgeInsets.only(top: 16, bottom: 4),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Divider(
+                  thickness: 1,
+                  color: AppColor.textFieldUnderlineColor,
+                ),
+              ),
+              const SizedBox(
+                width: 16,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // const SizedBox(
+                  //   height: 24,
+                  // ),
+                  Text(
+                    'NGÀY ${i ~/ 2 + 1}',
+                    style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  const SizedBox(
+                    height: 2,
+                  ),
+                  Text(
+                    '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          color: AppColor.textColor.withOpacity(
+                            AppColor.subTextOpacity,
+                          ),
+                        ),
+                  ),
+                  // const SizedBox(
+                  //   height: 4,
+                  // ),
+                ],
+              ),
+              const SizedBox(
+                width: 16,
+              ),
+              Expanded(
+                child: Divider(
+                  thickness: 1,
+                  color: AppColor.textFieldUnderlineColor,
+                ),
+              ),
+            ],
+          ),
+        );
+
+        results.add(dayIndicator);
+      }
+
+      results.add(collectionToWidget);
+    }
+
+    return results;
+  }
+
+  _buildNutritionList(
+      {required List<Nutrition> nutritionList,
+      required Function(Nutrition) elementOnPress}) {
+    // int collectionPerDay = 2;
+    List<Widget> results = [];
+
+    int count = nutritionList.length;
+    for (int i = 0; i < count; i++) {
+      Nutrition nutrition = nutritionList[i];
+
+      Widget collectionToWidget = Container(
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        child: ExerciseInCollectionTile(
+            asset: (nutrition as MealNutrition).meal.asset == ''
+                ? JPGAssetString.meal
+                : nutrition.meal.asset,
+            title: nutrition.getName(),
+            description: nutrition.calories.toString(),
+            onPressed: () {
+              elementOnPress(nutrition);
             }),
       );
 

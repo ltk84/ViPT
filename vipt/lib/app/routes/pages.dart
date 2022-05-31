@@ -3,6 +3,7 @@ import 'package:vipt/app/modules/auth/authentication_binding.dart';
 import 'package:vipt/app/modules/auth/screens/authentication_screen.dart';
 import 'package:vipt/app/modules/daily_plan/screens/add_ingredient_to_food_screen.dart';
 import 'package:vipt/app/modules/daily_plan/screens/body_status_screen.dart';
+import 'package:vipt/app/modules/daily_plan/screens/exercise_history_screen.dart';
 import 'package:vipt/app/modules/daily_plan/screens/log_food_screen.dart';
 import 'package:vipt/app/modules/daily_plan/screens/nutrition_history_screen.dart';
 import 'package:vipt/app/modules/daily_plan/screens/water_history_screen.dart';
@@ -188,6 +189,10 @@ abstract class AppPages {
     GetPage(
       name: Routes.finishPlanScreen,
       page: () => const FinishPlanScreen(),
+    ),
+    GetPage(
+      name: Routes.exerciseHistory,
+      page: () => ExerciseHistoryScreen(),
     ),
   ];
 }
