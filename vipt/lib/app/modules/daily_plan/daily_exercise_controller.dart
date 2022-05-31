@@ -43,6 +43,16 @@ class DailyExerciseController extends GetxController with TrackerController {
         sessionNumber: 0,
         totalTime: 0);
     et = await _provider.add(et);
+    tracks.add(et);
+    update();
+
+    _markRelevantTabToUpdate();
+  }
+
+  Future<void> deleteTrack(ExerciseTracker et) async {
+    calories.value -= et.outtakeCalories;
+    tracks.remove(et);
+    await _provider.delete(et.id ?? 0);
     update();
 
     _markRelevantTabToUpdate();

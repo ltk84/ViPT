@@ -111,11 +111,11 @@ class ExerciseHistoryScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: HistoryTile(
                   title: 'Luyện tập',
-                  description: log.toString() + 'ml',
+                  description: log.outtakeCalories.toString() + 'calories',
                   date: '${log.date.day}/${log.date.month}/${log.date.year}',
                   time: '${log.date.hour}:${log.date.minute}',
-                  action: () {
-                    //c.deleteTrack(log);
+                  action: () async {
+                    await c.deleteTrack(log);
                   },
                 ),
               );
