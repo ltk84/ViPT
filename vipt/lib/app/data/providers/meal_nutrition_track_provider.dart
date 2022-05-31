@@ -10,9 +10,10 @@ class MealNutritionTrackProvider
   String tableName = AppValue.mealNutritionTrackTable;
 
   @override
-  Future<MealNutritionTracker?> add(MealNutritionTracker obj) async {
+  Future<MealNutritionTracker> add(MealNutritionTracker obj) async {
     final db = await DatabaseProvider.database;
-    db!.insert(tableName, obj.toMap());
+    db!.insert(tableName, obj.toMap()).then((value) => obj.id = value);
+    return obj;
   }
 
   @override

@@ -225,8 +225,9 @@ class DailyNutritionController extends GetxController with TrackerController {
         carbs: carbs,
         protein: protein,
         fat: fat);
+
+    tracker = await _nutriTrackProvider.add(tracker);
     tracks.add(tracker);
-    await _nutriTrackProvider.add(tracker);
     update();
   }
 

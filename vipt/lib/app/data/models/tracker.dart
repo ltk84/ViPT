@@ -1,5 +1,5 @@
 abstract class Tracker {
-  final int? id;
+  int? id;
   final DateTime date;
   Map<String, dynamic> toMap();
 
