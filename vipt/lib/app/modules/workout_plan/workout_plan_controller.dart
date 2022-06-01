@@ -17,6 +17,7 @@ import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/models/workout_plan.dart';
 import 'package:vipt/app/data/models/plan_exercise_collection.dart';
 import 'package:vipt/app/data/others/tab_refesh_controller.dart';
+import 'package:vipt/app/data/providers/exercise_nutrition_route_provider.dart';
 import 'package:vipt/app/data/providers/exercise_track_provider.dart';
 import 'package:vipt/app/data/providers/meal_nutrition_track_provider.dart';
 import 'package:vipt/app/data/providers/meal_provider.dart';
@@ -283,30 +284,14 @@ class WorkoutPlanController extends GetxController {
   RxInt currentStreakDay = 0.obs;
 
   Future<void> loadPlanStreak() async {
-    List<WorkoutPlan> list = await _workoutPlanProvider.fetchAll();
+    planStreak.clear();
+    Map<int, List<bool>> list =
+        await ExerciseNutritionRouteProvider().loadStreakList();
     if (list.isNotEmpty) {
-      var plan = list[0];
-      int dateExtend = plan.endDate.difference(plan.startDate).inDays;
-      List<bool> streak = [];
-      final _prefs = await prefs;
-      for (int i = 0; i < dateExtend; i++) {
-        DateTime date = plan.startDate.add(Duration(days: i));
-
-        if (DateUtils.isSameDay(date, DateTime.now())) {
-          currentStreakDay.value = i + 1;
-        }
-
-        var res = _prefs.getBool(DateUtils.dateOnly(date).toString());
-        if (res != null) {
-          streak.add(res);
-        } else {
-          await showNotFoundStreakDataDialog();
-          return;
-        }
-      }
-
-      planStreak.clear();
-      planStreak.addAll(streak);
+      currentStreakDay.value = list.keys.first;
+      planStreak.addAll(list.values.first);
+    } else {
+      await showNotFoundStreakDataDialog();
     }
   }
 
@@ -333,6 +318,8 @@ class WorkoutPlanController extends GetxController {
       },
     );
   }
+
+  Future<void> resetStreakList() async {}
 
   // --------------- STREAK --------------------------------
 

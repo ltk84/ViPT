@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
@@ -11,10 +10,12 @@ class ProgressInfoWidget extends StatefulWidget {
   final bool showAction;
   final bool showTitle;
   final String? currentDay;
+  final Function? resetPlanFunction;
   const ProgressInfoWidget(
       {Key? key,
       required this.completeDays,
       this.currentDay,
+      this.resetPlanFunction,
       this.showAction = true,
       this.showTitle = true})
       : super(key: key);
@@ -106,8 +107,8 @@ class _ProgressInfoWidgetState extends State<ProgressInfoWidget> {
                               color: Colors.transparent,
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(5),
-                                onTap: () {
-                                  showDialog(
+                                onTap: () async {
+                                  await showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
                                       return CustomConfirmationDialog(
@@ -142,7 +143,7 @@ class _ProgressInfoWidgetState extends State<ProgressInfoWidget> {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(5),
                           onTap: () async {
-                            showDialog(
+                            await showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return CustomConfirmationDialog(
@@ -154,7 +155,8 @@ class _ProgressInfoWidgetState extends State<ProgressInfoWidget> {
                                   onCancel: () {
                                     Navigator.of(context).pop();
                                   },
-                                  onOk: () {
+                                  onOk: () async {
+                                    await widget.resetPlanFunction!();
                                     Navigator.of(context).pop();
                                   },
                                   buttonsAlignment:

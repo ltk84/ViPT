@@ -111,6 +111,8 @@ class WorkoutPlanScreen extends StatelessWidget {
                                   completeDays: _controller.planStreak,
                                   currentDay: _controller.currentStreakDay.value
                                       .toString(),
+                                  resetPlanFunction:
+                                      _controller.resetStreakList,
                                 ),
                               ),
                             ),

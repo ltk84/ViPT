@@ -1,33 +1,16 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vipt/app/core/utilities/utils.dart';
 import 'package:vipt/app/core/values/app_strings.dart';
 import 'package:vipt/app/core/values/quiz.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/answer.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
-import 'package:vipt/app/data/models/meal.dart';
-import 'package:vipt/app/data/models/meal_nutrition.dart';
-import 'package:vipt/app/data/models/plan_exercise.dart';
-import 'package:vipt/app/data/models/plan_exercise_collection.dart';
-import 'package:vipt/app/data/models/plan_exercise_collection_setting.dart';
-import 'package:vipt/app/data/models/plan_meal.dart';
-import 'package:vipt/app/data/models/plan_meal_collection.dart';
 import 'package:vipt/app/data/models/vipt_user.dart';
 import 'package:vipt/app/data/models/weight_tracker.dart';
-import 'package:vipt/app/data/models/workout.dart';
-import 'package:vipt/app/data/models/workout_plan.dart';
-import 'package:vipt/app/data/providers/plan_exercise_collection_provider.dart';
-import 'package:vipt/app/data/providers/plan_exercise_collection_setting_provider.dart';
-import 'package:vipt/app/data/providers/plan_exercise_provider.dart';
-import 'package:vipt/app/data/providers/plan_meal_collection_provider.dart';
-import 'package:vipt/app/data/providers/plan_meal_provider.dart';
+import 'package:vipt/app/data/providers/exercise_nutrition_route_provider.dart';
 import 'package:vipt/app/data/providers/weight_tracker_provider.dart';
-import 'package:vipt/app/data/providers/workout_plan_provider.dart';
 import 'package:vipt/app/data/services/auth_service.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/enums/app_enums.dart';
@@ -773,214 +756,11 @@ class SetupInfoController extends GetxController {
   }
 
   Future<void> createWorkoutPlan(ViPTUser user) async {
-    final _workoutPlanProvider = WorkoutPlanProvider();
-
     await DataService.instance.loadWorkoutList();
     await DataService.instance.loadMealList();
     await DataService.instance.loadMealCategoryList();
 
-    num weightDiff = user.goalWeight - user.currentWeight;
-    num workoutPlanLengthInWeek =
-        weightDiff.abs() / AppValue.intensityWeightPerWeek;
-    int workoutPlanLengthInDays = workoutPlanLengthInWeek.toInt() * 7;
-
-    DateTime workoutPlanStartDate = DateTime.now();
-    DateTime workoutPlanEndDate =
-        DateTime.now().add(Duration(days: workoutPlanLengthInDays));
-
-    num dailyGoalCalories = WorkoutPlanUtils.createDailyGoalCalories(user);
-    num dailyIntakeCalories = dailyGoalCalories + AppValue.intensityWeight;
-    num dailyOuttakeCalories = AppValue.intensityWeight;
-
-    final WorkoutPlan workoutPlan = WorkoutPlan(
-        dailyGoalCalories: dailyGoalCalories,
-        startDate: workoutPlanStartDate,
-        endDate: workoutPlanEndDate);
-    _workoutPlanProvider.add(workoutPlan);
-
-    await generateMealListWithPlanLength(
-        intakeCalories: dailyIntakeCalories,
-        planLength: workoutPlanLengthInDays);
-
-    await generateExerciseListWithPlanLength(
-        dailyOuttakeCalories, user.currentWeight, workoutPlanLengthInDays);
-
-    await generateInitialPlanStreak(
-        startDate: workoutPlanStartDate,
-        planLengthInDays: workoutPlanLengthInDays);
-  }
-
-  Future<void> generateExerciseListWithPlanLength(
-      num outtakeCalories, num userWeight, int workoutPlanLength) async {
-    for (int i = 0; i < workoutPlanLength; i++) {
-      await generateExerciseListEveryDay(
-          outtakeCalories: outtakeCalories,
-          userWeight: userWeight,
-          date: DateTime.now().add(Duration(days: i)));
-    }
-  }
-
-  Future<void> generateExerciseListEveryDay(
-      {required num outtakeCalories,
-      required num userWeight,
-      required DateTime date}) async {
-    int numberOfExercise = 10;
-    int everyExerciseSeconds = 45;
-    List<Workout> exerciseList1 = randomExercises(numberOfExercise);
-    List<Workout> exerciseList2 = randomExercises(numberOfExercise);
-
-    double totalCalo1 = 0;
-    for (var element in exerciseList1) {
-      double calo = SessionUtils.calculateCaloOneWorkout(
-          everyExerciseSeconds, element.metValue, userWeight);
-      totalCalo1 += calo;
-    }
-
-    double totalCalo2 = 0;
-    for (var element in exerciseList2) {
-      double calo = SessionUtils.calculateCaloOneWorkout(
-          everyExerciseSeconds, element.metValue, userWeight);
-      totalCalo2 += calo;
-    }
-
-    int round1 = ((outtakeCalories / 2) / totalCalo1).ceil();
-    int round2 = ((outtakeCalories / 2) / totalCalo2).ceil();
-
-    //  tao collection setting
-    PlanExerciseCollectionSetting setting1 = PlanExerciseCollectionSetting(
-        round: round1,
-        exerciseTime: everyExerciseSeconds,
-        numOfWorkoutPerRound: numberOfExercise);
-
-    PlanExerciseCollectionSetting setting2 = PlanExerciseCollectionSetting(
-        round: round2,
-        exerciseTime: everyExerciseSeconds,
-        numOfWorkoutPerRound: numberOfExercise);
-
-    final _settingProvider = PlanExerciseCollectionSettingProvider();
-    setting1 = (await _settingProvider.add(setting1));
-    setting2 = (await _settingProvider.add(setting2));
-
-    PlanExerciseCollection collection1 = PlanExerciseCollection(
-        date: date, collectionSettingID: setting1.id ?? 0);
-
-    PlanExerciseCollection collection2 = PlanExerciseCollection(
-        date: date, collectionSettingID: setting2.id ?? 0);
-
-    final _collectionProvider = PlanExerciseCollectionProvider();
-    collection1 = (await _collectionProvider.add(collection1));
-    collection2 = (await _collectionProvider.add(collection2));
-
-    final _exerciseProvider = PlanExerciseProvider();
-    for (var element in exerciseList1) {
-      PlanExercise pe = PlanExercise(
-          exerciseID: element.id ?? '', listID: collection1.id ?? 0);
-      _exerciseProvider.add(pe);
-    }
-
-    for (var element in exerciseList2) {
-      PlanExercise pe = PlanExercise(
-          exerciseID: element.id ?? '', listID: collection2.id ?? 0);
-      _exerciseProvider.add(pe);
-    }
-  }
-
-  List<Workout> randomExercises(int numberOfExercise) {
-    int count = 0;
-    final _random = Random();
-    List<Workout> result = [];
-    final allExerciseList = DataService.instance.workoutList;
-    while (count < numberOfExercise) {
-      var element = allExerciseList[_random.nextInt(allExerciseList.length)];
-      if (!result.contains(element)) {
-        result.add(element);
-        count++;
-      }
-    }
-
-    return result;
-  }
-
-  Future<void> generateMealListWithPlanLength(
-      {required num intakeCalories, required int planLength}) async {
-    for (int i = 0; i < planLength; i++) {
-      generateMealList(
-          intakeCalories: intakeCalories,
-          date: DateTime.now().add(Duration(days: i)));
-    }
-  }
-
-  Future<void> generateMealList(
-      {required num intakeCalories, required DateTime date}) async {
-    List<Meal> mealList = await randomMeals();
-    num ratio = await calculateMealRatio(intakeCalories, mealList);
-
-    PlanMealCollection collection =
-        PlanMealCollection(date: date, mealRatio: ratio.toDouble());
-    collection = (await PlanMealCollectionProvider().add(collection));
-
-    final mealProvider = PlanMealProvider();
-    for (var e in mealList) {
-      PlanMeal meal = PlanMeal(mealID: e.id ?? '', listID: collection.id ?? 0);
-      await mealProvider.add(meal);
-    }
-  }
-
-  Future<double> calculateMealRatio(
-      num intakeCalories, List<Meal> mealList) async {
-    num totalCalories = 0;
-    for (var element in mealList) {
-      var mealNutri = MealNutrition(meal: element);
-      await mealNutri.getIngredients();
-      totalCalories += mealNutri.calories;
-    }
-
-    return intakeCalories / totalCalories;
-  }
-
-  Future<List<Meal>> randomMeals() async {
-    List<Meal> result = [];
-    final _random = Random();
-
-    List<String> mealCategoryIDs =
-        DataService.instance.mealCategoryList.map((e) => e.id ?? '').toList();
-
-    final breakfastList = DataService.instance.mealList
-        .where((element) => element.categoryIDs.contains(mealCategoryIDs[0]))
-        .toList();
-    final lunchDinnerList = DataService.instance.mealList
-        .where((element) => element.categoryIDs.contains(mealCategoryIDs[1]))
-        .toList();
-    final snackList = DataService.instance.mealList
-        .where((element) => element.categoryIDs.contains(mealCategoryIDs[2]))
-        .toList();
-
-    var breakfastMeal = breakfastList[_random.nextInt(breakfastList.length)];
-    if (!result.contains(breakfastMeal)) {
-      result.add(breakfastMeal);
-    }
-
-    var lunchDinnerMeal =
-        lunchDinnerList[_random.nextInt(lunchDinnerList.length)];
-    if (!result.contains(lunchDinnerMeal)) {
-      result.add(lunchDinnerMeal);
-    }
-
-    var snackMeal = snackList[_random.nextInt(snackList.length)];
-    if (!result.contains(snackMeal)) {
-      result.add(snackMeal);
-    }
-    return result;
-  }
-
-  Future<void> generateInitialPlanStreak(
-      {required DateTime startDate, required int planLengthInDays}) async {
-    final _prefs = await SharedPreferences.getInstance();
-
-    for (int i = 0; i < planLengthInDays; i++) {
-      DateTime date = DateUtils.dateOnly(startDate.add(Duration(days: i)));
-      _prefs.setBool(date.toString(), false);
-    }
+    await ExerciseNutritionRouteProvider().createRoute(user);
   }
 
   void skipQuestion() {
