@@ -118,6 +118,7 @@ class ProfileController extends GetxController {
 
   Future<void> loadNutritionTracks() async {
     nutritionCaloWeekly.value = 0;
+    int temptSum = 0;
     for (int i = 0; i < 7; i++) {
       var nutritionTracks = await _nutritionProvider
           .fetchByDate(exerciseDateRange.value.start.add(Duration(days: i)));
@@ -125,9 +126,11 @@ class ProfileController extends GetxController {
       for (var element in nutritionTracks) {
         temptIntakeCalories += element.intakeCalories;
       }
-      nutritionCaloWeekly.value += temptIntakeCalories;
+      temptSum += temptIntakeCalories;
       nutritionTracksWeekly[i] = nutritionTracks;
     }
+
+    nutritionCaloWeekly.value = temptSum;
   }
 
   Future<void> changeNutritionDateChange(
@@ -163,6 +166,7 @@ class ProfileController extends GetxController {
 
   Future<void> loadWaterTracks() async {
     waterVolumeWeekly.value = 0;
+    int temptSum = 0;
     for (int i = 0; i < 7; i++) {
       var waterTracks = await _waterProvider
           .fetchByDate(waterDateRange.value.start.add(Duration(days: i)));
@@ -171,9 +175,10 @@ class ProfileController extends GetxController {
       for (var element in waterTracks) {
         temptWaterVolume += element.waterVolume;
       }
-      waterVolumeWeekly.value += temptWaterVolume;
+      temptSum += temptWaterVolume;
       waterTracksWeekly[i] = waterTracks;
     }
+    waterVolumeWeekly.value = temptSum;
   }
 
   Future<void> changeWaterDateChange(
@@ -266,6 +271,7 @@ class ProfileController extends GetxController {
 
   Future<void> loadStepTracks() async {
     stepCountWeekly.value = 0;
+    int temptSum = 0;
     for (int i = 0; i < 7; i++) {
       var stepTracks = await _stepProvider
           .fetchByDate(stepDateRange.value.start.add(Duration(days: i)));
@@ -273,9 +279,11 @@ class ProfileController extends GetxController {
       for (var element in stepTracks) {
         temptStep += element.stepCount;
       }
-      stepCountWeekly.value += temptStep;
+      temptSum += temptStep;
       stepTracksWeekly[i] = stepTracks;
     }
+
+    stepCountWeekly.value = temptSum;
   }
 
   Future<void> changeStepDateChange(
