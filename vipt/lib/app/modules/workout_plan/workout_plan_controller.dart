@@ -179,6 +179,28 @@ class WorkoutPlanController extends GetxController {
     }).toList();
 
     dailyDiffCalories.value = intakeCalories.value - outtakeCalories.value;
+    await _validateDailyCalories();
+  }
+
+  Future<void> _validateDailyCalories() async {
+    String dateKey = DateUtils.dateOnly(DateTime.now()).toString();
+    final _prefs = await prefs;
+    bool? todayStreakValue = _prefs.getBool(dateKey);
+    if (todayStreakValue == null) {
+      await showNotFoundStreakDataDialog();
+      return;
+    }
+
+    if (dailyDiffCalories.value >= dailyGoalCalories.value - 100 &&
+        dailyDiffCalories.value <= dailyGoalCalories.value + 100) {
+      if (!todayStreakValue) {
+        _prefs.setBool(DateUtils.dateOnly(DateTime.now()).toString(), true);
+      }
+    } else {
+      if (todayStreakValue) {
+        _prefs.setBool(DateUtils.dateOnly(DateTime.now()).toString(), false);
+      }
+    }
   }
 
   List<WorkoutCollection> loadWorkoutCollectionToShow(DateTime date) {
@@ -258,6 +280,7 @@ class WorkoutPlanController extends GetxController {
   // --------------- STREAK --------------------------------
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   List<bool> planStreak = [];
+  RxInt currentStreakDay = 0.obs;
 
   Future<void> loadPlanStreak() async {
     List<WorkoutPlan> list = await _workoutPlanProvider.fetchAll();
@@ -268,31 +291,16 @@ class WorkoutPlanController extends GetxController {
       final _prefs = await prefs;
       for (int i = 0; i < dateExtend; i++) {
         DateTime date = plan.startDate.add(Duration(days: i));
+
+        if (DateUtils.isSameDay(date, DateTime.now())) {
+          currentStreakDay.value = i + 1;
+        }
+
         var res = _prefs.getBool(DateUtils.dateOnly(date).toString());
         if (res != null) {
           streak.add(res);
         } else {
-          await showDialog(
-            context: Get.context!,
-            builder: (BuildContext context) {
-              return CustomConfirmationDialog(
-                icon: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                  child: Icon(Icons.error_rounded,
-                      color: AppColor.errorColor, size: 48),
-                ),
-                label: 'Đã xảy ra lỗi',
-                content: 'Không tìm thấy danh sách streak',
-                showOkButton: false,
-                labelCancel: 'Đóng',
-                onCancel: () {
-                  Navigator.of(context).pop();
-                },
-                buttonsAlignment: MainAxisAlignment.center,
-                buttonFactorOnMaxWidth: double.infinity,
-              );
-            },
-          );
+          await showNotFoundStreakDataDialog();
           return;
         }
       }
@@ -302,6 +310,30 @@ class WorkoutPlanController extends GetxController {
     }
   }
 
+  Future<void> showNotFoundStreakDataDialog() async {
+    await showDialog(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return CustomConfirmationDialog(
+          icon: const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.0),
+            child:
+                Icon(Icons.error_rounded, color: AppColor.errorColor, size: 48),
+          ),
+          label: 'Đã xảy ra lỗi',
+          content: 'Không tìm thấy danh sách streak',
+          showOkButton: false,
+          labelCancel: 'Đóng',
+          onCancel: () {
+            Navigator.of(context).pop();
+          },
+          buttonsAlignment: MainAxisAlignment.center,
+          buttonFactorOnMaxWidth: double.infinity,
+        );
+      },
+    );
+  }
+
   // --------------- STREAK --------------------------------
 
   @override
@@ -309,8 +341,8 @@ class WorkoutPlanController extends GetxController {
     super.onInit();
     isLoading.value = true;
     await loadWeightValues();
-    await loadDailyCalories();
     await loadDailyGoalCalories();
+    await loadDailyCalories();
     await loadPlanExerciseCollectionList();
     await loadWorkoutPlanMealList();
     await loadPlanStreak();
@@ -322,27 +354,7 @@ class WorkoutPlanController extends GetxController {
         DateTime date = DateUtils.dateOnly(DateTime.now());
         bool? isTodayComplete = _prefs.getBool(date.toString());
         if (isTodayComplete == null) {
-          showDialog(
-            context: Get.context!,
-            builder: (BuildContext context) {
-              return CustomConfirmationDialog(
-                icon: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                  child: Icon(Icons.error_rounded,
-                      color: AppColor.errorColor, size: 48),
-                ),
-                label: 'Đã xảy ra lỗi',
-                content: 'Không tìm thấy danh sách streak',
-                showOkButton: false,
-                labelCancel: 'Đóng',
-                onCancel: () {
-                  Navigator.of(context).pop();
-                },
-                buttonsAlignment: MainAxisAlignment.center,
-                buttonFactorOnMaxWidth: double.infinity,
-              );
-            },
-          );
+          await showNotFoundStreakDataDialog();
           return;
         }
         _prefs.setBool(date.toString(), true);

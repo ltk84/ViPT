@@ -10,9 +10,11 @@ class ProgressInfoWidget extends StatefulWidget {
   final List<bool> completeDays;
   final bool showAction;
   final bool showTitle;
+  final String? currentDay;
   const ProgressInfoWidget(
       {Key? key,
       required this.completeDays,
+      this.currentDay,
       this.showAction = true,
       this.showTitle = true})
       : super(key: key);
@@ -88,7 +90,7 @@ class _ProgressInfoWidgetState extends State<ProgressInfoWidget> {
                       child: Row(
                         children: [
                           Text(
-                            'Ngày',
+                            'Ngày ${widget.currentDay}',
                             style:
                                 Theme.of(context).textTheme.headline5!.copyWith(
                                       fontWeight: FontWeight.w900,

@@ -106,8 +106,12 @@ class WorkoutPlanScreen extends StatelessWidget {
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 18),
-                              child: ProgressInfoWidget(
-                                completeDays: _controller.planStreak,
+                              child: Obx(
+                                () => ProgressInfoWidget(
+                                  completeDays: _controller.planStreak,
+                                  currentDay: _controller.currentStreakDay.value
+                                      .toString(),
+                                ),
                               ),
                             ),
                             const SizedBox(

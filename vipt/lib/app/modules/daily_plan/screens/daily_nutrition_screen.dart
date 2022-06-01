@@ -163,28 +163,28 @@ class DailyNutritionScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Hero(
-          tag: 'caloriesIntakeWidget',
-          child: SizedBox(
-            width: screenWidth * 0.3,
-            child: VerticalInfoWidget(
-              title: intake.toString(),
-              subtitle: 'hấp thụ',
-            ),
-          ),
-        ),
+        // Hero(
+        //   tag: 'caloriesIntakeWidget',
+        //   child: SizedBox(
+        //     width: screenWidth * 0.3,
+        //     child: VerticalInfoWidget(
+        //       title: intake.toString(),
+        //       subtitle: 'hấp thụ',
+        //     ),
+        //   ),
+        // ),
         GoalProgressIndicator(
           radius: screenWidth * 0.3,
-          value: diff,
+          value: intake,
           unitString: 'calories',
         ),
-        SizedBox(
-          width: screenWidth * 0.3,
-          child: VerticalInfoWidget(
-            title: outtake.toString(),
-            subtitle: 'tiêu hao',
-          ),
-        ),
+        // SizedBox(
+        //   width: screenWidth * 0.3,
+        //   child: VerticalInfoWidget(
+        //     title: outtake.toString(),
+        //     subtitle: 'tiêu hao',
+        //   ),
+        // ),
       ],
     );
   }
