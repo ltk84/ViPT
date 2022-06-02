@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
-import 'package:vipt/app/data/models/meal.dart';
 import 'package:vipt/app/data/models/meal_nutrition.dart';
 import 'package:vipt/app/data/models/nutrition.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';

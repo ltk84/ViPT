@@ -50,7 +50,6 @@ class EditDeleteFoodScreen extends StatelessWidget {
                 tag: 'actionButtonAppBar',
                 child: Icon(
                   Icons.delete,
-                  // TODO: sửa lại màu
                   color: AppColor.primaryColor,
                 ),
               ),

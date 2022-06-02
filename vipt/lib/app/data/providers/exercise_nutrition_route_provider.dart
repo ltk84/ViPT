@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vipt/app/core/utilities/utils.dart';
+import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/meal.dart';
 import 'package:vipt/app/data/models/meal_nutrition.dart';
@@ -21,7 +23,7 @@ import 'package:vipt/app/data/providers/plan_meal_collection_provider.dart';
 import 'package:vipt/app/data/providers/plan_meal_provider.dart';
 import 'package:vipt/app/data/providers/workout_plan_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
-import 'package:vipt/app/modules/nutrition_collection/nutrition_collection_binding.dart';
+import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
 
 class ExerciseNutritionRouteProvider {
   Future<void> createRoute(ViPTUser user) async {
@@ -272,12 +274,29 @@ class ExerciseNutritionRouteProvider {
       await _deletePlanMealList();
       await _deletePlanExerciseList();
       await _deleteWorkoutPlanList();
-      print('delete successfully');
 
       await createRoute(user);
     } else {
-      //TODO: show dialog loi
-      print('da co loi xay ra');
+      await showDialog(
+        context: Get.context!,
+        builder: (BuildContext context) {
+          return CustomConfirmationDialog(
+            icon: const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Icon(Icons.error_rounded,
+                  color: AppColor.errorColor, size: 48),
+            ),
+            label: 'Đã xảy ra lỗi',
+            content: '',
+            showOkButton: false,
+            labelCancel: 'Đóng',
+            onCancel: () => Navigator.of(context).pop(),
+            onOk: () => Navigator.of(context).pop(),
+            buttonsAlignment: MainAxisAlignment.center,
+            buttonFactorOnMaxWidth: double.infinity,
+          );
+        },
+      );
       return;
     }
   }

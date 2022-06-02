@@ -132,7 +132,14 @@ class ProfileScreen extends StatelessWidget {
                                   color: AppColor.textFieldUnderlineColor,
                                 ),
                               ),
-                              WeightTrackingWidget(),
+                              Obx(
+                                () => WeightTrackingWidget(
+                                  weighTracks: _controller.weightTrackList,
+                                  handleChangeTimeRange:
+                                      _controller.changeWeighDateRange,
+                                  timeRange: _controller.weightDateRange.value,
+                                ),
+                              ),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 16),

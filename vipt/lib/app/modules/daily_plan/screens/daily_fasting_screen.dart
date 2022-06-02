@@ -45,7 +45,6 @@ class _DailyFastingScreenState extends State<DailyFastingScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
-    print(state);
     switch (state) {
       case AppLifecycleState.inactive:
         await _controller.saveDataToPrefs(_timerController.getTimeInDuration());

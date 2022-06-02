@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:vipt/app/modules/auth/authentication_binding.dart';
 import 'package:vipt/app/modules/auth/screens/authentication_screen.dart';
@@ -188,7 +189,10 @@ abstract class AppPages {
     ),
     GetPage(
       name: Routes.finishPlanScreen,
-      page: () => const FinishPlanScreen(),
+      page: () => FinishPlanScreen(),
+      binding: BindingsBuilder(() {
+        // Get.lazyPut(() => ProfileController());
+      }),
     ),
     GetPage(
       name: Routes.exerciseHistory,

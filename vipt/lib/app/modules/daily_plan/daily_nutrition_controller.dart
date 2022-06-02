@@ -48,8 +48,6 @@ class DailyNutritionController extends GetxController with TrackerController {
 
   Rx<int> activeTabIndex = 0.obs;
 
-  RxBool isLoading = false.obs;
-
   @override
   void onInit() async {
     super.onInit();

@@ -8,9 +8,12 @@ import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/global_widgets/intro_collection_widget.dart';
 import 'package:vipt/app/modules/profile/widgets/weight_tracking_widget.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/progress_info_widget.dart';
+import 'package:vipt/app/modules/workout_plan/workout_plan_controller.dart';
 
 class FinishPlanScreen extends StatelessWidget {
-  const FinishPlanScreen({Key? key}) : super(key: key);
+  FinishPlanScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.find<WorkoutPlanController>();
 
   @override
   Widget build(BuildContext context) {
@@ -95,8 +98,14 @@ class FinishPlanScreen extends StatelessWidget {
                             child: Text('Thống kê cân nặng',
                                 style: Theme.of(context).textTheme.headline5),
                           ),
-                          WeightTrackingWidget(
-                            showTitle: false,
+                          Obx(
+                            () => WeightTrackingWidget(
+                              showTitle: false,
+                              weighTracks: _controller.weightTrackList,
+                              handleChangeTimeRange:
+                                  _controller.changeWeighDateRange,
+                              timeRange: _controller.weightDateRange.value,
+                            ),
                           ),
                         ],
                       ),
@@ -117,8 +126,10 @@ class FinishPlanScreen extends StatelessWidget {
                             child: Text('Mức độ hoàn thành mục tiêu',
                                 style: Theme.of(context).textTheme.headline5),
                           ),
-                          const ProgressInfoWidget(
-                            completeDays: [true, false, false, false],
+                          ProgressInfoWidget(
+                            completeDays: _controller.planStreak,
+                            currentDay:
+                                _controller.currentStreakDay.value.toString(),
                             showAction: false,
                             showTitle: false,
                           ),

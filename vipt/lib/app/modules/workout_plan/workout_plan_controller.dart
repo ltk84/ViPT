@@ -4,10 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/exercise_tracker.dart';
-import 'package:vipt/app/data/models/meal.dart';
 import 'package:vipt/app/data/models/meal_nutrition.dart';
 import 'package:vipt/app/data/models/meal_nutrition_tracker.dart';
-import 'package:vipt/app/data/models/nutrition.dart';
 import 'package:vipt/app/data/models/plan_exercise.dart';
 import 'package:vipt/app/data/models/plan_exercise_collection_setting.dart';
 import 'package:vipt/app/data/models/plan_meal.dart';
@@ -32,6 +30,7 @@ import 'package:vipt/app/data/providers/workout_plan_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/enums/app_enums.dart';
 import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 class WorkoutPlanController extends GetxController {
   static const num defaultWeightValue = 0;
@@ -331,6 +330,66 @@ class WorkoutPlanController extends GetxController {
 
   // --------------- STREAK --------------------------------
 
+  // --------------- FINISH WORKOUT PLAN --------------------------------
+  static final DateTimeRange defaultWeightDateRange =
+      DateTimeRange(start: DateTime.now(), end: DateTime.now());
+  Rx<DateTimeRange> weightDateRange = defaultWeightDateRange.obs;
+  RxList<WeightTracker> allWeightTracks = <WeightTracker>[].obs;
+  final _weightProvider = WeightTrackerProvider();
+
+  Map<DateTime, double> get weightTrackList {
+    allWeightTracks.sort((x, y) {
+      return x.date.compareTo(y.date);
+    });
+
+    return allWeightTracks.length == 1 ? fakeMap() : convertToMap();
+  }
+
+  Map<DateTime, double> convertToMap() {
+    return {for (var e in allWeightTracks) e.date: e.weight.toDouble()};
+  }
+
+  Map<DateTime, double> fakeMap() {
+    var map = convertToMap();
+
+    map.addAll(
+        {allWeightTracks.first.date.subtract(const Duration(days: 1)): 0});
+
+    return map;
+  }
+
+  Future<void> loadWeightTracks() async {
+    weightDateRange.value = DateTimeRange(
+        start: currentWorkoutPlan!.startDate, end: currentWorkoutPlan!.endDate);
+    allWeightTracks.clear();
+    int duration = weightDateRange.value.duration.inDays + 1;
+    for (int i = 0; i < duration; i++) {
+      DateTime fetchDate = weightDateRange.value.start.add(Duration(days: i));
+      var weighTracks = await _weightProvider.fetchByDate(fetchDate);
+      weighTracks.sort((x, y) => x.weight - y.weight);
+      if (weighTracks.isNotEmpty) {
+        allWeightTracks.add(weighTracks.last);
+      }
+    }
+  }
+
+  Future<void> changeWeighDateRange(
+      DateTime startDate, DateTime endDate) async {
+    if (startDate.day == endDate.day &&
+        startDate.month == endDate.month &&
+        startDate.year == endDate.year) {
+      startDate = startDate.subtract(const Duration(days: 1));
+    }
+    weightDateRange.value = DateTimeRange(start: startDate, end: endDate);
+    await loadWeightTracks();
+  }
+
+  Future<void> loadDataForFinishScreen() async {
+    await loadWeightTracks();
+  }
+
+  // --------------- FINISH WORKOUT PLAN --------------------------------
+
   @override
   void onInit() async {
     super.onInit();
@@ -353,6 +412,12 @@ class WorkoutPlanController extends GetxController {
           return;
         }
         _prefs.setBool(date.toString(), true);
+
+        // Khi streak ở ngày cuối cùng
+        if (DateUtils.isSameDay(date, currentWorkoutPlan!.endDate)) {
+          await loadDataForFinishScreen();
+          await Get.toNamed(Routes.finishPlanScreen);
+        }
       }
     });
   }

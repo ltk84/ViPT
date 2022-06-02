@@ -57,14 +57,13 @@ class WorkoutPlanScreen extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const SizedBox(
-                        width: 8,
-                      ),
+                      const SizedBox(width: 8),
                       Text(
                         'Lộ trình tập luyện',
-                        style: Theme.of(context).textTheme.headline4!.copyWith(
-                              color: AppColor.accentTextColor,
-                            ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline4!
+                            .copyWith(color: AppColor.accentTextColor),
                       ),
                     ],
                   ),
