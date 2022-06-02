@@ -156,8 +156,8 @@ class _ProgressInfoWidgetState extends State<ProgressInfoWidget> {
                                     Navigator.of(context).pop();
                                   },
                                   onOk: () async {
-                                    await widget.resetPlanFunction!();
                                     Navigator.of(context).pop();
+                                    await widget.resetPlanFunction!();
                                   },
                                   buttonsAlignment:
                                       MainAxisAlignment.spaceEvenly,

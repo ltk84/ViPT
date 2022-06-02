@@ -21,6 +21,7 @@ import 'package:vipt/app/data/providers/plan_meal_collection_provider.dart';
 import 'package:vipt/app/data/providers/plan_meal_provider.dart';
 import 'package:vipt/app/data/providers/workout_plan_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
+import 'package:vipt/app/modules/nutrition_collection/nutrition_collection_binding.dart';
 
 class ExerciseNutritionRouteProvider {
   Future<void> createRoute(ViPTUser user) async {
@@ -252,29 +253,56 @@ class ExerciseNutritionRouteProvider {
         }
       }
 
-      Map<int, List<bool>> map =
-          {currentStreakDay, streak} as Map<int, List<bool>>;
+      Map<int, List<bool>> map = {};
+      map[currentStreakDay] = streak;
       return map;
     }
 
     return <int, List<bool>>{};
   }
 
-  Future<void> deleteRoute() async {
-    await _deleteStreakList();
-    await _deletePlanMealList();
-    await _deletePlanExerciseList();
-    await _deleteWorkoutPlanList();
+  Future<void> deleteRoute(int id) async {
+    final WorkoutPlan? workoutPlan = await WorkoutPlanProvider().fetch(id);
+    var user = DataService.currentUser;
+    if (workoutPlan != null && user != null) {
+      await _deleteStreakList(
+          startDate: workoutPlan.startDate,
+          planLengthInDays:
+              workoutPlan.endDate.difference(workoutPlan.startDate).inDays);
+      await _deletePlanMealList();
+      await _deletePlanExerciseList();
+      await _deleteWorkoutPlanList();
+      print('delete successfully');
+
+      await createRoute(user);
+    } else {
+      //TODO: show dialog loi
+      print('da co loi xay ra');
+      return;
+    }
   }
 
-  Future<void> _deleteStreakList() async {
+  Future<void> _deleteStreakList(
+      {required DateTime startDate, required int planLengthInDays}) async {
     final _prefs = await SharedPreferences.getInstance();
-    // _prefs.remove(key)
+    for (int i = 0; i < planLengthInDays; i++) {
+      DateTime date = DateUtils.dateOnly(startDate.add(Duration(days: i)));
+      await _prefs.remove(date.toString());
+    }
   }
 
-  Future<void> _deletePlanMealList() async {}
+  Future<void> _deletePlanMealList() async {
+    await PlanMealCollectionProvider().deleteAll();
+    await PlanMealProvider().deleteAll();
+  }
 
-  Future<void> _deletePlanExerciseList() async {}
+  Future<void> _deletePlanExerciseList() async {
+    await PlanExerciseProvider().deleteAll();
+    await PlanExerciseCollectionProvider().deleteAll();
+    await PlanExerciseCollectionSettingProvider().deleteAll();
+  }
 
-  Future<void> _deleteWorkoutPlanList() async {}
+  Future<void> _deleteWorkoutPlanList() async {
+    await WorkoutPlanProvider().deleteAll();
+  }
 }

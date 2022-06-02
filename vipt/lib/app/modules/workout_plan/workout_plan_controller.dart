@@ -129,9 +129,12 @@ class WorkoutPlanController extends GetxController {
   List<PlanMealCollection> planMealCollection = <PlanMealCollection>[];
   List<PlanMeal> planMeal = [];
 
+  WorkoutPlan? currentWorkoutPlan;
+
   Future<void> loadDailyGoalCalories() async {
     List<WorkoutPlan> list = await _workoutPlanProvider.fetchAll();
     if (list.isNotEmpty) {
+      currentWorkoutPlan = list[0];
       dailyGoalCalories.value = list[0].dailyGoalCalories.toInt();
     }
   }
@@ -283,10 +286,11 @@ class WorkoutPlanController extends GetxController {
   List<bool> planStreak = [];
   RxInt currentStreakDay = 0.obs;
 
+  final _routeProvider = ExerciseNutritionRouteProvider();
+
   Future<void> loadPlanStreak() async {
     planStreak.clear();
-    Map<int, List<bool>> list =
-        await ExerciseNutritionRouteProvider().loadStreakList();
+    Map<int, List<bool>> list = await _routeProvider.loadStreakList();
     if (list.isNotEmpty) {
       currentStreakDay.value = list.keys.first;
       planStreak.addAll(list.values.first);
@@ -319,7 +323,11 @@ class WorkoutPlanController extends GetxController {
     );
   }
 
-  Future<void> resetStreakList() async {}
+  Future<void> resetStreakList() async {
+    isLoading.value = true;
+    await _routeProvider.deleteRoute(currentWorkoutPlan!.id ?? 0);
+    isLoading.value = false;
+  }
 
   // --------------- STREAK --------------------------------
 

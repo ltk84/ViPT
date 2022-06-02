@@ -46,4 +46,9 @@ class PlanMealCollectionProvider
   Future<void> update(int id, PlanMealCollection obj) async {
     throw UnimplementedError();
   }
+
+  Future<void> deleteAll() async {
+    final db = await DatabaseProvider.database;
+    await db!.delete(tableName);
+  }
 }

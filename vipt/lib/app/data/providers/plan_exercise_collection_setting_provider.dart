@@ -62,4 +62,9 @@ class PlanExerciseCollectionSettingProvider
     final db = await DatabaseProvider.database;
     await db!.update(tableName, obj.toMap(), where: 'id = ?', whereArgs: [id]);
   }
+
+  Future<void> deleteAll() async {
+    final db = await DatabaseProvider.database;
+    await db!.delete(tableName);
+  }
 }

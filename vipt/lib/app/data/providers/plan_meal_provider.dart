@@ -44,4 +44,9 @@ class PlanMealProvider implements SqfliteHelper<int, PlanMeal> {
   Future<void> update(int id, PlanMeal obj) {
     throw UnimplementedError();
   }
+
+  Future<void> deleteAll() async {
+    final db = await DatabaseProvider.database;
+    await db!.delete(tableName);
+  }
 }
