@@ -135,6 +135,8 @@ class WorkoutPlanController extends GetxController {
     if (list.isNotEmpty) {
       currentWorkoutPlan = list[0];
       dailyGoalCalories.value = list[0].dailyGoalCalories.toInt();
+    } else {
+      hasFinishedPlan.value = true;
     }
   }
 
@@ -337,6 +339,8 @@ class WorkoutPlanController extends GetxController {
   RxList<WeightTracker> allWeightTracks = <WeightTracker>[].obs;
   final _weightProvider = WeightTrackerProvider();
 
+  RxBool hasFinishedPlan = false.obs;
+
   Map<DateTime, double> get weightTrackList {
     allWeightTracks.sort((x, y) {
       return x.date.compareTo(y.date);
@@ -415,8 +419,12 @@ class WorkoutPlanController extends GetxController {
 
         // Khi streak ở ngày cuối cùng
         if (DateUtils.isSameDay(date, currentWorkoutPlan!.endDate)) {
+          hasFinishedPlan.value = true;
+
           await loadDataForFinishScreen();
           await Get.toNamed(Routes.finishPlanScreen);
+
+          //TODO: delete hết data về workout plan
         }
       }
     });
