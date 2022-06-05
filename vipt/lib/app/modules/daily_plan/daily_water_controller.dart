@@ -1,8 +1,11 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/water_tracker.dart';
 import 'package:vipt/app/data/others/tab_refesh_controller.dart';
 import 'package:vipt/app/data/providers/water_track_provider.dart';
+import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
 import 'package:vipt/app/modules/daily_plan/tracker_controller.dart';
 
 class DailyWaterController extends GetxController with TrackerController {
@@ -48,11 +51,35 @@ class DailyWaterController extends GetxController with TrackerController {
   }
 
   deleteTrack(WaterTracker wt) async {
-    waterVolume.value -= wt.waterVolume;
-    tracks.remove(wt);
-    await _provider.delete(wt.id ?? 0);
-    update();
+    final result = await showDialog(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return CustomConfirmationDialog(
+          label: 'Xóa log nước uống',
+          content:
+              'Bạn có chắc chắn muốn xóa log này? Bạn sẽ không thể hoàn tác lại thao tác này.',
+          labelCancel: 'Không',
+          labelOk: 'Có',
+          onCancel: () {
+            Navigator.of(context).pop();
+          },
+          onOk: () {
+            Navigator.of(context).pop(OkCancelResult.ok);
+          },
+          primaryButtonColor: AppColor.waterBackgroundColor,
+          buttonFactorOnMaxWidth: 0.32,
+          buttonsAlignment: MainAxisAlignment.spaceEvenly,
+        );
+      },
+    );
 
-    _markRelevantTabToUpdate();
+    if (result == OkCancelResult.ok) {
+      waterVolume.value -= wt.waterVolume;
+      tracks.remove(wt);
+      await _provider.delete(wt.id ?? 0);
+      update();
+
+      _markRelevantTabToUpdate();
+    }
   }
 }

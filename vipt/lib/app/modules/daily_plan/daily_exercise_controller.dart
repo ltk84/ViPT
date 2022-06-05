@@ -1,7 +1,11 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/exercise_tracker.dart';
 import 'package:vipt/app/data/others/tab_refesh_controller.dart';
 import 'package:vipt/app/data/providers/exercise_track_provider.dart';
+import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
 import 'package:vipt/app/modules/daily_plan/tracker_controller.dart';
 
 class DailyExerciseController extends GetxController with TrackerController {
@@ -50,12 +54,36 @@ class DailyExerciseController extends GetxController with TrackerController {
   }
 
   Future<void> deleteTrack(ExerciseTracker et) async {
-    calories.value -= et.outtakeCalories;
-    tracks.remove(et);
-    await _provider.delete(et.id ?? 0);
-    update();
+    final result = await showDialog(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return CustomConfirmationDialog(
+          label: 'Xóa log luyện tập',
+          content:
+              'Bạn có chắc chắn muốn xóa log này? Bạn sẽ không thể hoàn tác lại thao tác này.',
+          labelCancel: 'Không',
+          labelOk: 'Có',
+          onCancel: () {
+            Navigator.of(context).pop();
+          },
+          onOk: () {
+            Navigator.of(context).pop(OkCancelResult.ok);
+          },
+          primaryButtonColor: AppColor.exerciseBackgroundColor,
+          buttonFactorOnMaxWidth: 0.32,
+          buttonsAlignment: MainAxisAlignment.spaceEvenly,
+        );
+      },
+    );
 
-    _markRelevantTabToUpdate();
+    if (result == OkCancelResult.ok) {
+      calories.value -= et.outtakeCalories;
+      tracks.remove(et);
+      await _provider.delete(et.id ?? 0);
+      update();
+
+      _markRelevantTabToUpdate();
+    }
   }
 
   void _markRelevantTabToUpdate() {

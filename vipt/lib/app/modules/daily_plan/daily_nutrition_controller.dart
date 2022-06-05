@@ -1,6 +1,8 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/exercise_tracker.dart';
 import 'package:vipt/app/data/models/local_meal_nutrition.dart';
 import 'package:vipt/app/data/models/meal_nutrition.dart';
@@ -12,6 +14,7 @@ import 'package:vipt/app/data/providers/exercise_track_provider.dart';
 import 'package:vipt/app/data/providers/local_meal_provider.dart';
 import 'package:vipt/app/data/providers/meal_nutrition_track_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
+import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
 import 'package:vipt/app/modules/daily_plan/tracker_controller.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/change_amount_nutrition_widget.dart';
 
@@ -243,15 +246,39 @@ class DailyNutritionController extends GetxController with TrackerController {
   }
 
   deleteTrack(MealNutritionTracker tracker) async {
-    carbs.value -= tracker.carbs;
-    protein.value -= tracker.protein;
-    fat.value -= tracker.fat;
-    intakeCalo.value -= tracker.intakeCalories;
-    diffCalo.value = intakeCalo.value - outtakeCalo.value;
-    tracks.remove(tracker);
-    await _nutriTrackProvider.delete(tracker.id ?? 0);
-    update();
+    final result = await showDialog(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return CustomConfirmationDialog(
+          label: 'Xóa log thức ăn',
+          content:
+              'Bạn có chắc chắn muốn xóa log này? Bạn sẽ không thể hoàn tác lại thao tác này.',
+          labelCancel: 'Không',
+          labelOk: 'Có',
+          onCancel: () {
+            Navigator.of(context).pop();
+          },
+          onOk: () {
+            Navigator.of(context).pop(OkCancelResult.ok);
+          },
+          primaryButtonColor: AppColor.nutriBackgroundColor,
+          buttonFactorOnMaxWidth: 0.32,
+          buttonsAlignment: MainAxisAlignment.spaceEvenly,
+        );
+      },
+    );
 
-    _markRelevantTabToUpdate();
+    if (result == OkCancelResult.ok) {
+      carbs.value -= tracker.carbs;
+      protein.value -= tracker.protein;
+      fat.value -= tracker.fat;
+      intakeCalo.value -= tracker.intakeCalories;
+      diffCalo.value = intakeCalo.value - outtakeCalo.value;
+      tracks.remove(tracker);
+      await _nutriTrackProvider.delete(tracker.id ?? 0);
+      update();
+
+      _markRelevantTabToUpdate();
+    }
   }
 }
