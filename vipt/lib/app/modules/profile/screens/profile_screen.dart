@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/services/auth_service.dart';
+import 'package:vipt/app/global_widgets/app_bar_icon_button.dart';
 import 'package:vipt/app/modules/profile/profile_controller.dart';
 import 'package:vipt/app/modules/profile/widgets/progress_image_widget.dart';
 import 'package:vipt/app/modules/profile/widgets/weekly_exercise_widget.dart';
@@ -26,6 +27,19 @@ class ProfileScreen extends StatelessWidget {
         kToolbarHeight -
         kBottomNavigationBarHeight;
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        actions: [
+          AppBarIconButton(
+            iconData: Icons.settings_rounded,
+            onPressed: () {
+              Get.toNamed(Routes.setting);
+            },
+            hero: 'settingButton',
+          ),
+        ],
+      ),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -45,22 +59,6 @@ class ProfileScreen extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    // ConstrainedBox(
-                    //   constraints: BoxConstraints(minHeight: bodyHeight * 0.25),
-                    //   child: Container(
-                    //     alignment: Alignment.bottomCenter,
-                    //     child: Padding(
-                    //       padding: const EdgeInsets.all(12.0),
-                    //       child: Text(
-                    //         'Quá trình của bạn',
-                    //         style:
-                    //             Theme.of(context).textTheme.headline3!.copyWith(
-                    //                   color: AppColor.textColor,
-                    //                 ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                     SizedBox(
                       height: bodyHeight * 0.05,
                     ),
