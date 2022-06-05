@@ -21,7 +21,6 @@ class MealPlanDetailScreen extends StatelessWidget {
     return FutureBuilder(
         future: _controller.fetchMealNutritionList(),
         builder: (context, snapshot) {
-          // TODO: Xử lý loading screen lại
           if (snapshot.connectionState != ConnectionState.done) {
             return const LoadingScreen();
           }

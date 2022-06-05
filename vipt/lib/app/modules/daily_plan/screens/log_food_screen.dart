@@ -278,8 +278,9 @@ Widget _buildInitialListView(
                   child: MultipleChoiceCard(
                     selectedColor: AppColor.nutriBackgroundColor,
                     title: food.getName(),
-                    subtitle:
-                        '${food.calories.toInt().toString()} kcal / ${calculateIngredientAmount(food).toStringAsFixed(0)} g',
+                    subtitle: food is MealNutrition
+                        ? '${food.calories.toInt().toString()} kcal / ${calculateIngredientAmount(food).toStringAsFixed(0)} g'
+                        : '${food.calories.toInt().toString()} kcal',
                     isSelected: selectedList.contains(food),
                     onSelected: () {
                       handleSelect(food);

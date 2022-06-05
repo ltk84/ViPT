@@ -417,6 +417,7 @@ class WorkoutPlanController extends GetxController {
         }
         _prefs.setBool(date.toString(), true);
 
+        // TODO: sửa lại hơi sai rồi
         // Khi streak ở ngày cuối cùng
         if (DateUtils.isSameDay(date, currentWorkoutPlan!.endDate)) {
           hasFinishedPlan.value = true;
@@ -425,6 +426,7 @@ class WorkoutPlanController extends GetxController {
           await Get.toNamed(Routes.finishPlanScreen);
 
           //TODO: delete hết data về workout plan
+
         }
       }
     });

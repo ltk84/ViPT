@@ -103,30 +103,37 @@ class DailyNutritionController extends GetxController with TrackerController {
   }
 
   void handleSelect(Nutrition nutrition) async {
-    nutrition as MealNutrition;
-    if (selectedList.contains(nutrition)) {
-      selectedList.remove(nutrition);
-      selectedAmountList.remove(nutrition.id);
-    } else {
-      final result = await Get.bottomSheet(
-        Container(
-          margin: const EdgeInsets.only(top: 64),
-          child: ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(10.0),
-              topRight: Radius.circular(10.0),
-            ),
-            child: ChangeAmountNutritionWidget(
-              nutrition: nutrition,
+    if (nutrition is MealNutrition) {
+      if (selectedList.contains(nutrition)) {
+        selectedList.remove(nutrition);
+        selectedAmountList.remove(nutrition.id);
+      } else {
+        final result = await Get.bottomSheet(
+          Container(
+            margin: const EdgeInsets.only(top: 64),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(10.0),
+                topRight: Radius.circular(10.0),
+              ),
+              child: ChangeAmountNutritionWidget(
+                nutrition: nutrition,
+              ),
             ),
           ),
-        ),
-        isScrollControlled: true,
-      );
+          isScrollControlled: true,
+        );
 
-      if (result != null) {
+        if (result != null) {
+          selectedList.add(nutrition);
+          selectedAmountList[nutrition.id ?? ''] = result;
+        }
+      }
+    } else if (nutrition is LocalMealNutrition) {
+      if (selectedList.contains(nutrition)) {
+        selectedList.remove(nutrition);
+      } else {
         selectedList.add(nutrition);
-        selectedAmountList[nutrition.id ?? ''] = result;
       }
     }
   }
