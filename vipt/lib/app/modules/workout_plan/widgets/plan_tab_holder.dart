@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
@@ -11,6 +12,8 @@ import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
 import 'package:vipt/app/modules/nutrition/nutrition_controller.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 import 'package:vipt/app/modules/workout_collection/workout_collection_controller.dart';
+import 'package:vipt/app/modules/workout_plan/screens/all_plan_exercise_screen.dart';
+import 'package:vipt/app/modules/workout_plan/screens/all_plan_nutrition.screen.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 import '../workout_plan_controller.dart';
@@ -80,20 +83,72 @@ class _PlanTabHolderState extends State<PlanTabHolder>
             return Column(
               children: [
                 ..._buildCollectionList(
-                    workoutCollectionList: workouts,
-                    elementOnPress: (col) async {
-                      await _handleSelectExercise(col);
-                    }),
+                  workoutCollectionList: workouts,
+                  elementOnPress: (col) async {
+                    await _handleSelectExercise(col);
+                  },
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: TextButton(
+                    child: Text(
+                      'Xem tất cả các ngày',
+                      style: Theme.of(context).textTheme.button!.copyWith(
+                            fontSize: 16,
+                            color: AppColor.primaryColor,
+                          ),
+                    ),
+                    onPressed: () {
+                      showCupertinoModalPopup(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AllPlanExerciseScreen(
+                            workoutCollectionList: workouts,
+                            elementOnPress: (col) async {
+                              await _handleSelectExercise(col);
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
               ],
             );
           } else {
             return Column(
               children: [
                 ..._buildNutritionList(
-                    nutritionList: meals,
-                    elementOnPress: (nutri) async {
-                      await handleSelectMeal(nutri);
-                    }),
+                  nutritionList: meals,
+                  elementOnPress: (nutri) async {
+                    await handleSelectMeal(nutri);
+                  },
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: TextButton(
+                    child: Text(
+                      'Xem tất cả các ngày',
+                      style: Theme.of(context).textTheme.button!.copyWith(
+                            fontSize: 16,
+                            color: AppColor.primaryColor,
+                          ),
+                    ),
+                    onPressed: () {
+                      showCupertinoModalPopup(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AllPlanNutritionScreen(
+                            nutritionList: meals,
+                            elementOnPress: (nutri) async {
+                              await handleSelectMeal(nutri);
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
               ],
             );
           }
@@ -147,7 +202,7 @@ class _PlanTabHolderState extends State<PlanTabHolder>
   _buildCollectionList(
       {required List<WorkoutCollection> workoutCollectionList,
       required Function(WorkoutCollection) elementOnPress}) {
-    // int collectionPerDay = 2;
+    int collectionPerDay = 4;
     List<Widget> results = [];
 
     int count = workoutCollectionList.length;
@@ -172,7 +227,7 @@ class _PlanTabHolderState extends State<PlanTabHolder>
             }),
       );
 
-      if (i % 2 == 0) {
+      if (i % collectionPerDay == 0) {
         Widget dayIndicator = Padding(
           padding: const EdgeInsets.only(top: 16, bottom: 4),
           child: Row(
@@ -194,7 +249,7 @@ class _PlanTabHolderState extends State<PlanTabHolder>
                   //   height: 24,
                   // ),
                   Text(
-                    'NGÀY ${i ~/ 2 + 1}',
+                    'NGÀY ${i ~/ collectionPerDay + 1}',
                     style: Theme.of(context).textTheme.subtitle2!.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -240,7 +295,7 @@ class _PlanTabHolderState extends State<PlanTabHolder>
   _buildNutritionList(
       {required List<MealNutrition> nutritionList,
       required Function(MealNutrition) elementOnPress}) {
-    // int collectionPerDay = 2;
+    int collectionPerDay = 3;
     List<Widget> results = [];
 
     int count = nutritionList.length;
@@ -254,13 +309,13 @@ class _PlanTabHolderState extends State<PlanTabHolder>
                 ? JPGAssetString.meal
                 : nutrition.meal.asset,
             title: nutrition.getName(),
-            description: nutrition.calories.toString(),
+            description: nutrition.calories.toStringAsFixed(0) + ' kcal',
             onPressed: () {
               elementOnPress(nutrition);
             }),
       );
 
-      if (i % 2 == 0) {
+      if (i % collectionPerDay == 0) {
         Widget dayIndicator = Padding(
           padding: const EdgeInsets.only(top: 16, bottom: 4),
           child: Row(
@@ -282,7 +337,7 @@ class _PlanTabHolderState extends State<PlanTabHolder>
                   //   height: 24,
                   // ),
                   Text(
-                    'NGÀY ${i ~/ 2 + 1}',
+                    'NGÀY ${i ~/ collectionPerDay + 1}',
                     style: Theme.of(context).textTheme.subtitle2!.copyWith(
                           fontWeight: FontWeight.bold,
                         ),

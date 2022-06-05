@@ -55,6 +55,7 @@ class WorkoutPlanScreen extends StatelessWidget {
                   appBar: AppBar(
                     backgroundColor: Colors.transparent,
                     elevation: 0,
+                    automaticallyImplyLeading: false,
                     actions: [
                       IconButton(
                           onPressed: () async {
