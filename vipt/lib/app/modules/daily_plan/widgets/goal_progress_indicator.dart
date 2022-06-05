@@ -25,7 +25,13 @@ class GoalProgressIndicator extends StatelessWidget {
       lineWidth: 6,
       backgroundColor:
           AppColor.accentTextColor.withOpacity(AppColor.subTextOpacity),
-      progressColor: AppColor.accentTextColor,
+      progressColor: goalValue == null
+          ? AppColor.normalColor
+          : value > goalValue!
+              ? AppColor.exceedColor
+              : value < goalValue!
+                  ? AppColor.normalColor
+                  : AppColor.goodColor,
       center: Container(
         padding: const EdgeInsets.all(32),
         child: Column(

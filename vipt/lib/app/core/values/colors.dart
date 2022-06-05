@@ -151,6 +151,12 @@ class AppColor {
   static const Color resumeActionConfirmationAlertColor = Color(0xff78BC09);
   static const Color errorColor = Color(0xffF44444);
 
+  //
+  static const Color exceedColor =
+      Color(0xffFFB82B); //B31509, F4A236, FFD12B, C10000, FFB82B
+  static const Color goodColor = Color(0xff02d39a);
+  static const Color normalColor = Colors.white;
+
   // static Color get backgroundColor => (Get.isDarkMode) ? darkBackgroundColor : lightBackgroundColor;
   //
   static Color get textColor =>
