@@ -42,26 +42,28 @@ class HistoryTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: Theme.of(context).textTheme.button!.copyWith(
-                            color: AppColor.textColor,
-                          ),
-                    ),
-                    const SizedBox(
-                      height: 2,
-                    ),
-                    Text(
-                      description,
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            color: AppColor.textColor
-                                .withOpacity(AppColor.subTextOpacity),
-                          ),
-                    ),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: Theme.of(context).textTheme.button!.copyWith(
+                              color: AppColor.textColor,
+                            ),
+                      ),
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      Text(
+                        description,
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              color: AppColor.textColor
+                                  .withOpacity(AppColor.subTextOpacity),
+                            ),
+                      ),
+                    ],
+                  ),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,

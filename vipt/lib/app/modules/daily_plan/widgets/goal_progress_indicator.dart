@@ -31,19 +31,21 @@ class GoalProgressIndicator extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                children: <TextSpan>[
-                  TextSpan(
-                    text: '$value',
-                    style: Theme.of(context).textTheme.headline6!.copyWith(
-                          color: AppColor.accentTextColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                  if (goalValue != null) TextSpan(text: '/$goalValue'),
-                ],
+            FittedBox(
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: '$value',
+                      style: Theme.of(context).textTheme.headline6!.copyWith(
+                            color: AppColor.accentTextColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                    if (goalValue != null) TextSpan(text: '/$goalValue'),
+                  ],
+                ),
               ),
             ),
             Text(
