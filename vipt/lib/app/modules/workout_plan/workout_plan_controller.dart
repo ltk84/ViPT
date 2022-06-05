@@ -135,8 +135,6 @@ class WorkoutPlanController extends GetxController {
     if (list.isNotEmpty) {
       currentWorkoutPlan = list[0];
       dailyGoalCalories.value = list[0].dailyGoalCalories.toInt();
-    } else {
-      hasFinishedPlan.value = true;
     }
   }
 
@@ -286,6 +284,7 @@ class WorkoutPlanController extends GetxController {
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   List<bool> planStreak = [];
   RxInt currentStreakDay = 0.obs;
+  static final String planStatus = 'planStatus';
 
   final _routeProvider = ExerciseNutritionRouteProvider();
 
@@ -297,7 +296,23 @@ class WorkoutPlanController extends GetxController {
       planStreak.addAll(list.values.first);
     } else {
       await showNotFoundStreakDataDialog();
+      return;
     }
+
+    // Khi đã hoàn thành plan
+    if (DateTime.now().isAfter(currentWorkoutPlan!.endDate)) {
+      hasFinishedPlan.value = true;
+      final _prefs = await prefs;
+      _prefs.setBool(planStatus, true);
+
+      await loadDataForFinishScreen();
+      await Get.toNamed(Routes.finishPlanScreen);
+    }
+  }
+
+  Future<void> loadPlanStatus() async {
+    final _prefs = await prefs;
+    hasFinishedPlan.value = _prefs.getBool(planStatus) ?? false;
   }
 
   Future<void> showNotFoundStreakDataDialog() async {
@@ -398,6 +413,7 @@ class WorkoutPlanController extends GetxController {
   void onInit() async {
     super.onInit();
     isLoading.value = true;
+    await loadPlanStatus();
     await loadWeightValues();
     await loadDailyGoalCalories();
     await loadDailyCalories();
@@ -416,18 +432,6 @@ class WorkoutPlanController extends GetxController {
           return;
         }
         _prefs.setBool(date.toString(), true);
-
-        // TODO: sửa lại hơi sai rồi
-        // Khi streak ở ngày cuối cùng
-        if (DateUtils.isSameDay(date, currentWorkoutPlan!.endDate)) {
-          hasFinishedPlan.value = true;
-
-          await loadDataForFinishScreen();
-          await Get.toNamed(Routes.finishPlanScreen);
-
-          //TODO: delete hết data về workout plan
-
-        }
       }
     });
   }
