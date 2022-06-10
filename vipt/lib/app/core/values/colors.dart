@@ -157,6 +157,8 @@ class AppColor {
   static const Color goodColor = Color(0xff02d39a);
   static const Color normalColor = Colors.white;
 
+  static const Color yellowColor = Color(0xffFFD640);
+
   // static Color get backgroundColor => (Get.isDarkMode) ? darkBackgroundColor : lightBackgroundColor;
   //
   static Color get textColor =>
