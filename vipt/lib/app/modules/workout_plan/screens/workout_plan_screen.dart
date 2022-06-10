@@ -17,7 +17,6 @@ import 'package:vipt/app/modules/workout_plan/widgets/plan_tab_holder.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/progress_info_widget.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/shortcut_button.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/weight_info_widget.dart';
-import 'package:vipt/app/routes/pages.dart';
 
 import '../workout_plan_controller.dart';
 
@@ -56,14 +55,14 @@ class WorkoutPlanScreen extends StatelessWidget {
                     backgroundColor: Colors.transparent,
                     elevation: 0,
                     automaticallyImplyLeading: false,
-                    actions: [
-                      IconButton(
-                          onPressed: () async {
-                            await _controller.loadDataForFinishScreen();
-                            await Get.toNamed(Routes.finishPlanScreen);
-                          },
-                          icon: Icon(Icons.settings)),
-                    ],
+                    // actions: [
+                    //   IconButton(
+                    //       onPressed: () async {
+                    //         await _controller.loadDataForFinishScreen();
+                    //         await Get.toNamed(Routes.finishPlanScreen);
+                    //       },
+                    //       icon: Icon(Icons.settings)),
+                    // ],
                     title: InkWell(
                       borderRadius: BorderRadius.circular(8),
                       onTap: () async {},

@@ -67,7 +67,7 @@ class AllPlanExerciseScreen extends StatelessWidget {
   _buildCollectionList(context,
       {required List<WorkoutCollection> workoutCollectionList,
       required Function(WorkoutCollection) elementOnPress}) {
-    int collectionPerDay = 4;
+    int collectionPerDay = 2;
     List<Widget> results = [];
 
     int count = workoutCollectionList.length;

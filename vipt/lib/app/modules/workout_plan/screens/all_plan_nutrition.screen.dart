@@ -3,16 +3,19 @@ import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/models/meal_nutrition.dart';
 import 'package:vipt/app/data/models/nutrition.dart';
-import 'package:vipt/app/data/models/workout_collection.dart';
-import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/global_widgets/app_bar_icon_button.dart';
+import 'package:vipt/app/global_widgets/loading_widget.dart';
 import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collection_tile.dart';
 
 class AllPlanNutritionScreen extends StatelessWidget {
   final List<MealNutrition> nutritionList;
   final Function(MealNutrition) elementOnPress;
+  final bool isLoading;
   const AllPlanNutritionScreen(
-      {Key? key, required this.nutritionList, required this.elementOnPress})
+      {Key? key,
+      required this.nutritionList,
+      required this.elementOnPress,
+      required this.isLoading})
       : super(key: key);
 
   @override
@@ -23,44 +26,46 @@ class AllPlanNutritionScreen extends StatelessWidget {
         color: Theme.of(context).backgroundColor,
         borderRadius: BorderRadius.circular(15),
       ),
-      child: Column(
-        children: [
-          Material(
-            color: Colors.transparent,
-            child: Row(
+      child: isLoading
+          ? const LoadingWidget()
+          : Column(
               children: [
-                AppBarIconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  iconData: Icons.close,
-                  hero: '',
+                Material(
+                  color: Colors.transparent,
+                  child: Row(
+                    children: [
+                      AppBarIconButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        iconData: Icons.close,
+                        hero: '',
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(
+                    'DANH SÁCH BỮA ĂN',
+                    style: Theme.of(context).textTheme.headline4!.copyWith(
+                          fontWeight: FontWeight.w900,
+                        ),
+                  ),
+                ),
+                Expanded(
+                  child: ListView(
+                    physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    children: _buildNutritionList(
+                      context,
+                      nutritionList: nutritionList,
+                      elementOnPress: elementOnPress,
+                    ),
+                  ),
                 ),
               ],
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Text(
-              'DANH SÁCH BỮA ĂN',
-              style: Theme.of(context).textTheme.headline4!.copyWith(
-                    fontWeight: FontWeight.w900,
-                  ),
-            ),
-          ),
-          Expanded(
-            child: ListView(
-              physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
-              children: _buildNutritionList(
-                context,
-                nutritionList: nutritionList,
-                elementOnPress: elementOnPress,
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 

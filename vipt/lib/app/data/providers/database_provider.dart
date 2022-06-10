@@ -8,7 +8,6 @@ class DatabaseProvider {
   static const String dbName = 'vipt_trackers_database.db';
 
   static final DatabaseProvider instance = DatabaseProvider._();
-  // static Database _database;
 
   static Database? _database;
 

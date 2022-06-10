@@ -130,6 +130,9 @@ class WorkoutPlanController extends GetxController {
 
   WorkoutPlan? currentWorkoutPlan;
 
+  RxBool isAllMealListLoading = false.obs;
+  RxBool isTodayMealListLoading = false.obs;
+
   Future<void> loadDailyGoalCalories() async {
     List<WorkoutPlan> list = await _workoutPlanProvider.fetchAll();
     if (list.isNotEmpty) {
@@ -206,6 +209,25 @@ class WorkoutPlanController extends GetxController {
     }
   }
 
+  List<WorkoutCollection> loadAllWorkoutCollection() {
+    var collection = planExerciseCollection.toList();
+
+    if (collection.isNotEmpty) {
+      return collection.map((col) {
+        List<PlanExercise> exerciseList =
+            planExercise.where((p0) => p0.listID == col.id).toList();
+        int index = collection.indexOf(col);
+        return WorkoutCollection(col.id.toString(),
+            title: 'Bài tập thứ ${index + 1}',
+            description: '',
+            asset: '',
+            generatorIDs: exerciseList.map((e) => e.exerciseID).toList(),
+            categoryIDs: []);
+      }).toList();
+    }
+    return <WorkoutCollection>[];
+  }
+
   List<WorkoutCollection> loadWorkoutCollectionToShow(DateTime date) {
     var collection = planExerciseCollection
         .where((element) => DateUtils.isSameDay(element.date, date))
@@ -255,7 +277,7 @@ class WorkoutPlanController extends GetxController {
   }
 
   Future<List<MealNutrition>> loadMealListToShow(DateTime date) async {
-    // isMealListLoading.value = true;
+    isTodayMealListLoading.value = true;
     final firebaseMealProvider = MealProvider();
     var collection = planMealCollection
         .where((element) => DateUtils.isSameDay(element.date, date));
@@ -273,7 +295,30 @@ class WorkoutPlanController extends GetxController {
         mealList.add(mn);
       }
 
-      // isMealListLoading.value = false;
+      isTodayMealListLoading.value = false;
+      return mealList;
+    }
+  }
+
+  Future<List<MealNutrition>> loadAllMealList() async {
+    isAllMealListLoading.value = true;
+    final firebaseMealProvider = MealProvider();
+    var collection = planMealCollection;
+
+    if (collection.isEmpty) {
+      return [];
+    } else {
+      List<PlanMeal> _list = planMeal.toList();
+
+      List<MealNutrition> mealList = [];
+      for (var element in _list) {
+        var m = await firebaseMealProvider.fetch(element.mealID);
+        MealNutrition mn = MealNutrition(meal: m);
+        await mn.getIngredients();
+        mealList.add(mn);
+      }
+
+      isAllMealListLoading.value = false;
       return mealList;
     }
   }
