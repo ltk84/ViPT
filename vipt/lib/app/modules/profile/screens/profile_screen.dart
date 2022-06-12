@@ -153,12 +153,6 @@ class ProfileScreen extends StatelessWidget {
                                   color: AppColor.textFieldUnderlineColor,
                                 ),
                               ),
-                              TextButton(
-                                  onPressed: () async {
-                                    await AuthService.instance.signOut();
-                                    Get.offAllNamed(Routes.auth);
-                                  },
-                                  child: Text('Dang xuat'))
                             ],
                           ),
                         ),

@@ -263,10 +263,11 @@ class ExerciseNutritionRouteProvider {
     return <int, List<bool>>{};
   }
 
-  Future<void> deleteRoute(int id) async {
-    final WorkoutPlan? workoutPlan = await WorkoutPlanProvider().fetch(id);
+  Future<void> resetRoute() async {
+    final planList = await WorkoutPlanProvider().fetchAll();
     var user = DataService.currentUser;
-    if (workoutPlan != null && user != null) {
+    if (planList.isNotEmpty && user != null) {
+      WorkoutPlan workoutPlan = planList.first;
       await _deleteStreakList(
           startDate: workoutPlan.startDate,
           planLengthInDays:

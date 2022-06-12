@@ -10,10 +10,12 @@ import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/vipt_user.dart';
 import 'package:vipt/app/data/models/weight_tracker.dart';
 import 'package:vipt/app/data/providers/exercise_nutrition_route_provider.dart';
+import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/data/providers/weight_tracker_provider.dart';
 import 'package:vipt/app/data/services/auth_service.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/enums/app_enums.dart';
+import 'package:vipt/app/modules/loading/screens/loading_screen.dart';
 import 'package:vipt/app/routes/pages.dart';
 import 'package:intl/intl.dart';
 import 'package:vipt/app/data/models/question.dart';
@@ -740,13 +742,29 @@ class SetupInfoController extends GetxController {
       collectionSetting: CollectionSetting(),
     );
 
-    final user = await DataService.instance.createUser(newUser);
-    if (user != null) {
-      await createWorkoutPlan(user);
-      await logWeightTrack(user.currentWeight);
+    if (DataService.currentUser != null) {
+      UIUtils.showLoadingDialog();
+      newUser = await UserProvider()
+          .update(DataService.currentUser!.id ?? '', newUser);
+      await DataService.instance.loadUserData();
+      await ExerciseNutritionRouteProvider().resetRoute();
+
+      await logWeightTrack(newUser.currentWeight);
+
+      UIUtils.hideLoadingDialog();
       Get.offAllNamed(Routes.home);
     } else {
-      Get.offAllNamed(Routes.error);
+      UIUtils.showLoadingDialog();
+      final user = await DataService.instance.createUser(newUser);
+      if (user != null) {
+        await createWorkoutPlan(user);
+        await logWeightTrack(user.currentWeight);
+        UIUtils.hideLoadingDialog();
+
+        Get.offAllNamed(Routes.home);
+      } else {
+        Get.offAllNamed(Routes.error);
+      }
     }
   }
 

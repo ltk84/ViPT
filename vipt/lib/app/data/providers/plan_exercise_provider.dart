@@ -62,6 +62,6 @@ class PlanExerciseProvider implements SqfliteHelper<int, PlanExercise> {
 
   Future<void> deleteAll() async {
     final db = await DatabaseProvider.database;
-    await db!.delete(tableName);
+    await db!.delete(tableName, where: null);
   }
 }

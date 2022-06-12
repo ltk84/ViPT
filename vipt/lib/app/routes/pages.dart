@@ -19,12 +19,13 @@ import 'package:vipt/app/modules/library/screens/library_screen.dart';
 import 'package:vipt/app/modules/nutrition_collection/nutrition_collection_binding.dart';
 import 'package:vipt/app/modules/nutrition_collection/screens/meal_plan_detail_screen.dart';
 import 'package:vipt/app/modules/nutrition_collection/screens/meal_plan_list_screen.dart';
-import 'package:vipt/app/modules/profile/screens/setting_screen.dart';
+import 'package:vipt/app/modules/setting/screens/setting_screen.dart';
 import 'package:vipt/app/modules/session/screens/complete_session_screen.dart';
 import 'package:vipt/app/modules/session/screens/my_workout_collection_setting_screen.dart';
 import 'package:vipt/app/modules/session/screens/workout_collection_setting_screen.dart';
 import 'package:vipt/app/modules/session/screens/workout_session_screen.dart';
 import 'package:vipt/app/modules/session/session_binding.dart';
+import 'package:vipt/app/modules/setting/setting_binding.dart';
 import 'package:vipt/app/modules/setup_info/screens/setup_info_intro_screen.dart';
 import 'package:vipt/app/modules/setup_info/screens/setup_info_question_screen.dart';
 import 'package:vipt/app/modules/setup_info/setup_info_binding.dart';
@@ -201,7 +202,8 @@ abstract class AppPages {
     ),
     GetPage(
       name: Routes.setting,
-      page: () => const SettingScreen(),
+      page: () => SettingScreen(),
+      binding: SettingBinding(),
     ),
   ];
 }

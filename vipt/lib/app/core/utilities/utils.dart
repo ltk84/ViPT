@@ -1,8 +1,10 @@
+import 'package:get/get.dart';
 import 'package:vipt/app/core/values/values.dart';
 import 'package:vipt/app/data/models/collection_setting.dart';
 import 'package:vipt/app/data/models/vipt_user.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/enums/app_enums.dart';
+import 'package:vipt/app/modules/loading/screens/loading_screen.dart';
 
 class WorkoutCollectionUtils {
   static double calculateCalo(
@@ -148,5 +150,15 @@ class Converter {
 
   static double convertLbsToKg(double data) {
     return data * 0.45359237;
+  }
+}
+
+class UIUtils {
+  static Future<void> showLoadingDialog() async {
+    return await Get.dialog(const LoadingScreen());
+  }
+
+  static void hideLoadingDialog() {
+    Get.back();
   }
 }

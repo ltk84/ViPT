@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/data/services/auth_service.dart';
+import 'package:vipt/app/modules/setting/setting_controller.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 class SettingScreen extends StatelessWidget {
-  const SettingScreen({Key? key}) : super(key: key);
+  SettingScreen({Key? key}) : super(key: key);
+
+  final _controller = Get.find<SettingController>();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +44,9 @@ class SettingScreen extends StatelessWidget {
           ),
           children: [
             ListTile(
-              onTap: () {},
+              onTap: () async {
+                await _controller.changeBasicInforamtion();
+              },
               leading: Icon(Icons.info, color: AppColor.textColor),
               title: Text(
                 'Thay đổi thông tin ban đầu',
@@ -64,7 +72,10 @@ class SettingScreen extends StatelessWidget {
             ),
             const Divider(),
             ListTile(
-              onTap: () {},
+              onTap: () async {
+                await AuthService.instance.signOut();
+                Get.offAllNamed(Routes.auth);
+              },
               leading:
                   Icon(Icons.exit_to_app_rounded, color: AppColor.textColor),
               title: Text(

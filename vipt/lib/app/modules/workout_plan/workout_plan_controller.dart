@@ -282,6 +282,7 @@ class WorkoutPlanController extends GetxController {
     var collection = planMealCollection
         .where((element) => DateUtils.isSameDay(element.date, date));
     if (collection.isEmpty) {
+      isTodayMealListLoading.value = false;
       return [];
     } else {
       List<PlanMeal> _list = planMeal
@@ -306,6 +307,7 @@ class WorkoutPlanController extends GetxController {
     var collection = planMealCollection;
 
     if (collection.isEmpty) {
+      isAllMealListLoading.value = false;
       return [];
     } else {
       List<PlanMeal> _list = planMeal.toList();
@@ -329,7 +331,7 @@ class WorkoutPlanController extends GetxController {
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   List<bool> planStreak = [];
   RxInt currentStreakDay = 0.obs;
-  static final String planStatus = 'planStatus';
+  static const String planStatus = 'planStatus';
 
   final _routeProvider = ExerciseNutritionRouteProvider();
 
@@ -386,13 +388,13 @@ class WorkoutPlanController extends GetxController {
 
   Future<void> resetStreakList() async {
     isLoading.value = true;
-    await _routeProvider.deleteRoute(currentWorkoutPlan!.id ?? 0);
+    await _routeProvider.resetRoute();
     isLoading.value = false;
   }
 
   // --------------- STREAK --------------------------------
 
-  // --------------- FINISH WORKOUT PLAN --------------------------------
+  // --------------- FINISH WORKOUT PLAN--------------------------------
   static final DateTimeRange defaultWeightDateRange =
       DateTimeRange(start: DateTime.now(), end: DateTime.now());
   Rx<DateTimeRange> weightDateRange = defaultWeightDateRange.obs;
