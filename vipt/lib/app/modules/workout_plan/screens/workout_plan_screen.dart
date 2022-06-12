@@ -47,7 +47,7 @@ class WorkoutPlanScreen extends StatelessWidget {
     return Obx(
       () => _controller.isLoading.value
           ? const LoadingScreen()
-          : !_controller.hasFinishedPlan.value
+          : _controller.hasFinishedPlan.value
               ? const DefaultPlanScreen()
               : Scaffold(
                   backgroundColor: AppColor.exerciseBackgroundColor,
@@ -55,14 +55,6 @@ class WorkoutPlanScreen extends StatelessWidget {
                     backgroundColor: Colors.transparent,
                     elevation: 0,
                     automaticallyImplyLeading: false,
-                    // actions: [
-                    //   IconButton(
-                    //       onPressed: () async {
-                    //         await _controller.loadDataForFinishScreen();
-                    //         await Get.toNamed(Routes.finishPlanScreen);
-                    //       },
-                    //       icon: Icon(Icons.settings)),
-                    // ],
                     title: InkWell(
                       borderRadius: BorderRadius.circular(8),
                       onTap: () async {},
@@ -96,19 +88,6 @@ class WorkoutPlanScreen extends StatelessWidget {
                               children: [
                                 _buildInfo(
                                   context,
-                                ),
-                                const SizedBox(
-                                  height: 24,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 18),
-                                  child: CaloriesInfoWidget(
-                                    currentCalories:
-                                        _controller.dailyDiffCalories.value,
-                                    goalCalories:
-                                        _controller.dailyGoalCalories.value,
-                                  ),
                                 ),
                                 const Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 18),

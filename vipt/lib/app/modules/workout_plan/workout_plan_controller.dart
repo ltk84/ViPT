@@ -200,11 +200,13 @@ class WorkoutPlanController extends GetxController {
     if (dailyDiffCalories.value >= dailyGoalCalories.value - 100 &&
         dailyDiffCalories.value <= dailyGoalCalories.value + 100) {
       if (!todayStreakValue) {
-        _prefs.setBool(DateUtils.dateOnly(DateTime.now()).toString(), true);
+        await _prefs.setBool(
+            DateUtils.dateOnly(DateTime.now()).toString(), true);
       }
     } else {
       if (todayStreakValue) {
-        _prefs.setBool(DateUtils.dateOnly(DateTime.now()).toString(), false);
+        await _prefs.setBool(
+            DateUtils.dateOnly(DateTime.now()).toString(), false);
       }
     }
   }
@@ -339,9 +341,29 @@ class WorkoutPlanController extends GetxController {
 
   Future<void> loadPlanStreak() async {
     planStreak.clear();
+
+    // await Future.delayed(Duration(seconds: 1));
+
     Map<int, List<bool>> list = await _routeProvider.loadStreakList();
     if (list.isNotEmpty) {
       currentStreakDay.value = list.keys.first;
+
+      final _prefs = await prefs;
+      DateTime date = DateUtils.dateOnly(DateTime.now());
+      if (dailyDiffCalories.value >= dailyGoalCalories.value - 100 &&
+          dailyDiffCalories.value <= dailyGoalCalories.value + 100) {
+        bool? isTodayComplete = _prefs.getBool(date.toString());
+        if (isTodayComplete == null) {
+          await showNotFoundStreakDataDialog();
+          return;
+        }
+        await _prefs.setBool(date.toString(), true);
+        list.values.first[currentStreakDay.value - 1] = true;
+      } else {
+        await _prefs.setBool(date.toString(), false);
+        list.values.first[currentStreakDay.value - 1] = false;
+      }
+
       planStreak.addAll(list.values.first);
     } else {
       await showNotFoundStreakDataDialog();
@@ -470,19 +492,6 @@ class WorkoutPlanController extends GetxController {
     await loadWorkoutPlanMealList();
     await loadPlanStreak();
     isLoading.value = false;
-
-    ever(dailyDiffCalories, (_) async {
-      if (dailyDiffCalories.value >= dailyGoalCalories.value) {
-        final _prefs = await prefs;
-        DateTime date = DateUtils.dateOnly(DateTime.now());
-        bool? isTodayComplete = _prefs.getBool(date.toString());
-        if (isTodayComplete == null) {
-          await showNotFoundStreakDataDialog();
-          return;
-        }
-        _prefs.setBool(date.toString(), true);
-      }
-    });
   }
 
   void _markRelevantTabToUpdate() {

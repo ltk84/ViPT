@@ -10,9 +10,11 @@ import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collecti
 class AllPlanNutritionScreen extends StatelessWidget {
   final List<MealNutrition> nutritionList;
   final Function(MealNutrition) elementOnPress;
+  final DateTime startDate;
   final bool isLoading;
   const AllPlanNutritionScreen(
       {Key? key,
+      required this.startDate,
       required this.nutritionList,
       required this.elementOnPress,
       required this.isLoading})
@@ -59,6 +61,7 @@ class AllPlanNutritionScreen extends StatelessWidget {
                         parent: AlwaysScrollableScrollPhysics()),
                     children: _buildNutritionList(
                       context,
+                      startDate: startDate,
                       nutritionList: nutritionList,
                       elementOnPress: elementOnPress,
                     ),
@@ -70,13 +73,16 @@ class AllPlanNutritionScreen extends StatelessWidget {
   }
 
   _buildNutritionList(context,
-      {required List<MealNutrition> nutritionList,
+      {required DateTime startDate,
+      required List<MealNutrition> nutritionList,
       required Function(MealNutrition) elementOnPress}) {
     int collectionPerDay = 3;
     List<Widget> results = [];
 
     int count = nutritionList.length;
     for (int i = 0; i < count; i++) {
+      DateTime nutritionDate =
+          startDate.add(Duration(days: i ~/ collectionPerDay));
       Nutrition nutrition = nutritionList[i];
 
       Widget collectionToWidget = Container(
@@ -123,7 +129,7 @@ class AllPlanNutritionScreen extends StatelessWidget {
                     height: 2,
                   ),
                   Text(
-                    '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+                    '${nutritionDate.day}/${nutritionDate.month}/${nutritionDate.year}',
                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
                           color: AppColor.textColor.withOpacity(
                             AppColor.subTextOpacity,

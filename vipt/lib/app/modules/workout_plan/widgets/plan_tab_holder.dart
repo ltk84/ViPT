@@ -107,6 +107,8 @@ class _PlanTabHolderState extends State<PlanTabHolder>
                         context: context,
                         builder: (BuildContext context) {
                           return AllPlanExerciseScreen(
+                            startDate:
+                                _controller.currentWorkoutPlan!.startDate,
                             workoutCollectionList: allWorkouts,
                             elementOnPress: (col) async {
                               await _handleSelectExercise(col);
@@ -152,6 +154,8 @@ class _PlanTabHolderState extends State<PlanTabHolder>
                                       isLoading: _controller
                                           .isAllMealListLoading.value,
                                       nutritionList: allMeals,
+                                      startDate: _controller
+                                          .currentWorkoutPlan!.startDate,
                                       elementOnPress: (nutri) async {
                                         await handleSelectMeal(nutri);
                                       },

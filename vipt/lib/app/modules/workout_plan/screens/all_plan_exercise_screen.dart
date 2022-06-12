@@ -9,8 +9,10 @@ import 'package:vipt/app/modules/workout_collection/widgets/exercise_in_collecti
 class AllPlanExerciseScreen extends StatelessWidget {
   final List<WorkoutCollection> workoutCollectionList;
   final Function(WorkoutCollection) elementOnPress;
+  final DateTime startDate;
   const AllPlanExerciseScreen(
       {Key? key,
+      required this.startDate,
       required this.workoutCollectionList,
       required this.elementOnPress})
       : super(key: key);
@@ -54,6 +56,7 @@ class AllPlanExerciseScreen extends StatelessWidget {
                   parent: AlwaysScrollableScrollPhysics()),
               children: _buildCollectionList(
                 context,
+                startDate: startDate,
                 workoutCollectionList: workoutCollectionList,
                 elementOnPress: elementOnPress,
               ),
@@ -65,13 +68,17 @@ class AllPlanExerciseScreen extends StatelessWidget {
   }
 
   _buildCollectionList(context,
-      {required List<WorkoutCollection> workoutCollectionList,
+      {required DateTime startDate,
+      required List<WorkoutCollection> workoutCollectionList,
       required Function(WorkoutCollection) elementOnPress}) {
     int collectionPerDay = 2;
     List<Widget> results = [];
 
     int count = workoutCollectionList.length;
     for (int i = 0; i < count; i++) {
+      DateTime collectionDate =
+          startDate.add(Duration(days: i ~/ collectionPerDay));
+
       WorkoutCollection collection = workoutCollectionList[i];
       String cateList = DataService.instance.collectionCateList
           .where((item) => collection.categoryIDs.contains(item.id))
@@ -123,7 +130,7 @@ class AllPlanExerciseScreen extends StatelessWidget {
                     height: 2,
                   ),
                   Text(
-                    '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+                    '${collectionDate.day}/${collectionDate.month}/${collectionDate.year}',
                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
                           color: AppColor.textColor.withOpacity(
                             AppColor.subTextOpacity,

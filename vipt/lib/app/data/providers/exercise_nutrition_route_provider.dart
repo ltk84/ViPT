@@ -288,7 +288,8 @@ class ExerciseNutritionRouteProvider {
                   color: AppColor.errorColor, size: 48),
             ),
             label: 'Đã xảy ra lỗi',
-            content: '',
+            content:
+                'Không tìm thấy dữ liệu người dùng! Hãy khởi động lại ứng dụng.',
             showOkButton: false,
             labelCancel: 'Đóng',
             onCancel: () => Navigator.of(context).pop(),

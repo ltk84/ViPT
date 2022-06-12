@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:vipt/app/core/utilities/utils.dart';
 import 'package:vipt/app/core/values/colors.dart';
+import 'package:vipt/app/data/providers/exercise_nutrition_route_provider.dart';
+import 'package:vipt/app/data/services/data_service.dart';
+import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
+import 'package:vipt/app/routes/pages.dart';
 
 class DefaultPlanScreen extends StatelessWidget {
   const DefaultPlanScreen({Key? key}) : super(key: key);
@@ -22,7 +28,9 @@ class DefaultPlanScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(8),
-                  onTap: () {},
+                  onTap: () async {
+                    await handleCreateRoute();
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Row(
@@ -52,5 +60,12 @@ class DefaultPlanScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> handleCreateRoute() async {
+    UIUtils.showLoadingDialog();
+    await ExerciseNutritionRouteProvider().resetRoute();
+    UIUtils.hideLoadingDialog();
+    Get.offAllNamed(Routes.home);
   }
 }
