@@ -166,30 +166,30 @@ class _WeightInfoWidgetState extends State<WeightInfoWidget> {
                   const SizedBox(
                     height: 8,
                   ),
-                  Material(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(5),
-                      onTap: () {},
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12, horizontal: 24),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Text(
-                          'Thay đổi mục tiêu',
-                          style:
-                              Theme.of(context).textTheme.headline5!.copyWith(
-                                    color: AppColor.logWeightButtonColor,
-                                  ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Material(
+                  //   borderRadius: BorderRadius.circular(5),
+                  //   color: Colors.transparent,
+                  //   child: InkWell(
+                  //     borderRadius: BorderRadius.circular(5),
+                  //     onTap: () {},
+                  //     child: Container(
+                  //       width: double.infinity,
+                  //       padding: const EdgeInsets.symmetric(
+                  //           vertical: 12, horizontal: 24),
+                  //       decoration: BoxDecoration(
+                  //         borderRadius: BorderRadius.circular(5),
+                  //       ),
+                  //       child: Text(
+                  //         'Thay đổi mục tiêu',
+                  //         style:
+                  //             Theme.of(context).textTheme.headline5!.copyWith(
+                  //                   color: AppColor.logWeightButtonColor,
+                  //                 ),
+                  //         textAlign: TextAlign.center,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

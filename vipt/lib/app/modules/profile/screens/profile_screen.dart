@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/core/values/asset_strings.dart';
 import 'package:vipt/app/core/values/colors.dart';
-import 'package:vipt/app/data/services/auth_service.dart';
 import 'package:vipt/app/global_widgets/app_bar_icon_button.dart';
 import 'package:vipt/app/modules/profile/profile_controller.dart';
 import 'package:vipt/app/modules/profile/widgets/progress_image_widget.dart';

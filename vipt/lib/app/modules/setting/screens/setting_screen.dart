@@ -54,22 +54,24 @@ class SettingScreen extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: () {},
+              onTap: () async {
+                await _controller.changeWeightGoal();
+              },
               leading: Icon(Icons.checklist_rounded, color: AppColor.textColor),
               title: Text(
                 'Thay đổi mục tiêu cân nặng',
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ),
-            ListTile(
-              onTap: () {},
-              leading:
-                  Icon(Icons.auto_awesome_rounded, color: AppColor.textColor),
-              title: Text(
-                'Đề xuất lộ trình mới',
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-            ),
+            // ListTile(
+            //   onTap: () {},
+            //   leading:
+            //       Icon(Icons.auto_awesome_rounded, color: AppColor.textColor),
+            //   title: Text(
+            //     'Đề xuất lộ trình mới',
+            //     style: Theme.of(context).textTheme.bodyText1,
+            //   ),
+            // ),
             const Divider(),
             ListTile(
               onTap: () async {
