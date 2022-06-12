@@ -238,6 +238,7 @@ class WorkoutPlanController extends GetxController {
         List<PlanExercise> exerciseList =
             planExercise.where((p0) => p0.listID == col.id).toList();
         int index = collection.indexOf(col);
+
         return WorkoutCollection(col.id.toString(),
             title: 'Bài tập thứ ${index + 1}',
             description: '',
@@ -246,6 +247,7 @@ class WorkoutPlanController extends GetxController {
             categoryIDs: []);
       }).toList();
     }
+
     return <WorkoutCollection>[];
   }
 
