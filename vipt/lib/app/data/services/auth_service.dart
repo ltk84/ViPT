@@ -15,6 +15,8 @@ class AuthService {
   SignInType _loginType = SignInType.none;
   User? get currentUser => FirebaseAuth.instance.currentUser;
   bool get isLogin => currentUser == null ? false : true;
+  Future<bool> isHasData() async =>
+      await _userProvider.checkIfUserExist(currentUser!.uid);
   SignInType get loginType => _loginType;
 
   Future<dynamic> signInWithGoogle() async {

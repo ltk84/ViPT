@@ -16,7 +16,8 @@ class SplashController extends GetxController {
   }
 
   Future<void> _navigateToNextScreen() async {
-    if (AuthService.instance.isLogin) {
+    if (AuthService.instance.isLogin &&
+        await AuthService.instance.isHasData()) {
       await DataService.instance.loadUserData();
       Get.offAllNamed(Routes.home);
     } else {
