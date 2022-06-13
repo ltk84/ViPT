@@ -255,6 +255,8 @@ class SessionController extends GetxController {
     // đảm bảo collection timer kết thúc sau workout timer.
     await Future.delayed(const Duration(seconds: 1));
 
+    collectionTimeController.pause();
+
     ExerciseTracker et = ExerciseTracker(
         date: DateTime.now(),
         outtakeCalories: caloConsumed.ceil(),
@@ -262,12 +264,13 @@ class SessionController extends GetxController {
         totalTime: timeConsumed.ceil());
 
     await ExerciseTrackProvider().add(et);
-    final _c = Get.find<DailyExerciseController>();
+    final _c = Get.put(DailyExerciseController());
     await _c.fetchTracksByDate(_c.date);
+    await Get.delete<DailyExerciseController>();
 
     _markRelevantTabToUpdate();
 
-    Get.toNamed(Routes.completeSession);
+    await Get.toNamed(Routes.completeSession);
   }
 
   void _markRelevantTabToUpdate() {
