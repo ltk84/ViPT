@@ -15,7 +15,6 @@ import 'package:vipt/app/data/providers/weight_tracker_provider.dart';
 import 'package:vipt/app/data/services/auth_service.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/enums/app_enums.dart';
-import 'package:vipt/app/modules/loading/screens/loading_screen.dart';
 import 'package:vipt/app/routes/pages.dart';
 import 'package:intl/intl.dart';
 import 'package:vipt/app/data/models/question.dart';

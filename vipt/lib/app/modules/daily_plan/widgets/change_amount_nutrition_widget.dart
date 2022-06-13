@@ -36,7 +36,6 @@ class _ChangeAmountNutritionWidgetState
       }
       _value = _defaultValue;
     } catch (e) {
-      print('count ingredient amount error');
       _defaultValue = 0;
       _value = 0;
     }

@@ -12,7 +12,6 @@ import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
 import 'package:vipt/app/modules/home/home_controller.dart';
 import 'package:vipt/app/modules/loading/screens/loading_screen.dart';
 import 'package:vipt/app/modules/workout_plan/screens/default_plan_screen.dart';
-import 'package:vipt/app/modules/workout_plan/widgets/calories_info_widget.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/plan_tab_holder.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/progress_info_widget.dart';
 import 'package:vipt/app/modules/workout_plan/widgets/shortcut_button.dart';

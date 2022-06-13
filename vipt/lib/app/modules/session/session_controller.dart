@@ -142,7 +142,6 @@ class SessionController extends GetxController {
 
   // hàm khi handle workout timer hoàn thành
   void onWorkoutTimerComplete() {
-    print('workout timer complete');
     calculateTimeConsumed(timeList[workoutTimerIndex]);
 
     if (isWorkoutTurn) {

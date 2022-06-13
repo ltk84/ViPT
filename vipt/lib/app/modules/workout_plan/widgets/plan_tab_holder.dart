@@ -50,7 +50,6 @@ class _PlanTabHolderState extends State<PlanTabHolder>
         .then((value) => meals = value);
     _controller.loadAllMealList().then((value) {
       allMeals = value;
-      print('done');
     });
   }
 

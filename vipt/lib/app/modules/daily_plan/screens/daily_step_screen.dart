@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/modules/daily_plan/widgets/goal_progress_indicator.dart';
-import 'package:vipt/app/modules/daily_plan/widgets/vertical_info_widget.dart';
 
 import '../daily_step_controller.dart';
 
@@ -153,28 +152,34 @@ class DailyStepScreen extends StatelessWidget {
 
   _buildInfo(context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(
-          width: screenWidth * 0.3,
-          child: VerticalInfoWidget(
-            title: _controller.distance.value.toStringAsFixed(2),
-            subtitle: 'm',
-          ),
-        ),
         GoalProgressIndicator(
           radius: screenWidth * 0.36,
           value: _controller.steps.value,
           unitString: 'bước chân',
         ),
+        const SizedBox(
+          height: 16,
+        ),
         SizedBox(
           width: screenWidth * 0.3,
-          child: VerticalInfoWidget(
-            title: 'chua',
-            subtitle: 'calories',
+          child: Text(
+            _controller.distance.value.toStringAsFixed(2) + ' m',
+            style: Theme.of(context).textTheme.headline6!.copyWith(
+                  color: AppColor.accentTextColor,
+                ),
+            textAlign: TextAlign.center,
           ),
         ),
+        // SizedBox(
+        //   width: screenWidth * 0.3,
+        //   child: VerticalInfoWidget(
+        //     title: 'chua',
+        //     subtitle: 'calories',
+        //   ),
+        // ),
       ],
     );
   }
