@@ -10,6 +10,7 @@ import 'package:vipt/app/data/models/plan_exercise.dart';
 import 'package:vipt/app/data/models/plan_exercise_collection_setting.dart';
 import 'package:vipt/app/data/models/plan_meal.dart';
 import 'package:vipt/app/data/models/plan_meal_collection.dart';
+import 'package:vipt/app/data/models/streak.dart';
 import 'package:vipt/app/data/models/weight_tracker.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/models/workout_plan.dart';
@@ -23,6 +24,7 @@ import 'package:vipt/app/data/providers/plan_exercise_collection_setting_provide
 import 'package:vipt/app/data/providers/plan_exercise_provider.dart';
 import 'package:vipt/app/data/providers/plan_meal_collection_provider.dart';
 import 'package:vipt/app/data/providers/plan_meal_provider.dart';
+import 'package:vipt/app/data/providers/streak_provider.dart';
 import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/data/providers/weight_tracker_provider.dart';
 import 'package:vipt/app/data/providers/plan_exercise_collection_provider.dart';
@@ -134,34 +136,41 @@ class WorkoutPlanController extends GetxController {
   RxBool isTodayMealListLoading = false.obs;
 
   Future<void> loadDailyGoalCalories() async {
-    List<WorkoutPlan> list = await _workoutPlanProvider.fetchAll();
-    if (list.isNotEmpty) {
-      currentWorkoutPlan = list[0];
-      dailyGoalCalories.value = list[0].dailyGoalCalories.toInt();
+    WorkoutPlan? list = await _workoutPlanProvider
+        .fetchByUserID(DataService.currentUser!.id ?? '');
+    if (list != null) {
+      currentWorkoutPlan = list;
+      dailyGoalCalories.value = list.dailyGoalCalories.toInt();
     }
   }
 
-  Future<void> loadPlanExerciseCollectionList() async {
+  Future<void> loadPlanExerciseCollectionList(int planID) async {
     List<PlanExerciseCollection> list =
-        await _wkExerciseCollectionProvider.fetchAll();
+        await _wkExerciseCollectionProvider.fetchByPlanID(planID);
     if (list.isNotEmpty) {
       planExerciseCollection = list;
-      await loadCollectionSetting();
-      await loadPlanExerciseList();
+
+      planExercise.clear();
+      collectionSetting.clear();
+
+      for (int i = 0; i < list.length; i++) {
+        await loadCollectionSetting(list[i].collectionSettingID);
+        await loadPlanExerciseList(list[i].id ?? 0);
+      }
     }
   }
 
-  Future<void> loadPlanExerciseList() async {
-    List<PlanExercise> _list = await _wkExerciseProvider.fetchAll();
+  Future<void> loadPlanExerciseList(int listID) async {
+    List<PlanExercise> _list = await _wkExerciseProvider.fetchByListID(listID);
     if (_list.isNotEmpty) {
-      planExercise = _list;
+      planExercise.addAll(_list);
     }
   }
 
-  Future<void> loadCollectionSetting() async {
-    var _list = await _colSettingProvider.fetchAll();
-    if (_list.isNotEmpty) {
-      collectionSetting = _list;
+  Future<void> loadCollectionSetting(int id) async {
+    var _list = await _colSettingProvider.fetch(id);
+    if (_list != null) {
+      collectionSetting.add(_list);
     }
   }
 
@@ -189,25 +198,31 @@ class WorkoutPlanController extends GetxController {
   }
 
   Future<void> _validateDailyCalories() async {
-    String dateKey = DateUtils.dateOnly(DateTime.now()).toString();
-    final _prefs = await prefs;
-    bool? todayStreakValue = _prefs.getBool(dateKey);
-    if (todayStreakValue == null) {
-      await showNotFoundStreakDataDialog();
-      return;
-    }
+    DateTime dateKey = DateUtils.dateOnly(DateTime.now());
+    final _streakProvider = StreakProvider();
+    List<Streak> streakList = await _streakProvider.fetchByDate(dateKey);
+    if (streakList.isNotEmpty) {
+      Streak todayStreak = streakList
+          .where((element) => element.planID == currentWorkoutPlan!.id)
+          .first;
+      bool todayStreakValue = todayStreak.value;
 
-    if (dailyDiffCalories.value >= dailyGoalCalories.value - 100 &&
-        dailyDiffCalories.value <= dailyGoalCalories.value + 100) {
-      if (!todayStreakValue) {
-        await _prefs.setBool(
-            DateUtils.dateOnly(DateTime.now()).toString(), true);
+      if (dailyDiffCalories.value >= dailyGoalCalories.value - 100 &&
+          dailyDiffCalories.value <= dailyGoalCalories.value + 100) {
+        if (!todayStreakValue) {
+          Streak newStreak = Streak(
+              date: todayStreak.date, planID: todayStreak.planID, value: true);
+          await _streakProvider.update(todayStreak.id ?? 0, newStreak);
+        }
+      } else {
+        if (todayStreakValue) {
+          Streak newStreak = Streak(
+              date: todayStreak.date, planID: todayStreak.planID, value: false);
+          await _streakProvider.update(todayStreak.id ?? 0, newStreak);
+        }
       }
     } else {
-      if (todayStreakValue) {
-        await _prefs.setBool(
-            DateUtils.dateOnly(DateTime.now()).toString(), false);
-      }
+      await showNotFoundStreakDataDialog();
     }
   }
 
@@ -265,18 +280,24 @@ class WorkoutPlanController extends GetxController {
     return null;
   }
 
-  Future<void> loadWorkoutPlanMealList() async {
-    List<PlanMealCollection> list = await _wkMealCollectionProvider.fetchAll();
+  Future<void> loadWorkoutPlanMealList(int planID) async {
+    List<PlanMealCollection> list =
+        await _wkMealCollectionProvider.fetchByPlanID(planID);
     if (list.isNotEmpty) {
       planMealCollection = list;
-      await loadPlanMealList();
+
+      planMeal.clear();
+
+      for (int i = 0; i < list.length; i++) {
+        await loadPlanMealList(list[i].id ?? 0);
+      }
     }
   }
 
-  Future<void> loadPlanMealList() async {
-    List<PlanMeal> _list = await _wkMealProvider.fetchAll();
+  Future<void> loadPlanMealList(int listID) async {
+    List<PlanMeal> _list = await _wkMealProvider.fetchByListID(listID);
     if (_list.isNotEmpty) {
-      planMeal = _list;
+      planMeal.addAll(_list);
     }
   }
 
@@ -348,22 +369,6 @@ class WorkoutPlanController extends GetxController {
     if (list.isNotEmpty) {
       currentStreakDay.value = list.keys.first;
 
-      final _prefs = await prefs;
-      DateTime date = DateUtils.dateOnly(DateTime.now());
-      if (dailyDiffCalories.value >= dailyGoalCalories.value - 100 &&
-          dailyDiffCalories.value <= dailyGoalCalories.value + 100) {
-        bool? isTodayComplete = _prefs.getBool(date.toString());
-        if (isTodayComplete == null) {
-          await showNotFoundStreakDataDialog();
-          return;
-        }
-        await _prefs.setBool(date.toString(), true);
-        list.values.first[currentStreakDay.value - 1] = true;
-      } else {
-        await _prefs.setBool(date.toString(), false);
-        list.values.first[currentStreakDay.value - 1] = false;
-      }
-
       planStreak.addAll(list.values.first);
     } else {
       await showNotFoundStreakDataDialog();
@@ -383,7 +388,7 @@ class WorkoutPlanController extends GetxController {
 
   Future<void> loadPlanStatus() async {
     final _prefs = await prefs;
-    hasFinishedPlan.value = _prefs.getBool(planStatus) ?? true;
+    hasFinishedPlan.value = _prefs.getBool(planStatus) ?? false;
   }
 
   Future<void> showNotFoundStreakDataDialog() async {
@@ -488,8 +493,8 @@ class WorkoutPlanController extends GetxController {
     await loadWeightValues();
     await loadDailyGoalCalories();
     await loadDailyCalories();
-    await loadPlanExerciseCollectionList();
-    await loadWorkoutPlanMealList();
+    await loadPlanExerciseCollectionList(currentWorkoutPlan!.id ?? 0);
+    await loadWorkoutPlanMealList(currentWorkoutPlan!.id ?? 0);
     await loadPlanStreak();
     isLoading.value = false;
   }

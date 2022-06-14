@@ -76,6 +76,8 @@ class DataService {
         await _userProvider.fetch(AuthService.instance.currentUser!.uid);
   }
 
+  resetUserData() => currentUser = null;
+
   loadWorkoutList() async {
     if (_workoutList.isNotEmpty) return;
     _workoutList = await _workoutProvider.fetchAll();

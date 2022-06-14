@@ -81,6 +81,7 @@ class DatabaseProvider {
       CREATE TABLE ${AppValue.workoutPlanTable}(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         dailyGoalCalories REAL,
+        userID TEXT,
         startDate TEXT,
         endDate TEXT)
     ''');
@@ -89,6 +90,7 @@ class DatabaseProvider {
       CREATE TABLE ${AppValue.planExerciseCollectionTable}(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         date TEXT,
+        planID INTEGER,
         collectionSettingID INTEGER)
     ''');
 
@@ -116,6 +118,7 @@ class DatabaseProvider {
       CREATE TABLE ${AppValue.planMealCollectionTable}(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         date TEXT,
+        planID INTEGER,
         mealRatio REAL)
     ''');
 
@@ -124,6 +127,14 @@ class DatabaseProvider {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         mealID TEXT,
         listID INTEGER)
+    ''');
+
+    db.execute('''
+      CREATE TABLE ${AppValue.planStreakTable}(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        date TEXT,
+        planID INTEGER,
+        value INTEGER)
     ''');
   }
 }

@@ -13,7 +13,7 @@ class AppQuiz {
     // 2: 4,
     0: 6,
     1: 1,
-    2: 0,
+    // 2: 0,
   };
 
   static Map<Question, List<Answer>> questions = {

@@ -94,6 +94,7 @@ class AppValue {
   static const planExerciseTable = 'PlanExerciseRecord';
   static const planMealCollectionTable = 'PlanMealCollectionRecord';
   static const planMealTable = 'PlanMealRecord';
+  static const planStreakTable = 'PlanStreakRecord';
 
   // other
   static const intensityWeight = 500;
