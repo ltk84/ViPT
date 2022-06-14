@@ -84,6 +84,57 @@ Sau đó mở công cụ phát triển (development tool) và chạy ứng dụn
 
 *Có thể tham khảo thêm tại [đây](https://flutter.dev/docs/get-started) (Flutter documentation).*
 
+## Giao diện
+
+
+ <img width="200" src=".\info\ui\1.PNG"></a>
+ <img width="200" src=".\info\ui\2.PNG"></a>
+ <img width="200" src=".\info\ui\3.PNG"></a>
+ <img width="200" src=".\info\ui\4.PNG"></a>
+ <img width="200" src=".\info\ui\5.PNG"></a>
+ <img width="200" src=".\info\ui\6.PNG"></a>
+ <img width="200" src=".\info\ui\7.PNG"></a>
+ <img width="200" src=".\info\ui\8.PNG"></a>
+ <img width="200" src=".\info\ui\9.PNG"></a>
+ <img width="200" src=".\info\ui\10.PNG"></a>
+ <img width="200" src=".\info\ui\11.PNG"></a>
+ <img width="200" src=".\info\ui\12.PNG"></a>
+ <img width="200" src=".\info\ui\13.PNG"></a>
+ <img width="200" src=".\info\ui\14.PNG"></a>
+ <img width="200" src=".\info\ui\15.PNG"></a>
+ <img width="200" src=".\info\ui\16.PNG"></a>
+ <img width="200" src=".\info\ui\17.PNG"></a>
+ <img width="200" src=".\info\ui\18.PNG"></a>
+ <img width="200" src=".\info\ui\19.PNG"></a>
+ <img width="200" src=".\info\ui\20.PNG"></a>
+ <img width="200" src=".\info\ui\21.PNG"></a>
+ <img width="200" src=".\info\ui\22.PNG"></a>
+ <img width="200" src=".\info\ui\23.PNG"></a>
+ <img width="200" src=".\info\ui\24.PNG"></a>
+ <img width="200" src=".\info\ui\25.PNG"></a>
+ <img width="200" src=".\info\ui\26.PNG"></a>
+ <img width="200" src=".\info\ui\27.PNG"></a>
+ <img width="200" src=".\info\ui\28.PNG"></a>
+ <img width="200" src=".\info\ui\29.PNG"></a>
+ <img width="200" src=".\info\ui\30.PNG"></a>
+ <img width="200" src=".\info\ui\31.PNG"></a>
+ <img width="200" src=".\info\ui\32.PNG"></a>
+ <img width="200" src=".\info\ui\33.PNG"></a>
+ <img width="200" src=".\info\ui\34.PNG"></a>
+ <img width="200" src=".\info\ui\35.PNG"></a>
+ <img width="200" src=".\info\ui\36.PNG"></a>
+ <img width="200" src=".\info\ui\37.PNG"></a>
+ <img width="200" src=".\info\ui\38.PNG"></a>
+ <img width="200" src=".\info\ui\39.PNG"></a>
+ <img width="200" src=".\info\ui\40.PNG"></a>
+ <img width="200" src=".\info\ui\41.PNG"></a>
+ <img width="200" src=".\info\ui\42.PNG"></a>
+ <img width="200" src=".\info\ui\43.PNG"></a>
+ <img width="200" src=".\info\ui\44.PNG"></a>
+ <img width="200" src=".\info\ui\45.PNG"></a>
+ <img width="200" src=".\info\ui\46.PNG"></a>
+ <img width="200" src=".\info\ui\47.PNG"></a>
+
 ## Tính năng
 
 ### Xác thực người dùng
