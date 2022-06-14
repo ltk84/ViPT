@@ -117,6 +117,7 @@ class SettingController extends GetxController {
         context: Get.context!,
         builder: (_) {
           return InputDialog(
+              title: 'Nhập mục tiêu cân nặng',
               weightEditingController: TextEditingController(
                   text: DataService.currentUser!.goalWeight.toString()),
               logWeight: updateWeightGoal);

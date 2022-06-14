@@ -6,8 +6,10 @@ import 'package:vipt/app/core/values/colors.dart';
 class InputDialog extends StatelessWidget {
   final TextEditingController weightEditingController;
   final Future<void> Function(String) logWeight;
+  final String title;
   const InputDialog(
       {Key? key,
+      this.title = 'Nhập cân nặng hiện tại',
       required this.weightEditingController,
       required this.logWeight})
       : super(key: key);
@@ -42,7 +44,7 @@ class InputDialog extends StatelessWidget {
               ],
             ),
             Text(
-              'Nhập cân nặng hiện tại',
+              title,
               style: Theme.of(context).textTheme.button!.copyWith(
                     color: AppColor.textColor,
                   ),
