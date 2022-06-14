@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ViPT</string>
+    <string name="facebook_app_id">1607854676225557</string> 
+    <string name="facebook_client_token">1cc482693e34b1cdb68ae1d24bbf078c</string>
+    <string name="fb_login_protocol_scheme">fb1607854676225557</string>
+</resources>
