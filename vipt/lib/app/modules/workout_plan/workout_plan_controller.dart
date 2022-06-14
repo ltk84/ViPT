@@ -384,7 +384,6 @@ class WorkoutPlanController extends GetxController {
   Future<void> loadPlanStatus() async {
     final _prefs = await prefs;
     hasFinishedPlan.value = _prefs.getBool(planStatus) ?? true;
-    print(hasFinishedPlan.value);
   }
 
   Future<void> showNotFoundStreakDataDialog() async {

@@ -269,7 +269,8 @@ class ExerciseNutritionRouteProvider {
   Future<void> resetRoute() async {
     final planList = await WorkoutPlanProvider().fetchAll();
     var user = DataService.currentUser;
-    if (planList.isNotEmpty && user != null) {
+
+    if (planList.isNotEmpty) {
       WorkoutPlan workoutPlan = planList.first;
       await _deleteStreakList(
           startDate: workoutPlan.startDate,
@@ -278,7 +279,9 @@ class ExerciseNutritionRouteProvider {
       await _deletePlanMealList();
       await _deletePlanExerciseList();
       await _deleteWorkoutPlanList();
+    }
 
+    if (user != null) {
       await createRoute(user);
     } else {
       await showDialog(
@@ -302,7 +305,6 @@ class ExerciseNutritionRouteProvider {
           );
         },
       );
-      return;
     }
   }
 

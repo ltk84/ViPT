@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:vipt/app/core/utilities/utils.dart';
 import 'package:vipt/app/core/values/colors.dart';
 import 'package:vipt/app/data/providers/exercise_nutrition_route_provider.dart';
+import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class DefaultPlanScreen extends StatelessWidget {
@@ -62,6 +63,7 @@ class DefaultPlanScreen extends StatelessWidget {
 
   Future<void> handleCreateRoute() async {
     UIUtils.showLoadingDialog();
+    await DataService.instance.loadUserData();
     await ExerciseNutritionRouteProvider().resetRoute();
     UIUtils.hideLoadingDialog();
     Get.offAllNamed(Routes.home);
