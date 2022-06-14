@@ -1,17 +1,17 @@
 import 'package:vipt/app/core/values/values.dart';
-import 'package:vipt/app/data/models/workout_plan.dart';
+import 'package:vipt/app/data/models/streak.dart';
 import 'package:vipt/app/data/providers/sqflite_helper.dart';
 
 import 'database_provider.dart';
 
-class WorkoutPlanProvider implements SqfliteHelper<int, WorkoutPlan> {
+class StreakProvider implements SqfliteHelper<int, Streak> {
   @override
-  String tableName = AppValue.workoutPlanTable;
+  String tableName = AppValue.planStreakTable;
 
   @override
-  Future<WorkoutPlan> add(WorkoutPlan obj) async {
+  Future<Streak> add(Streak obj) async {
     final db = await DatabaseProvider.database;
-    await db!.insert(tableName, obj.toMap()).then((value) => obj.id = value);
+    db!.insert(tableName, obj.toMap()).then((value) => obj.id = value);
     return obj;
   }
 
@@ -22,33 +22,32 @@ class WorkoutPlanProvider implements SqfliteHelper<int, WorkoutPlan> {
   }
 
   @override
-  Future<WorkoutPlan?> fetch(int id) async {
+  Future<Streak?> fetch(int id) async {
     final db = await DatabaseProvider.database;
     final List<Map<String, dynamic>> maps =
         await db!.query(tableName, where: 'id = ?', whereArgs: [id]);
     if (maps.isEmpty) return null;
-    return WorkoutPlan.fromMap(maps[0]);
-  }
-
-  Future<WorkoutPlan?> fetchByUserID(String userId) async {
-    final db = await DatabaseProvider.database;
-    final List<Map<String, dynamic>> maps =
-        await db!.query(tableName, where: 'userID = ?', whereArgs: [userId]);
-    if (maps.isEmpty) return null;
-    return WorkoutPlan.fromMap(maps[0]);
+    return Streak.fromMap(maps[0]);
   }
 
   @override
-  Future<List<WorkoutPlan>> fetchAll() async {
+  Future<List<Streak>> fetchAll() async {
     final db = await DatabaseProvider.database;
     final List<Map<String, dynamic>> maps = await db!.query(tableName);
 
-    return List.generate(
-        maps.length, (index) => WorkoutPlan.fromMap(maps[index]));
+    return List.generate(maps.length, (index) => Streak.fromMap(maps[index]));
+  }
+
+  Future<List<Streak>> fetchByPlanID(int planID) async {
+    final db = await DatabaseProvider.database;
+    final List<Map<String, dynamic>> maps =
+        await db!.query(tableName, where: "planID = ?", whereArgs: [planID]);
+
+    return List.generate(maps.length, (index) => Streak.fromMap(maps[index]));
   }
 
   @override
-  Future<List<WorkoutPlan>> fetchByDate(DateTime dateTime) async {
+  Future<List<Streak>> fetchByDate(DateTime dateTime) async {
     final db = await DatabaseProvider.database;
     final String begin =
         DateTime(dateTime.year, dateTime.month, dateTime.day).toString();
@@ -58,12 +57,11 @@ class WorkoutPlanProvider implements SqfliteHelper<int, WorkoutPlan> {
     final List<Map<String, dynamic>> maps = await db!.query(tableName,
         where: 'date >= ? and date <= ?', whereArgs: [begin, end]);
     if (maps.isEmpty) return [];
-    return List.generate(
-        maps.length, (index) => WorkoutPlan.fromMap(maps[index]));
+    return List.generate(maps.length, (index) => Streak.fromMap(maps[index]));
   }
 
   @override
-  Future<void> update(int id, WorkoutPlan obj) async {
+  Future<void> update(int id, Streak obj) async {
     final db = await DatabaseProvider.database;
     await db!.update(tableName, obj.toMap(), where: 'id = ?', whereArgs: [id]);
   }

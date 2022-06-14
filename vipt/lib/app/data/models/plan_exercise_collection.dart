@@ -35,5 +35,5 @@ class PlanExerciseCollection {
 
   @override
   String toString() =>
-      'PlanExerciseCollection(id: $id, date: $date, collectionSettingID: $collectionSettingID)';
+      'PlanExerciseCollection(id: $id, planID: $planID, date: $date, collectionSettingID: $collectionSettingID)';
 }

@@ -10,6 +10,7 @@ import 'package:vipt/app/data/models/plan_exercise.dart';
 import 'package:vipt/app/data/models/plan_exercise_collection_setting.dart';
 import 'package:vipt/app/data/models/plan_meal.dart';
 import 'package:vipt/app/data/models/plan_meal_collection.dart';
+import 'package:vipt/app/data/models/streak.dart';
 import 'package:vipt/app/data/models/weight_tracker.dart';
 import 'package:vipt/app/data/models/workout_collection.dart';
 import 'package:vipt/app/data/models/workout_plan.dart';
@@ -23,6 +24,7 @@ import 'package:vipt/app/data/providers/plan_exercise_collection_setting_provide
 import 'package:vipt/app/data/providers/plan_exercise_provider.dart';
 import 'package:vipt/app/data/providers/plan_meal_collection_provider.dart';
 import 'package:vipt/app/data/providers/plan_meal_provider.dart';
+import 'package:vipt/app/data/providers/streak_provider.dart';
 import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/data/providers/weight_tracker_provider.dart';
 import 'package:vipt/app/data/providers/plan_exercise_collection_provider.dart';
@@ -196,25 +198,31 @@ class WorkoutPlanController extends GetxController {
   }
 
   Future<void> _validateDailyCalories() async {
-    String dateKey = DateUtils.dateOnly(DateTime.now()).toString();
-    final _prefs = await prefs;
-    bool? todayStreakValue = _prefs.getBool(dateKey);
-    if (todayStreakValue == null) {
-      await showNotFoundStreakDataDialog();
-      return;
-    }
+    DateTime dateKey = DateUtils.dateOnly(DateTime.now());
+    final _streakProvider = StreakProvider();
+    List<Streak> streakList = await _streakProvider.fetchByDate(dateKey);
+    if (streakList.isNotEmpty) {
+      Streak todayStreak = streakList
+          .where((element) => element.planID == currentWorkoutPlan!.id)
+          .first;
+      bool todayStreakValue = todayStreak.value;
 
-    if (dailyDiffCalories.value >= dailyGoalCalories.value - 100 &&
-        dailyDiffCalories.value <= dailyGoalCalories.value + 100) {
-      if (!todayStreakValue) {
-        await _prefs.setBool(
-            DateUtils.dateOnly(DateTime.now()).toString(), true);
+      if (dailyDiffCalories.value >= dailyGoalCalories.value - 100 &&
+          dailyDiffCalories.value <= dailyGoalCalories.value + 100) {
+        if (!todayStreakValue) {
+          Streak newStreak = Streak(
+              date: todayStreak.date, planID: todayStreak.planID, value: true);
+          await _streakProvider.update(todayStreak.id ?? 0, newStreak);
+        }
+      } else {
+        if (todayStreakValue) {
+          Streak newStreak = Streak(
+              date: todayStreak.date, planID: todayStreak.planID, value: false);
+          await _streakProvider.update(todayStreak.id ?? 0, newStreak);
+        }
       }
     } else {
-      if (todayStreakValue) {
-        await _prefs.setBool(
-            DateUtils.dateOnly(DateTime.now()).toString(), false);
-      }
+      await showNotFoundStreakDataDialog();
     }
   }
 
@@ -360,22 +368,6 @@ class WorkoutPlanController extends GetxController {
     Map<int, List<bool>> list = await _routeProvider.loadStreakList();
     if (list.isNotEmpty) {
       currentStreakDay.value = list.keys.first;
-
-      final _prefs = await prefs;
-      DateTime date = DateUtils.dateOnly(DateTime.now());
-      if (dailyDiffCalories.value >= dailyGoalCalories.value - 100 &&
-          dailyDiffCalories.value <= dailyGoalCalories.value + 100) {
-        bool? isTodayComplete = _prefs.getBool(date.toString());
-        if (isTodayComplete == null) {
-          await showNotFoundStreakDataDialog();
-          return;
-        }
-        await _prefs.setBool(date.toString(), true);
-        list.values.first[currentStreakDay.value - 1] = true;
-      } else {
-        await _prefs.setBool(date.toString(), false);
-        list.values.first[currentStreakDay.value - 1] = false;
-      }
 
       planStreak.addAll(list.values.first);
     } else {

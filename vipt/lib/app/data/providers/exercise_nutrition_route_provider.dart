@@ -13,6 +13,7 @@ import 'package:vipt/app/data/models/plan_exercise_collection.dart';
 import 'package:vipt/app/data/models/plan_exercise_collection_setting.dart';
 import 'package:vipt/app/data/models/plan_meal.dart';
 import 'package:vipt/app/data/models/plan_meal_collection.dart';
+import 'package:vipt/app/data/models/streak.dart';
 import 'package:vipt/app/data/models/vipt_user.dart';
 import 'package:vipt/app/data/models/workout.dart';
 import 'package:vipt/app/data/models/workout_plan.dart';
@@ -21,6 +22,7 @@ import 'package:vipt/app/data/providers/plan_exercise_collection_setting_provide
 import 'package:vipt/app/data/providers/plan_exercise_provider.dart';
 import 'package:vipt/app/data/providers/plan_meal_collection_provider.dart';
 import 'package:vipt/app/data/providers/plan_meal_provider.dart';
+import 'package:vipt/app/data/providers/streak_provider.dart';
 import 'package:vipt/app/data/providers/workout_plan_provider.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/global_widgets/custom_confirmation_dialog.dart';
@@ -60,6 +62,7 @@ class ExerciseNutritionRouteProvider {
         workoutPlanLength: workoutPlanLengthInDays);
 
     await _generateInitialPlanStreak(
+        planID: workoutPlan.id ?? 0,
         startDate: workoutPlanStartDate,
         planLengthInDays: workoutPlanLengthInDays);
 
@@ -137,13 +140,13 @@ class ExerciseNutritionRouteProvider {
     for (var element in exerciseList1) {
       PlanExercise pe = PlanExercise(
           exerciseID: element.id ?? '', listID: collection1.id ?? 0);
-      _exerciseProvider.add(pe);
+      await _exerciseProvider.add(pe);
     }
 
     for (var element in exerciseList2) {
       PlanExercise pe = PlanExercise(
           exerciseID: element.id ?? '', listID: collection2.id ?? 0);
-      _exerciseProvider.add(pe);
+      await _exerciseProvider.add(pe);
     }
   }
 
@@ -241,37 +244,53 @@ class ExerciseNutritionRouteProvider {
   }
 
   Future<void> _generateInitialPlanStreak(
-      {required DateTime startDate, required int planLengthInDays}) async {
-    final _prefs = await SharedPreferences.getInstance();
+      {required DateTime startDate,
+      required int planLengthInDays,
+      required int planID}) async {
+    // final _prefs = await SharedPreferences.getInstance();
+    final streakProvider = StreakProvider();
 
     for (int i = 0; i < planLengthInDays; i++) {
       DateTime date = DateUtils.dateOnly(startDate.add(Duration(days: i)));
-      _prefs.setBool(date.toString(), false);
+      Streak streak = Streak(date: date, value: false, planID: planID);
+      await streakProvider.add(streak);
     }
   }
 
   Future<Map<int, List<bool>>> loadStreakList() async {
     int currentStreakDay = 0;
-    List<WorkoutPlan> list = await WorkoutPlanProvider().fetchAll();
-    if (list.isNotEmpty) {
-      var plan = list[0];
-      int dateExtend = plan.endDate.difference(plan.startDate).inDays;
+    WorkoutPlan? list = await WorkoutPlanProvider()
+        .fetchByUserID(DataService.currentUser!.id ?? '');
+    if (list != null) {
+      var plan = list;
+      // int dateExtend = plan.endDate.difference(plan.startDate).inDays;
       List<bool> streak = [];
-      final _prefs = await SharedPreferences.getInstance();
-      for (int i = 0; i < dateExtend; i++) {
-        DateTime date = plan.startDate.add(Duration(days: i));
+      // final _prefs = await SharedPreferences.getInstance();
+      // for (int i = 0; i < dateExtend; i++) {
+      //   DateTime date = plan.startDate.add(Duration(days: i));
 
-        if (DateUtils.isSameDay(date, DateTime.now())) {
-          currentStreakDay = i + 1;
-        }
+      //   if (DateUtils.isSameDay(date, DateTime.now())) {
+      //     currentStreakDay = i + 1;
+      //   }
 
-        var res = _prefs.getBool(DateUtils.dateOnly(date).toString());
-        if (res != null) {
-          streak.add(res);
-        } else {
-          return <int, List<bool>>{};
+      //   // var res = _prefs.getBool(DateUtils.dateOnly(date).toString());
+      //   var res =
+      //   if (res != null) {
+      //     streak.add(res);
+      //   } else {
+      //     return <int, List<bool>>{};
+      //   }
+      // }
+
+      List<Streak> streakInDB =
+          await StreakProvider().fetchByPlanID(plan.id ?? 0);
+
+      streak.addAll(streakInDB.map((e) {
+        if (DateUtils.isSameDay(e.date, DateTime.now())) {
+          currentStreakDay = streakInDB.indexOf(e) + 1;
         }
-      }
+        return e.value;
+      }));
 
       Map<int, List<bool>> map = {};
       map[currentStreakDay] = streak;
@@ -325,11 +344,7 @@ class ExerciseNutritionRouteProvider {
 
   Future<void> _deleteStreakList(
       {required DateTime startDate, required int planLengthInDays}) async {
-    final _prefs = await SharedPreferences.getInstance();
-    for (int i = 0; i < planLengthInDays; i++) {
-      DateTime date = DateUtils.dateOnly(startDate.add(Duration(days: i)));
-      await _prefs.remove(date.toString());
-    }
+    await StreakProvider().deleteAll();
   }
 
   Future<void> _deletePlanMealList() async {

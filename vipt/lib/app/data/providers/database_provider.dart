@@ -128,5 +128,13 @@ class DatabaseProvider {
         mealID TEXT,
         listID INTEGER)
     ''');
+
+    db.execute('''
+      CREATE TABLE ${AppValue.planStreakTable}(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        date TEXT,
+        planID INTEGER,
+        value INTEGER)
+    ''');
   }
 }
