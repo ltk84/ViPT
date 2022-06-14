@@ -11,6 +11,12 @@ import 'package:vipt/app/modules/workout_plan/widgets/input_dialog.dart';
 import 'package:vipt/app/routes/pages.dart';
 
 class SettingController extends GetxController {
+  @override
+  Future<void> onInit() async {
+    await DataService.instance.loadUserData();
+    super.onInit();
+  }
+
   Future<void> changeBasicInforamtion() async {
     await showDialog(
       context: Get.context!,

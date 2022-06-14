@@ -57,6 +57,9 @@ class ExerciseNutritionRouteProvider {
     await _generateInitialPlanStreak(
         startDate: workoutPlanStartDate,
         planLengthInDays: workoutPlanLengthInDays);
+
+    final _pefs = await SharedPreferences.getInstance();
+    await _pefs.setBool('planStatus', false);
   }
 
   Future<void> generateExerciseListWithPlanLength(
