@@ -215,6 +215,7 @@ class SettingScreen extends StatelessWidget {
             child: ListTile(
               onTap: () async {
                 await AuthService.instance.signOut();
+                DataService.instance.resetUserData();
                 Get.offAllNamed(Routes.auth);
               },
               leading:

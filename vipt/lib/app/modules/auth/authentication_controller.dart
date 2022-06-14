@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:vipt/app/data/services/auth_service.dart';
+import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/enums/app_enums.dart';
 import 'package:vipt/app/routes/pages.dart';
 
@@ -33,6 +34,7 @@ class AuthenticationController extends GetxController {
     if (!isExist) {
       Get.offAllNamed(Routes.setupInfoIntro);
     } else {
+      await DataService.instance.loadUserData();
       Get.offAllNamed(Routes.home);
     }
   }
