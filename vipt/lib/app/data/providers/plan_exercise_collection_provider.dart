@@ -42,6 +42,15 @@ class PlanExerciseCollectionProvider
         maps.length, (index) => PlanExerciseCollection.fromMap(maps[index]));
   }
 
+  Future<List<PlanExerciseCollection>> fetchByPlanID(int planID) async {
+    final db = await DatabaseProvider.database;
+    final List<Map<String, dynamic>> maps =
+        await db!.query(tableName, where: 'planID = ?', whereArgs: [planID]);
+
+    return List.generate(
+        maps.length, (index) => PlanExerciseCollection.fromMap(maps[index]));
+  }
+
   @override
   Future<List<PlanExerciseCollection>> fetchByDate(DateTime dateTime) async {
     final db = await DatabaseProvider.database;

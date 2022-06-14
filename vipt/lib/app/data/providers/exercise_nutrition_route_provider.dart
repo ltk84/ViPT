@@ -41,18 +41,23 @@ class ExerciseNutritionRouteProvider {
     num dailyIntakeCalories = dailyGoalCalories + AppValue.intensityWeight;
     num dailyOuttakeCalories = AppValue.intensityWeight;
 
-    final WorkoutPlan workoutPlan = WorkoutPlan(
+    WorkoutPlan workoutPlan = WorkoutPlan(
         dailyGoalCalories: dailyGoalCalories,
+        userID: user.id ?? '',
         startDate: workoutPlanStartDate,
         endDate: workoutPlanEndDate);
-    _workoutPlanProvider.add(workoutPlan);
+    workoutPlan = await _workoutPlanProvider.add(workoutPlan);
 
     await _generateMealListWithPlanLength(
         intakeCalories: dailyIntakeCalories,
+        planID: workoutPlan.id ?? 0,
         planLength: workoutPlanLengthInDays);
 
     await generateExerciseListWithPlanLength(
-        dailyOuttakeCalories, user.currentWeight, workoutPlanLengthInDays);
+        planID: workoutPlan.id ?? 0,
+        outtakeCalories: dailyOuttakeCalories,
+        userWeight: user.currentWeight,
+        workoutPlanLength: workoutPlanLengthInDays);
 
     await _generateInitialPlanStreak(
         startDate: workoutPlanStartDate,
@@ -63,11 +68,15 @@ class ExerciseNutritionRouteProvider {
   }
 
   Future<void> generateExerciseListWithPlanLength(
-      num outtakeCalories, num userWeight, int workoutPlanLength) async {
+      {required num outtakeCalories,
+      required int planID,
+      required num userWeight,
+      required int workoutPlanLength}) async {
     for (int i = 0; i < workoutPlanLength; i++) {
       await _generateExerciseListEveryDay(
           outtakeCalories: outtakeCalories,
           userWeight: userWeight,
+          planID: planID,
           date: DateTime.now().add(Duration(days: i)));
     }
   }
@@ -75,6 +84,7 @@ class ExerciseNutritionRouteProvider {
   Future<void> _generateExerciseListEveryDay(
       {required num outtakeCalories,
       required num userWeight,
+      required int planID,
       required DateTime date}) async {
     int numberOfExercise = 10;
     int everyExerciseSeconds = 45;
@@ -114,10 +124,10 @@ class ExerciseNutritionRouteProvider {
     setting2 = (await _settingProvider.add(setting2));
 
     PlanExerciseCollection collection1 = PlanExerciseCollection(
-        date: date, collectionSettingID: setting1.id ?? 0);
+        planID: planID, date: date, collectionSettingID: setting1.id ?? 0);
 
     PlanExerciseCollection collection2 = PlanExerciseCollection(
-        date: date, collectionSettingID: setting2.id ?? 0);
+        planID: planID, date: date, collectionSettingID: setting2.id ?? 0);
 
     final _collectionProvider = PlanExerciseCollectionProvider();
     collection1 = (await _collectionProvider.add(collection1));
@@ -154,21 +164,26 @@ class ExerciseNutritionRouteProvider {
   }
 
   Future<void> _generateMealListWithPlanLength(
-      {required num intakeCalories, required int planLength}) async {
+      {required num intakeCalories,
+      required int planID,
+      required int planLength}) async {
     for (int i = 0; i < planLength; i++) {
       _generateMealList(
           intakeCalories: intakeCalories,
+          planID: planID,
           date: DateTime.now().add(Duration(days: i)));
     }
   }
 
   Future<void> _generateMealList(
-      {required num intakeCalories, required DateTime date}) async {
+      {required num intakeCalories,
+      required int planID,
+      required DateTime date}) async {
     List<Meal> mealList = await _randomMeals();
     num ratio = await _calculateMealRatio(intakeCalories, mealList);
 
-    PlanMealCollection collection =
-        PlanMealCollection(date: date, mealRatio: ratio.toDouble());
+    PlanMealCollection collection = PlanMealCollection(
+        date: date, planID: planID, mealRatio: ratio.toDouble());
     collection = (await PlanMealCollectionProvider().add(collection));
 
     final mealProvider = PlanMealProvider();

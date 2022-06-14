@@ -12,6 +12,7 @@ import 'package:vipt/app/data/models/weight_tracker.dart';
 import 'package:vipt/app/data/providers/exercise_nutrition_route_provider.dart';
 import 'package:vipt/app/data/providers/user_provider.dart';
 import 'package:vipt/app/data/providers/weight_tracker_provider.dart';
+import 'package:vipt/app/data/providers/workout_plan_provider.dart';
 import 'package:vipt/app/data/services/auth_service.dart';
 import 'package:vipt/app/data/services/data_service.dart';
 import 'package:vipt/app/enums/app_enums.dart';

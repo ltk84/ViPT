@@ -30,6 +30,14 @@ class WorkoutPlanProvider implements SqfliteHelper<int, WorkoutPlan> {
     return WorkoutPlan.fromMap(maps[0]);
   }
 
+  Future<WorkoutPlan?> fetchByUserID(String userId) async {
+    final db = await DatabaseProvider.database;
+    final List<Map<String, dynamic>> maps =
+        await db!.query(tableName, where: 'userID = ?', whereArgs: [userId]);
+    if (maps.isEmpty) return null;
+    return WorkoutPlan.fromMap(maps[0]);
+  }
+
   @override
   Future<List<WorkoutPlan>> fetchAll() async {
     final db = await DatabaseProvider.database;

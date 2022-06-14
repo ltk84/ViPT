@@ -39,6 +39,15 @@ class PlanExerciseProvider implements SqfliteHelper<int, PlanExercise> {
         maps.length, (index) => PlanExercise.fromMap(maps[index]));
   }
 
+  Future<List<PlanExercise>> fetchByListID(int listID) async {
+    final db = await DatabaseProvider.database;
+    final List<Map<String, dynamic>> maps =
+        await db!.query(tableName, where: 'listID = ?', whereArgs: [listID]);
+
+    return List.generate(
+        maps.length, (index) => PlanExercise.fromMap(maps[index]));
+  }
+
   @override
   Future<List<PlanExercise>> fetchByDate(DateTime dateTime) async {
     final db = await DatabaseProvider.database;

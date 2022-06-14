@@ -37,6 +37,15 @@ class PlanMealCollectionProvider
         maps.length, (index) => PlanMealCollection.fromMap(maps[index]));
   }
 
+  Future<List<PlanMealCollection>> fetchByPlanID(int planID) async {
+    final db = await DatabaseProvider.database;
+    final List<Map<String, dynamic>> maps =
+        await db!.query(tableName, where: 'planID = ?', whereArgs: [planID]);
+
+    return List.generate(
+        maps.length, (index) => PlanMealCollection.fromMap(maps[index]));
+  }
+
   @override
   Future<List<PlanMealCollection>> fetchByDate(DateTime dateTime) async {
     throw UnimplementedError();

@@ -3,9 +3,11 @@ class WorkoutPlan {
   final num dailyGoalCalories;
   final DateTime startDate;
   final DateTime endDate;
+  final String userID;
 
   WorkoutPlan(
       {this.id,
+      required this.userID,
       required this.dailyGoalCalories,
       required this.startDate,
       required this.endDate});
@@ -13,6 +15,7 @@ class WorkoutPlan {
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
       'dailyGoalCalories': dailyGoalCalories,
+      'userID': userID,
       'startDate': startDate.toString(),
       'endDate': endDate.toString(),
     };
@@ -27,6 +30,7 @@ class WorkoutPlan {
   factory WorkoutPlan.fromMap(Map<String, dynamic> map) {
     return WorkoutPlan(
       id: map['id']?.toInt(),
+      userID: map['userID'] ?? '',
       dailyGoalCalories: map['dailyGoalCalories'] ?? 0,
       startDate: DateTime.parse(map['startDate']),
       endDate: DateTime.parse(map['endDate']),
