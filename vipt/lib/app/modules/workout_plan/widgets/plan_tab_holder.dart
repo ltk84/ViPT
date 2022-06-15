@@ -45,11 +45,13 @@ class _PlanTabHolderState extends State<PlanTabHolder>
 
     workouts = _controller.loadWorkoutCollectionToShow(DateTime.now());
     allWorkouts = _controller.loadAllWorkoutCollection();
-    _controller
-        .loadMealListToShow(DateTime.now())
-        .then((value) => meals = value);
+    _controller.loadMealListToShow(DateTime.now()).then((value) => setState(() {
+          meals = value;
+        }));
     _controller.loadAllMealList().then((value) {
-      allMeals = value;
+      setState(() {
+        allMeals = value;
+      });
     });
   }
 

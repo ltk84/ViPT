@@ -291,6 +291,9 @@ class WorkoutPlanController extends GetxController {
       for (int i = 0; i < list.length; i++) {
         await loadPlanMealList(list[i].id ?? 0);
       }
+
+      print('done');
+      update();
     }
   }
 
