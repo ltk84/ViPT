@@ -119,9 +119,10 @@ class ProfileController extends GetxController {
   Future<void> loadNutritionTracks() async {
     nutritionCaloWeekly.value = 0;
     int temptSum = 0;
+    nutritionTracksWeekly.value = [[], [], [], [], [], [], []];
     for (int i = 0; i < 7; i++) {
       var nutritionTracks = await _nutritionProvider
-          .fetchByDate(exerciseDateRange.value.start.add(Duration(days: i)));
+          .fetchByDate(nutritionDateRange.value.start.add(Duration(days: i)));
       int temptIntakeCalories = 0;
       for (var element in nutritionTracks) {
         temptIntakeCalories += element.intakeCalories;

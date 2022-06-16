@@ -169,26 +169,28 @@ class WorkoutPlanScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          ConstrainedBox(
-                            constraints:
-                                BoxConstraints(minHeight: bodyHeight * 0.65),
-                            child: Container(
-                              width: double.maxFinite,
-                              padding:
-                                  const EdgeInsets.fromLTRB(24, 24, 24, 24),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).backgroundColor,
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(15),
-                                  topRight: Radius.circular(15),
+                          GetBuilder<WorkoutPlanController>(builder: (_) {
+                            return ConstrainedBox(
+                              constraints:
+                                  BoxConstraints(minHeight: bodyHeight * 0.65),
+                              child: Container(
+                                width: double.maxFinite,
+                                padding:
+                                    const EdgeInsets.fromLTRB(24, 24, 24, 24),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).backgroundColor,
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(15),
+                                    topRight: Radius.circular(15),
+                                  ),
+                                ),
+                                child: const SingleChildScrollView(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  child: PlanTabHolder(),
                                 ),
                               ),
-                              child: const SingleChildScrollView(
-                                physics: NeverScrollableScrollPhysics(),
-                                child: PlanTabHolder(),
-                              ),
-                            ),
-                          ),
+                            );
+                          }),
                         ],
                       ),
                     ],
